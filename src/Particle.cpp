@@ -10,6 +10,9 @@
 #include <sstream>
 #include <iostream>
 
+
+
+
 Particle::Particle(int type_arg) {
 	type = type_arg;
 	std::cout << "Particle generated!" << std::endl;
@@ -48,6 +51,9 @@ Particle::~Particle() {
 
 utils::Vector<double, 3>& Particle::getX() {
 	return x;
+}
+void Particle::setX(utils::Vector<double, 3> p) {
+	x = p;
 }
 
 utils::Vector<double, 3>& Particle::getV() {

@@ -109,8 +109,8 @@ void calculateX() {
 	while (iterator != particles.end()) {
 
 		Particle& p = *iterator;
-
-		// insert calculation of X here!
+		
+		p.setX(p.getX()+p.getV()*delta_t);
 
 		++iterator;
 	}
@@ -124,7 +124,7 @@ void calculateV() {
 		Particle& p = *iterator;
 
 		// insert calculation of velocity here!
-
+		
 		++iterator;
 	}
 }
