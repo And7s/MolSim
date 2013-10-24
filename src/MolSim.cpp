@@ -39,15 +39,22 @@ double delta_t = 0.014;
 
 std::list<Particle> particles;
 
+outputWriter::VTKWriter writer;
 
 int main(int argc, char* argsv[]) {
 
+	writer.initializeOutput(4);
+
 	cout << "Hello from MolSim for PSE!" << endl;
 	cout << "BlaTest" << endl;
-	if (argc != 2) {
+	if (argc != 4) {
 		cout << "Errounous programme call! " << endl;
 		cout << "./molsym filename" << endl;
+		exit(-1);
 	}
+
+	end_time = atof(argsv[2]);
+	delta_t = atof(argsv[3]);
 
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
@@ -76,7 +83,7 @@ int main(int argc, char* argsv[]) {
 
 		current_time += delta_t;
 	}
-
+	writer.writeFile("vtk output", iteration);
 	cout << "output written. Terminating..." << endl;
 	return 0;
 }
@@ -140,6 +147,13 @@ void plotParticles(int iteration) {
 
 	string out_name("MD_vtk");
 
-	outputWriter::XYZWriter writer;
-	writer.plotParticles(particles, out_name, iteration);
+	
+	
+	list<Particle>::iterator iterator;
+	iterator = particles.begin();
+	while (iterator != particles.end()) {
+		Particle& p1 = *iterator;
+		writer.plotParticle(p1);
+		++iterator;
+	}
 }
