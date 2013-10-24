@@ -129,7 +129,7 @@ void calculateV() {
 
 		// insert calculation of velocity here!
 
-		p.setV(p.getV()+delta_t*((p.getOldF()+p.getF())/(2*p.getM())));
+		p.setV(p.getV()+(delta_t/(2*p.getM()))*(p.getOldF()+p.getF()));
 
 		++iterator;
 	}
