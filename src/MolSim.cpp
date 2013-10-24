@@ -114,7 +114,7 @@ void calculateX() {
 
 		Particle& p = *iterator;
 		
-		p.setX(p.getX()+p.getV()*delta_t+delta_t*delta_t/(2*p.getM())*(p.getF());
+		p.setX(p.getX()+p.getV()*delta_t+delta_t*delta_t/(2*p.getM())*(p.getF()));
 
 		++iterator;
 	}
