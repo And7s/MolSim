@@ -43,6 +43,7 @@ std::list<Particle> particles;
 int main(int argc, char* argsv[]) {
 
 	cout << "Hello from MolSim for PSE!" << endl;
+	cout << "BlaTest" << endl;
 	if (argc != 2) {
 		cout << "Errounous programme call! " << endl;
 		cout << "./molsym filename" << endl;
@@ -94,6 +95,9 @@ void calculateF() {
 				Particle& p1 = *iterator;
 				Particle& p2 = *innerIterator;
 
+				double scalar = ((p1.getM()*p2.getM())/((p1.getX()-p2.getX()).L2Norm()));
+				p1.setOldF(p1.getF());
+				p1.setF((p1.getX()-p2.getX())*scalar);
 				// insert calculation of force here!
 
 			}
@@ -124,6 +128,8 @@ void calculateV() {
 		Particle& p = *iterator;
 
 		// insert calculation of velocity here!
+
+		p.setV(p.getV()+delta_t*((p.getOldF()+p.getF())/(2*p.getM())));
 
 		++iterator;
 	}

@@ -50,16 +50,30 @@ utils::Vector<double, 3>& Particle::getX() {
 	return x;
 }
 
+
+
 utils::Vector<double, 3>& Particle::getV() {
 	return v;
+}
+
+void Particle::setV(utils::Vector<double, 3> v) {
+	this->v = v;
 }
 
 utils::Vector<double, 3>& Particle::getF() {
 	return f;
 }
 
+void Particle::setF(utils::Vector<double, 3> f) {
+	this->f = f;
+}
+
 utils::Vector<double, 3>& Particle::getOldF() {
 	return old_f;
+}
+
+void Particle::setOldF(utils::Vector<double, 3> f) {
+	this->old_f = f;
 }
 
 double Particle::getM() {

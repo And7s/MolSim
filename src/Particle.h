@@ -54,9 +54,15 @@ public:
 
 	utils::Vector<double, 3>& getF();
 
+	void setF(utils::Vector<double, 3> newf);
+
 	utils::Vector<double, 3>& getOldF();
 
+	void setOldF(utils::Vector<double, 3> f);
+
 	utils::Vector<double, 3>& getV();
+
+	void setV(utils::Vector<double, 3> v);
 
 	double getM();
 
