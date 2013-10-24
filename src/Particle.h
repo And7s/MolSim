@@ -26,6 +26,8 @@ private:
 	/** the force wich was effective on this particle */
 	utils::Vector<double, 3> old_f;
 
+
+
 	/** the mass of this particle */
 	double m;
 
@@ -63,6 +65,8 @@ public:
 	utils::Vector<double, 3>& getV();
 
 	void setV(utils::Vector<double, 3> v);
+
+	void setX(utils::Vector<double, 3>);
 
 	double getM();
 
