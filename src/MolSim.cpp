@@ -39,11 +39,7 @@ double delta_t = 0.014;
 
 std::list<Particle> particles;
 
-outputWriter::VTKWriter writer;
-
 int main(int argc, char* argsv[]) {
-
-	writer.initializeOutput(4);
 
 	cout << "Hello from MolSim for PSE!" << endl;
 	if (argc != 4) {
@@ -68,6 +64,7 @@ int main(int argc, char* argsv[]) {
 
 	 // for this loop, we assume: current x, current f and current v are known
 	while (current_time < end_time) {
+
 		//cout << "Calculation. Iteration: " << iteration << endl;
 		// calculate new x
 		calculateX();
@@ -83,8 +80,9 @@ int main(int argc, char* argsv[]) {
 		cout << "Iteration " << iteration << " finished." << endl;
 
 		current_time += delta_t;
+
 	}
-	writer.writeFile("vtk", iteration);
+
 	cout << "output written. Terminating..." << endl;
 	return 0;
 }
@@ -166,10 +164,9 @@ void calculateV() {
 
 
 void plotParticles(int iteration) {
-
+	outputWriter::VTKWriter writer;
+	writer.initializeOutput(4);
 	string out_name("MD_vtk");
-
-	
 	
 	list<Particle>::iterator iterator;
 	iterator = particles.begin();
@@ -178,4 +175,5 @@ void plotParticles(int iteration) {
 		writer.plotParticle(p1);
 		++iterator;
 	}
+	writer.writeFile("vtk", iteration);
 }
