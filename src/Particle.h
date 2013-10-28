@@ -58,6 +58,8 @@ public:
 
 	void setF(utils::Vector<double, 3> newf);
 
+	void addOnF(utils::Vector<double, 3> tmp);
+
 	utils::Vector<double, 3>& getOldF();
 
 	void setOldF(utils::Vector<double, 3> f);

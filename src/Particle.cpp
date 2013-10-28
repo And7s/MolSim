@@ -52,8 +52,9 @@ Particle::~Particle() {
 utils::Vector<double, 3>& Particle::getX() {
 	return x;
 }
-void Particle::setX(utils::Vector<double, 3> p) {
-	x = p;
+
+void Particle::setX(utils::Vector<double, 3> newX) {
+	x = newX;
 }
 
 
@@ -62,24 +63,28 @@ utils::Vector<double, 3>& Particle::getV() {
 	return v;
 }
 
-void Particle::setV(utils::Vector<double, 3> v) {
-	this->v = v;
+void Particle::setV(utils::Vector<double, 3> newV) {
+	v = newV;
 }
 
 utils::Vector<double, 3>& Particle::getF() {
 	return f;
 }
 
-void Particle::setF(utils::Vector<double, 3> f) {
-	this->f = f;
+void Particle::setF(utils::Vector<double, 3> newF) {
+	f = newF;
+}
+
+void Particle::addOnF(utils::Vector<double, 3> tmp) {
+	f = f.operator+(tmp);
 }
 
 utils::Vector<double, 3>& Particle::getOldF() {
 	return old_f;
 }
 
-void Particle::setOldF(utils::Vector<double, 3> f) {
-	this->old_f = f;
+void Particle::setOldF(utils::Vector<double, 3> newOldF) {
+	old_f = newOldF;
 }
 
 double Particle::getM() {
@@ -98,7 +103,7 @@ std::string Particle::toString() {
 
 bool Particle::operator ==(Particle& other) {
 	if ( (x == other.x) && (v == other.v) && (f == other.f) &&
-			(type == other.type) & (m == other.m) && (old_f == other.old_f)) {
+			((type == other.type) & (m == other.m)) && (old_f == other.old_f)) {
 		return true;
 	}
 
