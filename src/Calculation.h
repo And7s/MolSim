@@ -1,5 +1,7 @@
+#ifndef CALCULATION_H_
+#define CALCULATION_H_
 
-/*class Calculation {
+class Calculation {
 
 public:
 	virtual void calculateForce();
@@ -7,6 +9,15 @@ public:
 	virtual void calculatePosition();
 
 	virtual void calculateVelocity();
+
+	void setParticleCollection(ParticleCollection * p);
+
+	void setDeltaT(int deltaT);
+	
+	ParticleCollection * pc;
+	
+	int delta_t;
+
 
 };
 
@@ -18,4 +29,5 @@ public:
 	void calculatePosition();
 
 	void calculateVelocity();
-};*/
+};
+#endif

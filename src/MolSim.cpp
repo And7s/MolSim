@@ -2,7 +2,9 @@
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "FileReader.h"
-#include "Calculation.cpp"
+#include "ParticleCollection.h"
+#include "Calculation.h"
+
 
 #include <list>
 #include <cstring>
@@ -41,9 +43,11 @@ double delta_t = 0.014;
 std::list<Particle> particles;
 
 Calculation *algorithm = new Sheet1Calc();
-ParticleContainer *pc = new ParticleContainer(particles);
+
+
 
 int main(int argc, char* argsv[]) {
+	
 
 	cout << "Hello from MolSim for PSE!" << endl;
 	if (argc != 4) {
@@ -55,11 +59,44 @@ int main(int argc, char* argsv[]) {
 	end_time = atof(argsv[2]);
 	delta_t = atof(argsv[3]);
 
-	algorithm->setParticleContainer(pc);
-	algorithm->setDeltaT(delta_t);
 
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
+
+//test
+//getting a couple of particles, double theri force and read them again
+	//problem:
+	//this are copies not the original pointers ??? ARGHHH
+	cout << "particles "<<particles.size();
+	ParticleCollection *pc = new ParticleCollection(particles);
+	Particle p1;
+	Particle p2;
+	for(int i = 0; i < 0; i++) {
+		pc->getNextParticlePair(p1, p2);
+		Particle *p3 = (&p1);
+
+		cout << "P1" << p3->toString() << endl;
+		cout << "P1" << (&p2)->toString() << endl;
+	}
+	Particle p;
+	for(int i = 0; i < 4; i++) {
+		pc->getNextParticle(p);
+		Particle* pp = (&p);
+				cout << "shoudl " << (*pp) << " | "<< pp;
+		pp->setV(pp->getV()*2);
+		cout << "here" << (&p)->toString() << endl;
+	}
+	/*
+	for(int i = 0; i < 4; i++) {
+		pc->getNextParticle(p);
+		Particle* pp = (&p);
+		
+		cout << "here" << (&p)->toString() << endl;
+	}*/
+
+	algorithm->setDeltaT(delta_t);
+	algorithm->setParticleCollection(pc);
+
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
 	calculateF();
@@ -70,7 +107,8 @@ int main(int argc, char* argsv[]) {
 	int iteration = 0;
 
 	 // for this loop, we assume: current x, current f and current v are known
-	while (current_time < end_time) {
+//uncomment here for the real molsim simulation
+	while (current_time < end_time && false) {
 
 		
 		// calculate new x
@@ -90,8 +128,8 @@ int main(int argc, char* argsv[]) {
 		current_time += delta_t;
 
 	}
-
-	cout << "output written. Terminating..." << endl;
+	
+	cout << endl << "Terminating..." << endl;
 	return 0;
 }
 
@@ -152,7 +190,7 @@ void plotParticles(int iteration) {
 		writer.plotParticle(p1);
 		++iterator;
 		i++;
-		//cout << "P" << i << ": " << p1.toString() << endl;
+		cout << "P" << i << ": " << p1.toString() << endl;
 	}
 	writer.writeFile("vtk", iteration);
 }
