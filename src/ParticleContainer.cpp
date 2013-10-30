@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "ParticleContainer.h"
 #include "Particle.h"
 #include "utils/Vector.h"
