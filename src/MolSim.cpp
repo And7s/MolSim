@@ -2,6 +2,7 @@
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "FileReader.h"
+#include "Calculation.cpp"
 
 #include <list>
 #include <cstring>
@@ -20,24 +21,26 @@ void calculateF();
 /**
  * calculate the position for all particles
  */
-void calculateX();
+void calculateX(); 
 
 /**
  * calculate the position for all particles
  */
-void calculateV();
+void calculateV(); 
 
 /**
  * plot the particles to a xyz-file
  */
-void plotParticles(int iteration);
+void plotParticles(int iteration); 
 
 
 double start_time = 0;
-double end_time = 1000;
+double end_time = 1000; 
 double delta_t = 0.014;
 
 std::list<Particle> particles;
+
+Calculation *algorithm = new Sheet1Calc();
 
 int main(int argc, char* argsv[]) {
 
@@ -90,43 +93,13 @@ int main(int argc, char* argsv[]) {
 
 
 void calculateF() {
-	list<Particle>::iterator iterator;
-	iterator = particles.begin();
-
-	for (iterator = particles.begin(); iterator != particles.end();++iterator){
-			Particle& p = *iterator;
-			p.setOldF(p.getF());
-			p.setF(utils::Vector<double, 3> (0.0));
-	}
-
-	iterator = particles.begin();
-
-	while (iterator != particles.end()) {
-		list<Particle>::iterator innerIterator = particles.begin();
-
-		while (innerIterator != particles.end()) {
-			if (innerIterator != iterator) {
-
-				Particle& p1 = *iterator;
-				Particle& p2 = *innerIterator;
-				// insert calculation of force here!
-				double tmp = ((p1.getX().operator -(p2.getX())).L2Norm());
-				double tmp2 = std::pow(tmp,3);
-				double tmp3 = (p1.getM()*p2.getM());
-				double scalar = tmp3/tmp2;
-
-				utils::Vector<double, 3> forceIJ = (p1.getX().operator-(p2.getX())).operator*(scalar);
-				p1.addOnF(forceIJ*(-1));
-			}
-			++innerIterator;
-		}
-		++iterator;
-	}
+	algorithm->calculateForce();
 }
 
 
 void calculateX() {
-	list<Particle>::iterator iterator = particles.begin();
+	algorithm->calculatePosition();
+	/*list<Particle>::iterator iterator = particles.begin();
 	while (iterator != particles.end()) {
 
 		Particle& p = *iterator;
@@ -138,12 +111,14 @@ void calculateX() {
 		p.setX(newX);
 
 		++iterator;
-	}
+	}*/
 }
 
 
 void calculateV() {
-	list<Particle>::iterator iterator = particles.begin();
+	algorithm->calculateVelocity();
+	/*
+	list<Particle>::iterator iterator = particles.begin(); 
 	while (iterator != particles.end()) {
 
 		Particle& p = *iterator;
@@ -157,13 +132,13 @@ void calculateV() {
 
 		++iterator;
 	}
+	*/
 }
 
 
 void plotParticles(int iteration) {
 	outputWriter::VTKWriter writer;
 	writer.initializeOutput(4);
-	string out_name("MD_vtk");
 	
 	list<Particle>::iterator iterator;
 	iterator = particles.begin();
@@ -173,7 +148,7 @@ void plotParticles(int iteration) {
 		writer.plotParticle(p1);
 		++iterator;
 		i++;
-		cout << "P" << i << ": " << p1.toString() << endl;
+		//cout << "P" << i << ": " << p1.toString() << endl;
 	}
 	writer.writeFile("vtk", iteration);
 }
