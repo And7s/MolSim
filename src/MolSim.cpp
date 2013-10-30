@@ -41,6 +41,7 @@ double delta_t = 0.014;
 std::list<Particle> particles;
 
 Calculation *algorithm = new Sheet1Calc();
+ParticleContainer *pc = new ParticleContainer(particles);
 
 int main(int argc, char* argsv[]) {
 
@@ -53,6 +54,9 @@ int main(int argc, char* argsv[]) {
 
 	end_time = atof(argsv[2]);
 	delta_t = atof(argsv[3]);
+
+	algorithm->setParticleContainer(pc);
+	algorithm->setDeltaT(delta_t);
 
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);

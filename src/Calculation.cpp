@@ -4,7 +4,7 @@ This class represents a strategy pattern. The three basic calculation functions 
 */
 
 //#include "Calculation.h"
-#include "ParticleContainer.cpp"
+#include "ParticleContainer.h"
 
 #include <iostream>
 
