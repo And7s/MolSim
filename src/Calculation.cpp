@@ -17,11 +17,11 @@ class Calculation
 {
 
 	public:
-		virtual void calculateForce(){};
+		virtual void calculateForce() = 0;
 
-		virtual void calculatePosition(){};
+		virtual void calculatePosition() = 0;
 
-		virtual void calculateVelocity(){};
+		virtual void calculateVelocity() = 0;
 
 		ParticleContainer * pc;
 		
@@ -89,7 +89,6 @@ class Sheet1Calc : public Calculation
 		void calculatePosition(){
 			list<Particle>::iterator iterator = particles.begin();
 			while (iterator != particles.end()) {
-
 				Particle& p = *iterator;
 				utils::Vector<double, 3> part1 = p.getX();
 				utils::Vector<double, 3> part2 = p.getV().operator*(delta_t);
@@ -107,7 +106,6 @@ class Sheet1Calc : public Calculation
 			while (iterator != particles.end()) {
 
 				Particle& p = *iterator;
-
 				// insert calculation of velocity here!
 				utils::Vector<double, 3> part1 = p.getV();
 				double scalar = delta_t/(2*p.getM());

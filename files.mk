@@ -1,9 +1,10 @@
 SOURCES=\
-src/Particle.cpp\
 src/ParticleContainer.cpp\
-src/outputWriter/vtk-unstructured.cpp\
-src/outputWriter/VTKWriter.cpp\
 src/outputWriter/XYZWriter.cpp\
-src/MolSim.cpp\
+src/outputWriter/VTKWriter.cpp\
+src/outputWriter/vtk-unstructured.cpp\
+src/Calculation.cpp\
 src/FileReader.cpp\
-
+src/Particle.cpp\
+src/MolSim.cpp\
+src/Plotter.cpp\
