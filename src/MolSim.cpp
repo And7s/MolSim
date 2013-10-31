@@ -76,7 +76,6 @@ int main(int argc, char* argsv[]) {
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
 	
-	
 	ParticleContainer* pc;
 	//pc->setParticles(particles);
 	//algorithm->setParticles(particles);
