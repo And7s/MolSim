@@ -11,8 +11,14 @@ This class represents a strategy pattern. The three basic calculation functions 
 
 using namespace std;
 
+/**
+ * references to particle list in MolSim.cpp
+ */
 extern std::list<Particle> particles;
 
+/**
+ * virtual superclass for all implementations concerning the computitional stuff
+ */
 class Calculation
 {
 
@@ -52,11 +58,16 @@ class Calculation
 		}
 };
 
+/**
+ * computes Force, Position and Velocity according to the formulas from sheet 1
+ */
 class Sheet1Calc : public Calculation
 {
 	public:
 		
-		
+		/**
+    		 * Override function in Calculation
+		 */
 		void calculateForce(){
 			
 			list<Particle>::iterator iterator;
@@ -95,6 +106,9 @@ class Sheet1Calc : public Calculation
 			}
 		}
 
+		/**
+    		 * Override function in Calculation
+		 */
 		void calculatePosition(){
 			list<Particle>::iterator iterator = particles.begin();
 			while (iterator != particles.end()) {
@@ -110,6 +124,9 @@ class Sheet1Calc : public Calculation
 			}
 		}
 
+		/**
+    		 * Override function in Calculation
+		 */
 		void calculateVelocity(){
 			list<Particle>::iterator iterator = particles.begin(); 
 			while (iterator != particles.end()) {

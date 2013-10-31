@@ -99,7 +99,7 @@ int main(int argc, char* argsv[]) {
 
 		iteration++;
 		if (iteration % 10 == 0) {
-			vtkPlotter->plotParticles(iteration);
+			vtkPlotter->plotParticles(iteration, particles.size());
 			cout << "Iteration " << iteration << " finished." << endl;
 		}
 		current_time += delta_t;
