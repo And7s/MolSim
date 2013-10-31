@@ -1,4 +1,9 @@
-
+/*
+ * MolSim.cpp
+ *
+ *  Created on: 31.10.2013
+ *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+ */
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "FileReader.h"
@@ -39,26 +44,26 @@ void calcAll();
  */
 void plotParticles(int iteration); 
 
-/*
+/**
  * values can be set at startup by passing params
  */
 double start_time = 0;
 double end_time = 1000; 
 double delta_t = 0.014;
 
-/*
+/**
  * stores the particles. accessed from Calculation by an external reference
  */
 std::list<Particle> particles; 
 
-/*
+/**
  * set algorithm, which should be used for the calculation.
- * The strategy pattern guarantees, that all spcial implementations are able to compute the requested values.
+ * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
 Calculation *algorithm = new Sheet1Calc();
 Plotter *vtkPlotter = new VTK();
 
-/*
+/**
  * lifecycle.. iterates through simulation step by step
  */
 int main(int argc, char* argsv[]) {
@@ -77,8 +82,6 @@ int main(int argc, char* argsv[]) {
 	fileReader.readFile(particles, argsv[1]);
 	
 	ParticleContainer* pc;
-	//pc->setParticles(particles);
-	//algorithm->setParticles(particles);
 	algorithm->setParticleContainer(pc);
 	algorithm->setDeltaT(delta_t);
 

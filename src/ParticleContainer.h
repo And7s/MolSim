@@ -1,3 +1,10 @@
+/*
+ * ParticleContainer.h
+ *
+ *  Created on: 31.10.2013
+ *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+ */
+
 #include <list>
 #include "Particle.h"
 #include <functional>

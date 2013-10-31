@@ -1,7 +1,9 @@
 /*
-This class represents a strategy pattern. The three basic calculation functions are mapped to their actual algorithm.
-
-*/
+ * Calculation.cpp
+ * This class represents a strategy pattern. The three basic calculation functions are mapped to their actual algorithm.
+ *  Created on: 31.10.2013
+ *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+ */
 
 //#include "Calculation.h"
 #include "ParticleContainer.h"
@@ -17,7 +19,7 @@ using namespace std;
 extern std::list<Particle> particles;
 
 /**
- * virtual superclass for all implementations concerning the computitional stuff
+ * virtual superclass for all implementations concerning the Calculation
  */
 class Calculation
 {
@@ -31,13 +33,7 @@ class Calculation
 
 		ParticleContainer * pc;
 		
-		//std::list<Particle> particle;
-		
 		int delta_t;
-
-		//void setParticles(std::list<Particle>& part){
-		//		particle = part;
-		//}
 
 		void setParticleContainer(ParticleContainer * p) {
 			pc = p;
@@ -66,7 +62,7 @@ class Sheet1Calc : public Calculation
 	public:
 		
 		/**
-    		 * Override function in Calculation
+		 * Override function in Calculation
 		 */
 		void calculateForce(){
 			
@@ -90,7 +86,6 @@ class Sheet1Calc : public Calculation
 
 						Particle& p1 = *iterator;
 						Particle& p2 = *innerIterator;
-						// insert calculation of force here!
 						double tmp = ((p1.getX().operator -(p2.getX())).L2Norm());
 						double tmp2 = std::pow(tmp,3);
 						double tmp3 = (p1.getM()*p2.getM());
@@ -107,7 +102,7 @@ class Sheet1Calc : public Calculation
 		}
 
 		/**
-    		 * Override function in Calculation
+    	 * Override function in Calculation
 		 */
 		void calculatePosition(){
 			list<Particle>::iterator iterator = particles.begin();
@@ -125,14 +120,13 @@ class Sheet1Calc : public Calculation
 		}
 
 		/**
-    		 * Override function in Calculation
+    	 * Override function in Calculation
 		 */
 		void calculateVelocity(){
 			list<Particle>::iterator iterator = particles.begin(); 
 			while (iterator != particles.end()) {
 
 				Particle& p = *iterator;
-				// insert calculation of velocity here!
 				utils::Vector<double, 3> part1 = p.getV();
 				double scalar = delta_t/(2*p.getM());
 				utils::Vector<double, 3> part2 = (p.getOldF().operator+(p.getF())).operator *(scalar);

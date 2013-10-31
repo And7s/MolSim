@@ -1,4 +1,9 @@
-
+/*
+ * ParticleContainer.cpp
+ *
+ *  Created on: 31.10.2013
+ *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+ */
 #include "ParticleContainer.h"
 #include "Particle.h"
 #include "utils/Vector.h"
@@ -18,7 +23,7 @@ using namespace std;
 extern std::list<Particle> particles;
 
 /**
- * calls a function for a certaint particle
+ * calls a function for a certain particle
  */
 void ParticleContainer::perParticle(std::function<void (Particle&)> fn){
 	std::list<Particle>::iterator iterator = particles.begin();
@@ -28,16 +33,14 @@ void ParticleContainer::perParticle(std::function<void (Particle&)> fn){
 }
 
 /**
- * calls a function for a certaint pair of particles
+ * calls a function for a certain pair of particles
  */
 void ParticleContainer::pairOfParticles(std::function<void (Particle&, Particle&)> fn) {
-		//cout << "in pairOfParticles" << endl;
         std::list<Particle>::iterator iterator;
         iterator = particles.begin();
 
         while (iterator != particles.end()) {
                 std::list<Particle>::iterator innerIterator = particles.begin();
-				//cout << "in pairOfParticles first while" << endl;
                 while (innerIterator != particles.end()) {
                         if (innerIterator != iterator) {
 						fn(*iterator, *innerIterator);

@@ -1,9 +1,9 @@
 /*
-This class represents a strategy pattern, which can switch between the chosen output method.
-
-*/
-
-//#include "Calculation.h"
+ * Plotter.cpp
+ * This class represents a strategy pattern, which can switch between the chosen output method.
+ *  Created on: 31.10.2013
+ *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+ */
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "FileReader.h"
