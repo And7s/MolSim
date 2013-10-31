@@ -1,21 +1,26 @@
-
-/*class Calculation {
+/*
+class Calculation {
 
 public:
-	virtual void calculateForce(Particle&, Particle&);
+	virtual void calculateForce();
 	
-	virtual void calculatePosition(Particle&, Particle&);
+	virtual void calculatePosition();
 
-	virtual void calculateVelocity(Particle&, Particle&);
+	virtual void calculateVelocity();
 
+	void setParticleContainer(ParticleContainer * p);
+
+	ParticleContainer* getParticleContainter();
+
+	void setDeltaT(int deltaT);
 };
 
 class Sheet1Calc : public Calculation{
 
 public:
-	void calculateForce(Particle&, Particle&);
+	void calculateForce();
 	
-	void calculatePosition(Particle&, Particle&);
+	void calculatePosition();
 
-	void calculateVelocity(Particle&, Particle&);
+	void calculateVelocity();
 };*/

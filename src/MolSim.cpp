@@ -24,7 +24,7 @@ void calculateF();
 void calculateX(); 
 
 /**
- * calculate the position for all particles
+ * calculate the position for all particles 
  */
 void calculateV(); 
 
@@ -33,21 +33,33 @@ void calculateV();
  */
 void plotParticles(int iteration); 
 
-
+/*
+ * values can be set at startup by passing params
+ */
 double start_time = 0;
 double end_time = 1000; 
 double delta_t = 0.014;
 
-std::list<Particle> particles;
+/*
+ * stores the particles. accessed from Calculation by an external reference
+ */
+std::list<Particle> particles; 
 
+/*
+ * set algorithm, which should be used for the calculation.
+ * The strategy pattern guarantees, that all spcial implementations are able to compute the requested values.
+ */
 Calculation *algorithm = new Sheet1Calc();
 
+/*
+ * lifecycle.. iterates through simulation step by step
+ */
 int main(int argc, char* argsv[]) {
 
 	cout << "Hello from MolSim for PSE!" << endl;
 	if (argc != 4) {
 		cout << "Errounous programme call! " << endl;
-		cout << "./molsym filename" << endl;
+		cout << "./molsym filename end_time delta_t" << endl;
 		exit(-1);
 	}
 
@@ -81,6 +93,7 @@ int main(int argc, char* argsv[]) {
 		calculateF();
 		// calculate new v
 		calculateV();
+		//algorithm->calcAll();
 
 		iteration++;
 		if (iteration % 10 == 0) {
@@ -96,8 +109,8 @@ int main(int argc, char* argsv[]) {
 
 
 void calculateF() {
-	//algorithm->calculateForce();
-	
+	algorithm->calculateForce();
+	/*
 	list<Particle>::iterator iterator;
 			iterator = particles.begin();
 
@@ -114,7 +127,7 @@ void calculateF() {
 				++innerIterator;
 
 				while (innerIterator != particles.end()) {
-					if (innerIterator != iterator) {
+					if (innerIterator != iterator) { 
 
 						Particle& p1 = *iterator;
 						Particle& p2 = *innerIterator;
@@ -132,7 +145,7 @@ void calculateF() {
 				}
 				++iterator;
 			}
-			
+			*/
 }
 
 

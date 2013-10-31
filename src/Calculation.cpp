@@ -17,11 +17,11 @@ class Calculation
 {
 
 	public:
-		virtual void calculateForce(){};
+		virtual void calculateForce() = 0;
 
-		virtual void calculatePosition(){};
+		virtual void calculatePosition() = 0;
 
-		virtual void calculateVelocity(){};
+		virtual void calculateVelocity() = 0;
 
 		ParticleContainer * pc;
 		
@@ -44,12 +44,21 @@ class Calculation
 		void setDeltaT(int deltaT){
 			delta_t = deltaT;
 		}
+
+		void calcAll(){
+			calculatePosition();
+			calculateForce();
+			calculateVelocity();
+		}
 };
 
 class Sheet1Calc : public Calculation
 {
 	public:
+		
+		
 		void calculateForce(){
+			
 			list<Particle>::iterator iterator;
 			iterator = particles.begin();
 
