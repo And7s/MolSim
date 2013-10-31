@@ -12,70 +12,36 @@
 
 using namespace std;
 
-ParticleContainer::ParticleContainer(std::list<Particle> particles) {
-	this->particles = particles;
-	innerpos = 0;
-}
+extern std::list<Particle> particles;
 
-bool ParticleContainer::getNextPair(Particle *p1, Particle *p2) {
-	
-	/*
-		
-	if(nextPP1 != particles.end()) {
-		if(nextPP2 != particles.end()) {
-			//good
-		}else {
-
-			nextPP1++;
-			innerpos++;
-			nextPP2 = particles.begin();
-			for(int i = 0; i <= innerpos; i++) {
-				nextPP2++;
-			}
-			
-			if(nextPP1 != particles.end() && nextPP2 != particles.end()) {
-				//good too
-			}else {
-				nextPP1 = particles.begin();
-				nextPP2 = particles.begin();
-				nextPP2++;
-				return false;
-			}
-		}
-		Particle& tp1 = *nextPP1;
-		p1 = &tp1;
-
-		Particle& tp2 = *nextPP2;
-		p2 = &tp2;
-
-		nextPP2++;
-		return true;
-
-	}else {
-		nextPP1 = particles.begin();
-		nextPP2 = particles.begin();
-		nextPP2++;
-		return false;
-	}*/
-	
-}
-
-
-
-bool ParticleContainer::getNextParticle(Particle *p) {
-	
-	if(nextP != particles.end()) {
-		Particle& p1 = *nextP;
-		p = &p1;
-		nextP++;
-		return true;
-	}else {
-		cout << "end";
-		nextP = particles.begin();
-		return false;
+void ParticleContainer::perParticle(std::function<void (Particle&)> fn){
+	std::list<Particle>::iterator iterator = particles.begin();
+	for(;iterator != particles.end();iterator++){
+		fn(*iterator);
 	}
-
-
 }
+
+void ParticleContainer::pairOfParticles(std::function<void (Particle&, Particle&)> fn) {
+		//cout << "in pairOfParticles" << endl;
+        std::list<Particle>::iterator iterator;
+        iterator = particles.begin();
+
+        while (iterator != particles.end()) {
+                std::list<Particle>::iterator innerIterator = particles.begin();
+				//cout << "in pairOfParticles first while" << endl;
+                while (innerIterator != particles.end()) {
+                        if (innerIterator != iterator) {
+						fn(*iterator, *innerIterator);
+                        }
+                        ++innerIterator;
+                }
+                ++iterator;
+        }
+}
+
+std::list<Particle> ParticleContainer::getParticles(){
+	return particles;
+}
+
 
 

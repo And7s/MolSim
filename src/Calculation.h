@@ -2,20 +2,20 @@
 /*class Calculation {
 
 public:
-	virtual void calculateForce();
+	virtual void calculateForce(Particle&, Particle&);
 	
-	virtual void calculatePosition();
+	virtual void calculatePosition(Particle&, Particle&);
 
-	virtual void calculateVelocity();
+	virtual void calculateVelocity(Particle&, Particle&);
 
 };
 
 class Sheet1Calc : public Calculation{
 
 public:
-	void calculateForce();
+	void calculateForce(Particle&, Particle&);
 	
-	void calculatePosition();
+	void calculatePosition(Particle&, Particle&);
 
-	void calculateVelocity();
+	void calculateVelocity(Particle&, Particle&);
 };*/

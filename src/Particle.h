@@ -77,6 +77,8 @@ public:
 	bool operator==(Particle& other);
 
 	std::string toString();
+	
+	std::string toStringForce();
 };
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);

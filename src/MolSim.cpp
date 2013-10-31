@@ -41,7 +41,6 @@ double delta_t = 0.014;
 std::list<Particle> particles;
 
 Calculation *algorithm = new Sheet1Calc();
-ParticleContainer *pc = new ParticleContainer(particles);
 
 int main(int argc, char* argsv[]) {
 
@@ -55,11 +54,16 @@ int main(int argc, char* argsv[]) {
 	end_time = atof(argsv[2]);
 	delta_t = atof(argsv[3]);
 
+	FileReader fileReader;
+	fileReader.readFile(particles, argsv[1]);
+	// the forces are needed to calculate x, but are not given in the input file.
+
+	ParticleContainer* pc;
+	//pc->setParticles(particles);
+	//algorithm->setParticles(particles);
 	algorithm->setParticleContainer(pc);
 	algorithm->setDeltaT(delta_t);
 
-	FileReader fileReader;
-	fileReader.readFile(particles, argsv[1]);
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
 	calculateF();
@@ -71,8 +75,6 @@ int main(int argc, char* argsv[]) {
 
 	 // for this loop, we assume: current x, current f and current v are known
 	while (current_time < end_time) {
-
-		
 		// calculate new x
 		calculateX();
 		// calculate new f
@@ -85,10 +87,7 @@ int main(int argc, char* argsv[]) {
 			plotParticles(iteration);
 			cout << "Iteration " << iteration << " finished." << endl;
 		}
-		
-
 		current_time += delta_t;
-
 	}
 
 	cout << "output written. Terminating..." << endl;
@@ -97,13 +96,49 @@ int main(int argc, char* argsv[]) {
 
 
 void calculateF() {
-	algorithm->calculateForce();
+	//algorithm->calculateForce();
+	
+	list<Particle>::iterator iterator;
+			iterator = particles.begin();
+
+			for (iterator = particles.begin(); iterator != particles.end();++iterator){
+					Particle& p = *iterator;
+					p.setOldF(p.getF());
+					p.setF(utils::Vector<double, 3> (0.0));
+			}
+
+			iterator = particles.begin();
+
+			while (iterator != particles.end()) {
+				list<Particle>::iterator innerIterator = iterator;
+				++innerIterator;
+
+				while (innerIterator != particles.end()) {
+					if (innerIterator != iterator) {
+
+						Particle& p1 = *iterator;
+						Particle& p2 = *innerIterator;
+						// insert calculation of force here!
+						double tmp = ((p1.getX().operator -(p2.getX())).L2Norm());
+						double tmp2 = std::pow(tmp,3);
+						double tmp3 = (p1.getM()*p2.getM());
+						double scalar = tmp3/tmp2;
+
+						utils::Vector<double, 3> forceIJ = (p2.getX().operator-(p1.getX())).operator*(scalar);
+						p1.addOnF(forceIJ);
+						p2.addOnF(forceIJ*(-1));
+					}
+					++innerIterator;
+				}
+				++iterator;
+			}
+			
 }
 
 
 void calculateX() {
-	algorithm->calculatePosition();
-	/*list<Particle>::iterator iterator = particles.begin();
+	//algorithm->calculatePosition();
+	list<Particle>::iterator iterator = particles.begin();
 	while (iterator != particles.end()) {
 
 		Particle& p = *iterator;
@@ -115,13 +150,13 @@ void calculateX() {
 		p.setX(newX);
 
 		++iterator;
-	}*/
+	}
 }
 
 
 void calculateV() {
-	algorithm->calculateVelocity();
-	/*
+	//algorithm->calculateVelocity();
+	
 	list<Particle>::iterator iterator = particles.begin(); 
 	while (iterator != particles.end()) {
 
@@ -136,7 +171,7 @@ void calculateV() {
 
 		++iterator;
 	}
-	*/
+	
 }
 
 
