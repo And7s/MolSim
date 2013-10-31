@@ -13,21 +13,30 @@ This class represents a strategy pattern, which can switch between the chosen ou
 
 using namespace std;
 
+/**
+ * references to particle list in MolSim.cpp
+ */
 extern std::list<Particle> particles;
 
 class Plotter
 {
 
 	public:
-		virtual void plotParticles(int iteration){};
+		/**
+		 * build a file, which stores all the relevant data, for any kind of serialization or visualisation
+		 */
+		virtual void plotParticles(int iteration, int amountOfParticles){};
 };
 
+/**
+ * generates .vtu output files, which can be read and displayed by paraview
+ */
 class VTK : public Plotter
 {
 	public:
-		void plotParticles(int iteration) {
+		void plotParticles(int iteration, int amountOfParticles) {
 			outputWriter::VTKWriter writer;
-			writer.initializeOutput(4);
+			writer.initializeOutput(amountOfParticles);
 			
 			list<Particle>::iterator iterator;
 			iterator = particles.begin();

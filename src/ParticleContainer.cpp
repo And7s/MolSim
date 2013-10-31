@@ -12,8 +12,14 @@
 
 using namespace std;
 
+/**
+ * references to particle list in MolSim.cpp
+ */
 extern std::list<Particle> particles;
 
+/**
+ * calls a function for a certaint particle
+ */
 void ParticleContainer::perParticle(std::function<void (Particle&)> fn){
 	std::list<Particle>::iterator iterator = particles.begin();
 	for(;iterator != particles.end();iterator++){
@@ -21,6 +27,9 @@ void ParticleContainer::perParticle(std::function<void (Particle&)> fn){
 	}
 }
 
+/**
+ * calls a function for a certaint pair of particles
+ */
 void ParticleContainer::pairOfParticles(std::function<void (Particle&, Particle&)> fn) {
 		//cout << "in pairOfParticles" << endl;
         std::list<Particle>::iterator iterator;
@@ -39,6 +48,9 @@ void ParticleContainer::pairOfParticles(std::function<void (Particle&, Particle&
         }
 }
 
+/**
+ * returns a list of all particles
+ */
 std::list<Particle> ParticleContainer::getParticles(){
 	return particles;
 }
