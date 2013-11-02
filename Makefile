@@ -11,7 +11,7 @@ include files.mk
 
 # Compiler flags
 # -------------------------------------------------------------------------
-CFLAGS=-g -O3 -std=c++0x -D__GXX_EXPERIMENTAL_CXX0X__ -w
+CFLAGS=-g -O3
 
 # Linker flags
 # ------------

@@ -7,13 +7,10 @@
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "FileReader.h"
-#include "Calculation.cpp"
-#include "Plotter.cpp"
-
-#include <list>
-#include <cstring>
-#include <cstdlib>
-#include <iostream>
+#include "Particle.h"
+#include "ParticleContainer.h"
+#include "Calculation.h"
+#include "Plotter.h"
 
 using namespace std;
 
@@ -40,11 +37,6 @@ void calculateV();
 void calcAll();
 
 /**
- * plot the particles to a xyz-file
- */
-void plotParticles(int iteration); 
-
-/**
  * values can be set at startup by passing params
  */
 double start_time = 0;
@@ -60,7 +52,7 @@ std::list<Particle> particles;
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-Calculation *algorithm = new Sheet1Calc();
+Calculation *calculation = new Sheet1Calc();
 Plotter *vtkPlotter = new VTK();
 
 /**
@@ -81,9 +73,9 @@ int main(int argc, char* argsv[]) {
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
 	
-	ParticleContainer* pc;
-	algorithm->setParticleContainer(pc);
-	algorithm->setDeltaT(delta_t);
+	ParticleContainer pc;
+	calculation->setParticleContainer(pc);
+	calculation->setDeltaT(delta_t);
 
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
@@ -121,13 +113,13 @@ void calcAll(){
 }
 
 void calculateF() {
-	algorithm->calculateForce();
+	calculation->calculateForce();
 }
 
 
 void calculateX() {
-	//algorithm->calculatePosition();
-	
+	calculation->calculatePosition();
+	/*
 	list<Particle>::iterator iterator = particles.begin();
 	while (iterator != particles.end()) {
 
@@ -140,13 +132,13 @@ void calculateX() {
 		p.setX(newX);
 
 		++iterator;
-	}
+	}*/
 }
 
 
 void calculateV() {
-	//algorithm->calculateVelocity();
-	
+	calculation->calculateVelocity();
+	/*
 	list<Particle>::iterator iterator = particles.begin(); 
 	while (iterator != particles.end()) {
 
@@ -161,5 +153,5 @@ void calculateV() {
 
 		++iterator;
 	}
-	
+	*/
 }

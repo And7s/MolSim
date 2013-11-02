@@ -5,58 +5,64 @@
  *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
  */
 #include "ParticleContainer.h"
-#include "Particle.h"
-#include "utils/Vector.h"
 
-#include "outputWriter/XYZWriter.h"
-#include "outputWriter/VTKWriter.h"
-#include <sstream>
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-
-using namespace std;
-
-/**
- * references to particle list in MolSim.cpp
- */
-extern std::list<Particle> particles;
-
-/**
- * calls a function for a certain particle
- */
-void ParticleContainer::perParticle(std::function<void (Particle&)> fn){
-	std::list<Particle>::iterator iterator = particles.begin();
-	for(;iterator != particles.end();iterator++){
-		fn(*iterator);
-	}
+ParticleContainer::ParticleContainer() {
 }
 
-/**
- * calls a function for a certain pair of particles
- */
-void ParticleContainer::pairOfParticles(std::function<void (Particle&, Particle&)> fn) {
-        std::list<Particle>::iterator iterator;
-        iterator = particles.begin();
-
-        while (iterator != particles.end()) {
-                std::list<Particle>::iterator innerIterator = particles.begin();
-                while (innerIterator != particles.end()) {
-                        if (innerIterator != iterator) {
-						fn(*iterator, *innerIterator);
-                        }
-                        ++innerIterator;
-                }
-                ++iterator;
-        }
+ParticleContainer::~ParticleContainer() {
 }
 
-/**
- * returns a list of all particles
- */
-std::list<Particle> ParticleContainer::getParticles(){
+ParticleContainer::ParticleContainer(std::list<Particle>& particles) {
+	this->particles = particles;
+	act_particle = particles.begin();
+}
+
+void ParticleContainer::setParticles(std::list<Particle>& particles) {
+	this->particles = particles;
+}
+
+std::list<Particle>& ParticleContainer::getParticles() {
 	return particles;
 }
 
 
+void ParticleContainer::resetIterator() {
+	act_particle = particles.begin();
+}
 
+bool ParticleContainer::isFinished(int i) {
+	if(i!=0 && i!=1){
+		cout << "Wrong Input in ParticleContainer.isFinished(): i = " << i << endl;
+		cout << "Should be 0 or 1" << endl;
+		exit(1);
+	}
+	if(i==0){
+		return (act_particle == particles.end());
+	}else{
+		return (inner_particle == particles.end());
+	}
+}
+
+void ParticleContainer::nextParticle(list<Particle>::iterator particle) {
+	particle++;
+}
+
+list<Particle>::iterator ParticleContainer::getActParticle(){
+	return act_particle;
+}
+
+void ParticleContainer::setActParticle(list<Particle>::iterator actParticle) {
+	act_particle = actParticle;
+}
+
+list<Particle>::iterator ParticleContainer::getInnerParticle(){
+	return inner_particle;
+}
+
+void ParticleContainer::setInnerParticle(
+	list<Particle>::iterator innerParticle) {
+	inner_particle = innerParticle;
+}
+
+void ParticleContainer::nextParticlePair() {
+}
