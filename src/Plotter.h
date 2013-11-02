@@ -13,7 +13,9 @@
 #include <unistd.h>
 
 using namespace std;
-
+/**
+ * Interface for Plotter
+ */
 class Plotter
 {
 	private:
@@ -33,6 +35,9 @@ class Plotter
 		void setParticleContainer(ParticleContainer& particleContainer);
 };
 
+/**
+ * Actual implementation of a VTK plotter, derived from Plotter
+ */
 class VTK : public Plotter{
 	public:
 		/**
