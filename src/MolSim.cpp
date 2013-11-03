@@ -53,9 +53,14 @@ int main(int argc, char* argsv[]) {
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
 	
-	ParticleContainer pc(particles);
-	calculation->setDeltaT(delta_t);
+	ParticleContainer pc(particles.size());
+	pc.setParticles(particles);
 
+
+	calculation->setDeltaT(delta_t);
+	calculation->setPc(pc);
+
+	plotter->setParticleContainer(pc);
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
 	calculation->calculateForce();
@@ -75,34 +80,13 @@ int main(int argc, char* argsv[]) {
 		iteration++;
 		if (iteration % 10 == 0) {
 			plotter->plotParticles(iteration, particles.size());
+			//pc.show();
 			cout << "Iteration " << iteration << " finished." << endl;
 		}
+
 		current_time += delta_t;
 	}
-
+	pc.show();
 	cout << "output written. Terminating..." << endl;
 	return 0;
 }
-/*
-void calcAll(){
-		// calculate new x
-		calculateX();
-		// calculate new f
-		calculateF();
-		// calculate new v
-		calculateV();
-}
-
-void calculateF() {
-	calculation->calculateForce();
-}
-
-
-void calculateX() {
-	calculation->calculatePosition();
-}
-
-
-void calculateV() {
-	calculation->calculateVelocity();
-}*/

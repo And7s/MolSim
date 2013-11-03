@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 /*
  * ParticleContainer.cpp
  *
@@ -5,62 +12,63 @@
  *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
  */
 #include "ParticleContainer.h"
+#include "Particle.h"
 
-ParticleContainer::ParticleContainer(){}
-
+ParticleContainer::ParticleContainer() {}
+ParticleContainer::ParticleContainer(int l) {
+	length = l;
+	cout << "init pc";
+	particles = new Particle*[length];
+	np = 0;
+	npp1 = 0;
+	npp2 = 1;
+}
 ParticleContainer::~ParticleContainer() {}
 
-ParticleContainer::ParticleContainer(std::list<Particle>& particles) {
-	this->particles = particles;
-	act_particle = particles.begin();
-}
-
-void ParticleContainer::setParticles(std::list<Particle>& particles) {
-	this->particles = particles;
-}
-
-std::list<Particle>& ParticleContainer::getParticles() {
-	return particles;
-}
-
-
-void ParticleContainer::resetIterator() {
-	act_particle = particles.begin();
-}
-
-bool ParticleContainer::isFinished(int i) {
-	if(i!=0 && i!=1){
-		cout << "Wrong Input in ParticleContainer.isFinished(): i = " << i << endl;
-		cout << "Should be 0 or 1" << endl;
-		exit(1);
+void ParticleContainer::setParticles(std::list<Particle>& p) {
+	int j = 0;
+	for(list<Particle>::iterator i = p.begin(); i != p.end() && j < length; i++) {
+		cout << "Assign particle";
+		particles[j] = &(*i);
+		j++;
 	}
-	if(i==0){
-		return (act_particle == particles.end());
-	}else{
-		return (inner_particle == particles.end());
+	show();
+}
+
+void ParticleContainer::show() {
+	for(int i = 0; i < length; i++) {
+		cout << "P" << i << *particles[i] << endl;
 	}
 }
 
-void ParticleContainer::nextParticle(list<Particle>::iterator particle) {
-	particle++;
+Particle* ParticleContainer::nextParticlePair1() {
+	if(npp1 == length) {
+		npp1 = 0;
+		return NULL;
+	}else {
+		npp1++;
+		return particles[npp1-1];
+	}
 }
 
-list<Particle>::iterator ParticleContainer::getActParticle(){
-	return act_particle;
+Particle* ParticleContainer::nextParticlePair2() {
+	if(npp2 >= length) {
+		npp2 = npp1+1;
+		return NULL;
+	}else {
+		npp2++;
+		return particles[npp2-1];
+	}
 }
 
-void ParticleContainer::setActParticle(list<Particle>::iterator actParticle) {
-	act_particle = actParticle;
+Particle* ParticleContainer::nextParticle() {
+	if(np == length) {
+		np = 0;
+		return NULL;
+	}else {
+		np++;
+		return particles[np-1];	
+	}
 }
 
-list<Particle>::iterator ParticleContainer::getInnerParticle(){
-	return inner_particle;
-}
 
-void ParticleContainer::setInnerParticle(
-	list<Particle>::iterator innerParticle) {
-	inner_particle = innerParticle;
-}
-
-void ParticleContainer::nextParticlePair() {
-}

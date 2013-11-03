@@ -10,18 +10,18 @@ void Plotter::setParticleContainer(ParticleContainer& particleContainer) {
 
 
 void VTK::plotParticles(int iteration, int amountOfParticles) {
-				outputWriter::VTKWriter writer;
-				writer.initializeOutput(amountOfParticles);
+	outputWriter::VTKWriter writer;
+	writer.initializeOutput(amountOfParticles);
 
-				getParticleContainer().resetIterator();
+	Particle* p;
 
-				int i = 0;
-				while (!getParticleContainer().isFinished(0)) {
-					Particle& p1 = *getParticleContainer().getActParticle();
-					writer.plotParticle(p1);
-					getParticleContainer().nextParticle(getParticleContainer().getActParticle());
-					i++;
-					//cout << "P" << i << ": " << p1.toString() << endl;
-				}
-				writer.writeFile("vtk", iteration);
+	//getParticleContainer().show();
+	while((p = getParticleContainer().nextParticle()) != NULL) {
+	
+		
+		writer.plotParticle(*p);
+		
+		
+	}
+	writer.writeFile("vtk", iteration);
 };

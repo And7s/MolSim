@@ -10,10 +10,10 @@ class Calculation{
 
 private:
 	ParticleContainer particleContainer;
-	int delta_t;
+	double delta_t;
 
 public:
-
+	ParticleContainer pc;
 	virtual ~Calculation(){}
 	/**
 	 * Abstract function to calculate the force as described in Sheet1
@@ -29,6 +29,7 @@ public:
 	 */
 	virtual void calculateVelocity()=0;
 
+	virtual void setPc(ParticleContainer& pc_)=0;
 	/**
 	 * Function to reset the force of all particles to zero
 	 */
@@ -38,25 +39,14 @@ public:
 	 * Function to set the private parameter delta_t
 	 * @param deltaT
 	 */
-	void setDeltaT(int deltaT);
+	void setDeltaT(double deltaT);
 
 	/**
 	 * Function to get the private parameter delta_t
 	 * @return delta_t
 	 */
-	int getDeltaT();
+	double getDeltaT();
 
-	/**
-	 * Function to get the reference to the private ParticleContainer
-	 * @return particleContainer
-	 */
-	ParticleContainer& getParticleContainer();
-
-	/**
-	 * Function to set the reference of the private ParticleContainer
-	 * @param particleContainer
-	 */
-	void setParticleContainer(ParticleContainer& particleContainer);
 };
 
 /**
@@ -65,6 +55,7 @@ public:
 class Sheet1Calc : public Calculation{
 
 public:
+	ParticleContainer pc;
 	/**
 	 * Function to calculate the force as described in Sheet1
 	 */
@@ -77,6 +68,8 @@ public:
 	 * Function to calculate the velocity as described in Sheet1
 	 */
 	void calculateVelocity();
+
+	void setPc(ParticleContainer& pc_);
 };
 
 #endif /* CALCULATION_H_ */
