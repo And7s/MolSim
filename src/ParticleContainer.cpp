@@ -7,7 +7,6 @@
 #include "ParticleContainer.h"
 #include "Particle.h"
 
-
 ParticleContainer::ParticleContainer() {}
 ParticleContainer::ParticleContainer(int l) {
 	length = l;

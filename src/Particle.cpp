@@ -72,7 +72,7 @@ void Particle::setF(utils::Vector<double, 3>& newF) {
 	f = newF;
 }
 
-void Particle::addOnF(utils::Vector<double, 3> tmp) {
+void Particle::addOnF(utils::Vector<double, 3>& tmp) {
 	f = f +(tmp);
 }
 

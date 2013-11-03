@@ -57,12 +57,11 @@ int main(int argc, char* argsv[]) {
 	ParticleContainer pc(particles.size());
 	pc.setParticles(particles);
 
-
 	calculation->setDeltaT(delta_t);
-	calculation->setPc(pc);
-
+	calculation->setParticleContainer(pc);
 
 	plotter->setParticleContainer(pc);
+
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
 	calculation->calculateForce();
@@ -75,8 +74,8 @@ int main(int argc, char* argsv[]) {
 	 // for this loop, we assume: current x, current f and current v are known
 	while (current_time < end_time) {
 		// calculate new x, new f, new v
-		calculation->calculateForce();
 		calculation->calculatePosition();
+		calculation->calculateForce();
 		calculation->calculateVelocity();
 
 		iteration++;

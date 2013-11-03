@@ -51,4 +51,4 @@ class VTK : public Plotter{
 		void plotParticles(int iteration, int amountOfParticles);
 };
 
-#endif /* PLOTTER_H_ */
+#endif /* PLOTTER_H */
