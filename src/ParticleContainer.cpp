@@ -6,11 +6,9 @@
  */
 #include "ParticleContainer.h"
 
-ParticleContainer::ParticleContainer() {
-}
+ParticleContainer::ParticleContainer(){}
 
-ParticleContainer::~ParticleContainer() {
-}
+ParticleContainer::~ParticleContainer() {}
 
 ParticleContainer::ParticleContainer(std::list<Particle>& particles) {
 	this->particles = particles;

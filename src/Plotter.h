@@ -4,6 +4,9 @@
  *  Created on: 31.10.2013
  *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
  */
+#ifndef PLOTTER_H_
+#define PLOTTER_H_
+
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "FileReader.h"
@@ -48,3 +51,4 @@ class VTK : public Plotter{
 		void plotParticles(int iteration, int amountOfParticles);
 };
 
+#endif /* PLOTTER_H_ */

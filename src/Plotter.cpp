@@ -1,5 +1,5 @@
 #include "Plotter.h"
-
+#include "ParticleContainer.h"
 ParticleContainer& Plotter::getParticleContainer(){
 	return particleContainer;
 }

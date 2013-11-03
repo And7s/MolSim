@@ -5,6 +5,9 @@
  *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
  */
 
+#ifndef PARTICLECONTAINER_H_
+#define PARTICLECONTAINER_H_
+
 #include <sstream>
 #include <iostream>
 #include <cstring>
@@ -12,14 +15,12 @@
 #include <list>
 
 #include "Particle.h"
-
 using namespace std;
 /**
  * ParticleContainer which contains the list of particles
  */
 class ParticleContainer {
-
-	private:
+	protected:
 		std::list<Particle> particles;
 		list<Particle>::iterator act_particle;
 		list<Particle>::iterator inner_particle;
@@ -70,7 +71,7 @@ class ParticleContainer {
 		 * TODO not implemented/used yet
 		 */
 		void nextParticlePair();
-
+		
 		/**
 		 * returns act_particle iterator
 		 * @return list<Particle>::iterator
@@ -95,3 +96,5 @@ class ParticleContainer {
 		void setInnerParticle(list<Particle>::iterator innerParticle);
 
 };
+
+#endif /* PARTICLECONTAINER_H_ */

@@ -14,28 +14,6 @@
 
 using namespace std;
 
-/**** forward declaration of the calculation functions ****/
-
-/**
- * calculate the force for all particles
- */
-void calculateF();
-
-/**
- * calculate the position for all particles
- */
-void calculateX(); 
-
-/**
- * calculate the position for all particles 
- */
-void calculateV(); 
-
-/**
- * calculate the position, the force and velocity for all particles by using the above methods
- */
-void calcAll();
-
 /**
  * values can be set at startup by passing params
  */
@@ -52,8 +30,10 @@ std::list<Particle> particles;
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-Calculation *calculation = new Sheet1Calc();
-Plotter *vtkPlotter = new VTK();
+Sheet1Calc sheet1calc;
+Calculation *calculation = &sheet1calc;
+VTK vtk_plotter;
+Plotter *plotter = &vtk_plotter;
 
 /**
  * lifecycle.. iterates through simulation step by step
@@ -73,13 +53,12 @@ int main(int argc, char* argsv[]) {
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
 	
-	ParticleContainer pc;
-	calculation->setParticleContainer(pc);
+	ParticleContainer pc(particles);
 	calculation->setDeltaT(delta_t);
 
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
-	calculateF();
+	calculation->calculateForce();
 	cout << "Forces initialized." << endl;
 
 	double current_time = start_time;
@@ -89,11 +68,13 @@ int main(int argc, char* argsv[]) {
 	 // for this loop, we assume: current x, current f and current v are known
 	while (current_time < end_time) {
 		// calculate new x, new f, new v
-		calcAll();
+		calculation->calculateForce();
+		calculation->calculatePosition();
+		calculation->calculateVelocity();
 
 		iteration++;
 		if (iteration % 10 == 0) {
-			vtkPlotter->plotParticles(iteration, particles.size());
+			plotter->plotParticles(iteration, particles.size());
 			cout << "Iteration " << iteration << " finished." << endl;
 		}
 		current_time += delta_t;
@@ -102,7 +83,7 @@ int main(int argc, char* argsv[]) {
 	cout << "output written. Terminating..." << endl;
 	return 0;
 }
-
+/*
 void calcAll(){
 		// calculate new x
 		calculateX();
@@ -119,39 +100,9 @@ void calculateF() {
 
 void calculateX() {
 	calculation->calculatePosition();
-	/*
-	list<Particle>::iterator iterator = particles.begin();
-	while (iterator != particles.end()) {
-
-		Particle& p = *iterator;
-		utils::Vector<double, 3> part1 = p.getX();
-		utils::Vector<double, 3> part2 = p.getV().operator*(delta_t);
-		double scalar = delta_t*delta_t/(2*p.getM());
-		utils::Vector<double, 3> part3 = p.getF() * (scalar);
-		utils::Vector<double, 3> newX = part1.operator +(part2.operator +(part3));
-		p.setX(newX);
-
-		++iterator;
-	}*/
 }
 
 
 void calculateV() {
 	calculation->calculateVelocity();
-	/*
-	list<Particle>::iterator iterator = particles.begin(); 
-	while (iterator != particles.end()) {
-
-		Particle& p = *iterator;
-
-		// insert calculation of velocity here!
-		utils::Vector<double, 3> part1 = p.getV();
-		double scalar = delta_t/(2*p.getM());
-		utils::Vector<double, 3> part2 = (p.getOldF().operator+(p.getF())).operator *(scalar);
-		utils::Vector<double, 3> newV = part1.operator +(part2);
-		p.setV(newV);
-
-		++iterator;
-	}
-	*/
-}
+}*/

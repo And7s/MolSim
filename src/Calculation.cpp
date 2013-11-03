@@ -22,6 +22,18 @@ int Calculation::getDeltaT(){
 	return delta_t;
 }
 
+
+void Calculation::resetForce() {
+	getParticleContainer().resetIterator();
+
+	while(!getParticleContainer().isFinished(0)){
+		Particle& p = *getParticleContainer().getActParticle();
+		p.setOldF(p.getF());
+		p.setF(utils::Vector<double, 3> (0.));
+	}
+}
+
+
 void Sheet1Calc::calculateForce() {
 	resetForce();
 	getParticleContainer().resetIterator();
@@ -77,14 +89,5 @@ void Sheet1Calc::calculateVelocity() {
 		p.setV(newV);
 		getParticleContainer().nextParticle(getParticleContainer().getActParticle());
 	}
-}
 
-void Sheet1Calc::resetForce() {
-	getParticleContainer().resetIterator();
-
-	while(!getParticleContainer().isFinished(0)){
-		Particle& p = *getParticleContainer().getActParticle();
-		p.setOldF(p.getF());
-		p.setF(utils::Vector<double, 3> (0.));
-	}
 }

@@ -1,3 +1,6 @@
+#ifndef CALCULATION_H_
+#define CALCULATION_H_
+
 #include "ParticleContainer.h"
 
 /**
@@ -76,3 +79,4 @@ public:
 	void calculateVelocity();
 };
 
+#endif /* CALCULATION_H_ */
