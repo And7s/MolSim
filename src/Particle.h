@@ -54,21 +54,21 @@ public:
 
 	utils::Vector<double, 3>& getX();
 
+	void setX(utils::Vector<double, 3>& x);
+
 	utils::Vector<double, 3>& getF();
 
-	void setF(utils::Vector<double, 3> newf);
+	void setF(utils::Vector<double, 3>& newf);
 
 	void addOnF(utils::Vector<double, 3> tmp);
 
 	utils::Vector<double, 3>& getOldF();
 
-	void setOldF(utils::Vector<double, 3> f);
+	void setOldF(utils::Vector<double, 3>& f);
 
 	utils::Vector<double, 3>& getV();
 
-	void setV(utils::Vector<double, 3> v);
-
-	void setX(utils::Vector<double, 3>);
+	void setV(utils::Vector<double, 3>& v);
 
 	double getM();
 

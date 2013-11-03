@@ -52,17 +52,15 @@ utils::Vector<double, 3>& Particle::getX() {
 	return x;
 }
 
-void Particle::setX(utils::Vector<double, 3> newX) {
+void Particle::setX(utils::Vector<double, 3>& newX) {
 	x = newX;
 }
-
-
 
 utils::Vector<double, 3>& Particle::getV() {
 	return v;
 }
 
-void Particle::setV(utils::Vector<double, 3> newV) {
+void Particle::setV(utils::Vector<double, 3>& newV) {
 	v = newV;
 }
 
@@ -70,19 +68,19 @@ utils::Vector<double, 3>& Particle::getF() {
 	return f;
 }
 
-void Particle::setF(utils::Vector<double, 3> newF) {
+void Particle::setF(utils::Vector<double, 3>& newF) {
 	f = newF;
 }
 
 void Particle::addOnF(utils::Vector<double, 3> tmp) {
-	f = f.operator+(tmp);
+	f = f +(tmp);
 }
 
 utils::Vector<double, 3>& Particle::getOldF() {
 	return old_f;
 }
 
-void Particle::setOldF(utils::Vector<double, 3> newOldF) {
+void Particle::setOldF(utils::Vector<double, 3>& newOldF) {
 	old_f = newOldF;
 }
 

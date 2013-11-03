@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 /*
  * ParticleContainer.cpp
  *
@@ -13,6 +6,7 @@
  */
 #include "ParticleContainer.h"
 #include "Particle.h"
+
 
 ParticleContainer::ParticleContainer() {}
 ParticleContainer::ParticleContainer(int l) {
@@ -24,6 +18,7 @@ ParticleContainer::ParticleContainer(int l) {
 	npp2 = 1;
 }
 ParticleContainer::~ParticleContainer() {}
+
 
 void ParticleContainer::setParticles(std::list<Particle>& p) {
 	int j = 0;

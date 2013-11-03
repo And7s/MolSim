@@ -29,10 +29,12 @@ class ParticleContainer {
 		ParticleContainer(int l);
 		~ParticleContainer();
 		void setParticles(std::list<Particle>& particles);
+
 		void show();
 		Particle* nextParticlePair1();
 		Particle* nextParticlePair2();
 		Particle* nextParticle();
+
 		
 
 };

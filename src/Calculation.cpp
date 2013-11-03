@@ -21,7 +21,8 @@ void Calculation::resetForce() {
 
 	while((p = pc.nextParticle()) != NULL) {
 		p->setOldF(p->getF());
-		p->setF(utils::Vector<double, 3> (0.));
+		utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
+		p->setF(z);
 	}
 
 }
