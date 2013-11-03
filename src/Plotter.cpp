@@ -19,7 +19,7 @@ void VTK::plotParticles(int iteration, int amountOfParticles) {
 				while (!getParticleContainer().isFinished(0)) {
 					Particle& p1 = *getParticleContainer().getActParticle();
 					writer.plotParticle(p1);
-					getParticleContainer().nextParticle(getParticleContainer().getActParticle());
+					getParticleContainer().nextParticle(0);
 					i++;
 					//cout << "P" << i << ": " << p1.toString() << endl;
 				}

@@ -65,7 +65,7 @@ class ParticleContainer {
 		 * Increases particle Iterator by one
 		 * @param particle
 		 */
-		void nextParticle(list<Particle>::iterator particle);
+		void nextParticle(int i);
 
 		/**
 		 * TODO not implemented/used yet

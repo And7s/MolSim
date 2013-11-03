@@ -52,9 +52,16 @@ int main(int argc, char* argsv[]) {
 
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
-	
+	cout << "Initalizing ParticleContainer" << endl;
 	ParticleContainer pc(particles);
+	cout << "ParticleContainer initialized." << endl;
+	cout << "Initalizing ParticleContainer Calculation" << endl;
+	calculation->setParticleContainer(pc);
+	cout << "Calculation ParticleContainer initialized." << endl;
 	calculation->setDeltaT(delta_t);
+	cout << "Initalizing ParticleContainer Plotter" << endl;
+	plotter->setParticleContainer(pc);
+	cout << "Plotter ParticleContainer initialized." << endl;
 
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;

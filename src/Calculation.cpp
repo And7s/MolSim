@@ -25,11 +25,14 @@ int Calculation::getDeltaT(){
 
 void Calculation::resetForce() {
 	getParticleContainer().resetIterator();
-
+	cout << "In reset Force" << endl;
 	while(!getParticleContainer().isFinished(0)){
+		cout << "bool of isFinished(0): " << getParticleContainer().isFinished(0) << endl;
 		Particle& p = *getParticleContainer().getActParticle();
 		p.setOldF(p.getF());
-		p.setF(utils::Vector<double, 3> (0.));
+		utils::Vector<double, 3> resetF = utils::Vector<double, 3>(0.);
+		p.setF(resetF);
+		getParticleContainer().nextParticle(0);
 	}
 }
 
@@ -38,7 +41,6 @@ void Sheet1Calc::calculateForce() {
 	resetForce();
 	getParticleContainer().resetIterator();
 	while(!getParticleContainer().isFinished(0)){
-		getParticleContainer().nextParticle(getParticleContainer().getActParticle());
 		while(!getParticleContainer().isFinished(1)){
 			if(getParticleContainer().getInnerParticle()!=getParticleContainer().getActParticle()){
 				Particle& p1 = *getParticleContainer().getActParticle();
@@ -53,9 +55,9 @@ void Sheet1Calc::calculateForce() {
 				p1.addOnF(forceIJ);
 				p2.addOnF(forceIJ*(-1));
 			}
-			getParticleContainer().nextParticle(getParticleContainer().getInnerParticle());
+			getParticleContainer().nextParticle(1);
 		}
-		getParticleContainer().nextParticle(getParticleContainer().getActParticle());
+		getParticleContainer().nextParticle(0);
 	}
 }
 
@@ -71,7 +73,7 @@ void Sheet1Calc::calculatePosition() {
 		utils::Vector<double, 3> new_force = p.getF() * (scalar);
 		utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
 		p.setX(newX);
-		getParticleContainer().nextParticle(getParticleContainer().getActParticle());
+		getParticleContainer().nextParticle(0);
 	}
 
 }
@@ -87,7 +89,7 @@ void Sheet1Calc::calculateVelocity() {
 		utils::Vector<double, 3> new_acc = (p.getOldF()+(p.getF()))*(scalar);
 		utils::Vector<double, 3> newV = old_v +(new_acc);
 		p.setV(newV);
-		getParticleContainer().nextParticle(getParticleContainer().getActParticle());
+		getParticleContainer().nextParticle(0);
 	}
 
 }

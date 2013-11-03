@@ -26,6 +26,7 @@ std::list<Particle>& ParticleContainer::getParticles() {
 
 void ParticleContainer::resetIterator() {
 	act_particle = particles.begin();
+	inner_particle = particles.begin();
 }
 
 bool ParticleContainer::isFinished(int i) {
@@ -35,14 +36,24 @@ bool ParticleContainer::isFinished(int i) {
 		exit(1);
 	}
 	if(i==0){
+		cout << "In is Finished, return bool: " << (act_particle == particles.end()) << endl;
 		return (act_particle == particles.end());
 	}else{
 		return (inner_particle == particles.end());
 	}
 }
 
-void ParticleContainer::nextParticle(list<Particle>::iterator particle) {
-	particle++;
+void ParticleContainer::nextParticle(int i) {
+	if(i!=0 && i!=1){
+			cout << "Wrong Input in ParticleContainer.nextParticle(i): i = " << i << endl;
+			cout << "Should be 0 or 1" << endl;
+			exit(1);
+		}
+		if(i==0){
+			act_particle++;
+		}else{
+			inner_particle++;
+	}
 }
 
 list<Particle>::iterator ParticleContainer::getActParticle(){
