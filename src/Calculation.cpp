@@ -72,3 +72,9 @@ void Sheet1Calc::calculateVelocity() {
 		p->setV(new_v);
 	}
 }
+
+void Sheet1Calc::calculateAll(){
+	calculatePosition();
+	calculateForce();
+	calculateVelocity();
+}

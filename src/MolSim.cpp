@@ -74,9 +74,7 @@ int main(int argc, char* argsv[]) {
 	 // for this loop, we assume: current x, current f and current v are known
 	while (current_time < end_time) {
 		// calculate new x, new f, new v
-		calculation->calculatePosition();
-		calculation->calculateForce();
-		calculation->calculateVelocity();
+		calculation->calculateAll();
 
 		iteration++;
 		if (iteration % 10 == 0) {
@@ -87,7 +85,7 @@ int main(int argc, char* argsv[]) {
 
 		current_time += delta_t;
 	}
-	pc.show();
+	//pc.show();
 	cout << "output written. Terminating..." << endl;
 	return 0;
 }
