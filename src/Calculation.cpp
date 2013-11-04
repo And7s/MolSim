@@ -33,24 +33,16 @@ void Sheet1Calc::calculateForce() {
 	resetForce();
 	Particle* p1,* p2;
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
-		
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
-		//cout << "P1: "<< p1<<endl<<"P2: "<<p2<<endl;
 			double euclidian_norm = ((p1->getX() -(p2->getX())).L2Norm());
 			double pow_3 = std::pow(euclidian_norm,3);
 			double mass_squared = (p1->getM()*p2->getM());
 			double scalar = mass_squared/pow_3;
 
 			utils::Vector<double, 3> forceIJ = (p2->getX()-(p1->getX()))*(scalar);
-			//cout << "Particle1 force: " << p1->toStringForce() << endl;
-			//cout << "Particle1 forceIJ: " << forceIJ << endl;
 			p1->addOnF(forceIJ);
-			//cout << "Particle1 force after addOnF: " << p1->toStringForce() << endl;
 			utils::Vector<double, 3> forceJI = forceIJ *(-1);
-			//cout << "Particle2 force: " << p1->toStringForce() << endl;
-			//cout << "Particle2 forceJI: " << forceIJ << endl;
 			p2->addOnF(forceJI);
-			//cout << "Particle1 force after addOnF: " << p1->toStringForce() << endl;
 		}
 	}
 }

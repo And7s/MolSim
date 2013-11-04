@@ -38,6 +38,7 @@ void ParticleContainer::show() {
 Particle* ParticleContainer::nextParticlePair1() {
 	if(npp1 == length) {
 		npp1 = 0;
+		npp2 = npp1+1;
 		return NULL;
 	}else {
 		npp1++;
