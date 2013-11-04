@@ -66,14 +66,9 @@ void Sheet1Calc::calculateVelocity() {
 
 	while((p = particleContainer.nextParticle()) != NULL) {
 		utils::Vector<double, 3> old_v = p->getV();
-		//cout << "particle old_v: " << old_v << endl;
 		double scalar = getDeltaT()/(2*p->getM());
 		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-		//cout << "particle new_acc: " << new_acc << endl;
 		utils::Vector<double, 3> new_v = old_v +(new_acc);
-		//cout << "particle new_v: " << new_v << endl;
 		p->setV(new_v);
-		//cout << "particle new_v after set: " << p->getV() << endl;
 	}
-
 }
