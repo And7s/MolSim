@@ -22,11 +22,14 @@ ParticleContainer::~ParticleContainer() {}
 void ParticleContainer::setParticles(std::list<Particle>& p) {
 	int j = 0;
 	for(list<Particle>::iterator i = p.begin(); i != p.end() && j < length; i++) {
-		cout << "Assign particle";
+		cout << "Assign particle" << endl;
 		particles[j] = &(*i);
 		j++;
 	}
 	show();
+}
+Particle**& ParticleContainer::getParticles() {
+	return particles;
 }
 
 void ParticleContainer::show() {
@@ -54,6 +57,38 @@ Particle* ParticleContainer::nextParticlePair2() {
 		npp2++;
 		return particles[npp2-1];
 	}
+}
+
+int ParticleContainer::getLength() {
+	return length;
+}
+
+void ParticleContainer::setLength(int length) {
+	this->length = length;
+}
+
+int ParticleContainer::getNp() {
+	return np;
+}
+
+void ParticleContainer::setNp(int np) {
+	this->np = np;
+}
+
+int ParticleContainer::getNpp1() {
+	return npp1;
+}
+
+void ParticleContainer::setNpp1(int npp1) {
+	this->npp1 = npp1;
+}
+
+int ParticleContainer::getNpp2() {
+	return npp2;
+}
+
+void ParticleContainer::setNpp2(int npp2) {
+	this->npp2 = npp2;
 }
 
 Particle* ParticleContainer::nextParticle() {

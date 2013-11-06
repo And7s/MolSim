@@ -11,11 +11,11 @@ include files.mk
 
 # Compiler flags
 # -------------------------------------------------------------------------
-CFLAGS=-g -O3
+CFLAGS=-g -O3 
 
 # Linker flags
 # ------------
-LDFLAGS= -lxerces-c 
+LDFLAGS= -lxerces-c -Wl,--no-as-needed -lcppunit
 
 INCLUDES= -I./src -I./libxsd
 

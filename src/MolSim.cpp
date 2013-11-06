@@ -12,6 +12,9 @@
 #include "Calculation.h"
 #include "Plotter.h"
 
+#include <cppunit/ui/text/TestRunner.h>
+#include "cppunit/Tester.h"
+
 using namespace std;
 
 /**
@@ -20,6 +23,7 @@ using namespace std;
 double start_time = 0;
 double end_time = 1000; 
 double delta_t = 0.014;
+bool test= false;
 
 /**
  * stores the particles. accessed from Calculation by an external reference
@@ -41,10 +45,33 @@ Plotter *plotter = &vtk_plotter;
 int main(int argc, char* argsv[]) {
 
 	cout << "Hello from MolSim for PSE!" << endl;
-	if (argc != 4) {
+	if (argc < 4) {
+		if(argc != 2 || std::string(argsv[1])!="-test") {
+			cout << "Errounous programme call! " << endl;
+			cout << "./MolSim filename end_time delta_t" << endl;
+			cout << "or " << endl;
+			cout << "./MolSim -test" << endl;
+			cout << "for using cppunit tests" << endl;
+			exit(-1);
+		}else{
+			cout << "Option \'-test\': Initiation Testrun" << endl;
+			test = true;
+		}
+	}else{
+		if(argc > 4){
 		cout << "Errounous programme call! " << endl;
-		cout << "./molsym filename end_time delta_t" << endl;
+		cout << "./MolSim filename end_time delta_t" << endl;
+		cout << "or " << endl;
+		cout << "./MolSim -test" << endl;
+		cout << "for using cppunit tests" << endl;
 		exit(-1);
+		}
+	}
+	if(test){
+		CppUnit::TextUi::TestRunner runner;
+		runner.addTest( Tester::suite() );
+		runner.run();
+		exit(1);
 	}
 
 	end_time = atof(argsv[2]);
@@ -53,7 +80,6 @@ int main(int argc, char* argsv[]) {
 	FileReader fileReader;
 	fileReader.readFile(particles, argsv[1]);
 
-	
 	ParticleContainer pc(particles.size());
 	pc.setParticles(particles);
 

@@ -28,6 +28,11 @@ void Calculation::resetForce() {
 void Sheet1Calc::setParticleContainer(ParticleContainer& pc_) {
 	this->particleContainer = pc_;
 }
+
+ParticleContainer& Sheet1Calc::getParticleContainer(){
+	return particleContainer;
+}
+
 void Sheet1Calc::calculateForce() {
 
 	resetForce();

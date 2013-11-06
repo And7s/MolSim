@@ -39,6 +39,8 @@ public:
 	 */
 	virtual void setParticleContainer(ParticleContainer& pc_)=0;
 
+	virtual ParticleContainer& getParticleContainer()=0;
+
 	/**
 	 * Function to reset the force of all particles to zero
 	 */
@@ -55,7 +57,6 @@ public:
 	 * @return delta_t
 	 */
 	double getDeltaT();
-
 };
 
 /**
@@ -87,6 +88,8 @@ public:
 	 * @param pc_
 	 */
 	void setParticleContainer(ParticleContainer& pc_);
+
+	ParticleContainer& getParticleContainer();
 };
 
 #endif /* CALCULATION_H_ */
