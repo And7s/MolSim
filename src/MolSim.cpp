@@ -9,6 +9,7 @@
 #include "FileReader.h"
 #include "Particle.h"
 #include "ParticleContainer.h"
+#include "ParticleGenerator.h"
 #include "Calculation.h"
 #include "Plotter.h"
 
@@ -77,17 +78,22 @@ int main(int argc, char* argsv[]) {
 	end_time = atof(argsv[2]);
 	delta_t = atof(argsv[3]);
 
-	FileReader fileReader;
-	fileReader.readFile(particles, argsv[1]);
+	ParticleGenerator pg;
+	Particle** pa = pg.readFile(argsv[1]);
+ 
 
-	ParticleContainer pc(particles.size());
-	pc.setParticles(particles);
+	//FileReader fileReader;
+	//fileReader.readFile(particles, argsv[1]);
+
+	//ParticleContainer pc(particles.size());
+	ParticleContainer pc(sizeof(pa));
+	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 
 	plotter->setParticleContainer(pc);
-
+exit(0);
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
 	calculation->calculateForce();

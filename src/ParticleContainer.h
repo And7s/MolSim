@@ -29,7 +29,7 @@ class ParticleContainer {
 		ParticleContainer();
 		ParticleContainer(int l);
 		~ParticleContainer();
-		void setParticles(std::list<Particle>& particles);
+		void setParticles(Particle** particles_);
 		Particle**& getParticles();
 		void show();
 		Particle* nextParticlePair1();

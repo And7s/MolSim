@@ -19,14 +19,11 @@ ParticleContainer::ParticleContainer(int l) {
 ParticleContainer::~ParticleContainer() {}
 
 
-void ParticleContainer::setParticles(std::list<Particle>& p) {
-	int j = 0;
-	for(list<Particle>::iterator i = p.begin(); i != p.end() && j < length; i++) {
-		cout << "Assign particle" << endl;
-		particles[j] = &(*i);
-		j++;
-	}
+void ParticleContainer::setParticles(Particle** particles_) {
+	
+	particles = particles_;
 	show();
+
 }
 Particle**& ParticleContainer::getParticles() {
 	return particles;
