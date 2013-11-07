@@ -1,0 +1,12 @@
+#input for Cuboids
+#Format: 
+#count Cuboids                 int
+#lower left front coordinate   float, float, float
+#Number of particles           int, int, int
+#Distance of particles         float
+#Mass m                        float
+#init vel					   flaot, float, float
+#
+#pos              number     distance  mass  velocity
+1
+0.0 0.0 0.0      4 8 1      1.2       1.0  0.0 0.0 0.0

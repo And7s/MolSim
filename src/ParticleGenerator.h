@@ -1,25 +1,17 @@
-/*
- * ParticleGenerator.h
- *
- *  Created on: Nov 7, 2013
- *      Author: friedrich
- */
+//particlegenerator.h
 
-#ifndef PARTICLEGENERATOR_H_
-#define PARTICLEGENERATOR_H_
-
+#ifndef PARTICLE_GENERATOR_H
+#define PARTICLE_GENERATOR_H
 #include "Particle.h"
-#include <list>
-/*
- *
- */
+
+
 class ParticleGenerator {
 private:
-	std::list<Particle> particleList;
 
 public:
 	ParticleGenerator();
-	virtual ~ParticleGenerator();
+	~ParticleGenerator();
+	Particle** readFile(char* filename);
 };
 
-#endif /* PARTICLEGENERATOR_H_ */
+#endif
