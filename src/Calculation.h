@@ -6,14 +6,15 @@
 /**
  * Interface for Calculation
  */
-class Calculation{
+class Calculation {
 
 protected:
 	ParticleContainer particleContainer;
 	double delta_t;
 
 public:
-	virtual ~Calculation(){}
+	virtual ~Calculation() {
+	}
 	/**
 	 * Abstract function to calculate the force
 	 */
@@ -22,7 +23,7 @@ public:
 	 * Abstract function to calculate the position
 	 */
 	virtual void calculatePosition()=0;
-	
+
 	/**
 	 * Abstract function to calculate the velocity
 	 */
@@ -62,8 +63,37 @@ public:
 /**
  * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
  */
-class Sheet1Calc : public Calculation{
+class Sheet1Calc: public Calculation {
 
+public:
+	/**
+	 * Function to calculate the force as described in Sheet1
+	 */
+	void calculateForce();
+	/**
+	 * Function to calculate the position as described in Sheet1
+	 */
+	void calculatePosition();
+	/**
+	 * Function to calculate the velocity as described in Sheet1
+	 */
+	void calculateVelocity();
+
+	/**
+	 * Function to calculate velocity, position and force at once as described in Shee1
+	 */
+	void calculateAll();
+
+	/**
+	 * Function to set the ParticleContainer
+	 * @param pc_
+	 */
+	void setParticleContainer(ParticleContainer& pc_);
+
+	ParticleContainer& getParticleContainer();
+};
+
+class Sheet2Calc: public Calculation {
 public:
 	/**
 	 * Function to calculate the force as described in Sheet1
