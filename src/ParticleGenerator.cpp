@@ -28,7 +28,7 @@ struct Cuboid {
 	int num[3];
 };
 
-Particle** ParticleGenerator::readFile(char* filename) {
+Particle** ParticleGenerator::readFile(char* filename, int* length) {
 	cout << "ParticleGenerator call"<<filename;
 
 	
@@ -61,13 +61,13 @@ Particle** ParticleGenerator::readFile(char* filename) {
     	cout << "Reading " << num_cuboid << "Cuboids ." << endl;
     	ca = new Cuboid[num_cuboid];
     	
-    	getline(input_file, tmp_string);
-    	cout << "Read line: " << tmp_string << endl;
+    	//getline(input_file, tmp_string);
+    	//cout << "Read line: " << tmp_string << endl;
 
     	for (int i = 0; i < num_cuboid; i++) {
     		
     	getline(input_file, tmp_string);
-    	cout  << "Read line: " << tmp_string << endl;
+    	cout  << "Read line: "<<i<<":"<< tmp_string << endl;
     		istringstream datastream(tmp_string);
 
     		for (int j = 0; j < 3; j++) {
@@ -91,12 +91,14 @@ Particle** ParticleGenerator::readFile(char* filename) {
     //file read now create particles
     cout << ca[0].num[0] << ca[0].num[1] << ca[0].num[2] << endl;
     for(int i = 0; i < num_cuboid; i++) {
+        cout << "add"<<(ca[i].num[0] * ca[i].num[1] * ca[i].num[2])<<endl;
     	num_particles += ca[i].num[0] * ca[i].num[1] * ca[i].num[2];
     }
 
     cout << "num particles: "<< num_particles;
- 	Particle* pa[num_particles];
-    //pa = new Particle[num_particles];
+ 	typedef Particle* PartPtr;
+    PartPtr* pa = new PartPtr[num_particles];
+
     double x[] = {0,0,0};
 	double v[] = {1,1,1};
 	double m = 1;
@@ -108,19 +110,21 @@ Particle** ParticleGenerator::readFile(char* filename) {
     	v[2] = ca[i].vel[2];
     	m = ca[i].mass;
     	for(int d1 = 0; d1 < ca[i].num[0]; d1++) {
-    		x[0] = d1*ca[i].dist;
+    		x[0] = d1*ca[i].dist+ca[i].pos[0];
     		for(int d2 = 0; d2 < ca[i].num[1]; d2++) {
-    			x[1] = d2*ca[i].dist;
+    			x[1] = d2*ca[i].dist+ca[i].pos[1];
     			for(int d3 = 0; d3 < ca[i].num[2]; d3++) {
-    				x[2] = d3*ca[i].dist;
+    				x[2] = d3*ca[i].dist+ca[i].pos[2];
     				pa[num] = new Particle(x,v,m);
-    				cout << pa[num]->toString()<<endl;
+    				cout << num << " = "<<pa[num]->toString()<<endl;
 					num++;
     			}
     		}
     	}
     }
-   
+
+    *length =num_particles;
+
     return pa;
 
 

@@ -10,7 +10,7 @@
 ParticleContainer::ParticleContainer() {}
 ParticleContainer::ParticleContainer(int l) {
 	length = l;
-	cout << "init pc";
+	cout << "init pc with length "<<length<<endl;
 	particles = new Particle*[length];
 	np = 0;
 	npp1 = 0;
@@ -22,6 +22,7 @@ ParticleContainer::~ParticleContainer() {}
 void ParticleContainer::setParticles(Particle** particles_) {
 	
 	particles = particles_;
+	cout << "Did set part"<<endl;
 	show();
 
 }

@@ -11,7 +11,7 @@ private:
 public:
 	ParticleGenerator();
 	~ParticleGenerator();
-	Particle** readFile(char* filename);
+	Particle** readFile(char* filename, int* length);
 };
 
 #endif

@@ -85,17 +85,20 @@ void Sheet1Calc::calculateAll(){
 }
 
 void Sheet2Calc::calculateForce() {
-	double epsilon = 0.0;
-	double sigma = 0.0;
+	double epsilon = 5.0;
+	double sigma = 1.0;
 	Particle *p1,*p2;
 
 	resetForce();
-
+//cout << "Call Force"<<endl;
+//particleContainer.show();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
 			double factor1 = (24 * epsilon)/pow(dist,2);
 			double factor2 = pow((sigma/dist),6)- (2*pow((sigma/dist),12));
+
+			//cout << "dist: "<<dist<<" f1 "<<factor1<<" f2 "<<factor2<<endl;
 			utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
 			utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 			utils::Vector<double,3> forceJI = (-1) * forceIJ;

@@ -35,8 +35,8 @@ std::list<Particle> particles;
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-Sheet1Calc sheet1calc;
-Calculation *calculation = &sheet1calc;
+Sheet2Calc sheet2calc;
+Calculation *calculation = &sheet2calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
 
@@ -68,32 +68,40 @@ int main(int argc, char* argsv[]) {
 		exit(-1);
 		}
 	}
-	if(test){
+	/*if(test){
 		CppUnit::TextUi::TestRunner runner;
 		runner.addTest( Tester::suite() );
 		runner.run();
 		exit(1);
 	}
-
+*/
 	end_time = atof(argsv[2]);
 	delta_t = atof(argsv[3]);
 
 	ParticleGenerator pg;
-	Particle** pa = pg.readFile(argsv[1]);
+	int* length = new int;
+	
+	Particle** pa = pg.readFile(argsv[1], length);
+	
  
 
+cout << "Got pa with"<<*length;
+
+for(int i = 0; i < *length; i++) {
+	cout << i << " : "<<pa[i]->toString()<<endl;
+}
 	//FileReader fileReader;
 	//fileReader.readFile(particles, argsv[1]);
 
 	//ParticleContainer pc(particles.size());
-	ParticleContainer pc(sizeof(pa));
+ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 
 	plotter->setParticleContainer(pc);
-exit(0);
+
 	// the forces are needed to calculate x, but are not given in the input file.
 	cout << "Initializing forces: " << endl;
 	calculation->calculateForce();
@@ -102,15 +110,15 @@ exit(0);
 	double current_time = start_time;
 
 	int iteration = 0;
-
+pc.show();
 	 // for this loop, we assume: current x, current f and current v are known
-	while (current_time < end_time) {
+	while (current_time < end_time){
 		// calculate new x, new f, new v
 		calculation->calculateAll();
 
 		iteration++;
 		if (iteration % 10 == 0) {
-			plotter->plotParticles(iteration, particles.size());
+			plotter->plotParticles(iteration, *length);
 			//pc.show();
 			cout << "Iteration " << iteration << " finished." << endl;
 		}
