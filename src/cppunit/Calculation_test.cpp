@@ -17,9 +17,11 @@ Calculation_test::~Calculation_test() {
 }
 
 void Calculation_test::setUp() {
-	/*std::list<Particle> particles;
+	Particle** pa = new Particle*[2];
 	ParticleContainer pc(2);
-	test_calculator = new Sheet1Calc();
+
+	test_calculator = new Sheet2Calc();
+
 	double x1[] = {4,0,0};
 	double x2[] = {0,3,0};
 	double v1[] = {1,1,1};
@@ -36,65 +38,75 @@ void Calculation_test::setUp() {
 
 	double m1 = 25;
 	double m2 = 10;
-	Particle p1(x1, v1, m1);
-	Particle p2(x2, v2, m2);
-	p1.setF(f1);
-	p2.setF(f2);
-	particles.push_back(p1);
-	particles.push_back(p2);
-	pc.setParticles(particles);
+	pa[0] = new Particle(x1, v1, m1);
+	pa[1] = new Particle(x2, v2, m2);
+	pa[0]->setF(f1);
+	pa[1]->setF(f2);
+	
+	pc.setParticles(pa);
 	test_calculator->setParticleContainer(pc);
-	test_calculator->setDeltaT(5);*/
+	test_calculator->setDeltaT(1);
 }
 
 void Calculation_test::tearDown() {
-	//delete test_calculator;
+	delete test_calculator;
 }
 
 void Calculation_test::testGetDeltaT() {
-	//test_calculator->setDeltaT(2.);
-	//CPPUNIT_ASSERT_EQUAL( 2., test_calculator->getDeltaT() );
+	test_calculator->setDeltaT(2.);
+	CPPUNIT_ASSERT_EQUAL( 2., test_calculator->getDeltaT() );
 }
 
 void Calculation_test::testCalculateForce() {
-	/*test_calculator->calculateForce();
+	test_calculator->calculateForce();
 	utils::Vector<double,3> result1;
 	utils::Vector<double,3> result2;
-	result1[0]=-8.0;
-	result1[1]=6.0;
+	result1[0]=-0.00122864;
+	result1[1]=0.000921482;
 	result1[2]=0.0;
+
 	result2 = result1 *(-1);
 	ParticleContainer pc = test_calculator->getParticleContainer();
-	CPPUNIT_ASSERT_EQUAL( result1,  pc.getParticles()[0]->getF());
-	CPPUNIT_ASSERT_EQUAL( result2,  pc.getParticles()[1]->getF());*/
+
+	for(int i = 0;i < 3; i++) {
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getF()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getF()[i], 0.001);
+	}
 }
 
 void Calculation_test::testCalculatePosition() {
-	/*test_calculator->calculatePosition();
+	test_calculator->calculatePosition();
 	utils::Vector<double,3> result1;
 	utils::Vector<double,3> result2;
-	result1[0]=9.5;
-	result1[1]=5.5;
-	result1[2]=5.5;
-	result2[0]=12.5;
-	result2[1]=15.5;
-	result2[2]=12.5;
+	result1[0]=5.02;
+	result1[1]=1.02;
+	result1[2]=1.02;
+
+	result2[0]=2.1;
+	result2[1]=5.1;
+	result2[2]=2.1;
+	
 	ParticleContainer pc = test_calculator->getParticleContainer();
-	CPPUNIT_ASSERT_EQUAL( result1, pc.getParticles()[0]->getX() );
-	CPPUNIT_ASSERT_EQUAL( result2, pc.getParticles()[1]->getX() );*/
+
+	for(int i = 0;i < 3; i++) {
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getX()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getX()[i], 0.001);
+	}
 }
 
 void Calculation_test::testCalculateVelocity() {
-	/*test_calculator->calculateVelocity();
+	test_calculator->calculateVelocity();
 	utils::Vector<double,3> result1;
 	utils::Vector<double,3> result2;
-	result1[0]=1.1;
-	result1[1]=1.1;
-	result1[2]=1.1;
-	result2[0]=2.5;
-	result2[1]=2.5;
-	result2[2]=2.5;
+	result1[0]=1.02;
+	result1[1]=1.02;
+	result1[2]=1.02;
+	result2[0]=2.1;
+	result2[1]=2.1;
+	result2[2]=2.1;
 	ParticleContainer pc = test_calculator->getParticleContainer();
-	CPPUNIT_ASSERT_EQUAL( result1, pc.getParticles()[0]->getV() );
-	CPPUNIT_ASSERT_EQUAL( result2, pc.getParticles()[1]->getV() );*/
+	for(int i = 0;i < 3; i++) {
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getV()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getV()[i], 0.001);
+	}
 }

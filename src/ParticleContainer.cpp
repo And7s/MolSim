@@ -1,6 +1,6 @@
 /*
  * ParticleContainer.cpp
- *
+ * Stores the particles in an array. For calculation the particles can be accessed single or pair wise.
  *  Created on: 31.10.2013
  *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
  */
@@ -10,22 +10,20 @@
 ParticleContainer::ParticleContainer() {}
 ParticleContainer::ParticleContainer(int l) {
 	length = l;
-	cout << "init pc with length "<<length<<endl;
+	cout << "init ParticleContainer of Length: "<<length<<endl;
 	particles = new Particle*[length];
 	np = 0;
 	npp1 = 0;
 	npp2 = 1;
 }
+
 ParticleContainer::~ParticleContainer() {}
 
 
 void ParticleContainer::setParticles(Particle** particles_) {
-	
 	particles = particles_;
-	cout << "Did set part"<<endl;
-	show();
-
 }
+
 Particle**& ParticleContainer::getParticles() {
 	return particles;
 }

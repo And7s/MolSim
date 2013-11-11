@@ -15,7 +15,6 @@ void VTK::plotParticles(int iteration, int amountOfParticles) {
 
 	Particle* p;
 
-	//getParticleContainer().show();
 	while((p = getParticleContainer().nextParticle()) != NULL) {
 		writer.plotParticle(*p);	
 	}

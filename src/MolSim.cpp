@@ -24,12 +24,7 @@ using namespace std;
 double start_time = 0;
 double end_time = 1000; 
 double delta_t = 0.014;
-bool test= false;
-
-/**
- * stores the particles. accessed from Calculation by an external reference
- */
-std::list<Particle> particles; 
+char* filename;
 
 /**
  * set algorithm, which should be used for the calculation.
@@ -40,61 +35,39 @@ Calculation *calculation = &sheet2calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
 
+void showUsage();
 /**
  * lifecycle.. iterates through simulation step by step
  */
 int main(int argc, char* argsv[]) {
-
-	cout << "Hello from MolSim for PSE!" << endl;
-	if (argc < 4) {
-		if(argc != 2 || std::string(argsv[1])!="-test") {
-			cout << "Errounous programme call! " << endl;
-			cout << "./MolSim filename end_time delta_t" << endl;
-			cout << "or " << endl;
-			cout << "./MolSim -test" << endl;
-			cout << "for using cppunit tests" << endl;
+	cout << "\n\nMolSim:\n";
+	switch(argc) {
+		case 4:
+			delta_t = atof(argsv[3]);
+		case 3:
+			end_time = atof(argsv[2]);	
+		case 2:
+			if(string(argsv[1]) == "-test") {
+				CppUnit::TextUi::TestRunner runner;
+				runner.addTest( Tester::suite() );
+				runner.run();
+				exit(1);
+			}
+			filename = argsv[1];
+			break;
+		default:
+			showUsage();
 			exit(-1);
-		}else{
-			cout << "Option \'-test\': Initiation Testrun" << endl;
-			test = true;
-		}
-	}else{
-		if(argc > 4){
-		cout << "Errounous programme call! " << endl;
-		cout << "./MolSim filename end_time delta_t" << endl;
-		cout << "or " << endl;
-		cout << "./MolSim -test" << endl;
-		cout << "for using cppunit tests" << endl;
-		exit(-1);
-		}
+			break;
+
 	}
-	/*if(test){
-		CppUnit::TextUi::TestRunner runner;
-		runner.addTest( Tester::suite() );
-		runner.run();
-		exit(1);
-	}
-*/
-	end_time = atof(argsv[2]);
-	delta_t = atof(argsv[3]);
 
 	ParticleGenerator pg;
 	int* length = new int;
 	
-	Particle** pa = pg.readFile(argsv[1], length);
+	Particle** pa = pg.readFile(filename, length);
 	
- 
-
-cout << "Got pa with"<<*length;
-
-for(int i = 0; i < *length; i++) {
-	cout << i << " : "<<pa[i]->toString()<<endl;
-}
-	//FileReader fileReader;
-	//fileReader.readFile(particles, argsv[1]);
-
-	//ParticleContainer pc(particles.size());
-ParticleContainer pc(*length);
+	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
@@ -102,30 +75,28 @@ ParticleContainer pc(*length);
 
 	plotter->setParticleContainer(pc);
 
-	// the forces are needed to calculate x, but are not given in the input file.
-	cout << "Initializing forces: " << endl;
+	//initially calculation of Forces
 	calculation->calculateForce();
-	cout << "Forces initialized." << endl;
 
 	double current_time = start_time;
-
 	int iteration = 0;
-pc.show();
-	 // for this loop, we assume: current x, current f and current v are known
 	while (current_time < end_time){
-		// calculate new x, new f, new v
+
 		calculation->calculateAll();
 
 		iteration++;
 		if (iteration % 10 == 0) {
 			plotter->plotParticles(iteration, *length);
-			//pc.show();
 			cout << "Iteration " << iteration << " finished." << endl;
 		}
 
 		current_time += delta_t;
 	}
-	//pc.show();
 	cout << "output written. Terminating..." << endl;
 	return 0;
+}
+
+
+void showUsage() {
+	cout << "\nMolSim\nError,call program with:\n./MolSim -test                          for testing\nMolSim filename [duration[timestep]]    for running a Simulation\n";
 }
