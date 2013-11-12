@@ -91,7 +91,6 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 		exit(-1);
 	}
 
-	
 	for(int i = 0; i < num_cuboid; i++) {
 		num_particles += ca[i].num[0] * ca[i].num[1] * ca[i].num[2];
 	}
