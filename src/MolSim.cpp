@@ -30,11 +30,14 @@ double start_time = 0;
 double end_time = 1000; 
 double delta_t = 0.014;
 char* filename;
+<<<<<<< HEAD
 
 /**
  * Logger
  */
 LoggerPtr loggerMain(Logger::getLogger( "main"));
+=======
+>>>>>>> ca838aac510188217c4f639822451f689429ef36
 
 /**
  * set algorithm, which should be used for the calculation.
@@ -50,14 +53,19 @@ void showUsage();
  * lifecycle.. iterates through simulation step by step
  */
 int main(int argc, char* argsv[]) {
+<<<<<<< HEAD
 	//init Logger
 	DOMConfigurator::configure("src/Log4cxxConfig.xml");
 
 	LOG4CXX_INFO (loggerMain, "MolSim started..");
+=======
+	cout << "\n\nMolSim:\n";
+>>>>>>> ca838aac510188217c4f639822451f689429ef36
 	switch(argc) {
 		case 4:
 			delta_t = atof(argsv[3]);
 		case 3:
+<<<<<<< HEAD
 			end_time = atof(argsv[2]);
 			if(argc == 3){
 				LOG4CXX_WARN(loggerMain, "Input for distance between timestamps missing. Default: " << delta_t);
@@ -74,6 +82,15 @@ int main(int argc, char* argsv[]) {
 			if(argc == 2){
 				LOG4CXX_WARN(loggerMain, "Input for distance between timestamps missing. Default: " << delta_t);
 				LOG4CXX_WARN(loggerMain, "Input for the duration of the simulation missing Default: " << end_time);
+=======
+			end_time = atof(argsv[2]);	
+		case 2:
+			if(string(argsv[1]) == "-test") {
+				CppUnit::TextUi::TestRunner runner;
+				runner.addTest( Tester::suite() );
+				runner.run();
+				exit(1);
+>>>>>>> ca838aac510188217c4f639822451f689429ef36
 			}
 			filename = argsv[1];
 			break;
