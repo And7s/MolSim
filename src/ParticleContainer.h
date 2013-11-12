@@ -13,10 +13,15 @@
 #include <cstring>
 #include <cstdlib>
 #include <list>
+#include <log4cxx/logger.h>
+#include <log4cxx/xml/domconfigurator.h>
+
 
 
 #include "Particle.h"
-using namespace std;
+using namespace log4cxx;
+using namespace log4cxx::xml;
+using namespace log4cxx::helpers;
 /**
  * ParticleContainer which contains the list of particles
  */

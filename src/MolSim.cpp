@@ -12,11 +12,16 @@
 #include "ParticleGenerator.h"
 #include "Calculation.h"
 #include "Plotter.h"
-
-#include <cppunit/ui/text/TestRunner.h>
 #include "cppunit/Tester.h"
 
-using namespace std;
+#include <cppunit/ui/text/TestRunner.h>
+#include <log4cxx/logger.h>
+#include <log4cxx/xml/domconfigurator.h>
+
+
+using namespace log4cxx;
+using namespace log4cxx::xml;
+using namespace log4cxx::helpers;
 
 /**
  * values can be set at startup by passing params
@@ -24,100 +29,99 @@ using namespace std;
 double start_time = 0;
 double end_time = 1000; 
 double delta_t = 0.014;
-bool test= false;
+char* filename;
 
 /**
- * stores the particles. accessed from Calculation by an external reference
+ * Logger
  */
-std::list<Particle> particles; 
+LoggerPtr loggerMain(Logger::getLogger( "main"));
 
 /**
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-Sheet1Calc sheet1calc;
-Calculation *calculation = &sheet1calc;
+Sheet2Calc sheet2calc;
+Calculation *calculation = &sheet2calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
 
+void showUsage();
 /**
  * lifecycle.. iterates through simulation step by step
  */
 int main(int argc, char* argsv[]) {
+	//init Logger
+	DOMConfigurator::configure("src/Log4cxxConfig.xml");
 
-	cout << "Hello from MolSim for PSE!" << endl;
-	if (argc < 4) {
-		if(argc != 2 || std::string(argsv[1])!="-test") {
-			cout << "Errounous programme call! " << endl;
-			cout << "./MolSim filename end_time delta_t" << endl;
-			cout << "or " << endl;
-			cout << "./MolSim -test" << endl;
-			cout << "for using cppunit tests" << endl;
+	LOG4CXX_INFO (loggerMain, "MolSim started..");
+	switch(argc) {
+		case 4:
+			delta_t = atof(argsv[3]);
+		case 3:
+			end_time = atof(argsv[2]);
+			if(argc == 3){
+				LOG4CXX_WARN(loggerMain, "Input for distance between timestamps missing. Default: " << delta_t);
+			}
+		case 2:
+			if(string(argsv[1]) == "-test") {
+				LOG4CXX_TRACE(loggerMain, "Test-mode activated..");
+				CppUnit::TextUi::TestRunner runner;
+				runner.addTest( Tester::suite() );
+				runner.run();
+				LOG4CXX_TRACE(loggerMain, "Test finished..");
+				exit(0);
+			}
+			if(argc == 2){
+				LOG4CXX_WARN(loggerMain, "Input for distance between timestamps missing. Default: " << delta_t);
+				LOG4CXX_WARN(loggerMain, "Input for the duration of the simulation missing Default: " << end_time);
+			}
+			filename = argsv[1];
+			break;
+		default:
+			showUsage();
 			exit(-1);
-		}else{
-			cout << "Option \'-test\': Initiation Testrun" << endl;
-			test = true;
-		}
-	}else{
-		if(argc > 4){
-		cout << "Errounous programme call! " << endl;
-		cout << "./MolSim filename end_time delta_t" << endl;
-		cout << "or " << endl;
-		cout << "./MolSim -test" << endl;
-		cout << "for using cppunit tests" << endl;
-		exit(-1);
-		}
-	}
-	if(test){
-		CppUnit::TextUi::TestRunner runner;
-		runner.addTest( Tester::suite() );
-		runner.run();
-		exit(1);
-	}
+			break;
 
-	end_time = atof(argsv[2]);
-	delta_t = atof(argsv[3]);
+	}
 
 	ParticleGenerator pg;
-	Particle** pa = pg.readFile(argsv[1]);
- 
-
-	//FileReader fileReader;
-	//fileReader.readFile(particles, argsv[1]);
-
-	//ParticleContainer pc(particles.size());
-	ParticleContainer pc(sizeof(pa));
+	int* length = new int;
+	
+	Particle** pa = pg.readFile(filename, length);
+	
+	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 
 	plotter->setParticleContainer(pc);
-exit(0);
-	// the forces are needed to calculate x, but are not given in the input file.
-	cout << "Initializing forces: " << endl;
+
+	//initially calculation of Forces
 	calculation->calculateForce();
-	cout << "Forces initialized." << endl;
 
 	double current_time = start_time;
-
 	int iteration = 0;
+	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
+	while (current_time < end_time){
 
-	 // for this loop, we assume: current x, current f and current v are known
-	while (current_time < end_time) {
-		// calculate new x, new f, new v
 		calculation->calculateAll();
 
 		iteration++;
 		if (iteration % 10 == 0) {
-			plotter->plotParticles(iteration, particles.size());
-			//pc.show();
-			cout << "Iteration " << iteration << " finished." << endl;
+			plotter->plotParticles(iteration, *length);
+			LOG4CXX_TRACE(loggerMain, "Iteration " << iteration << " finished.");
 		}
 
 		current_time += delta_t;
 	}
-	//pc.show();
-	cout << "output written. Terminating..." << endl;
+	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
 	return 0;
+}
+
+
+void showUsage() {
+	LOG4CXX_FATAL(loggerMain, "erroneous programm call - program will halt!");
+	LOG4CXX_INFO(loggerMain, "Run : ./MolSim inputfile [duration] [step distance]");
+	LOG4CXX_INFO(loggerMain, "Test: ./MolSim -test");
 }

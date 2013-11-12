@@ -6,6 +6,15 @@
  */
 #include "Calculation.h"
 
+using namespace log4cxx;
+using namespace log4cxx::xml;
+using namespace log4cxx::helpers;
+
+/**
+ * Logger
+ */
+LoggerPtr loggerCalc(Logger::getLogger( "main.calc"));
+
 void Calculation::setDeltaT(double delta_t) {
 	this->delta_t = delta_t;
 }
@@ -85,12 +94,11 @@ void Sheet1Calc::calculateAll(){
 }
 
 void Sheet2Calc::calculateForce() {
-	double epsilon = 0.0;
-	double sigma = 0.0;
+	double epsilon = 5.0;
+	double sigma = 1.0;
 	Particle *p1,*p2;
 
 	resetForce();
-
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
@@ -131,6 +139,7 @@ void Sheet2Calc::calculateVelocity() {
 }
 
 void Sheet2Calc::calculateAll() {
+	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop");
 	calculatePosition();
 	calculateForce();
 	calculateVelocity();

@@ -15,7 +15,7 @@ CFLAGS=-g -O3
 
 # Linker flags
 # ------------
-LDFLAGS= -lxerces-c -Wl,--no-as-needed -lcppunit
+LDFLAGS= -lxerces-c -Wl,--no-as-needed -lcppunit -lapr-1 -laprutil-1 -llog4cxx
 
 INCLUDES= -I./src -I./libxsd
 

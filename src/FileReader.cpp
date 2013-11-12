@@ -13,7 +13,15 @@
 #include <iostream>
 #include <cstdlib>
 
+using namespace log4cxx;
+using namespace log4cxx::xml;
+using namespace log4cxx::helpers;
 using namespace std;
+
+/**
+ * Logger
+ */
+LoggerPtr loggerFile(Logger::getLogger( "main.file"));
 
 FileReader::FileReader() {
 }
@@ -34,18 +42,18 @@ void FileReader::readFile(std::list<Particle>& particles, char* filename) {
     if (input_file.is_open()) {
 
     	getline(input_file, tmp_string);
-    	cout << "Read line: " << tmp_string << endl;
+    	LOG4CXX_TRACE(loggerFile, "Read line: " << tmp_string);
 
     	while (tmp_string.size() == 0 || tmp_string[0] == '#') {
     		getline(input_file, tmp_string);
-    		cout << "Read line: " << tmp_string << endl;
+    		LOG4CXX_TRACE(loggerFile, "Read line: " << tmp_string);
     	}
 
     	istringstream numstream(tmp_string);
     	numstream >> num_particles;
-    	cout << "Reading " << num_particles << "." << endl;
+    	LOG4CXX_TRACE(loggerFile, "Reading " << num_particles << ".");
     	getline(input_file, tmp_string);
-    	cout << "Read line: " << tmp_string << endl;
+    	LOG4CXX_TRACE(loggerFile, "Read line: " << tmp_string);
 
     	for (int i = 0; i < num_particles; i++) {
     		istringstream datastream(tmp_string);
@@ -58,7 +66,7 @@ void FileReader::readFile(std::list<Particle>& particles, char* filename) {
     			datastream >> v[j];
     		}
     		if (datastream.eof()) {
-    			cout << "Error reading file: eof reached unexpectedly reading from line " << i << endl;
+    			LOG4CXX_FATAL(loggerFile, "Error reading file: eof reached unexpectedly reading from line " << i << " Program will halt!");
     			exit(-1);
     		}
     		datastream >> m;
@@ -66,12 +74,11 @@ void FileReader::readFile(std::list<Particle>& particles, char* filename) {
     		particles.push_back(p);
 
     		getline(input_file, tmp_string);
-    		cout << "Read line: " << tmp_string << endl;
+    		LOG4CXX_TRACE(loggerFile, "Read line: " << tmp_string);
     	}
     } else {
-    	std::cout << "Error: could not open file " << filename << std::endl;
+    	LOG4CXX_FATAL(loggerFile, "Error: could not open file " << filename << " Program will halt");
     	exit(-1);
     }
-
 }
 

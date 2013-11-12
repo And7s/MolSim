@@ -2,6 +2,10 @@
 #define CALCULATION_H_
 
 #include "ParticleContainer.h"
+#include <log4cxx/logger.h>
+#include <log4cxx/xml/domconfigurator.h>
+
+
 
 /**
  * Interface for Calculation
@@ -11,6 +15,7 @@ class Calculation {
 protected:
 	ParticleContainer particleContainer;
 	double delta_t;
+
 
 public:
 	virtual ~Calculation() {

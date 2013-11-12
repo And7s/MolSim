@@ -10,6 +10,8 @@
 
 #include "Particle.h"
 #include <list>
+#include <log4cxx/logger.h>
+#include <log4cxx/xml/domconfigurator.h>
 
 class FileReader {
 

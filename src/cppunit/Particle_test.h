@@ -12,6 +12,8 @@
 #include <ParticleContainer.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+using namespace std;
+
 /*
  *
  */
