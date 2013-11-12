@@ -13,8 +13,6 @@
 #include "Calculation.h"
 #include "Particle.h"
 
-using namespace std;
-
 /*
  *
  */

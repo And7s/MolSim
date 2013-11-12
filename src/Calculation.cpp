@@ -6,10 +6,6 @@
  */
 #include "Calculation.h"
 
-using namespace log4cxx;
-using namespace log4cxx::xml;
-using namespace log4cxx::helpers;
-
 /**
  * Logger
  */
@@ -88,6 +84,7 @@ void Sheet1Calc::calculateVelocity() {
 }
 
 void Sheet1Calc::calculateAll(){
+	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet1Calc");
 	calculatePosition();
 	calculateForce();
 	calculateVelocity();
@@ -139,7 +136,7 @@ void Sheet2Calc::calculateVelocity() {
 }
 
 void Sheet2Calc::calculateAll() {
-	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop");
+	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
 	calculatePosition();
 	calculateForce();
 	calculateVelocity();

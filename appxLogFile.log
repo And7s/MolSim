@@ -25401,3 +25401,59 @@ MolSim:
 2013-11-12 17:49:08,339 TRACE Sheet2Calc (src/Calculation.cpp:142) - starting new calculation loop
 2013-11-12 17:49:08,385 TRACE  (src/MolSim.cpp:113) - Iteration 20 finished.
 2013-11-12 17:49:08,385 INFO   (src/MolSim.cpp:118) - Output successfully written. Terminating...
+2013-11-12 22:50:29,536 INFO   (src/MolSim.cpp:57) - MolSim started..
+2013-11-12 22:50:29,537 TRACE  (src/MolSim.cpp:68) - Test-mode activated..
+2013-11-12 22:50:29,537 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 22:50:29,537 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 22:50:29,538 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 22:50:29,538 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 22:50:29,538 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 22:50:29,538 TRACE  (src/MolSim.cpp:72) - Test finished..
+2013-11-12 23:00:15,432 INFO   (src/MolSim.cpp:57) - MolSim started..
+2013-11-12 23:00:15,432 TRACE  (src/MolSim.cpp:68) - Test-mode activated..
+2013-11-12 23:00:15,432 TRACE CppUnit (src/cppunit/Calculation_suite.cpp:25) - In Calculation_Suite: Starting Calculationtests
+2013-11-12 23:00:15,432 TRACE CppUnit (src/cppunit/Calculation_suite.cpp:40) - In Calculation_Suite: Calculationtests succesful
+2013-11-12 23:00:15,432 TRACE CppUnit (src/cppunit/ParticleContainer_suite.cpp:25) - In ParticleContainer_Suite: Starting ParticleContainertests
+2013-11-12 23:00:15,432 TRACE CppUnit (src/cppunit/ParticleContainer_suite.cpp:30) - In ParticleContainer_Suite: Starting ParticleContainertests
+2013-11-12 23:00:15,432 TRACE CppUnit (src/cppunit/Particle_suite.cpp:25) - In Particle_Suite: Starting Particletests
+2013-11-12 23:00:15,432 TRACE CppUnit (src/cppunit/Particle_suite.cpp:30) - In Particle_Suite: Starting Particletests
+2013-11-12 23:00:15,432 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:15,432 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:15,432 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:15,432 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:15,433 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:15,433 TRACE  (src/MolSim.cpp:72) - Test finished..
+2013-11-12 23:00:46,111 INFO   (src/MolSim.cpp:57) - MolSim started..
+2013-11-12 23:00:46,111 TRACE  (src/MolSim.cpp:68) - Test-mode activated..
+2013-11-12 23:00:46,112 TRACE CppUnit (src/cppunit/Calculation_suite.cpp:25) - In Calculation_Suite: Starting Calculationtests
+2013-11-12 23:00:46,112 TRACE CppUnit (src/cppunit/Calculation_suite.cpp:40) - In Calculation_Suite: Calculationtests succesful
+2013-11-12 23:00:46,112 TRACE CppUnit (src/cppunit/ParticleContainer_suite.cpp:25) - In ParticleContainer_Suite: Starting ParticleContainertests
+2013-11-12 23:00:46,112 TRACE CppUnit (src/cppunit/ParticleContainer_suite.cpp:30) - In ParticleContainer_Suite: ParticleContainertests succesful
+2013-11-12 23:00:46,112 TRACE CppUnit (src/cppunit/Particle_suite.cpp:25) - In Particle_Suite: Starting Particletests
+2013-11-12 23:00:46,112 TRACE CppUnit (src/cppunit/Particle_suite.cpp:30) - In Particle_Suite: Particletests succesful
+2013-11-12 23:00:46,112 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:46,112 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:46,112 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:46,112 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:46,112 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:00:46,112 TRACE  (src/MolSim.cpp:72) - Test finished..
+2013-11-12 23:02:32,387 INFO   (src/MolSim.cpp:57) - MolSim started..
+2013-11-12 23:02:32,410 WARN   (src/MolSim.cpp:64) - Input for distance between timestamps missing. Default: 0.014
+2013-11-12 23:02:32,411 TRACE  (src/MolSim.cpp:68) - Test-mode activated..
+2013-11-12 23:02:32,411 TRACE CppUnit (src/cppunit/Calculation_suite.cpp:25) - In Calculation_Suite: Starting Calculationtests
+2013-11-12 23:02:32,411 TRACE CppUnit (src/cppunit/Calculation_suite.cpp:40) - In Calculation_Suite: Calculationtests succesful
+2013-11-12 23:02:32,411 TRACE CppUnit (src/cppunit/ParticleContainer_suite.cpp:25) - In ParticleContainer_Suite: Starting ParticleContainertests
+2013-11-12 23:02:32,411 TRACE CppUnit (src/cppunit/ParticleContainer_suite.cpp:30) - In ParticleContainer_Suite: ParticleContainertests succesful
+2013-11-12 23:02:32,411 TRACE CppUnit (src/cppunit/Particle_suite.cpp:25) - In Particle_Suite: Starting Particletests
+2013-11-12 23:02:32,411 TRACE CppUnit (src/cppunit/Particle_suite.cpp:30) - In Particle_Suite: Particletests succesful
+2013-11-12 23:02:32,411 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:02:32,411 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:02:32,412 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:02:32,412 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:02:32,412 TRACE ParticleContainer (src/ParticleContainer.cpp:18) - Init ParticleContainer of length: 2
+2013-11-12 23:02:32,412 TRACE  (src/MolSim.cpp:72) - Test finished..
+2013-11-12 23:02:47,727 INFO   (src/MolSim.cpp:57) - MolSim started..
+2013-11-12 23:02:47,727 WARN   (src/MolSim.cpp:76) - Input for distance between timestamps missing. Default: 0.014
+2013-11-12 23:02:47,727 WARN   (src/MolSim.cpp:77) - Input for the duration of the simulation missing Default: 1000
+2013-11-12 23:02:47,728 TRACE ParticleGenerator (src/ParticleGenerator.cpp:44) - ParticleGenerator to open File: 2
+2013-11-12 23:02:47,728 FATAL ParticleGenerator (src/ParticleGenerator.cpp:90) - Error: could not open file 2 Program will halt

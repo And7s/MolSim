@@ -12,7 +12,6 @@
 #include <cppunit/TestCaller.h>
 #include "Particle_test.h"
 
-using namespace std;
 /*
  *
  */

@@ -7,6 +7,11 @@
 
 #include "Calculation_suite.h"
 
+/**
+ * Logger
+ */
+LoggerPtr loggerCalcTest(Logger::getLogger( "main.calcTest"));
+
 Calculation_suite::Calculation_suite() {
 	// TODO Auto-generated constructor stub
 
@@ -17,7 +22,7 @@ Calculation_suite::~Calculation_suite() {
 }
 
 CppUnit::TestSuite* Calculation_suite::suite() {
-	cout << "In Calculation_suite::suite()" << endl;
+	LOG4CXX_TRACE(loggerCalcTest, "In Calculation_Suite: Starting Calculationtests");
 	CppUnit::TestSuite *suite_Calculation = new CppUnit::TestSuite( "Calculation_test" );
 	suite_Calculation->addTest( new CppUnit::TestCaller<Calculation_test>(
 							   "testGetDeltaT",
@@ -32,6 +37,6 @@ CppUnit::TestSuite* Calculation_suite::suite() {
 									"testCalculateVelocity",
 									&Calculation_test::testCalculateVelocity ) );
 
-
+	LOG4CXX_TRACE(loggerCalcTest, "In Calculation_Suite: Calculationtests succesful");
 	return suite_Calculation;
 }

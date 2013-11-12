@@ -12,7 +12,7 @@
 #include <cppunit/TestCaller.h>
 #include "Calculation_test.h"
 
-using namespace std;
+
 
 /*
  *
