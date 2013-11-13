@@ -15,7 +15,7 @@
 using namespace std;
 
 /*
- *
+ *CppUnit::TestFixture defining the actual tests of the class ParticleContainer
  */
 class ParticleContainer_test: public CppUnit::TestFixture {
 private:
@@ -28,6 +28,9 @@ public:
 	void setUp();
 	void tearDown();
 
+	/**
+	 * Function to test GetLength()
+	 */
 	void testGetLength();
 };
 

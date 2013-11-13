@@ -13,7 +13,7 @@
 #include "Particle_test.h"
 
 /*
- *
+ *CppUnit::TestSuite which contains the Tests for the class Particle
  */
 class Particle_suite{
 public:

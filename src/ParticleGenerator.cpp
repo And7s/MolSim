@@ -6,18 +6,6 @@
  */
 
 #include "ParticleGenerator.h"
-#include "Particle.h"
-#include "utils/Vector.h"
-
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <cstdlib>
-
-using namespace log4cxx;
-using namespace log4cxx::xml;
-using namespace log4cxx::helpers;
-using namespace std;
 
 /**
  * Logger
@@ -71,18 +59,18 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 			
 		   getline(input_file, tmp_string);
 		   LOG4CXX_TRACE(loggerPG, "Read line: " << i << ": " << tmp_string);
-istringstream datastream(tmp_string);
-			for (int j = 0; j < 3; j++) {
-				datastream >> ca[i].pos[j];
-			}
-			for (int j = 0; j < 3; j++) {
-				datastream >> ca[i].num[j];
-			}
-			datastream >> ca[i].dist >> ca[i].mass;
+		   istringstream datastream(tmp_string);
+		   for (int j = 0; j < 3; j++) {
+			   datastream >> ca[i].pos[j];
+		   }
+		   for (int j = 0; j < 3; j++) {
+			   datastream >> ca[i].num[j];
+		   }
+		   datastream >> ca[i].dist >> ca[i].mass;
 
-			for (int j = 0; j < 3; j++) {
-				datastream >> ca[i].vel[j];
-			}
+		   for (int j = 0; j < 3; j++) {
+			   datastream >> ca[i].vel[j];
+		   }
 
 		}
 	} else {

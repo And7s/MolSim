@@ -14,13 +14,11 @@
 #include "Particle.h"
 
 /*
- *
+ *CppUnit::TestFixture defining the actual tests of the class Calculation
  */
 class Calculation_test: public CppUnit::TestFixture {
 private:
 	Calculation* test_calculator;
-	//ParticleContainer* test_pc;
-	//std::list<Particle>* particles;
 
 public:
 	Calculation_test();
@@ -29,9 +27,21 @@ public:
 	void setUp();
 	void tearDown();
 
+	/**
+	 * Function for to test GetDeltaT()
+	 */
 	void testGetDeltaT();
+	/**
+	 * Function to test CalculateForce()
+	 */
 	void testCalculateForce();
+	/**
+	 * Function to test CalculatePosition()
+	 */
 	void testCalculatePosition();
+	/**
+	 * Function to test CalculateVelocity
+	 */
 	void testCalculateVelocity();
 };
 

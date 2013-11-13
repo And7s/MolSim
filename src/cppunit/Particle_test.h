@@ -13,7 +13,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 /*
- *
+ *CppUnit::TestFixture defining the actual tests of the class Particle
  */
 class Particle_test: public CppUnit::TestFixture {
 private:
@@ -27,6 +27,9 @@ public:
 	void setUp();
 	void tearDown();
 
+	/**
+	 * Function to test AddOnF()
+	 */
 	void testAddOnF();
 };
 

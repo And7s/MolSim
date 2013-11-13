@@ -15,7 +15,7 @@
 #include "Particle_suite.h"
 
 /*
- *
+ *CppUnit::TestSuite which contains all the different testsuites
  */
 class Tester: public CppUnit::TestFixture {
 public:
