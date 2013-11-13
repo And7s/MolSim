@@ -57,7 +57,7 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 		while (tmp_string.size() == 0 || tmp_string[0] == '#') {
 			getline(input_file, tmp_string);
 			LOG4CXX_TRACE(loggerPG, "Read line: " << tmp_string);
->>>>>>> ca838aac510188217c4f639822451f689429ef36
+
 		}
 		
 
@@ -71,7 +71,7 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 			
 		   getline(input_file, tmp_string);
 		   LOG4CXX_TRACE(loggerPG, "Read line: " << i << ": " << tmp_string);
-
+istringstream datastream(tmp_string);
 			for (int j = 0; j < 3; j++) {
 				datastream >> ca[i].pos[j];
 			}
