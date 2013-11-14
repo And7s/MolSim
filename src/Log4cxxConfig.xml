@@ -27,7 +27,7 @@
 
   <!-- Specify the level for some specific categories -->
   <category name="main" additivity="false" >
-        <priority value ="trace" />
+        <priority value ="info" />
         <appender-ref ref="appxNormalAppender"/>
         <appender-ref ref="appxConsoleAppender"/>
   </category>
