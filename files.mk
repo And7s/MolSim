@@ -16,3 +16,4 @@ src/outputWriter/XYZWriter.cpp\
 src/MolSim.cpp\
 src/FileReader.cpp\
 src/Plotter.cpp\
+src/MaxwellBoltzmannDistribution.cpp\

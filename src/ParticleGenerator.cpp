@@ -103,6 +103,12 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 				for(int d3 = 0; d3 < ca[i].num[2]; d3++) {
 					x[2] = d3*ca[i].dist+ca[i].pos[2];
 					pa[num] = new Particle(x,v,m);
+
+					//
+					utils::Vector<double, 3> velo = v;
+					MaxwellBoltzmannDistribution(*pa[num],velo.L2Norm(),2);
+
+					//cout << pa[num]->getV()[0] << " | " << pa[num]->getV()[1] << " | " << pa[num]->getV()[2] << endl;
 					num++;
 				}
 			}

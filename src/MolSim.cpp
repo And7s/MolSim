@@ -111,7 +111,7 @@ int main(int argc, char* argsv[]) {
 		iteration++;
 		if (iteration % 10 == 0) {
 			plotter->plotParticles(iteration, *length);
-			LOG4CXX_TRACE(loggerMain, "Iteration " << iteration << " finished.");
+			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished.");
 		}
 
 		current_time += delta_t;

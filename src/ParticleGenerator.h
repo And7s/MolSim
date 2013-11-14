@@ -5,6 +5,7 @@
 
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
+#include "MaxwellBoltzmannDistribution.h"
 
 #include "Particle.h"
 #include "utils/Vector.h"
