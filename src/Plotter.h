@@ -9,7 +9,6 @@
 
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
-#include "FileReader.h"
 #include "ParticleContainer.h"
 
 #include <iostream>

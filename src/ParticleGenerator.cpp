@@ -16,8 +16,7 @@ LoggerPtr loggerPG(Logger::getLogger( "main.PG"));
 ParticleGenerator::ParticleGenerator() {
 }
 
-ParticleGenerator::~ParticleGenerator() {
-}
+ParticleGenerator::~ParticleGenerator() {}
 
 struct Cuboid {
 	double 
@@ -72,19 +71,35 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 			   datastream >> ca[i].vel[j];
 		   }
 
+		   	//validity checks
+			for(int j = 0; j < 3; j++) {
+				if(ca[i].num[j] < 0) {
+					LOG4CXX_FATAL(loggerPG, "Error: Count of cuboids cant be negative. Got number: "<<ca[i].num[j]);
+					exit(-1);
+				}
+				
+			}
+			if(ca[i].mass < 0) {
+				LOG4CXX_FATAL(loggerPG, "Error: Mass of cuboids cant be negative. Got number: "<<ca[i].mass);
+				exit(-1);
+			}
+
+
 		}
 	} else {
 		LOG4CXX_FATAL(loggerPG, "Error: could not open file " << filename << " Program will halt");
 		exit(-1);
 	}
 
+
+
+
 	for(int i = 0; i < num_cuboid; i++) {
 		num_particles += ca[i].num[0] * ca[i].num[1] * ca[i].num[2];
 	}
 
 
-	typedef Particle* PartPtr;
-	PartPtr* pa = new PartPtr[num_particles];
+	Particle** pa = new Particle*[num_particles];
 
 	double x[] = {0,0,0};
 	double v[] = {1,1,1};
@@ -110,7 +125,8 @@ Particle** ParticleGenerator::readFile(char* filename, int* length) {
 			}
 		}
 	}
-
+	delete[] ca;
+	ca = 0;
 	*length =num_particles;
 	return pa;
 }

@@ -22,7 +22,6 @@ using namespace std;
 
 class ParticleGenerator {
 private:
-
 public:
 	ParticleGenerator();
 	~ParticleGenerator();

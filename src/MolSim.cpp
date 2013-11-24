@@ -6,7 +6,7 @@
  */
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
-#include "FileReader.h"
+
 #include "Particle.h"
 #include "ParticleContainer.h"
 #include "ParticleGenerator.h"
@@ -91,6 +91,7 @@ int main(int argc, char* argsv[]) {
 	Particle** pa = pg.readFile(filename, length);
 	
 	ParticleContainer pc(*length);
+	delete length;
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
@@ -104,6 +105,7 @@ int main(int argc, char* argsv[]) {
 	double current_time = start_time;
 	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
+	
 	while (current_time < end_time){
 
 		calculation->calculateAll();
@@ -117,6 +119,8 @@ int main(int argc, char* argsv[]) {
 		current_time += delta_t;
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
+	delete pa;
+
 	return 0;
 }
 
