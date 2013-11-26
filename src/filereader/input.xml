@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!--
+
+input.xml
+Defines input parameter for the MolSim Project in an xml
+24-11-2013
+Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+
+-->
+
+<hello xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="input.xsd">
+
+  <greeting>Hello</greeting>
+
+  <name>sun</name>
+  <name>moon</name>
+  <name>world</name>
+
+</hello>

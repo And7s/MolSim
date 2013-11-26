@@ -1,0 +1,29 @@
+root := ../../xsd/examples
+
+include $(root)/build/cxx/rules.make
+include $(root)/build/xsd/tree-rules.make
+
+
+# Build.
+#
+filereader: filereader.o hello.o
+
+hello.o: hello.cxx hello.hxx
+filereader.o: filereader.cxx hello.hxx
+
+hello.cxx hello.hxx: hello.xsd
+
+
+# Test.
+#
+.PHONY: test
+test: driver hello.xml
+	./driver hello.xml
+
+
+# Clean.
+#
+.PHONY: clean
+clean:
+	rm -f hello.o hello.?xx driver.o driver
+
