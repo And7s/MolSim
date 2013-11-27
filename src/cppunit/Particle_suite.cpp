@@ -45,6 +45,7 @@ CppUnit::TestSuite* Particle_suite::singleSuite(std::string test) {
 		suite_Particle->addTest( new CppUnit::TestCaller<Particle_test>(
 								   "testGetDeltaT",
 								   &Particle_test::testAddOnF ) );
+		break;
 	default:
 		LOG4CXX_WARN(loggerParticleTest, "Wrong input for singleTest: " << test);
 		LOG4CXX_WARN(loggerParticleTest, "Use Input: " << testArray);
