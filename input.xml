@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+
+input.xml
+Defines input parameter for the MolSim Project in an xml
+24-11-2013
+Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+
+-->
+
+<input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="input.xsd">
+
+
+  
+  <base_output_file>molsim</base_output_file>
+  <frequency>1</frequency>
+  <delta_t>0.1</delta_t>
+  <tend>5</tend>
+  <input_file>input.dasd</input_file>
+</input>

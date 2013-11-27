@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/type-serializer-map.txx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 #include <xercesc/util/XMLUni.hpp>
@@ -115,7 +115,7 @@ namespace xsd
           &serializer_impl<id>,
           false);
 
-        typedef idref<type, C, ncname> idref;
+        typedef idref<C, ncname, type> idref;
         register_type (
           typeid (idref),
           qualified_name (bits::idref<C> (), xsd),
@@ -255,9 +255,9 @@ namespace xsd
       register_type (const type_id& tid,
                      const qualified_name& name,
                      serializer s,
-                     bool override)
+                     bool replace)
       {
-        if (override || type_map_.find (&tid) == type_map_.end ())
+        if (replace || type_map_.find (&tid) == type_map_.end ())
           type_map_[&tid] = type_info (name, s);
       }
 

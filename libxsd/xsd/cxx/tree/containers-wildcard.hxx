@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/containers-wildcard.hxx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 #ifndef XSD_CXX_TREE_CONTAINERS_WILDCARD_HXX
@@ -936,7 +936,7 @@ namespace xsd
 
             return r < 0
               ? true
-              : (r > 0 ? false : XMLString::compareString (an, bn));
+              : (r > 0 ? false : XMLString::compareString (an, bn) < 0);
           }
         };
 

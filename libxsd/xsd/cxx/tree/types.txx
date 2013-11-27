@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/types.txx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 #include <xercesc/util/Base64.hpp>
@@ -204,8 +204,8 @@ namespace xsd
 
       // idref
       //
-      template <typename T, typename C, typename B>
-      idref<T, C, B>* idref<T, C, B>::
+      template <typename C, typename B, typename T>
+      idref<C, B, T>* idref<C, B, T>::
       _clone (flags f, container* c) const
       {
         return new idref (*this, f, c);
@@ -216,8 +216,8 @@ namespace xsd
       // non-trivial to track down cases. So we are going to use the
       // old-n-ugly this-> techniques.
       //
-      template <typename T, typename C, typename B>
-      const _type* idref<T, C, B>::
+      template <typename C, typename B, typename T>
+      const _type* idref<C, B, T>::
       get_ () const
       {
         if (!this->empty () && this->_container () != 0)
@@ -228,8 +228,8 @@ namespace xsd
           return 0;
       }
 
-      template <typename T, typename C, typename B>
-      _type* idref<T, C, B>::
+      template <typename C, typename B, typename T>
+      _type* idref<C, B, T>::
       get_ ()
       {
         if (!this->empty () && this->_container () != 0)
@@ -240,8 +240,8 @@ namespace xsd
           return 0;
       }
 
-      template <typename T, typename C, typename B>
-      void idref<T, C, B>::
+      template <typename C, typename B, typename T>
+      void idref<C, B, T>::
       true_ ()
       {
       }

@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/type-factory-map.txx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 #include <xercesc/validators/schema/SchemaSymbols.hpp>
@@ -104,7 +104,7 @@ namespace xsd
           &factory_impl<id>,
           false);
 
-        typedef idref<type, C, ncname> idref;
+        typedef idref<C, ncname, type> idref;
         register_type (
           qualified_name (bits::idref<C> (), xsd),
           &factory_impl<idref>,
@@ -226,9 +226,9 @@ namespace xsd
       void type_factory_map<C>::
       register_type (const qualified_name& name,
                      factory f,
-                     bool override)
+                     bool replace)
       {
-        if (override || type_map_.find (name) == type_map_.end ())
+        if (replace || type_map_.find (name) == type_map_.end ())
           type_map_[name] = f;
       }
 
