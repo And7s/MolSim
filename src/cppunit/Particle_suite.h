@@ -21,6 +21,7 @@ public:
 	virtual ~Particle_suite();
 
 	static CppUnit::TestSuite *suite();
+	static CppUnit::TestSuite *singleSuite(std::string test);
 };
 
 #endif /* PARTICLE_SUITE_H_ */

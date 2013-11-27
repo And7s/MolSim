@@ -12,8 +12,6 @@
 #include <cppunit/TestCaller.h>
 #include "Calculation_test.h"
 
-
-
 /*
  *
  */
@@ -23,6 +21,7 @@ public:
 	virtual ~Calculation_suite();
 
 	static CppUnit::TestSuite *suite();
+	static CppUnit::TestSuite* singleSuite(std::string test);
 };
 
 #endif /* CALCULATION_SUITE_H_ */

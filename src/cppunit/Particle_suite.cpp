@@ -27,7 +27,30 @@ CppUnit::TestSuite* Particle_suite::suite() {
 	suite_Particle->addTest( new CppUnit::TestCaller<Particle_test>(
 							   "testGetDeltaT",
 							   &Particle_test::testAddOnF ) );
-	LOG4CXX_TRACE(loggerParticleTest, "In Particle_Suite: Particletests succesful");
+	LOG4CXX_TRACE(loggerParticleTest, "In Particle_Suite: Particletests successful");
 
+	return suite_Particle;
+}
+
+CppUnit::TestSuite* Particle_suite::singleSuite(std::string test) {
+	std::string testArray[] = {"testAddOnF"};
+	CppUnit::TestSuite *suite_Particle = new CppUnit::TestSuite( "Calculation_test" );
+	int i=0;
+	while(test.compare(testArray[i])!=0){
+		i++;
+	}
+	LOG4CXX_TRACE(loggerParticleTest, "In Particle_SingleSuite: Starting Single Particletest " + test);
+	switch(i){
+	case 1:
+		suite_Particle->addTest( new CppUnit::TestCaller<Particle_test>(
+								   "testGetDeltaT",
+								   &Particle_test::testAddOnF ) );
+	default:
+		LOG4CXX_WARN(loggerParticleTest, "Wrong input for singleTest: " << test);
+		LOG4CXX_WARN(loggerParticleTest, "Use Input: " << testArray);
+		LOG4CXX_WARN(loggerParticleTest, "In ParticleContainer_Suite: Single Test " + test + " unsuccessful");
+		return suite_Particle;
+	}
+	LOG4CXX_TRACE(loggerParticleTest, "In Particle_SingleSuite: Single Particletest" + test + "successful");
 	return suite_Particle;
 }

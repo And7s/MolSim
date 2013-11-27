@@ -23,6 +23,8 @@ public:
 	virtual ~Tester();
 
 	static CppUnit::TestSuite *suite();
+
+	static CppUnit::TestSuite *singleSuite(std::string test);
 };
 
 #endif /* TESTER_H_ */

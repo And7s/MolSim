@@ -18,7 +18,6 @@
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
 
-
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
@@ -59,6 +58,14 @@ int main(int argc, char* argsv[]) {
 		case 4:
 			delta_t = atof(argsv[3]);
 		case 3:
+			if(string(argsv[1]) == "-test"){
+				LOG4CXX_TRACE(loggerMain, "Single Test-mode activated..");
+				CppUnit::TextUi::TestRunner runner;
+				runner.addTest( Tester::singleSuite(string(argsv[2])) );
+				runner.run();
+				LOG4CXX_TRACE(loggerMain, "Test finished..");
+				exit(0);
+			}
 			end_time = atof(argsv[2]);
 			if(argc == 3){
 				LOG4CXX_WARN(loggerMain, "Input for distance between timestamps missing. Default: " << delta_t);
