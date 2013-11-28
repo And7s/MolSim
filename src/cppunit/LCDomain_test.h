@@ -9,8 +9,7 @@
 #define LCDOMAINTEST_H_
 
 #include <cppunit/TestCase.h>
-
-#include "LCDomain.h";
+#include "LCDomain.h"
 
 class LCDomain_test: public CppUnit::TestFixture {
 public:
