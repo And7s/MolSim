@@ -73,7 +73,7 @@ CppUnit::TestSuite* Calculation_suite::singleSuite(std::string test) {
 	default:
 		LOG4CXX_WARN(loggerCalcTest, "Wrong input for singleTest: " << test);
 		LOG4CXX_WARN(loggerCalcTest, "Use Input: " << testArray);
-		LOG4CXX_WARN(loggerCalcTest, "In ParticleContainer_Suite: Single Test " + test + " unsuccessful");
+		LOG4CXX_WARN(loggerCalcTest, "In Calculation_Suite: Single Test " + test + " unsuccessful");
 		return suite_Calculation;
 
 	}

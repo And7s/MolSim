@@ -71,26 +71,26 @@ void ReflectingBoundary::applyBoundaryCondition() {
 			//Check Difference for x-direction
 			//Check if the Particle p is close to the right boundary of the domain
 			if((difference[0]<maxDistance)&&(difference[0]>0)){
-				applyForce(p, 0, 1);
+				applyForce(p, 0, true);
 			//Else check if the Particle p is close to the left boundary of the domain
 			}else if((difference[0]<0)&&(domainSize[0]-abs(difference[0])<maxDistance)){
-				applyForce(p, 0, 0);
+				applyForce(p, 0, false);
 			}
 			//Check Difference for y-direction
 			//Check if the Particle p is close to the bottom boundary of the domain
 			if((difference[1]<maxDistance)&&(difference[1]>0)){
-				applyForce(p, 1, 1);
+				applyForce(p, 1, true);
 			//Else check if the Particle p is close to the top boundary of the domain
 			}else if((difference[1]<0)&&(domainSize[1]-abs(difference[1])<maxDistance)){
-				applyForce(p, 1, 0);
+				applyForce(p, 1, false);
 			}
 			//Check Difference for z-direction
 			//Check if the Particle p is close to the front boundary of the domain
 			if((difference[2]<maxDistance)&&(difference[2]>0)){
-				applyForce(p, 2, 1);
+				applyForce(p, 2, true);
 			//Else check if the Particle p is close to the back boundary of the domain
 			}else if((difference[2]<0)&&(domainSize[2]-abs(difference[2])<maxDistance)){
-				applyForce(p, 2, 0);
+				applyForce(p, 2, false);
 			}
 			iterator++;
 		}
@@ -111,4 +111,6 @@ void ReflectingBoundary::applyForce(Particle& p, int axis, bool orientation){
 	pc.setParticles(pa);
 	calculation->setParticleContainer(pc);
 	calculation->calculateForce();
+	delete counterP;
+	delete &pc;
 }
