@@ -8,7 +8,7 @@
 #ifndef BOUNDARYCONDITION_H_
 #define BOUNDARYCONDITION_H_
 
-#include "LinkedCell.h"
+#include "LCDomain.h"
 #include "Calculation.h"
 
 /*
@@ -18,18 +18,18 @@ class BoundaryCondition {
 
 protected:
 	Calculation *calculation;
-	LinkedCell *linkedCell;
+	LCDomain *linkedCell;
 	utils::Vector<double, 3> domainSize;
 	double sigma;
 
 public:
 	BoundaryCondition();
-	BoundaryCondition(LinkedCell*& linkedCell, utils::Vector<double, 3> domainSize);
+	BoundaryCondition(LCDomain*& linkedCell, utils::Vector<double, 3> domainSize);
 	virtual ~BoundaryCondition();
 
-	LinkedCell*& getLinkedCell();
+	LCDomain*& getLCDomain();
 
-	void setLinkedCell(LinkedCell*& linkedCell);
+	void setLCDomain(LCDomain*& linkedCell);
 
 	/**
 	 * Abstract function to check the Boundary Conditions

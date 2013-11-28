@@ -16,18 +16,18 @@ BoundaryCondition::~BoundaryCondition() {
 	// TODO Auto-generated destructor stub
 }
 
-BoundaryCondition::BoundaryCondition(LinkedCell*& linkedCell, utils::Vector<double, 3> domainSize) {
+BoundaryCondition::BoundaryCondition(LCDomain*& linkedCell, utils::Vector<double, 3> domainSize) {
 	this->linkedCell = linkedCell;
 	for(int i = 0; i<3; i++){
 		this->domainSize[i] = domainSize[i];
 	}
 }
 
-void BoundaryCondition::setLinkedCell(LinkedCell*& linkedCell) {
+void BoundaryCondition::setLCDomain(LCDomain*& linkedCell) {
 	this->linkedCell = linkedCell;
 }
 
-LinkedCell*& BoundaryCondition::getLinkedCell(){
+LinkedCell*& BoundaryCondition::getLCDomain(){
 	return linkedCell;
 }
 
@@ -44,6 +44,7 @@ utils::Vector<double, 3> BoundaryCondition::getDomainSize(){
 }
 
 void OutflowBoundary::applyBoundaryCondition(){
+	/*
 	for(int i = 0;i < linkedCell->getParticleListArray()->size();i++){
 		std::list<Particle>::iterator iterator = linkedCell->getParticleListArray()[i].begin();
 		while(iterator != linkedCell->getParticleListArray()[i].end()){
@@ -58,10 +59,11 @@ void OutflowBoundary::applyBoundaryCondition(){
 			}
 			iterator++;
 		}
-	}
+	}*/
 }
 
 void ReflectingBoundary::applyBoundaryCondition() {
+	/*
 	double maxDistance = pow(sigma, 1/6);
 	for(int i = 0;i < linkedCell->getParticleListArray()->size();i++){
 		std::list<Particle>::iterator iterator = linkedCell->getParticleListArray()[i].begin();
@@ -94,10 +96,11 @@ void ReflectingBoundary::applyBoundaryCondition() {
 			}
 			iterator++;
 		}
-	}
+	}*/
 }
 
 void ReflectingBoundary::applyForce(Particle& p, int axis, bool orientation){
+	/*
 	Particle* counterP = new Particle(p);
 	if(orientation){
 		counterP->getX()[axis] = domainSize[axis];
@@ -112,5 +115,5 @@ void ReflectingBoundary::applyForce(Particle& p, int axis, bool orientation){
 	calculation->setParticleContainer(pc);
 	calculation->calculateForce();
 	delete counterP;
-	delete &pc;
+	delete &pc;*/
 }
