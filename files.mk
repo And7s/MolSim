@@ -1,4 +1,5 @@
 SOURCES=\
+src/input.cpp\
 src/MaxwellBoltzmannDistribution.cpp\
 src/cppunit/Particle_suite.cpp\
 src/cppunit/ParticleContainer_suite.cpp\
@@ -16,3 +17,7 @@ src/outputWriter/VTKWriter.cpp\
 src/outputWriter/XYZWriter.cpp\
 src/MolSim.cpp\
 src/Plotter.cpp\
+
+
+
+

@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/types.hxx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 /**
@@ -1014,7 +1014,7 @@ namespace xsd
          * @brief Default constructor creates no elements.
          */
         nmtokens ()
-            : base_type (0, this)
+            : base_type (this)
         {
         }
 
@@ -2133,7 +2133,7 @@ namespace xsd
        *
        * @nosubgrouping
        */
-      template <typename T, typename C, typename B>
+      template <typename C, typename B, typename T>
       class idref: public B
       {
         typedef B base_type;
@@ -2483,7 +2483,7 @@ namespace xsd
          * @brief Default constructor creates no elements.
          */
         idrefs ()
-            : base_type (0, this)
+            : base_type (this)
         {
         }
 
@@ -3677,7 +3677,7 @@ namespace xsd
          * @brief Default constructor creates no elements.
          */
         entities ()
-            : base_type (0, this)
+            : base_type (this)
         {
         }
 

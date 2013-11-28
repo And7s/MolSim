@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/elements.hxx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 /**
@@ -284,10 +284,15 @@ namespace xsd
         /**
          * @brief Default constructor.
          */
-        _type ()
-            : container_ (0)
-        {
-        }
+        _type ();
+
+        /**
+         * @brief Create an instance from a string.
+         *
+         * @param s A string to initialize the instance with.
+         */
+        template <typename C>
+        _type (const C* s);
 
       public:
         /**
@@ -377,7 +382,17 @@ namespace xsd
         type&
         operator= (const type& x)
         {
-          while (&x == 0) /* unused */;
+          if (this != &x)
+          {
+            // Drop DOM association.
+            //
+            if (dom_info_.get ())
+            {
+              std::auto_ptr<dom_info> r (0);
+              dom_info_ = r;
+            }
+          }
+
           return *this;
         }
 
@@ -628,7 +643,7 @@ namespace xsd
         //@cond
 
         void
-        _register_id (const identity& id, type* t)
+        _register_id (const identity& i, type* t)
         {
           // We should be the root.
           //
@@ -641,9 +656,9 @@ namespace xsd
           }
 
           if (!map_->insert (
-                std::pair<const identity*, type*> (&id, t)).second)
+                std::pair<const identity*, type*> (&i, t)).second)
           {
-            id.throw_duplicate_id ();
+            i.throw_duplicate_id ();
           }
         }
 
@@ -953,10 +968,10 @@ namespace xsd
       };
 
       inline _type::
-      _type (const type& x, flags, container* c)
+      _type (const type& x, flags f, container* c)
           : container_ (c)
       {
-        if (x.dom_info_.get ())
+        if (x.dom_info_.get () != 0 && (f & flags::keep_dom))
         {
           std::auto_ptr<dom_info> r (x.dom_info_->clone (*this, c));
           dom_info_ = r;

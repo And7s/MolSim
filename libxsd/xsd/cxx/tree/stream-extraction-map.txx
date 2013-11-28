@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/stream-extraction-map.txx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 #include <xsd/cxx/tree/types.hxx>
@@ -97,7 +97,7 @@ namespace xsd
           &extractor_impl<S, id>,
           false);
 
-        typedef idref<type, C, ncname> idref;
+        typedef idref<C, ncname, type> idref;
         register_type (
           qualified_name (bits::idref<C> (), xsd),
           &extractor_impl<S, idref>,
@@ -219,9 +219,9 @@ namespace xsd
       void stream_extraction_map<S, C>::
       register_type (const qualified_name& name,
                      extractor e,
-                     bool override)
+                     bool replace)
       {
-        if (override || type_map_.find (name) == type_map_.end ())
+        if (replace || type_map_.find (name) == type_map_.end ())
           type_map_[name] = e;
       }
 
@@ -236,8 +236,31 @@ namespace xsd
       std::auto_ptr<type> stream_extraction_map<S, C>::
       extract (istream<S>& s, flags f, container* c)
       {
-        std::basic_string<C> name, ns;
-        s >> ns >> name;
+        std::basic_string<C> ns, name;
+
+        // The namespace and name strings are pooled.
+        //
+        std::size_t id;
+        istream_common::as_size<std::size_t> as_size (id);
+        s >> as_size;
+
+        if (id != 0)
+          s.pool_string (id, ns);
+        else
+        {
+          s >> ns;
+          s.pool_add (ns);
+        }
+
+        s >> as_size;
+
+        if (id != 0)
+          s.pool_string (id, name);
+        else
+        {
+          s >> name;
+          s.pool_add (name);
+        }
 
         if (extractor e = find (qualified_name (name, ns)))
         {

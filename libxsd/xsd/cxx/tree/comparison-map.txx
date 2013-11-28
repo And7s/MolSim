@@ -1,6 +1,6 @@
 // file      : xsd/cxx/tree/comparison-map.txx
 // author    : Boris Kolpackov <boris@codesynthesis.com>
-// copyright : Copyright (c) 2005-2010 Code Synthesis Tools CC
+// copyright : Copyright (c) 2005-2011 Code Synthesis Tools CC
 // license   : GNU GPL v2 + exceptions; see accompanying LICENSE file
 
 #include <xsd/cxx/tree/types.hxx>
@@ -92,7 +92,7 @@ namespace xsd
           &comparator_impl<id>,
           false);
 
-        typedef idref<type, C, ncname> idref;
+        typedef idref<C, ncname, type> idref;
         register_type (
           typeid (idref),
           &comparator_impl<idref>,
@@ -212,9 +212,9 @@ namespace xsd
 
       template <typename C>
       void comparison_map<C>::
-      register_type (const type_id& tid, comparator c, bool override)
+      register_type (const type_id& tid, comparator c, bool replace)
       {
-        if (override || type_map_.find (&tid) == type_map_.end ())
+        if (replace || type_map_.find (&tid) == type_map_.end ())
           type_map_[&tid] = c;
       }
 
