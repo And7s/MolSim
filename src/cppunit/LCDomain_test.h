@@ -12,6 +12,10 @@
 #include "LCDomain.h"
 
 class LCDomain_test: public CppUnit::TestFixture {
+protected:
+	LCDomain* lcd;
+
+
 public:
 	LCDomain_test();
 	virtual ~LCDomain_test();
@@ -23,6 +27,8 @@ public:
 	 * test the general environment..
 	 */
 	void testEnvironment();
+
+	void testBehaviour();
 
 	void testCellResponds();
 };

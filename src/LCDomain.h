@@ -83,14 +83,26 @@ public:
 	 */
 	bool checkBounds(std::vector<int>* position);
 
+	/**
+	 *
+	 *
+	 * since we have return value optimization, it is not to bad to return the value like this..
+	 * furthermore the vector's size is most likely not higher than 3. copying this is not too bad.
+	 *
+	 * @return the x(y)(z) position of the cell
+	 */
+	std::vector<int> decodeDimensinalOrigin(int index);
+
 	LCell**& getCells();
 
 	void setCells(LCell**& cells);
 
+	//TODO: implementation in header?
 	int getNumberOfCells(){
 		return numberOfCells;
 	}
 
+	//TODO: why this one? the number should computed correctly and stays constant over time
 	void setNumberOfCells(int numberOfCells) {
 		this->numberOfCells = numberOfCells;
 	}

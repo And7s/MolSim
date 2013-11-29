@@ -17,7 +17,7 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 	this->bounds = bounds;
 	switch (dimension) {
 		case 1:
-			//no need of an offset value
+			//no need to set an offset value
 			break;
 		case 2: case 3:
 			offset = new int[dimension -1];
@@ -69,25 +69,7 @@ LCell* LCDomain::getCellAt(std::vector<int> * pos) {
 }
 
 void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
-	//decompose the 1D position into its higher dimensional origin.
-
-	std::vector<int> axis (dimension,0);
-	int pos = cell->getPosition();
-	switch(dimension){
-	case 3:
-		axis[2] = pos / (offset[0] * offset[1]);
-		pos = pos - (axis[2] * offset[1] * offset[0]);
-	case 2:
-		axis[1] = (pos / (offset[0]));
-		pos = pos - (axis[1] * offset[0]);
-	case 1:
-		axis[0] = pos;
-		break;
-	default:
-		LOG4CXX_ERROR(loggerDomain,"unsupported dimension size!");	//cant happen
-		return;
-	}
-
+	std::vector<int> axis = this->decodeDimensinalOrigin(cell->getPosition());
 	//check, if the input cell's position is valid.
 
 	if(!checkBounds(&axis)){
@@ -104,7 +86,6 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 			neighbours->push_back(getCellAt(&reference));
 			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
 		}
-		LOG4CXX_INFO(loggerDomain,(axis)[0]);
 		if(axis[0] < (*bounds)[0]-1){
 			reference[0] = axis[0] +1;
 			neighbours->push_back(getCellAt(&reference));
@@ -112,8 +93,10 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 		}
 		break;
 	case 2:
+		std::cout << "hello world" << std::endl;
 		for(x=(axis[0]-1); x < (axis[0]+2);x++){
 			for(y=(axis[1]-1); y < (axis[1]+2);y++){
+				std::cout << "AT: " << x << "|" << y <<std::endl;
 				if((x >= 0) && (x < (*bounds)[0]) && (y >= 0) && (y < (*bounds)[1])){
 					if(!(x == axis[0] && y == axis[1])){
 						reference[0] = x;
@@ -158,6 +141,7 @@ void LCDomain::setCells(LCell**& cells) {
 	this->cells = cells;
 }
 
+
 bool LCDomain::checkBounds(std::vector<int>* pos) {
 	if (pos->size() != dimension) {
 		LOG4CXX_ERROR(loggerDomain,
@@ -172,6 +156,26 @@ bool LCDomain::checkBounds(std::vector<int>* pos) {
 		}
 	}
 	return true;
+}
+
+std::vector<int> LCDomain::decodeDimensinalOrigin(int pos){
+	//decompose the 1D position into its higher dimensional origin.
+
+	std::vector<int> axis (dimension,0);
+	switch(dimension){
+	case 3:
+		axis[2] = pos / (offset[0] * offset[1]);
+		pos = pos - (axis[2] * offset[1] * offset[0]);
+	case 2:
+		axis[1] = (pos / (offset[0]));
+		pos = pos - (axis[1] * offset[0]);
+	case 1:
+		axis[0] = pos;
+		break;
+	default:
+		LOG4CXX_ERROR(loggerDomain,"unsupported dimension size!");	//cant happen
+	}
+	return axis;
 }
 
 int LCDomain::getDimension() {
