@@ -67,8 +67,6 @@ public:
 	 * @return delta_t
 	 */
 	double getDeltaT();
-	BoundaryCondition*& getBoundaryCondition();
-	void setBoundaryCondition(BoundaryCondition*& boundaryCondition);
 };
 
 /**

@@ -24,7 +24,9 @@ protected:
 
 public:
 	BoundaryCondition();
+
 	BoundaryCondition(LCDomain*& linkedCell, utils::Vector<double, 3> domainSize);
+
 	virtual ~BoundaryCondition();
 
 	LCDomain*& getLCDomain();
@@ -68,7 +70,7 @@ public:
 	 */
 	void applyBoundaryCondition();
 
-	void applyForce(Particle& p, int axis, bool orientation);
+	void applyForce(Particle* p, int axis, bool orientation);
 };
 
 #endif /* BOUNDARYCONDITION_H_ */

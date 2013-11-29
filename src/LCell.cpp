@@ -38,12 +38,21 @@ void LCell::add(Particle * particle){
 
 Particle* LCell::getNextItem(){
 	iter = this->items.begin();
-	if(iter != this->items.end()){
+	if(iter == this->items.end()){
+		iter = this->items.begin();
 		return NULL;
 	}
 	Particle* temp = (*iter);
 	iter++;
 	return temp;
+}
+
+std::list<Particle*>& LCell::getItems(){
+	return items;
+}
+
+void LCell::setItems(std::list<Particle*>& items) {
+	this->items = items;
 }
 
 int LCell::getPosition(){

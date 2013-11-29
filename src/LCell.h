@@ -21,7 +21,7 @@ using namespace log4cxx::helpers;
 class LCell {
 	protected:
 		/**
-		 * contains all Paricles in this cell
+		 * contains all Particles in this cell
 		 */
 		std::list<Particle*> items;
 
@@ -64,6 +64,9 @@ class LCell {
 		 */
 		int getPosition();
 
+		std::list<Particle*>& getItems();
+
+		void setItems(std::list<Particle*>& items);
 };
 
 #endif /* CELL_H_ */

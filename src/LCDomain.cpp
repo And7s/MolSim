@@ -44,8 +44,10 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 		LCell* lc = new LCell(i);
 		cells[i] = lc;
 	}
+	numberOfCells = linearspace;
+
 	LOG4CXX_INFO(loggerDomain,
-			"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << linearspace);
+			"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells);
 }
 
 LCell* LCDomain::getCellAt(std::vector<int> * pos) {
@@ -146,6 +148,14 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 		LOG4CXX_ERROR(loggerDomain,"unsupported dimension size!");	//cant happen
 		return;
 	}
+}
+
+LCell**& LCDomain::getCells(){
+	return cells;
+}
+
+void LCDomain::setCells(LCell**& cells) {
+	this->cells = cells;
 }
 
 bool LCDomain::checkBounds(std::vector<int>* pos) {

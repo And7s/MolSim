@@ -42,6 +42,11 @@ protected:
 	 */
 	std::vector<int>* bounds;
 
+	/**
+	 * stores the number of cells
+	 */
+	int numberOfCells;
+
 public:
 	/**
 	 *
@@ -78,6 +83,17 @@ public:
 	 */
 	bool checkBounds(std::vector<int>* position);
 
+	LCell**& getCells();
+
+	void setCells(LCell**& cells);
+
+	int getNumberOfCells(){
+		return numberOfCells;
+	}
+
+	void setNumberOfCells(int numberOfCells) {
+		this->numberOfCells = numberOfCells;
+	}
 };
 
 #endif /* LCDOMAIN_H_ */

@@ -27,7 +27,7 @@ void BoundaryCondition::setLCDomain(LCDomain*& linkedCell) {
 	this->linkedCell = linkedCell;
 }
 
-LinkedCell*& BoundaryCondition::getLCDomain(){
+LCDomain*& BoundaryCondition::getLCDomain(){
 	return linkedCell;
 }
 
@@ -44,76 +44,73 @@ utils::Vector<double, 3> BoundaryCondition::getDomainSize(){
 }
 
 void OutflowBoundary::applyBoundaryCondition(){
-	/*
-	for(int i = 0;i < linkedCell->getParticleListArray()->size();i++){
-		std::list<Particle>::iterator iterator = linkedCell->getParticleListArray()[i].begin();
-		while(iterator != linkedCell->getParticleListArray()[i].end()){
-			Particle& p = *iterator;
-			utils::Vector<double, 3> difference =  domainSize-p.getX();
-			if(difference[0]<0||difference[0]>domainSize[0]){
+	LCell** cell = linkedCell->getCells();
+	for(int i = 0;i < linkedCell->getNumberOfCells();i++){
+		LCell* actCell = cell[i];
+		Particle* p = actCell->getNextItem();
+		while(p !=NULL){
+			if(p->getX()[0]<0||p->getX()[0]>domainSize[0]){
 				delete& p;
-			}else if(difference[1]<0||difference[1]>domainSize[1]){
+			}else if(p->getX()[1]<0||p->getX()[1]>domainSize[1]){
 				delete& p;
-			}else if(difference[2]<0||difference[2]>domainSize[2]){
+			}else if(p->getX()[2]<0||p->getX()[2]>domainSize[2]){
 				delete& p;
 			}
-			iterator++;
+			p = actCell->getNextItem();
 		}
-	}*/
+	}
 }
 
 void ReflectingBoundary::applyBoundaryCondition() {
-	/*
+	LCell** cell = linkedCell->getCells();
 	double maxDistance = pow(sigma, 1/6);
-	for(int i = 0;i < linkedCell->getParticleListArray()->size();i++){
-		std::list<Particle>::iterator iterator = linkedCell->getParticleListArray()[i].begin();
-		while(iterator != linkedCell->getParticleListArray()[i].end()){
-			Particle& p = *iterator;
-			utils::Vector<double, 3> difference =  domainSize-p.getX();
+	for(int i = 0;i < linkedCell->getNumberOfCells();i++){
+		LCell* actCell = cell[i];
+		Particle* p = actCell->getNextItem();
+		while(p !=NULL){
 			//Check Difference for x-direction
-			//Check if the Particle p is close to the right boundary of the domain
-			if((difference[0]<maxDistance)&&(difference[0]>0)){
+			//Check if the Particle p is close to the left boundary of the domain
+			if((p->getX()[0]<maxDistance)&&(p->getX()[0]>0)){
 				applyForce(p, 0, true);
-			//Else check if the Particle p is close to the left boundary of the domain
-			}else if((difference[0]<0)&&(domainSize[0]-abs(difference[0])<maxDistance)){
+			//Else check if the Particle p is close to the right boundary of the domain
+			}else if((p->getX()[0]>(domainSize[0]-maxDistance))&&(p->getX()[0]<domainSize[0])){
 				applyForce(p, 0, false);
 			}
 			//Check Difference for y-direction
-			//Check if the Particle p is close to the bottom boundary of the domain
-			if((difference[1]<maxDistance)&&(difference[1]>0)){
+			//Check if the Particle p is close to the top boundary of the domain
+			if((p->getX()[1]<maxDistance)&&(p->getX()[1]>0)){
 				applyForce(p, 1, true);
-			//Else check if the Particle p is close to the top boundary of the domain
-			}else if((difference[1]<0)&&(domainSize[1]-abs(difference[1])<maxDistance)){
+			//Else check if the Particle p is close to the bottom boundary of the domain
+			}else if((p->getX()[1]>(domainSize[1]-maxDistance))&&(p->getX()[1]<domainSize[1])){
 				applyForce(p, 1, false);
 			}
 			//Check Difference for z-direction
 			//Check if the Particle p is close to the front boundary of the domain
-			if((difference[2]<maxDistance)&&(difference[2]>0)){
+			if((p->getX()[2]<maxDistance)&&(p->getX()[2]>0)){
 				applyForce(p, 2, true);
 			//Else check if the Particle p is close to the back boundary of the domain
-			}else if((difference[2]<0)&&(domainSize[2]-abs(difference[2])<maxDistance)){
+			}else if((p->getX()[2]>(domainSize[2]-maxDistance))&&(p->getX()[2]<domainSize[2])){
 				applyForce(p, 2, false);
 			}
-			iterator++;
+			p = actCell->getNextItem();
 		}
-	}*/
+	}
 }
 
-void ReflectingBoundary::applyForce(Particle& p, int axis, bool orientation){
-	/*
-	Particle* counterP = new Particle(p);
+void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
+	Particle* counterP = new Particle(*p);
 	if(orientation){
-		counterP->getX()[axis] = domainSize[axis];
-	}else{
 		counterP->getX()[axis] = 0;
+	}else{
+		counterP->getX()[axis] = domainSize[axis];
 	}
 	Particle** pa = new Particle*[2];
-	pa[0] = &p;
+	pa[0] = p;
 	pa[1] = counterP;
 	ParticleContainer pc(2);
 	pc.setParticles(pa);
 	calculation->setParticleContainer(pc);
 	calculation->calculateForce();
 	delete counterP;
-	delete &pc;*/
+	delete &pc;
 }
