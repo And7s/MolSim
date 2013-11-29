@@ -31,8 +31,8 @@
 // in the accompanying FLOSSE file.
 //
 
-#ifndef SRC_FILEREADER_INPUT_HXX
-#define SRC_FILEREADER_INPUT_HXX
+#ifndef INPUT_HXX
+#define INPUT_HXX
 
 #include <xsd/cxx/config.hxx>
 
@@ -222,6 +222,9 @@ namespace xml_schema
 // Forward declarations.
 //
 class input_t;
+class cuboid;
+class vectorF;
+class vectorI;
 
 #include <memory>    // std::auto_ptr
 #include <limits>    // std::numeric_limits
@@ -315,6 +318,23 @@ class input_t: public ::xml_schema::type
   void
   input_file (::std::auto_ptr< input_file_type > p);
 
+  // cuboid
+  // 
+  typedef ::cuboid cuboid_type;
+  typedef ::xsd::cxx::tree::sequence< cuboid_type > cuboid_sequence;
+  typedef cuboid_sequence::iterator cuboid_iterator;
+  typedef cuboid_sequence::const_iterator cuboid_const_iterator;
+  typedef ::xsd::cxx::tree::traits< cuboid_type, char > cuboid_traits;
+
+  const cuboid_sequence&
+  cuboid () const;
+
+  cuboid_sequence&
+  cuboid ();
+
+  void
+  cuboid (const cuboid_sequence& s);
+
   // Constructors.
   //
   input_t (const base_output_file_type&,
@@ -354,6 +374,300 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< delta_t_type > delta_t_;
   ::xsd::cxx::tree::one< tend_type > tend_;
   ::xsd::cxx::tree::one< input_file_type > input_file_;
+  cuboid_sequence cuboid_;
+};
+
+class cuboid: public ::xml_schema::type
+{
+  public:
+  // position
+  // 
+  typedef ::vectorF position_type;
+  typedef ::xsd::cxx::tree::traits< position_type, char > position_traits;
+
+  const position_type&
+  position () const;
+
+  position_type&
+  position ();
+
+  void
+  position (const position_type& x);
+
+  void
+  position (::std::auto_ptr< position_type > p);
+
+  // number
+  // 
+  typedef ::vectorI number_type;
+  typedef ::xsd::cxx::tree::traits< number_type, char > number_traits;
+
+  const number_type&
+  number () const;
+
+  number_type&
+  number ();
+
+  void
+  number (const number_type& x);
+
+  void
+  number (::std::auto_ptr< number_type > p);
+
+  // distance
+  // 
+  typedef ::xml_schema::float_ distance_type;
+  typedef ::xsd::cxx::tree::traits< distance_type, char > distance_traits;
+
+  const distance_type&
+  distance () const;
+
+  distance_type&
+  distance ();
+
+  void
+  distance (const distance_type& x);
+
+  // mass
+  // 
+  typedef ::xml_schema::float_ mass_type;
+  typedef ::xsd::cxx::tree::traits< mass_type, char > mass_traits;
+
+  const mass_type&
+  mass () const;
+
+  mass_type&
+  mass ();
+
+  void
+  mass (const mass_type& x);
+
+  // velocity
+  // 
+  typedef ::vectorF velocity_type;
+  typedef ::xsd::cxx::tree::traits< velocity_type, char > velocity_traits;
+
+  const velocity_type&
+  velocity () const;
+
+  velocity_type&
+  velocity ();
+
+  void
+  velocity (const velocity_type& x);
+
+  void
+  velocity (::std::auto_ptr< velocity_type > p);
+
+  // Constructors.
+  //
+  cuboid (const position_type&,
+          const number_type&,
+          const distance_type&,
+          const mass_type&,
+          const velocity_type&);
+
+  cuboid (::std::auto_ptr< position_type >&,
+          ::std::auto_ptr< number_type >&,
+          const distance_type&,
+          const mass_type&,
+          ::std::auto_ptr< velocity_type >&);
+
+  cuboid (const ::xercesc::DOMElement& e,
+          ::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0);
+
+  cuboid (const cuboid& x,
+          ::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0);
+
+  virtual cuboid*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  cuboid&
+  operator= (const cuboid& x);
+
+  virtual 
+  ~cuboid ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< position_type > position_;
+  ::xsd::cxx::tree::one< number_type > number_;
+  ::xsd::cxx::tree::one< distance_type > distance_;
+  ::xsd::cxx::tree::one< mass_type > mass_;
+  ::xsd::cxx::tree::one< velocity_type > velocity_;
+};
+
+class vectorF: public ::xml_schema::type
+{
+  public:
+  // x
+  // 
+  typedef ::xml_schema::float_ x_type;
+  typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+  const x_type&
+  x () const;
+
+  x_type&
+  x ();
+
+  void
+  x (const x_type& x);
+
+  // y
+  // 
+  typedef ::xml_schema::float_ y_type;
+  typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+  const y_type&
+  y () const;
+
+  y_type&
+  y ();
+
+  void
+  y (const y_type& x);
+
+  // z
+  // 
+  typedef ::xml_schema::float_ z_type;
+  typedef ::xsd::cxx::tree::traits< z_type, char > z_traits;
+
+  const z_type&
+  z () const;
+
+  z_type&
+  z ();
+
+  void
+  z (const z_type& x);
+
+  // Constructors.
+  //
+  vectorF (const x_type&,
+           const y_type&,
+           const z_type&);
+
+  vectorF (const ::xercesc::DOMElement& e,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+  vectorF (const vectorF& x,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+  virtual vectorF*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  vectorF&
+  operator= (const vectorF& x);
+
+  virtual 
+  ~vectorF ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< x_type > x_;
+  ::xsd::cxx::tree::one< y_type > y_;
+  ::xsd::cxx::tree::one< z_type > z_;
+};
+
+class vectorI: public ::xml_schema::type
+{
+  public:
+  // x
+  // 
+  typedef ::xml_schema::integer x_type;
+  typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+  const x_type&
+  x () const;
+
+  x_type&
+  x ();
+
+  void
+  x (const x_type& x);
+
+  // y
+  // 
+  typedef ::xml_schema::integer y_type;
+  typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+  const y_type&
+  y () const;
+
+  y_type&
+  y ();
+
+  void
+  y (const y_type& x);
+
+  // z
+  // 
+  typedef ::xml_schema::integer z_type;
+  typedef ::xsd::cxx::tree::traits< z_type, char > z_traits;
+
+  const z_type&
+  z () const;
+
+  z_type&
+  z ();
+
+  void
+  z (const z_type& x);
+
+  // Constructors.
+  //
+  vectorI (const x_type&,
+           const y_type&,
+           const z_type&);
+
+  vectorI (const ::xercesc::DOMElement& e,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+  vectorI (const vectorI& x,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+  virtual vectorI*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  vectorI&
+  operator= (const vectorI& x);
+
+  virtual 
+  ~vectorI ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< x_type > x_;
+  ::xsd::cxx::tree::one< y_type > y_;
+  ::xsd::cxx::tree::one< z_type > z_;
 };
 
 #include <iosfwd>
@@ -462,4 +776,4 @@ input (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
 
 #include <xsd/cxx/post.hxx>
 
-#endif // SRC_FILEREADER_INPUT_HXX
+#endif // INPUT_HXX

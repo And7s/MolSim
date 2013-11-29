@@ -2,6 +2,7 @@
 #define CALCULATION_H_
 
 #include "ParticleContainer.h"
+
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
 
@@ -9,7 +10,6 @@
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
-
 
 /**
  * Interface for Calculation
@@ -67,6 +67,8 @@ public:
 	 * @return delta_t
 	 */
 	double getDeltaT();
+	BoundaryCondition*& getBoundaryCondition();
+	void setBoundaryCondition(BoundaryCondition*& boundaryCondition);
 };
 
 /**
