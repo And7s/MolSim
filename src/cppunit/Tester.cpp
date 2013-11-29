@@ -33,7 +33,7 @@ CppUnit::TestSuite *Tester::suite() {
 CppUnit::TestSuite *Tester::singleSuite(std::string test) {
 	int numberOfTests = 8;
 	string testArray[] = {"testGetDeltaT","testCalculateForce","testCalculatePosition", "testCalculateVelocity", "testGetLength",
-			"testAddOnF", "testDomainEnv", "testDomainBehviour"};
+			"testAddOnF", "testDomainEnv", "testDomainBehaviour"};
 	int i=0;
 	while(test.compare(testArray[i])!=0 && i<=numberOfTests){
 		i++;
