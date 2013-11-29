@@ -15,6 +15,10 @@
 #include <iostream>
 #include <cstdlib>
 
+#include <memory>   // std::auto_ptr
+#include <iostream>
+#include "input.h"
+
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
@@ -31,7 +35,7 @@ public:
 	 * @param length
 	 * @return
 	 */
-	Particle** readFile(char* filename, int* length);
+	Particle** readFile(int* length, auto_ptr<input_t>& inp);
 };
 
 #endif

@@ -11,12 +11,50 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
 <input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="input.xsd">
-
-
   
   <base_output_file>molsim</base_output_file>
-  <frequency>1</frequency>
+  <frequency>10</frequency>
+  <start_time>0</start_time>
+  <end_time>0</end_time>
   <delta_t>0.1</delta_t>
   <tend>5</tend>
   <input_file>input.dasd</input_file>
+  <cuboid>
+    <position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </position>
+    <number>
+      <x>40</x>
+      <y>8</y>
+      <z>1</z>
+    </number>
+    <distance>1.225</distance>
+    <mass>1.0</mass>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+  <cuboid>
+    <position>
+      <x>15</x>
+      <y>15</y>
+      <z>0</z>
+    </position>
+    <number>
+      <x>15</x>
+      <y>15</y>
+      <z>1</z>
+    </number>
+    <distance>1.225</distance>
+    <mass>1.0</mass>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>-10</z>
+    </velocity>
+  </cuboid>
 </input>

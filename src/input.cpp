@@ -145,6 +145,252 @@ input_file (::std::auto_ptr< input_file_type > x)
   this->input_file_.set (x);
 }
 
+const input_t::cuboid_sequence& input_t::
+cuboid () const
+{
+  return this->cuboid_;
+}
+
+input_t::cuboid_sequence& input_t::
+cuboid ()
+{
+  return this->cuboid_;
+}
+
+void input_t::
+cuboid (const cuboid_sequence& s)
+{
+  this->cuboid_ = s;
+}
+
+
+// cuboid
+// 
+
+const cuboid::position_type& cuboid::
+position () const
+{
+  return this->position_.get ();
+}
+
+cuboid::position_type& cuboid::
+position ()
+{
+  return this->position_.get ();
+}
+
+void cuboid::
+position (const position_type& x)
+{
+  this->position_.set (x);
+}
+
+void cuboid::
+position (::std::auto_ptr< position_type > x)
+{
+  this->position_.set (x);
+}
+
+const cuboid::number_type& cuboid::
+number () const
+{
+  return this->number_.get ();
+}
+
+cuboid::number_type& cuboid::
+number ()
+{
+  return this->number_.get ();
+}
+
+void cuboid::
+number (const number_type& x)
+{
+  this->number_.set (x);
+}
+
+void cuboid::
+number (::std::auto_ptr< number_type > x)
+{
+  this->number_.set (x);
+}
+
+const cuboid::distance_type& cuboid::
+distance () const
+{
+  return this->distance_.get ();
+}
+
+cuboid::distance_type& cuboid::
+distance ()
+{
+  return this->distance_.get ();
+}
+
+void cuboid::
+distance (const distance_type& x)
+{
+  this->distance_.set (x);
+}
+
+const cuboid::mass_type& cuboid::
+mass () const
+{
+  return this->mass_.get ();
+}
+
+cuboid::mass_type& cuboid::
+mass ()
+{
+  return this->mass_.get ();
+}
+
+void cuboid::
+mass (const mass_type& x)
+{
+  this->mass_.set (x);
+}
+
+const cuboid::velocity_type& cuboid::
+velocity () const
+{
+  return this->velocity_.get ();
+}
+
+cuboid::velocity_type& cuboid::
+velocity ()
+{
+  return this->velocity_.get ();
+}
+
+void cuboid::
+velocity (const velocity_type& x)
+{
+  this->velocity_.set (x);
+}
+
+void cuboid::
+velocity (::std::auto_ptr< velocity_type > x)
+{
+  this->velocity_.set (x);
+}
+
+
+// vectorF
+// 
+
+const vectorF::x_type& vectorF::
+x () const
+{
+  return this->x_.get ();
+}
+
+vectorF::x_type& vectorF::
+x ()
+{
+  return this->x_.get ();
+}
+
+void vectorF::
+x (const x_type& x)
+{
+  this->x_.set (x);
+}
+
+const vectorF::y_type& vectorF::
+y () const
+{
+  return this->y_.get ();
+}
+
+vectorF::y_type& vectorF::
+y ()
+{
+  return this->y_.get ();
+}
+
+void vectorF::
+y (const y_type& x)
+{
+  this->y_.set (x);
+}
+
+const vectorF::z_type& vectorF::
+z () const
+{
+  return this->z_.get ();
+}
+
+vectorF::z_type& vectorF::
+z ()
+{
+  return this->z_.get ();
+}
+
+void vectorF::
+z (const z_type& x)
+{
+  this->z_.set (x);
+}
+
+
+// vectorI
+// 
+
+const vectorI::x_type& vectorI::
+x () const
+{
+  return this->x_.get ();
+}
+
+vectorI::x_type& vectorI::
+x ()
+{
+  return this->x_.get ();
+}
+
+void vectorI::
+x (const x_type& x)
+{
+  this->x_.set (x);
+}
+
+const vectorI::y_type& vectorI::
+y () const
+{
+  return this->y_.get ();
+}
+
+vectorI::y_type& vectorI::
+y ()
+{
+  return this->y_.get ();
+}
+
+void vectorI::
+y (const y_type& x)
+{
+  this->y_.set (x);
+}
+
+const vectorI::z_type& vectorI::
+z () const
+{
+  return this->z_.get ();
+}
+
+vectorI::z_type& vectorI::
+z ()
+{
+  return this->z_.get ();
+}
+
+void vectorI::
+z (const z_type& x)
+{
+  this->z_.set (x);
+}
+
 
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
@@ -162,7 +408,8 @@ input_t (const base_output_file_type& base_output_file,
   frequency_ (frequency, this),
   delta_t_ (delta_t, this),
   tend_ (tend, this),
-  input_file_ (input_file, this)
+  input_file_ (input_file, this),
+  cuboid_ (this)
 {
 }
 
@@ -175,7 +422,8 @@ input_t (const input_t& x,
   frequency_ (x.frequency_, f, this),
   delta_t_ (x.delta_t_, f, this),
   tend_ (x.tend_, f, this),
-  input_file_ (x.input_file_, f, this)
+  input_file_ (x.input_file_, f, this),
+  cuboid_ (x.cuboid_, f, this)
 {
 }
 
@@ -188,7 +436,8 @@ input_t (const ::xercesc::DOMElement& e,
   frequency_ (this),
   delta_t_ (this),
   tend_ (this),
-  input_file_ (this)
+  input_file_ (this),
+  cuboid_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -268,6 +517,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // cuboid
+    //
+    if (n.name () == "cuboid" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< cuboid_type > r (
+        cuboid_traits::create (i, f, this));
+
+      this->cuboid_.push_back (r);
+      continue;
+    }
+
     break;
   }
 
@@ -325,6 +585,7 @@ operator= (const input_t& x)
     this->delta_t_ = x.delta_t_;
     this->tend_ = x.tend_;
     this->input_file_ = x.input_file_;
+    this->cuboid_ = x.cuboid_;
   }
 
   return *this;
@@ -332,6 +593,481 @@ operator= (const input_t& x)
 
 input_t::
 ~input_t ()
+{
+}
+
+// cuboid
+//
+
+cuboid::
+cuboid (const position_type& position,
+        const number_type& number,
+        const distance_type& distance,
+        const mass_type& mass,
+        const velocity_type& velocity)
+: ::xml_schema::type (),
+  position_ (position, this),
+  number_ (number, this),
+  distance_ (distance, this),
+  mass_ (mass, this),
+  velocity_ (velocity, this)
+{
+}
+
+cuboid::
+cuboid (::std::auto_ptr< position_type >& position,
+        ::std::auto_ptr< number_type >& number,
+        const distance_type& distance,
+        const mass_type& mass,
+        ::std::auto_ptr< velocity_type >& velocity)
+: ::xml_schema::type (),
+  position_ (position, this),
+  number_ (number, this),
+  distance_ (distance, this),
+  mass_ (mass, this),
+  velocity_ (velocity, this)
+{
+}
+
+cuboid::
+cuboid (const cuboid& x,
+        ::xml_schema::flags f,
+        ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  position_ (x.position_, f, this),
+  number_ (x.number_, f, this),
+  distance_ (x.distance_, f, this),
+  mass_ (x.mass_, f, this),
+  velocity_ (x.velocity_, f, this)
+{
+}
+
+cuboid::
+cuboid (const ::xercesc::DOMElement& e,
+        ::xml_schema::flags f,
+        ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  position_ (this),
+  number_ (this),
+  distance_ (this),
+  mass_ (this),
+  velocity_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void cuboid::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // position
+    //
+    if (n.name () == "position" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< position_type > r (
+        position_traits::create (i, f, this));
+
+      if (!position_.present ())
+      {
+        this->position_.set (r);
+        continue;
+      }
+    }
+
+    // number
+    //
+    if (n.name () == "number" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< number_type > r (
+        number_traits::create (i, f, this));
+
+      if (!number_.present ())
+      {
+        this->number_.set (r);
+        continue;
+      }
+    }
+
+    // distance
+    //
+    if (n.name () == "distance" && n.namespace_ ().empty ())
+    {
+      if (!distance_.present ())
+      {
+        this->distance_.set (distance_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // mass
+    //
+    if (n.name () == "mass" && n.namespace_ ().empty ())
+    {
+      if (!mass_.present ())
+      {
+        this->mass_.set (mass_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // velocity
+    //
+    if (n.name () == "velocity" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< velocity_type > r (
+        velocity_traits::create (i, f, this));
+
+      if (!velocity_.present ())
+      {
+        this->velocity_.set (r);
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!position_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "position",
+      "");
+  }
+
+  if (!number_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "number",
+      "");
+  }
+
+  if (!distance_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "distance",
+      "");
+  }
+
+  if (!mass_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "mass",
+      "");
+  }
+
+  if (!velocity_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "velocity",
+      "");
+  }
+}
+
+cuboid* cuboid::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class cuboid (*this, f, c);
+}
+
+cuboid& cuboid::
+operator= (const cuboid& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->position_ = x.position_;
+    this->number_ = x.number_;
+    this->distance_ = x.distance_;
+    this->mass_ = x.mass_;
+    this->velocity_ = x.velocity_;
+  }
+
+  return *this;
+}
+
+cuboid::
+~cuboid ()
+{
+}
+
+// vectorF
+//
+
+vectorF::
+vectorF (const x_type& x,
+         const y_type& y,
+         const z_type& z)
+: ::xml_schema::type (),
+  x_ (x, this),
+  y_ (y, this),
+  z_ (z, this)
+{
+}
+
+vectorF::
+vectorF (const vectorF& x,
+         ::xml_schema::flags f,
+         ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  x_ (x.x_, f, this),
+  y_ (x.y_, f, this),
+  z_ (x.z_, f, this)
+{
+}
+
+vectorF::
+vectorF (const ::xercesc::DOMElement& e,
+         ::xml_schema::flags f,
+         ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  x_ (this),
+  y_ (this),
+  z_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void vectorF::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // x
+    //
+    if (n.name () == "x" && n.namespace_ ().empty ())
+    {
+      if (!x_.present ())
+      {
+        this->x_.set (x_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // y
+    //
+    if (n.name () == "y" && n.namespace_ ().empty ())
+    {
+      if (!y_.present ())
+      {
+        this->y_.set (y_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // z
+    //
+    if (n.name () == "z" && n.namespace_ ().empty ())
+    {
+      if (!z_.present ())
+      {
+        this->z_.set (z_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!x_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "x",
+      "");
+  }
+
+  if (!y_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "y",
+      "");
+  }
+
+  if (!z_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "z",
+      "");
+  }
+}
+
+vectorF* vectorF::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class vectorF (*this, f, c);
+}
+
+vectorF& vectorF::
+operator= (const vectorF& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->x_ = x.x_;
+    this->y_ = x.y_;
+    this->z_ = x.z_;
+  }
+
+  return *this;
+}
+
+vectorF::
+~vectorF ()
+{
+}
+
+// vectorI
+//
+
+vectorI::
+vectorI (const x_type& x,
+         const y_type& y,
+         const z_type& z)
+: ::xml_schema::type (),
+  x_ (x, this),
+  y_ (y, this),
+  z_ (z, this)
+{
+}
+
+vectorI::
+vectorI (const vectorI& x,
+         ::xml_schema::flags f,
+         ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  x_ (x.x_, f, this),
+  y_ (x.y_, f, this),
+  z_ (x.z_, f, this)
+{
+}
+
+vectorI::
+vectorI (const ::xercesc::DOMElement& e,
+         ::xml_schema::flags f,
+         ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  x_ (this),
+  y_ (this),
+  z_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void vectorI::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // x
+    //
+    if (n.name () == "x" && n.namespace_ ().empty ())
+    {
+      if (!x_.present ())
+      {
+        this->x_.set (x_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // y
+    //
+    if (n.name () == "y" && n.namespace_ ().empty ())
+    {
+      if (!y_.present ())
+      {
+        this->y_.set (y_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // z
+    //
+    if (n.name () == "z" && n.namespace_ ().empty ())
+    {
+      if (!z_.present ())
+      {
+        this->z_.set (z_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!x_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "x",
+      "");
+  }
+
+  if (!y_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "y",
+      "");
+  }
+
+  if (!z_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "z",
+      "");
+  }
+}
+
+vectorI* vectorI::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class vectorI (*this, f, c);
+}
+
+vectorI& vectorI::
+operator= (const vectorI& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->x_ = x.x_;
+    this->y_ = x.y_;
+    this->z_ = x.z_;
+  }
+
+  return *this;
+}
+
+vectorI::
+~vectorI ()
 {
 }
 
@@ -625,6 +1361,4 @@ input (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
 // End epilogue.
 
 #include <xsd/cxx/post.hxx>
-
-
 
