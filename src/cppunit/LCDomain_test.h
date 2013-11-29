@@ -23,6 +23,8 @@ public:
 	 * test the general environment..
 	 */
 	void testEnvironment();
+
+	void testCellResponds();
 };
 
 #endif /* LCDOMAINTEST_H_ */

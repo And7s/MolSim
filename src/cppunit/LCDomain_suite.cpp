@@ -24,15 +24,15 @@ CppUnit::TestSuite* LCDomain_suite::suite() {
 	LOG4CXX_TRACE(loggerLCDomainTest, "In Calculation_Suite: Starting Calculationtests");
 	CppUnit::TestSuite *suite_LCDomain = new CppUnit::TestSuite( "Calculation_test" );
 	suite_LCDomain->addTest( new CppUnit::TestCaller<LCDomain_test>(
-							   "Methodname",
-							   &LCDomain_test::foo ) );
+							   "testEnvironment",
+							   &LCDomain_test::testEnvironment ) );
 
 	LOG4CXX_TRACE(loggerLCDomainTest, "In Calculation_Suite: Calculationtests succesful");
 	return suite_LCDomain;
 }
 
 CppUnit::TestSuite* LCDomain_suite::singleSuite(std::string test) {
-	std::string testArray[] = {"foo"};
+	std::string testArray[] = {"testEnvironment"};
 	CppUnit::TestSuite *suite_LCDomain = new CppUnit::TestSuite( "LCDomain_test" );
 	int i=0;
 	while(test.compare(testArray[i])!=0){
@@ -42,8 +42,8 @@ CppUnit::TestSuite* LCDomain_suite::singleSuite(std::string test) {
 	switch(i){
 	case 0:
 		suite_LCDomain->addTest( new CppUnit::TestCaller<LCDomain_test>(
-									   "Methodname",
-									   &LCDomain_test::foo ) ); );
+									   "testEnvironment",
+									   &LCDomain_test::testEnvironment ) );
 		break;
 	default:
 		LOG4CXX_WARN(loggerLCDomainTest, "Wrong input for singleTest: " << test);
