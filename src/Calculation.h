@@ -31,17 +31,17 @@ public:
 	/**
 	 * Abstract function to calculate the position
 	 */
-	virtual void calculatePosition()=0;
+	void calculatePosition();
 
 	/**
 	 * Abstract function to calculate the velocity
 	 */
-	virtual void calculateVelocity()=0;
+	void calculateVelocity();
 
 	/**
 	 * Abstract function to calculate velocity, position and force at once
 	 */
-	virtual void calculateAll()=0;
+	void calculateAll();
 
 	/**
 	 * Abstract function to set the ParticleContainer
@@ -82,16 +82,17 @@ public:
 	/**
 	 * Function to calculate the position as described in Sheet1
 	 */
-	void calculatePosition();
+
+	//void calculatePosition();
 	/**
 	 * Function to calculate the velocity as described in Sheet1
 	 */
-	void calculateVelocity();
+	//void calculateVelocity();
 
 	/**
 	 * Function to calculate velocity, position and force at once as described in Shee1
 	 */
-	void calculateAll();
+	//void calculateAll();
 
 	/**
 	 * Function to set the ParticleContainer
@@ -111,16 +112,16 @@ public:
 	/**
 	 * Function to calculate the position as described in Sheet1
 	 */
-	void calculatePosition();
+	//void calculatePosition();
 	/**
 	 * Function to calculate the velocity as described in Sheet1
 	 */
-	void calculateVelocity();
+	//void calculateVelocity();
 
 	/**
 	 * Function to calculate velocity, position and force at once as described in Shee1
 	 */
-	void calculateAll();
+	//void calculateAll();
 
 	/**
 	 * Function to set the ParticleContainer

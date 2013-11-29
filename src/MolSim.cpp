@@ -12,6 +12,7 @@
 #include "ParticleGenerator.h"
 #include "Calculation.h"
 #include "Plotter.h"
+#include "BoundaryCondition.h"
 #include "cppunit/Tester.h"
 
 #include <cppunit/ui/text/TestRunner.h>
@@ -49,16 +50,14 @@ Sheet2Calc sheet2calc;
 Calculation *calculation = &sheet2calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
+OutflowBoundary outflowBoundary;
+BoundaryCondition *boundaryCondition = &outflowBoundary;
 
 void showUsage();
 /**
  * lifecycle.. iterates through simulation step by step
  */
 int main(int argc, char* argsv[]) {
-
-	
-
-
 	//init Logger
 	DOMConfigurator::configure("src/Log4cxxConfig.xml");
 
@@ -108,9 +107,6 @@ int main(int argc, char* argsv[]) {
     delta_t = inp->delta_t();
     end_time = inp->tend();
 
-
-
-
 	ParticleGenerator pg;
 	int* length = new int;
 
@@ -123,10 +119,15 @@ int main(int argc, char* argsv[]) {
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 
+	boundaryCondition->setCalculation(calculation);
+	//boundaryCondition->setLCDomain(lcDomain);
+
 	plotter->setParticleContainer(pc);
 
 	//initially calculation of Forces
+	calculation->resetForce();
 	calculation->calculateForce();
+
 
 	double current_time = start_time;
 	int iteration = 0;
@@ -134,6 +135,9 @@ int main(int argc, char* argsv[]) {
 	
 	while (current_time < end_time){
 
+		//boundaryCondition->applyBoundaryCondition();
+
+		calculation->resetForce();
 		calculation->calculateAll();
 
 		iteration++;

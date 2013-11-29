@@ -19,6 +19,38 @@ double Calculation::getDeltaT(){
 	return delta_t;
 }
 
+void Calculation::calculateAll(){
+	calculatePosition();
+	calculateForce();
+	calculateVelocity();
+}
+
+void Calculation::calculatePosition(){
+
+	Particle* p;
+
+	while((p = particleContainer.nextParticle()) != NULL) {
+		utils::Vector<double, 3> old_pos = p->getX();
+		utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
+		double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
+		utils::Vector<double, 3> new_force = p->getF() * (scalar);
+		utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
+		p->setX(newX);
+	}
+}
+
+void Calculation::calculateVelocity(){
+	Particle* p;
+
+	while((p = particleContainer.nextParticle()) != NULL) {
+		utils::Vector<double, 3> old_v = p->getV();
+		double scalar = getDeltaT()/(2*p->getM());
+		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
+		utils::Vector<double, 3> new_v = old_v +(new_acc);
+		p->setV(new_v);
+	}
+}
+
 void Calculation::resetForce() {
 	Particle* p;
 
@@ -30,6 +62,15 @@ void Calculation::resetForce() {
 
 }
 
+void Calculation::setParticleContainer(ParticleContainer& pc_) {
+	this->particleContainer = pc_;
+}
+
+ParticleContainer& Calculation::getParticleContainer(){
+	return particleContainer;
+}
+
+
 void Sheet1Calc::setParticleContainer(ParticleContainer& pc_) {
 	this->particleContainer = pc_;
 }
@@ -40,7 +81,7 @@ ParticleContainer& Sheet1Calc::getParticleContainer(){
 
 void Sheet1Calc::calculateForce() {
 
-	resetForce();
+	//resetForce();
 	Particle* p1,* p2;
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
@@ -56,7 +97,7 @@ void Sheet1Calc::calculateForce() {
 		}
 	}
 }
-
+/*
 void Sheet1Calc::calculatePosition() {
 
 	Particle* p;
@@ -89,13 +130,13 @@ void Sheet1Calc::calculateAll(){
 	calculateForce();
 	calculateVelocity();
 }
-
+*/
 void Sheet2Calc::calculateForce() {
 	double epsilon = 5.0;
 	double sigma = 1.0;
 	Particle *p1,*p2;
 
-	resetForce();
+	//resetForce();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
@@ -109,7 +150,7 @@ void Sheet2Calc::calculateForce() {
 		}
 	}
 }
-
+/*
 void Sheet2Calc::calculatePosition() {
 	Particle* p;
 
@@ -141,7 +182,7 @@ void Sheet2Calc::calculateAll() {
 	calculateForce();
 	calculateVelocity();
 }
-
+*/
 void Sheet2Calc::setParticleContainer(ParticleContainer& pc_) {
 	this->particleContainer = pc_;
 }
