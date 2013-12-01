@@ -273,6 +273,34 @@ class input_t: public ::xml_schema::type
   void
   frequency (const frequency_type& x);
 
+  // start_time
+  // 
+  typedef ::xml_schema::decimal start_time_type;
+  typedef ::xsd::cxx::tree::traits< start_time_type, char, ::xsd::cxx::tree::schema_type::decimal > start_time_traits;
+
+  const start_time_type&
+  start_time () const;
+
+  start_time_type&
+  start_time ();
+
+  void
+  start_time (const start_time_type& x);
+
+  // tend
+  // 
+  typedef ::xml_schema::decimal tend_type;
+  typedef ::xsd::cxx::tree::traits< tend_type, char, ::xsd::cxx::tree::schema_type::decimal > tend_traits;
+
+  const tend_type&
+  tend () const;
+
+  tend_type&
+  tend ();
+
+  void
+  tend (const tend_type& x);
+
   // delta_t
   // 
   typedef ::xml_schema::float_ delta_t_type;
@@ -286,20 +314,6 @@ class input_t: public ::xml_schema::type
 
   void
   delta_t (const delta_t_type& x);
-
-  // tend
-  // 
-  typedef ::xml_schema::integer tend_type;
-  typedef ::xsd::cxx::tree::traits< tend_type, char > tend_traits;
-
-  const tend_type&
-  tend () const;
-
-  tend_type&
-  tend ();
-
-  void
-  tend (const tend_type& x);
 
   // input_file
   // 
@@ -339,8 +353,9 @@ class input_t: public ::xml_schema::type
   //
   input_t (const base_output_file_type&,
            const frequency_type&,
-           const delta_t_type&,
+           const start_time_type&,
            const tend_type&,
+           const delta_t_type&,
            const input_file_type&);
 
   input_t (const ::xercesc::DOMElement& e,
@@ -371,8 +386,9 @@ class input_t: public ::xml_schema::type
   protected:
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
-  ::xsd::cxx::tree::one< delta_t_type > delta_t_;
+  ::xsd::cxx::tree::one< start_time_type > start_time_;
   ::xsd::cxx::tree::one< tend_type > tend_;
+  ::xsd::cxx::tree::one< delta_t_type > delta_t_;
   ::xsd::cxx::tree::one< input_file_type > input_file_;
   cuboid_sequence cuboid_;
 };
@@ -511,8 +527,8 @@ class vectorF: public ::xml_schema::type
   public:
   // x
   // 
-  typedef ::xml_schema::float_ x_type;
-  typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+  typedef ::xml_schema::decimal x_type;
+  typedef ::xsd::cxx::tree::traits< x_type, char, ::xsd::cxx::tree::schema_type::decimal > x_traits;
 
   const x_type&
   x () const;
@@ -525,8 +541,8 @@ class vectorF: public ::xml_schema::type
 
   // y
   // 
-  typedef ::xml_schema::float_ y_type;
-  typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+  typedef ::xml_schema::decimal y_type;
+  typedef ::xsd::cxx::tree::traits< y_type, char, ::xsd::cxx::tree::schema_type::decimal > y_traits;
 
   const y_type&
   y () const;
@@ -539,8 +555,8 @@ class vectorF: public ::xml_schema::type
 
   // z
   // 
-  typedef ::xml_schema::float_ z_type;
-  typedef ::xsd::cxx::tree::traits< z_type, char > z_traits;
+  typedef ::xml_schema::decimal z_type;
+  typedef ::xsd::cxx::tree::traits< z_type, char, ::xsd::cxx::tree::schema_type::decimal > z_traits;
 
   const z_type&
   z () const;
@@ -593,7 +609,7 @@ class vectorI: public ::xml_schema::type
   public:
   // x
   // 
-  typedef ::xml_schema::integer x_type;
+  typedef ::xml_schema::non_negative_integer x_type;
   typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
 
   const x_type&
@@ -607,7 +623,7 @@ class vectorI: public ::xml_schema::type
 
   // y
   // 
-  typedef ::xml_schema::integer y_type;
+  typedef ::xml_schema::non_negative_integer y_type;
   typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
 
   const y_type&
@@ -621,7 +637,7 @@ class vectorI: public ::xml_schema::type
 
   // z
   // 
-  typedef ::xml_schema::integer z_type;
+  typedef ::xml_schema::non_negative_integer z_type;
   typedef ::xsd::cxx::tree::traits< z_type, char > z_traits;
 
   const z_type&

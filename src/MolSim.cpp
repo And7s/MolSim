@@ -88,20 +88,15 @@ int main(int argc, char* argsv[]) {
 		exit(-1);
 	}
 
-	auto_ptr<input_t> inp =  (input (argsv[1]));
-	
-	//example how to use XML File
-	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){
-    	cout << ci->number().x() << ci->position().y()<< " "<<ci->velocity().z()<<" " << ci->distance()<<endl;
-	}
-
-	//cout << "Number: "<< h->cuboid().number().x()<<endl;
-	//cout << h->position()<<endl;
-    cout << inp->base_output_file()<< " = " << inp->frequency()<<"  "<<inp->delta_t()<<endl;
-    cout << inp->tend()<<endl;
-    cout << inp->input_file()<<endl;
-
- 	//end
+	auto_ptr<input_t> inp;
+	try {
+		inp =  (input (argsv[1]));
+	} catch (const xml_schema::exception& e){
+    	cerr << e << endl;
+    	LOG4CXX_FATAL(loggerMain, e);
+    	LOG4CXX_FATAL(loggerMain, "XML Parsing error, shut down");
+    	exit(-1);
+  	}
 
     //assign values from xml file
     delta_t = inp->delta_t();

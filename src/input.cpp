@@ -85,22 +85,22 @@ frequency (const frequency_type& x)
   this->frequency_.set (x);
 }
 
-const input_t::delta_t_type& input_t::
-delta_t () const
+const input_t::start_time_type& input_t::
+start_time () const
 {
-  return this->delta_t_.get ();
+  return this->start_time_.get ();
 }
 
-input_t::delta_t_type& input_t::
-delta_t ()
+input_t::start_time_type& input_t::
+start_time ()
 {
-  return this->delta_t_.get ();
+  return this->start_time_.get ();
 }
 
 void input_t::
-delta_t (const delta_t_type& x)
+start_time (const start_time_type& x)
 {
-  this->delta_t_.set (x);
+  this->start_time_.set (x);
 }
 
 const input_t::tend_type& input_t::
@@ -119,6 +119,24 @@ void input_t::
 tend (const tend_type& x)
 {
   this->tend_.set (x);
+}
+
+const input_t::delta_t_type& input_t::
+delta_t () const
+{
+  return this->delta_t_.get ();
+}
+
+input_t::delta_t_type& input_t::
+delta_t ()
+{
+  return this->delta_t_.get ();
+}
+
+void input_t::
+delta_t (const delta_t_type& x)
+{
+  this->delta_t_.set (x);
 }
 
 const input_t::input_file_type& input_t::
@@ -400,14 +418,16 @@ z (const z_type& x)
 input_t::
 input_t (const base_output_file_type& base_output_file,
          const frequency_type& frequency,
-         const delta_t_type& delta_t,
+         const start_time_type& start_time,
          const tend_type& tend,
+         const delta_t_type& delta_t,
          const input_file_type& input_file)
 : ::xml_schema::type (),
   base_output_file_ (base_output_file, this),
   frequency_ (frequency, this),
-  delta_t_ (delta_t, this),
+  start_time_ (start_time, this),
   tend_ (tend, this),
+  delta_t_ (delta_t, this),
   input_file_ (input_file, this),
   cuboid_ (this)
 {
@@ -420,8 +440,9 @@ input_t (const input_t& x,
 : ::xml_schema::type (x, f, c),
   base_output_file_ (x.base_output_file_, f, this),
   frequency_ (x.frequency_, f, this),
-  delta_t_ (x.delta_t_, f, this),
+  start_time_ (x.start_time_, f, this),
   tend_ (x.tend_, f, this),
+  delta_t_ (x.delta_t_, f, this),
   input_file_ (x.input_file_, f, this),
   cuboid_ (x.cuboid_, f, this)
 {
@@ -434,8 +455,9 @@ input_t (const ::xercesc::DOMElement& e,
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
   base_output_file_ (this),
   frequency_ (this),
-  delta_t_ (this),
+  start_time_ (this),
   tend_ (this),
+  delta_t_ (this),
   input_file_ (this),
   cuboid_ (this)
 {
@@ -481,13 +503,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
-    // delta_t
+    // start_time
     //
-    if (n.name () == "delta_t" && n.namespace_ ().empty ())
+    if (n.name () == "start_time" && n.namespace_ ().empty ())
     {
-      if (!delta_t_.present ())
+      if (!start_time_.present ())
       {
-        this->delta_t_.set (delta_t_traits::create (i, f, this));
+        this->start_time_.set (start_time_traits::create (i, f, this));
         continue;
       }
     }
@@ -499,6 +521,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       if (!tend_.present ())
       {
         this->tend_.set (tend_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // delta_t
+    //
+    if (n.name () == "delta_t" && n.namespace_ ().empty ())
+    {
+      if (!delta_t_.present ())
+      {
+        this->delta_t_.set (delta_t_traits::create (i, f, this));
         continue;
       }
     }
@@ -545,10 +578,10 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
-  if (!delta_t_.present ())
+  if (!start_time_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
-      "delta_t",
+      "start_time",
       "");
   }
 
@@ -556,6 +589,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
   {
     throw ::xsd::cxx::tree::expected_element< char > (
       "tend",
+      "");
+  }
+
+  if (!delta_t_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "delta_t",
       "");
   }
 
@@ -582,8 +622,9 @@ operator= (const input_t& x)
     static_cast< ::xml_schema::type& > (*this) = x;
     this->base_output_file_ = x.base_output_file_;
     this->frequency_ = x.frequency_;
-    this->delta_t_ = x.delta_t_;
+    this->start_time_ = x.start_time_;
     this->tend_ = x.tend_;
+    this->delta_t_ = x.delta_t_;
     this->input_file_ = x.input_file_;
     this->cuboid_ = x.cuboid_;
   }
