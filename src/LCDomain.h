@@ -47,6 +47,11 @@ protected:
 	 */
 	int numberOfCells;
 
+	/**
+	 * cutOffRadius = length of an edge of a cell
+	 */
+	int cutOffRadius;
+
 public:
 	/**
 	 *
@@ -78,6 +83,12 @@ public:
 	 */
 	LCell* getCellAt(std::vector<int>* position);
 
+
+	/**
+	 * assigns a particle to its corresponding cell
+	 */
+	void insertParticle(Particle* part);
+
 	/**
 	 * checks whether the input vector specifies a position, which is valid in this domain.
 	 */
@@ -106,6 +117,10 @@ public:
 	void setNumberOfCells(int numberOfCells) {
 		this->numberOfCells = numberOfCells;
 	}
+
+	void setCutOffRadius(int cutOffRad);
+
+	int getCutOffRadius();
 };
 
 #endif /* LCDOMAIN_H_ */

@@ -13,6 +13,7 @@
 LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 
 LCDomain::LCDomain(std::vector<int>* bounds) {
+	cutOffRadius = 0;
 	dimension = bounds->size();
 	this->bounds = bounds;
 	switch (dimension) {
@@ -66,6 +67,29 @@ LCell* LCDomain::getCellAt(std::vector<int> * pos) {
 			//can't happen
 			return NULL;
 	}
+}
+
+void LCDomain::insertParticle(Particle* part){
+	int index = -1;
+	if(cutOffRadius <= 0){
+		LOG4CXX_ERROR(loggerDomain, "Invalid Cutoff radius. Please specify first");
+		return;
+	}
+	if(dimension == 1 && (part->getX()[1] != 0 || part->getX()[2] != 0)){
+		LOG4CXX_ERROR(loggerDomain, "Non-matching dimensions. Domain currently set to 1D, Particle seems to have a higher dimensional Position vector");
+		return;
+	}
+	if(dimension == 2 && part->getX()[2] != 0){
+		LOG4CXX_ERROR(loggerDomain, "Non-matching dimensions. Domain currently set to 2D, Particle seems to have a 3D Position vector");
+		return;
+	}
+	//transform to std::vector - not necessary,
+	std::vector<int> partPos (3,0);
+	partPos[0] = part->getX()[0];
+	partPos[1] = part->getX()[1];
+	partPos[2] = part->getX()[2];
+	index = this->getCellAt(&partPos)->getPosition();
+	this->cells[index]->add(part);
 }
 
 void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
@@ -182,3 +206,10 @@ int LCDomain::getDimension() {
 	return dimension;
 }
 
+int LCDomain::getCutOffRadius(){
+	return this->cutOffRadius;
+}
+
+void LCDomain::setCutOffRadius(int cutOffRad){
+	this->cutOffRadius = cutOffRad;
+}
