@@ -35,7 +35,7 @@ public:
 	 * @param length
 	 * @return
 	 */
-	Particle** readFile(int* length, auto_ptr<input_t>& inp);
+	std::vector<Particle> readFile(int* length, auto_ptr<input_t>& inp);
 };
 
 #endif

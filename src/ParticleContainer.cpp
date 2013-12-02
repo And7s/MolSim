@@ -16,7 +16,7 @@ ParticleContainer::ParticleContainer() {}
 ParticleContainer::ParticleContainer(int l) {
 	length = l;
 	LOG4CXX_TRACE(loggerPC, "Init ParticleContainer of length: " << length);
-	particles = new Particle*[length];
+	//particles = new Particle*[length];
 	np = 0;
 	npp1 = 0;
 	npp2 = 1;
@@ -24,7 +24,7 @@ ParticleContainer::ParticleContainer(int l) {
 
 ParticleContainer::~ParticleContainer() {}
 
-
+/*
 void ParticleContainer::setParticles(Particle** particles_) {
 	particles = particles_;
 }
@@ -32,10 +32,18 @@ void ParticleContainer::setParticles(Particle** particles_) {
 Particle**& ParticleContainer::getParticles() {
 	return particles;
 }
+*/
+std::vector<Particle>& ParticleContainer::getParticles(){
+	return particles;
+}
+
+void ParticleContainer::setParticles(std::vector<Particle>& particles) {
+	this->particles = particles;
+}
 
 void ParticleContainer::show() {
 	for(int i = 0; i < length; i++) {
-		LOG4CXX_TRACE(loggerPC, "P " << i << " | " << *particles[i]);
+		LOG4CXX_TRACE(loggerPC, "P " << i << " | " << particles[i]);
 	}
 }
 
@@ -46,7 +54,7 @@ Particle* ParticleContainer::nextParticlePair1() {
 		return NULL;
 	}else {
 		npp1++;
-		return particles[npp1-1];
+		return &(particles[npp1-1]);
 	}
 }
 
@@ -56,7 +64,7 @@ Particle* ParticleContainer::nextParticlePair2() {
 		return NULL;
 	}else {
 		npp2++;
-		return particles[npp2-1];
+		return &(particles[npp2-1]);
 	}
 }
 
@@ -98,7 +106,7 @@ Particle* ParticleContainer::nextParticle() {
 		return NULL;
 	}else {
 		np++;
-		return particles[np-1];	
+		return &(particles[np-1]);
 	}
 }
 

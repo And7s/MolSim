@@ -9,8 +9,10 @@
 
 #include "Particle.h"
 #include "ParticleContainer.h"
+#include "ParticleContainer2.h"
 #include "ParticleGenerator.h"
 #include "Calculation.h"
+#include "Calculation2.h"
 #include "Plotter.h"
 #include "BoundaryCondition.h"
 #include "cppunit/Tester.h"
@@ -52,6 +54,9 @@ VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
 OutflowBoundary outflowBoundary;
 BoundaryCondition *boundaryCondition = &outflowBoundary;
+
+Sheet2Calc2 sheet2calc2;
+Calculation2 *calculation2 = &sheet2calc2;
 
 void showUsage();
 /**
@@ -105,9 +110,19 @@ int main(int argc, char* argsv[]) {
 	ParticleGenerator pg;
 	int* length = new int;
 
-	Particle** pa = pg.readFile(length, inp);
+	//Particle** pa = pg.readFile(length, inp);
+	std::vector<Particle> pa = pg.readFile(length, inp);
 	
 	ParticleContainer pc(*length);
+
+	//TEST
+	//std::list<Particle> particleList;
+	//for(int i = 0; i < *length; i++){
+	//	particleList.push_back(pa[i]);
+	//}
+	//ParticleContainer2 pc();
+	//pc.setParticles(particleList);
+
 	delete length;
 	pc.setParticles(pa);
 
@@ -144,7 +159,7 @@ int main(int argc, char* argsv[]) {
 		current_time += delta_t;
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
-	delete pa;
+	delete &pa;
 
 	return 0;
 }
