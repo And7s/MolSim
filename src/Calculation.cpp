@@ -80,8 +80,6 @@ ParticleContainer& Sheet1Calc::getParticleContainer(){
 }
 
 void Sheet1Calc::calculateForce() {
-
-	//resetForce();
 	Particle* p1,* p2;
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
@@ -97,32 +95,6 @@ void Sheet1Calc::calculateForce() {
 		}
 	}
 }
-/*
-void Sheet1Calc::calculatePosition() {
-
-	Particle* p;
-
-	while((p = particleContainer.nextParticle()) != NULL) {
-		utils::Vector<double, 3> old_pos = p->getX();
-		utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
-		double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
-		utils::Vector<double, 3> new_force = p->getF() * (scalar);
-		utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
-		p->setX(newX);
-	}
-}
-
-void Sheet1Calc::calculateVelocity() {
-	Particle* p;
-
-	while((p = particleContainer.nextParticle()) != NULL) {
-		utils::Vector<double, 3> old_v = p->getV();
-		double scalar = getDeltaT()/(2*p->getM());
-		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-		utils::Vector<double, 3> new_v = old_v +(new_acc);
-		p->setV(new_v);
-	}
-}
 
 void Sheet1Calc::calculateAll(){
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet1Calc");
@@ -130,13 +102,12 @@ void Sheet1Calc::calculateAll(){
 	calculateForce();
 	calculateVelocity();
 }
-*/
+
 void Sheet2Calc::calculateForce() {
 	double epsilon = 5.0;
 	double sigma = 1.0;
 	Particle *p1,*p2;
 
-	//resetForce();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
@@ -150,31 +121,6 @@ void Sheet2Calc::calculateForce() {
 		}
 	}
 }
-/*
-void Sheet2Calc::calculatePosition() {
-	Particle* p;
-
-	while((p = particleContainer.nextParticle()) != NULL) {
-		utils::Vector<double, 3> old_pos = p->getX();
-		utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
-		double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
-		utils::Vector<double, 3> new_force = p->getF() * (scalar);
-		utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
-		p->setX(newX);
-	}
-}
-
-void Sheet2Calc::calculateVelocity() {
-	Particle* p;
-
-	while((p = particleContainer.nextParticle()) != NULL) {
-		utils::Vector<double, 3> old_v = p->getV();
-		double scalar = getDeltaT()/(2*p->getM());
-		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-		utils::Vector<double, 3> new_v = old_v +(new_acc);
-		p->setV(new_v);
-	}
-}
 
 void Sheet2Calc::calculateAll() {
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
@@ -182,7 +128,7 @@ void Sheet2Calc::calculateAll() {
 	calculateForce();
 	calculateVelocity();
 }
-*/
+
 void Sheet2Calc::setParticleContainer(ParticleContainer& pc_) {
 	this->particleContainer = pc_;
 }
