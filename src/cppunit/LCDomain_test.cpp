@@ -25,7 +25,7 @@ void LCDomain_test::setUp(){
 }
 
 void LCDomain_test::tearDown(){
-	delete lcd;
+	//delete lcd;
 }
 
 /**

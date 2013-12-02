@@ -40,7 +40,7 @@ protected:
 	/**
 	 * stores the bounds of the domain
 	 */
-	std::vector<int>* bounds;
+	std::vector<int> bounds;
 
 	/**
 	 * stores the number of cells

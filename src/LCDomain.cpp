@@ -15,7 +15,13 @@ LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 LCDomain::LCDomain(std::vector<int>* bounds) {
 	cutOffRadius = 0;
 	dimension = bounds->size();
-	this->bounds = bounds;
+	std::vector<int> b (dimension,0);
+	int k;
+	for(k = 0; k < dimension; k++){
+		int z = (*bounds)[k];
+		LOG4CXX_INFO(loggerDomain,"added " << z << " to the bounds vector");
+		this->bounds.push_back(z);
+	}
 	switch (dimension) {
 		case 1:
 			//no need to set an offset value
@@ -24,7 +30,7 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 			offset = new int[dimension -1];
 			int j;
 			for(j = 0; j < dimension-1;j++){
-				offset[j] = (*bounds)[j];
+				offset[j] = this->bounds[j];
 			}
 			break;
 		default:
@@ -35,10 +41,10 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 	int i;
 	int linearspace = 1;
 	for (i = 0; i < dimension - 1; i++) {
-		offset[i] = (*bounds)[i];
+		offset[i] = this->bounds[i];
 	}
 	for (i = 0; i < dimension; i++) {
-		linearspace = linearspace * ((*bounds)[i]);
+		linearspace = linearspace * this->bounds[i];
 	}
 	cells = new LCell*[linearspace];
 	for (i = 0; i < linearspace; i++) {
@@ -110,7 +116,7 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 			neighbours->push_back(getCellAt(&reference));
 			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
 		}
-		if(axis[0] < (*bounds)[0]-1){
+		if(axis[0] < (bounds)[0]-1){
 			reference[0] = axis[0] +1;
 			neighbours->push_back(getCellAt(&reference));
 			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
@@ -121,7 +127,7 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 		for(x=(axis[0]-1); x < (axis[0]+2);x++){
 			for(y=(axis[1]-1); y < (axis[1]+2);y++){
 				std::cout << "AT: " << x << "|" << y <<std::endl;
-				if((x >= 0) && (x < (*bounds)[0]) && (y >= 0) && (y < (*bounds)[1])){
+				if((x >= 0) && (x < (bounds)[0]) && (y >= 0) && (y < (bounds)[1])){
 					if(!(x == axis[0] && y == axis[1])){
 						reference[0] = x;
 						reference[1] = y;
@@ -136,9 +142,9 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 		for(x=(axis[0]-1); x < (axis[0]+2);x++){
 			for(y=(axis[1]-1); y < (axis[1]+2);y++){
 				for(z=(axis[2]-1); z < (axis[2]+2);z++){
-					if((x >= 0) && (x < (*bounds)[0])
-							&& (y >= 0) && (y < (*bounds)[1])
-							&& (z >= 0) && (z < (*bounds)[2])){
+					if((x >= 0) && (x < (bounds)[0])
+							&& (y >= 0) && (y < (bounds)[1])
+							&& (z >= 0) && (z < (bounds)[2])){
 						if(!(x == axis[0] && y == axis[1] && z == axis[2])){
 							reference[0] = x;
 							reference[1] = y;
@@ -174,8 +180,9 @@ bool LCDomain::checkBounds(std::vector<int>* pos) {
 	}
 	int i;
 	for(i=0; i < dimension; i++){
-		if(((*pos)[i] < 0) || ((*pos)[i] > (*bounds)[i])){
+		if(((*pos)[i] <= 0) || ((*pos)[i] > (bounds)[i])){
 			LOG4CXX_ERROR(loggerDomain,"The requested position is not located in the domain space.");
+			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: " << (*pos)[i] << " bounds: " << (bounds)[i]);
 			return false;
 		}
 	}
