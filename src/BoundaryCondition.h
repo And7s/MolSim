@@ -25,13 +25,13 @@ protected:
 public:
 	BoundaryCondition();
 
-	BoundaryCondition(LCDomain*& linkedCell, utils::Vector<double, 3> domainSize);
+	BoundaryCondition(LCDomain* linkedCell, utils::Vector<double, 3> domainSize);
 
 	virtual ~BoundaryCondition();
 
-	LCDomain*& getLCDomain();
+	LCDomain* getLCDomain();
 
-	void setLCDomain(LCDomain*& linkedCell);
+	void setLCDomain(LCDomain* linkedCell);
 
 	/**
 	 * Abstract function to check the Boundary Conditions

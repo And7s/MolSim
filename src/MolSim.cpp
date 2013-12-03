@@ -53,9 +53,6 @@ Plotter *plotter = &vtk_plotter;
 OutflowBoundary outflowBoundary;
 BoundaryCondition *boundaryCondition = &outflowBoundary;
 
-//Sheet2Calc2 sheet2calc2;
-//Calculation2 *calculation2 = &sheet2calc2;
-
 void showUsage();
 /**
  * lifecycle.. iterates through simulation step by step
@@ -84,8 +81,6 @@ int main(int argc, char* argsv[]) {
 		LOG4CXX_TRACE(loggerMain, "Test finished..");
 		exit(0);
 	}
-		
-
 	if(argc != 2) {
 		showUsage();
 		exit(-1);
@@ -111,14 +106,24 @@ int main(int argc, char* argsv[]) {
 	//Particle** pa = pg.readFile(length, inp);
 	std::vector<Particle*> pa = pg.readFile(length, inp);
 
+	//Initialize LCDomain
+	std::vector<int> domainSize(2,0);
+	int cutOff = 1;
+	domainSize[0] = 180;
+	domainSize[1] = 90;
+	//LCDomain lcDomain(&domainSize,cutOff, cutOff);
+	//for(int i = 0; i < pa.size(); i++){
+	//	lcDomain.insertParticle(pa[i]);
+	//}
+
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 
-	boundaryCondition->setCalculation(calculation);
-	//boundaryCondition->setLCDomain(lcDomain);
+	//boundaryCondition->setCalculation(calculation);
+	//boundaryCondition->setLCDomain(&lcDomain);
 
 	plotter->setParticleContainer(pc);
 

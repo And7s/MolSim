@@ -16,18 +16,18 @@ BoundaryCondition::~BoundaryCondition() {
 	// TODO Auto-generated destructor stub
 }
 
-BoundaryCondition::BoundaryCondition(LCDomain*& linkedCell, utils::Vector<double, 3> domainSize) {
+BoundaryCondition::BoundaryCondition(LCDomain* linkedCell, utils::Vector<double, 3> domainSize) {
 	this->linkedCell = linkedCell;
 	for(int i = 0; i<3; i++){
 		this->domainSize[i] = domainSize[i];
 	}
 }
 
-void BoundaryCondition::setLCDomain(LCDomain*& linkedCell) {
+void BoundaryCondition::setLCDomain(LCDomain* linkedCell) {
 	this->linkedCell = linkedCell;
 }
 
-LCDomain*& BoundaryCondition::getLCDomain(){
+LCDomain* BoundaryCondition::getLCDomain(){
 	return linkedCell;
 }
 
