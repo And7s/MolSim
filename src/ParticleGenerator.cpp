@@ -27,8 +27,6 @@ std::vector<Particle*> ParticleGenerator::readFile(int* length, auto_ptr<input_t
 	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){
 		num_particles += ci->number().x() * ci->number().y() * ci->number().z();
     }
-	cout << "NumberOfParticles: " << num_particles << endl;
-	//Particle** pa = new Particle*[num_particles];
 	std::vector<Particle*> pa;
 	Particle* p;
 
@@ -40,18 +38,16 @@ std::vector<Particle*> ParticleGenerator::readFile(int* length, auto_ptr<input_t
 		v[0] = ci->velocity().x();
 		v[1] = ci->velocity().y();
 		v[2] = ci->velocity().z();
-		
+
 		for(int d1 = 0; d1 < ci->number().x(); d1++) {
 			x[0] = d1*ci->distance()+ci->position().x();
 			for(int d2 = 0; d2 < ci->number().y(); d2++) {
 				x[1] = d2*ci->distance()+ci->position().y();
 				for(int d3 = 0; d3 < ci->number().z(); d3++) {
 					x[2] = d3*ci->distance()+ci->position().z();
-					//pa[num] = new Particle(x,v,ci->mass());
-					//p = new Particle(x,v,ci->mass());
 					pa.push_back(new Particle(x,v,ci->mass()));
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*(pa[num]),velo.L2Norm(),3);
+					MaxwellBoltzmannDistribution(*(pa[num]),velo.L2Norm(),2);
 					num++;
 				}
 			}
