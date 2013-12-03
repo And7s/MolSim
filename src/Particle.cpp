@@ -119,3 +119,9 @@ std::ostream& operator<<(std::ostream& stream, Particle& p) {
 	stream << p.toString();
 	return stream;
 }
+
+double Particle::getDistanceTo(Particle* part) {
+	return std::sqrt(std::pow(this->x[0]-part->getX()[0],2) +
+				std::pow(this->x[1] - part->getX()[1],2) +
+				std::pow(this->x[2] - part->getX()[2],2));
+}
