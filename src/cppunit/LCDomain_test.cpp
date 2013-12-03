@@ -21,8 +21,7 @@ void LCDomain_test::setUp(){
 	dim.push_back(5);
 	dim.push_back(10);
 	dim.push_back(7);
-	this->lcd = new LCDomain(&dim);
-	this->lcd->setCutOffRadius(3);
+	this->lcd = new LCDomain(&dim,3,3);
 }
 
 void LCDomain_test::tearDown(){
@@ -35,29 +34,32 @@ void LCDomain_test::tearDown(){
  */
 
 void LCDomain_test::testEnvironment(){
-	CPPUNIT_ASSERT_EQUAL(2,lcd->getDimension());
-	CPPUNIT_ASSERT_EQUAL(50,lcd->getNumberOfCells());
+
+	CPPUNIT_ASSERT_EQUAL(3,lcd->getDimension());
+	CPPUNIT_ASSERT_EQUAL(350,lcd->getNumberOfCells());
 
 }
 
 void LCDomain_test::testBehaviour(){
-	/*std::vector<int> pos (3,0);
-	std::vector<LCell*> cells;
+	std::vector<int> pos (3,0);
+	std::vector<ParticleContainer*> cells;
 	pos[0] = 2;
 	pos[1] = 3;
 	pos[2] = 4;
-	LCell* cell = lcd->getCellAt(pos);
+	ParticleContainer* cell = lcd->getCellAt(pos);
 	//CPPUNIT_ASSERT_EQUAL(17, cell->getPosition());
 	lcd->getNeighbourCells(cell,&cells);
 	int i = cells.size();
 	CPPUNIT_ASSERT_EQUAL(26, i);
 
 	//add some particles
-	double x[] = {10,1,1};
+	double x1[] = {9,1,1};
+	double x2[] = {10,1,1};
+	double x3[] = {11,1,1};
 	double v[] = {1,1,1};
-	Particle* p1 = new Particle(x, v , 1.0, 1);
-	Particle* p2 = new Particle(x, v, 1.0 ,1);
-	Particle* p3 = new Particle(x, v, 1.0 ,1);
+	Particle* p1 = new Particle(x1, v , 1.0, 1);
+	Particle* p2 = new Particle(x2, v, 1.0 ,1);
+	Particle* p3 = new Particle(x3, v, 1.0 ,1);
 
 	this->lcd->insertParticle(p1);
 	this->lcd->insertParticle(p2);
@@ -67,12 +69,11 @@ void LCDomain_test::testBehaviour(){
 	pos[1] = 0;
 	pos[2] = 0;
 	cell = this->lcd->getCellAt(pos);
-	Particle* pp;
-	while((pp = cell->getNextItem()) != NULL){
-		std::cout << pp->getType() << std::endl;
-	}
-
-*/
+	cell->show();
+	CPPUNIT_ASSERT_EQUAL(0.0,p1->getDistanceTo(p1));
+	cell->deleteParticle(p2);
+	std::cout << std::endl;
+	cell->show();
 }
 
 void LCDomain_test::testCellResponds(){

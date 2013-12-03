@@ -150,6 +150,11 @@ public:
 	 * @return
 	 */
 	std::string toStringForce();
+
+	/**
+	 * computes the distance to another particle in space
+	 */
+	double getDistanceTo(Particle* part);
 };
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);

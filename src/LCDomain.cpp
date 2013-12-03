@@ -12,16 +12,26 @@
  */
 LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 
-LCDomain::LCDomain(std::vector<int>* bounds) {
-	cutOffRadius = 0;
-	dimension = bounds->size();
+
+LCDomain::LCDomain(std::vector<int>* bounds,int cutOffRad, int cellDimension) {
+	this->cutOffRadius = cutOffRad;
+	this->cellDimension = cellDimension;
+	if((this->cutOffRadius % this->cellDimension) != 0){
+		LOG4CXX_WARN(loggerDomain,"the cut-off radius is not a multiple of the cell-dimension. Check configuration, since this is probably a mistake.");
+	}
+	//calculate size of halo-border
+	this->haloSize = ((cutOffRad % cellDimension) == 0)?
+			(cutOffRadius / cellDimension):
+			(cutOffRadius / cellDimension) + 1;
+	this->dimension = bounds->size();
 	std::vector<int> b (dimension,0);
 	int k;
 	for(k = 0; k < dimension; k++){
 		int z = (*bounds)[k];
-		LOG4CXX_INFO(loggerDomain,"added " << z << " to the bounds vector");
-		this->bounds.push_back(z);
+		this->bounds.push_back(z + haloSize*2);
 	}
+	//offset
+	/*
 	switch (dimension) {
 		case 1:
 			//no need to set an offset value
@@ -36,7 +46,7 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 		default:
 			LOG4CXX_ERROR(loggerDomain, "unsupported dimension size! - unable to establish domain");
 			return;
-	}
+	}*/
 	offset = new int[dimension - 1];
 	int i;
 	int linearspace = 1;
@@ -53,8 +63,8 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 	}
 	numberOfCells = linearspace;
 
-	LOG4CXX_INFO(loggerDomain,
-			"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells);
+	LOG4CXX_INFO(loggerDomain,"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells <<
+					" Halo size: " << haloSize);
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
@@ -105,7 +115,8 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 	//check, if the input cell's position is valid.
 
 	if(!checkBounds(axis)){
-		LOG4CXX_ERROR(loggerDomain,"invalid input cell");
+		LOG4CXX_ERROR(loggerDomain,"invalid input cell - unable to get neighbours");
+		return;
 	}
 
 	//gather actual neighbours
@@ -125,10 +136,8 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 		}
 		break;
 	case 2:
-		std::cout << "hello world" << std::endl;
 		for(x=(axis[0]-1); x < (axis[0]+2);x++){
 			for(y=(axis[1]-1); y < (axis[1]+2);y++){
-				std::cout << "AT: " << x << "|" << y <<std::endl;
 				if((x >= 0) && (x < (bounds)[0]) && (y >= 0) && (y < (bounds)[1])){
 					if(!(x == axis[0] && y == axis[1])){
 						reference[0] = x;
@@ -220,6 +229,8 @@ int LCDomain::getCutOffRadius(){
 	return this->cutOffRadius;
 }
 
-void LCDomain::setCutOffRadius(int cutOffRad){
-	this->cutOffRadius = cutOffRad;
+int LCDomain::getCellDimension(){
+	return this->cellDimension;
 }
+
+

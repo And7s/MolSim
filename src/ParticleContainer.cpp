@@ -13,9 +13,9 @@
 LoggerPtr loggerPC(Logger::getLogger( "main.pc"));
 
 ParticleContainer::ParticleContainer() {}
+
 ParticleContainer::ParticleContainer(int pos) {
-	//LOG4CXX_TRACE(loggerPC, "Init ParticleContainer of length: " << length);
-	//particles = new Particle*[length];
+	LOG4CXX_TRACE(loggerPC, "Init ParticleContainer at Position: " << pos);
 	this->position = pos;
 	np = 0;
 	npp1 = 0;
@@ -24,15 +24,6 @@ ParticleContainer::ParticleContainer(int pos) {
 
 ParticleContainer::~ParticleContainer() {}
 
-/*
-void ParticleContainer::setParticles(Particle** particles_) {
-	particles = particles_;
-}
-
-Particle**& ParticleContainer::getParticles() {
-	return particles;
-}
-*/
 std::vector<Particle*> ParticleContainer::getParticles(){
 	return particles;
 }
@@ -45,9 +36,24 @@ void ParticleContainer::setParticle(Particle* particle) {
 	this->particles.push_back(particle);
 }
 
+void ParticleContainer::deleteParticle(Particle* particle) {
+	int i;
+	for(i=0; i < this->particles.size(); i++){
+		if((this->particles[i]->getX()[0] == particle->getX()[0]) &&
+				(this->particles[i]->getX()[1] == particle->getX()[1]) &&
+				(this->particles[i]->getX()[0] == particle->getX()[0])){
+			break;
+		}
+	}
+	this->particles.erase(particles.begin()+i);
+	delete particle;
+	particle = NULL;
+	std::cout << particle->getType() << std::endl;
+}
+
 void ParticleContainer::show() {
 	for(int i = 0; i < this->particles.size(); i++) {
-		LOG4CXX_TRACE(loggerPC, "P " << i << " | " << particles[i]);
+		LOG4CXX_INFO(loggerPC, "PC (pos: " << this->position << ") " << i << " | " << particles[i]->toString());
 	}
 }
 

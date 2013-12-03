@@ -8,6 +8,7 @@
 #ifndef LCDOMAIN_H_
 #define LCDOMAIN_H_
 
+#include <string.h>
 #include "ParticleContainer.h"
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
@@ -47,17 +48,30 @@ protected:
 	int numberOfCells;
 
 	/**
-	 * cutOffRadius = length of an edge of a cell
+	 * cutOffRadius, which is not always equal to the length of an edge of a cell
 	 */
 	int cutOffRadius;
+
+	/**
+	 * the length of an edge
+	 */
+	int cellDimension;
+
+	/**
+	 * stores the size of the halo-border
+	 */
+	int haloSize;
 
 public:
 	/**
 	 *
 	 * @param bounds  domain space (amount of cells) in each direction
+	 * 		IMPORTANT: this is the actual computation space, without the border and halo-region.
+	 * @param cutOffRad the specific cutoff radius.
+	 * @param cellDimension the length of an edge of a cell
 	 *  - vector size determines the dimension
 	 */
-	LCDomain(std::vector<int>* bounds);
+	LCDomain(std::vector<int>* bounds, int cutOffRad, int cellDimension);
 
 	/**
 	 * The maximum size of the returned vector with respect to the dimension:
@@ -117,9 +131,9 @@ public:
 		this->numberOfCells = numberOfCells;
 	}
 
-	void setCutOffRadius(int cutOffRad);
-
 	int getCutOffRadius();
+
+	int getCellDimension();
 };
 
 #endif /* LCDOMAIN_H_ */

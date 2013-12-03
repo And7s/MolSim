@@ -48,6 +48,8 @@ class ParticleContainer {
 		 */
 		void setParticle(Particle* particle);
 
+		void deleteParticle(Particle* partilce);
+
 		void show();
 		Particle* nextParticlePair1();
 		Particle* nextParticlePair2();
