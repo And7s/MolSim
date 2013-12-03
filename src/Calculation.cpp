@@ -28,7 +28,7 @@ void Calculation::calculateAll(){
 void Calculation::calculatePosition(){
 
 	Particle* p;
-
+	//LOG4CXX_INFO(loggerCalc, "In CalculatePosition");
 	while((p = particleContainer.nextParticle()) != NULL) {
 		utils::Vector<double, 3> old_pos = p->getX();
 		utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
@@ -41,7 +41,7 @@ void Calculation::calculatePosition(){
 
 void Calculation::calculateVelocity(){
 	Particle* p;
-
+	//LOG4CXX_INFO(loggerCalc, "In CalculateVelocity");
 	while((p = particleContainer.nextParticle()) != NULL) {
 		utils::Vector<double, 3> old_v = p->getV();
 		double scalar = getDeltaT()/(2*p->getM());
@@ -53,7 +53,6 @@ void Calculation::calculateVelocity(){
 
 void Calculation::resetForce() {
 	Particle* p;
-
 	while((p = particleContainer.nextParticle()) != NULL) {
 		p->setOldF(p->getF());
 		utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
@@ -81,13 +80,13 @@ ParticleContainer& Sheet1Calc::getParticleContainer(){
 
 void Sheet1Calc::calculateForce() {
 	Particle* p1,* p2;
+	resetForce();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double euclidian_norm = ((p1->getX() -(p2->getX())).L2Norm());
 			double pow_3 = std::pow(euclidian_norm,3);
 			double mass_squared = (p1->getM()*p2->getM());
 			double scalar = mass_squared/pow_3;
-
 			utils::Vector<double, 3> forceIJ = (p2->getX()-(p1->getX()))*(scalar);
 			p1->addOnF(forceIJ);
 			utils::Vector<double, 3> forceJI = forceIJ *(-1);
@@ -98,16 +97,16 @@ void Sheet1Calc::calculateForce() {
 
 void Sheet1Calc::calculateAll(){
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet1Calc");
+	calculateVelocity();
 	calculatePosition();
 	calculateForce();
-	calculateVelocity();
 }
 
 void Sheet2Calc::calculateForce() {
 	double epsilon = 5.0;
 	double sigma = 1.0;
 	Particle *p1,*p2;
-
+	resetForce();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
@@ -124,9 +123,9 @@ void Sheet2Calc::calculateForce() {
 
 void Sheet2Calc::calculateAll() {
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
+	calculateVelocity();
 	calculatePosition();
 	calculateForce();
-	calculateVelocity();
 }
 
 void Sheet2Calc::setParticleContainer(ParticleContainer& pc_) {

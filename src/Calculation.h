@@ -10,6 +10,7 @@
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
+using namespace std;
 
 /**
  * Interface for Calculation

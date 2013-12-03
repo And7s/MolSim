@@ -112,16 +112,6 @@ int main(int argc, char* argsv[]) {
 	std::vector<Particle*> pa = pg.readFile(length, inp);
 
 	ParticleContainer pc(*length);
-
-	//TEST
-	//std::list<Particle> particleList;
-	//for(int i = 0; i < *length; i++){
-	//	particleList.push_back(pa[i]);
-	//}
-	//ParticleContainer2 pc();
-	//pc.setParticles(particleList);
-
-	delete length;
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
@@ -133,7 +123,6 @@ int main(int argc, char* argsv[]) {
 	plotter->setParticleContainer(pc);
 
 	//initially calculation of Forces
-	calculation->resetForce();
 	calculation->calculateForce();
 
 
@@ -143,21 +132,19 @@ int main(int argc, char* argsv[]) {
 	
 	while (current_time < end_time){
 
-		//boundaryCondition->applyBoundaryCondition();
-
-		calculation->resetForce();
 		calculation->calculateAll();
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
-			plotter->plotParticles(iteration, *length);
+			plotter->plotParticles(iteration, pc.getLength());
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished.");
 		}
 
 		current_time += delta_t;
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
-	delete &pa;
+
+	delete length;
 
 	return 0;
 }
