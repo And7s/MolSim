@@ -8,8 +8,7 @@
 #ifndef LCDOMAIN_H_
 #define LCDOMAIN_H_
 
-
-#include "LCell.h"
+#include "ParticleContainer.h"
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
 
@@ -35,7 +34,7 @@ protected:
 	 */
 	int* offset;
 
-	LCell** cells;
+	ParticleContainer** cells;
 
 	/**
 	 * stores the bounds of the domain
@@ -72,7 +71,7 @@ public:
 	 *  If the center-cell is part of the border,
 	 *  the number of the returned cells in the vector will be reduced accordingly.
 	 */
-	void getNeighbourCells(LCell* cell, std::vector<LCell*>* neighbours);
+	void getNeighbourCells(ParticleContainer* cell, std::vector<ParticleContainer*>* neighbours);
 
 	int getDimension();
 
@@ -81,7 +80,7 @@ public:
 	 * @param position size of the vector has to match the dimensions
 	 * returns the requested cell
 	 */
-	LCell* getCellAt(std::vector<int>* position);
+	ParticleContainer* getCellAt(std::vector<int>& position);
 
 
 	/**
@@ -92,7 +91,7 @@ public:
 	/**
 	 * checks whether the input vector specifies a position, which is valid in this domain.
 	 */
-	bool checkBounds(std::vector<int>* position);
+	bool checkBounds(std::vector<int>& position);
 
 	/**
 	 *
@@ -104,9 +103,9 @@ public:
 	 */
 	std::vector<int> decodeDimensinalOrigin(int index);
 
-	LCell**& getCells();
+	ParticleContainer**& getCells();
 
-	void setCells(LCell**& cells);
+	void setCells(ParticleContainer**& cells);
 
 	//TODO: implementation in header?
 	int getNumberOfCells(){

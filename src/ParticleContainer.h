@@ -29,28 +29,37 @@ class ParticleContainer {
 		//Particle** particles;
 		std::vector<Particle*> particles;
 		int np, npp1, npp2;
-		int length;
+		int position;
 	public:
 		ParticleContainer();
 		ParticleContainer(int l);
 		~ParticleContainer();
 		//void setParticles(Particle** particles_);
 		//Particle**& getParticles();
+
+
+
 		std::vector<Particle*> getParticles();
+
 		void setParticles(std::vector<Particle*> particles);
+
+		/**
+		 * adds a single particle to the container
+		 */
+		void setParticle(Particle* particle);
 
 		void show();
 		Particle* nextParticlePair1();
 		Particle* nextParticlePair2();
 		Particle* nextParticle();
 		int getLength();
-		void setLength(int length);
 		int getNp();
 		void setNp(int np);
 		int getNpp1();
 		void setNpp1(int npp1);
 		int getNpp2();
 		void setNpp2(int npp2);
+		int getPosition();
 
 };
 

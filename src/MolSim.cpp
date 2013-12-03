@@ -109,7 +109,7 @@ int main(int argc, char* argsv[]) {
 	int* length = new int;
 
 	//Particle** pa = pg.readFile(length, inp);
-	std::vector<Particle> pa = pg.readFile(length, inp);
+	std::vector<Particle*> pa = pg.readFile(length, inp);
 
 	ParticleContainer pc(*length);
 

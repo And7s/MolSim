@@ -46,9 +46,9 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 	for (i = 0; i < dimension; i++) {
 		linearspace = linearspace * this->bounds[i];
 	}
-	cells = new LCell*[linearspace];
+	cells = new ParticleContainer*[linearspace];
 	for (i = 0; i < linearspace; i++) {
-		LCell* lc = new LCell(i);
+		ParticleContainer* lc = new ParticleContainer(i);
 		cells[i] = lc;
 	}
 	numberOfCells = linearspace;
@@ -57,18 +57,18 @@ LCDomain::LCDomain(std::vector<int>* bounds) {
 			"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells);
 }
 
-LCell* LCDomain::getCellAt(std::vector<int> * pos) {
+ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
 	if(!checkBounds(pos)){
 		return NULL;
 	}
 	int index;
 	switch (dimension) {
 		case 1:
-			return cells[(*pos)[0]];	//x
+			return cells[pos[0]];	//x
 		case 2:
-			return cells[(*pos)[1] * (offset[0]) + (*pos)[0]];	//y * offsetX + x
+			return cells[pos[1] * (offset[0]) + pos[0]];	//y * offsetX + x
 		case 3:
-			return cells[(*pos)[2] * offset[0] * offset[1] + (*pos)[1] * offset[0] + (*pos)[0]]; //z * offsetX * offsetY + y * offsetX + x
+			return cells[pos[2] * offset[0] * offset[1] + pos[1] * offset[0] + pos[0]]; //z * offsetX * offsetY + y * offsetX + x
 		default:
 			//can't happen
 			return NULL;
@@ -91,18 +91,20 @@ void LCDomain::insertParticle(Particle* part){
 	}
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
-	partPos[0] = part->getX()[0];
-	partPos[1] = part->getX()[1];
-	partPos[2] = part->getX()[2];
-	index = this->getCellAt(&partPos)->getPosition();
-	this->cells[index]->add(part);
+	partPos[0] = (part->getX()[0] / cutOffRadius);
+	partPos[1] = (part->getX()[1] / cutOffRadius);
+	partPos[2] = (part->getX()[2] / cutOffRadius);
+	LOG4CXX_INFO(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
+	index = this->getCellAt(partPos)->getPosition();
+	this->cells[index]->setParticle(part);
+	LOG4CXX_INFO(loggerDomain,"added Particle to cell: " << index);
 }
 
-void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
+void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleContainer*>* neighbours) {
 	std::vector<int> axis = this->decodeDimensinalOrigin(cell->getPosition());
 	//check, if the input cell's position is valid.
 
-	if(!checkBounds(&axis)){
+	if(!checkBounds(axis)){
 		LOG4CXX_ERROR(loggerDomain,"invalid input cell");
 	}
 
@@ -113,13 +115,13 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 	case 1:
 		if(axis[0] > 0){
 			reference[0] = axis[0] -1;
-			neighbours->push_back(getCellAt(&reference));
-			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
+			neighbours->push_back(getCellAt(reference));
+			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 		}
 		if(axis[0] < (bounds)[0]-1){
 			reference[0] = axis[0] +1;
-			neighbours->push_back(getCellAt(&reference));
-			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
+			neighbours->push_back(getCellAt(reference));
+			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 		}
 		break;
 	case 2:
@@ -131,8 +133,8 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 					if(!(x == axis[0] && y == axis[1])){
 						reference[0] = x;
 						reference[1] = y;
-						neighbours->push_back(getCellAt(&reference));
-						LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
+						neighbours->push_back(getCellAt(reference));
+						LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 					}
 				}
 			}
@@ -149,8 +151,8 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 							reference[0] = x;
 							reference[1] = y;
 							reference[2] = z;
-							neighbours->push_back(getCellAt(&reference));
-							LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(&reference)->getPosition());
+							neighbours->push_back(getCellAt(reference));
+							LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 						}
 					}
 				}
@@ -163,26 +165,26 @@ void LCDomain::getNeighbourCells(LCell * cell,std::vector<LCell*>* neighbours) {
 	}
 }
 
-LCell**& LCDomain::getCells(){
+ParticleContainer**& LCDomain::getCells(){
 	return cells;
 }
 
-void LCDomain::setCells(LCell**& cells) {
+void LCDomain::setCells(ParticleContainer**& cells) {
 	this->cells = cells;
 }
 
 
-bool LCDomain::checkBounds(std::vector<int>* pos) {
-	if (pos->size() != dimension) {
+bool LCDomain::checkBounds(std::vector<int>& pos) {
+	if (pos.size() != dimension) {
 		LOG4CXX_ERROR(loggerDomain,
 				"Non-matching dimensions! Domain is currently set to " << this->dimension << " dimensions!");
 		return false;
 	}
 	int i;
 	for(i=0; i < dimension; i++){
-		if(((*pos)[i] <= 0) || ((*pos)[i] > (bounds)[i])){
+		if(((pos)[i] < 0) || ((pos)[i] > (bounds)[i])){
 			LOG4CXX_ERROR(loggerDomain,"The requested position is not located in the domain space.");
-			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: " << (*pos)[i] << " bounds: " << (bounds)[i]);
+			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: " << (pos)[i] << " bounds: " << (bounds)[i]);
 			return false;
 		}
 	}
@@ -205,6 +207,7 @@ std::vector<int> LCDomain::decodeDimensinalOrigin(int pos){
 		break;
 	default:
 		LOG4CXX_ERROR(loggerDomain,"unsupported dimension size!");	//cant happen
+		break;
 	}
 	return axis;
 }

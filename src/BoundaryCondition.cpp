@@ -44,7 +44,7 @@ utils::Vector<double, 3> BoundaryCondition::getDomainSize(){
 }
 
 void OutflowBoundary::applyBoundaryCondition(){
-	LCell** cell = linkedCell->getCells();
+	/*LCell** cell = linkedCell->getCells();
 	for(int i = 0;i < linkedCell->getNumberOfCells();i++){
 		LCell* actCell = cell[i];
 		Particle* p = actCell->getNextItem();
@@ -58,11 +58,11 @@ void OutflowBoundary::applyBoundaryCondition(){
 			}
 			p = actCell->getNextItem();
 		}
-	}
+	}*/
 }
 
 void ReflectingBoundary::applyBoundaryCondition() {
-	LCell** cell = linkedCell->getCells();
+	/*LCell** cell = linkedCell->getCells();
 	double maxDistance = pow(sigma, 1/6);
 	for(int i = 0;i < linkedCell->getNumberOfCells();i++){
 		LCell* actCell = cell[i];
@@ -94,7 +94,7 @@ void ReflectingBoundary::applyBoundaryCondition() {
 			}
 			p = actCell->getNextItem();
 		}
-	}
+	}*/
 }
 
 void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
