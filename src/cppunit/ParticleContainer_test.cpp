@@ -18,11 +18,11 @@ ParticleContainer_test::~ParticleContainer_test() {
 
 void ParticleContainer_test::setUp() {
 	//Particle** pa = new Particle*[2];
-	std::vector<Particle> pa;
+	std::vector<Particle*> pa;
 	particleContainer = new ParticleContainer(2);
 	Particle* p = new Particle();
-	pa.push_back(*p);
-	pa.push_back(*p);
+	pa.push_back(new Particle());
+	pa.push_back(new Particle());
 	//pa[0] = new Particle();
 	//pa[1] = new Particle();
 	particleContainer->setParticles(pa);

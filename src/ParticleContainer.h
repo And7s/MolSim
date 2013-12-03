@@ -27,7 +27,7 @@ using namespace log4cxx::helpers;
 class ParticleContainer {
 	protected:
 		//Particle** particles;
-		std::vector<Particle> particles;
+		std::vector<Particle*> particles;
 		int np, npp1, npp2;
 		int length;
 	public:
@@ -36,8 +36,8 @@ class ParticleContainer {
 		~ParticleContainer();
 		//void setParticles(Particle** particles_);
 		//Particle**& getParticles();
-		std::vector<Particle>& getParticles();
-		void setParticles(std::vector<Particle>& particles);
+		std::vector<Particle*> getParticles();
+		void setParticles(std::vector<Particle*> particles);
 
 		void show();
 		Particle* nextParticlePair1();

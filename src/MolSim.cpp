@@ -111,8 +111,8 @@ int main(int argc, char* argsv[]) {
 	int* length = new int;
 
 	//Particle** pa = pg.readFile(length, inp);
-	std::vector<Particle> pa = pg.readFile(length, inp);
-	
+	std::vector<Particle*> pa = pg.readFile(length, inp);
+	*length = pa.size();
 	ParticleContainer pc(*length);
 
 	//TEST
@@ -123,7 +123,7 @@ int main(int argc, char* argsv[]) {
 	//ParticleContainer2 pc();
 	//pc.setParticles(particleList);
 
-	delete length;
+	//delete length;
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
@@ -160,7 +160,7 @@ int main(int argc, char* argsv[]) {
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
 	delete &pa;
-
+	delete length;
 	return 0;
 }
 

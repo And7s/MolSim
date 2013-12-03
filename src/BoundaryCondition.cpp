@@ -107,9 +107,9 @@ void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
 	//Particle** pa = new Particle*[2];
 	//pa[0] = p;
 	//pa[1] = counterP;
-	std::vector<Particle> pa;
-	pa.push_back(*p);
-	pa.push_back(*counterP);
+	std::vector<Particle*> pa;
+	pa.push_back(p);
+	pa.push_back(counterP);
 	ParticleContainer pc(2);
 	pc.setParticles(pa);
 	calculation->setParticleContainer(pc);

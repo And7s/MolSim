@@ -33,11 +33,11 @@ Particle**& ParticleContainer::getParticles() {
 	return particles;
 }
 */
-std::vector<Particle>& ParticleContainer::getParticles(){
+std::vector<Particle*> ParticleContainer::getParticles(){
 	return particles;
 }
 
-void ParticleContainer::setParticles(std::vector<Particle>& particles) {
+void ParticleContainer::setParticles(std::vector<Particle*> particles) {
 	this->particles = particles;
 }
 
@@ -54,7 +54,7 @@ Particle* ParticleContainer::nextParticlePair1() {
 		return NULL;
 	}else {
 		npp1++;
-		return &(particles[npp1-1]);
+		return (particles[npp1-1]);
 	}
 }
 
@@ -64,7 +64,7 @@ Particle* ParticleContainer::nextParticlePair2() {
 		return NULL;
 	}else {
 		npp2++;
-		return &(particles[npp2-1]);
+		return (particles[npp2-1]);
 	}
 }
 
@@ -106,7 +106,7 @@ Particle* ParticleContainer::nextParticle() {
 		return NULL;
 	}else {
 		np++;
-		return &(particles[np-1]);
+		return (particles[np-1]);
 	}
 }
 

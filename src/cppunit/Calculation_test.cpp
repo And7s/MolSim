@@ -18,7 +18,7 @@ Calculation_test::~Calculation_test() {
 
 void Calculation_test::setUp() {
 	//Particle** pa = new Particle*[2];
-	std::vector<Particle> pa;
+	std::vector<Particle*> pa;
 	ParticleContainer pc(2);
 
 	test_calculator = new Sheet2Calc();
@@ -42,11 +42,11 @@ void Calculation_test::setUp() {
 	//pa[0] = new Particle(x1, v1, m1);
 	//pa[1] = new Particle(x2, v2, m2);
 	Particle* p = new Particle(x1, v1, m1);
-	pa.push_back(*p);
+	pa.push_back(new Particle(x1, v1, m1));
 	p = new Particle(x2,v2,m2);
-	pa.push_back(*p);
-	pa[0].setF(f1);
-	pa[1].setF(f2);
+	pa.push_back(new Particle(x2,v2,m2));
+	pa[0]->setF(f1);
+	pa[1]->setF(f2);
 
 	pc.setParticles(pa);
 	test_calculator->setParticleContainer(pc);
@@ -75,8 +75,8 @@ void Calculation_test::testCalculateForce() {
 	ParticleContainer pc = test_calculator->getParticleContainer();
 
 	for(int i = 0;i < 3; i++) {
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0].getF()[i], 0.001);
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1].getF()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getF()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getF()[i], 0.001);
 	}
 }
 
@@ -95,8 +95,8 @@ void Calculation_test::testCalculatePosition() {
 	ParticleContainer pc = test_calculator->getParticleContainer();
 
 	for(int i = 0;i < 3; i++) {
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0].getX()[i], 0.001);
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1].getX()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getX()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getX()[i], 0.001);
 	}
 }
 
@@ -112,7 +112,7 @@ void Calculation_test::testCalculateVelocity() {
 	result2[2]=2.1;
 	ParticleContainer pc = test_calculator->getParticleContainer();
 	for(int i = 0;i < 3; i++) {
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0].getV()[i], 0.001);
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1].getV()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getV()[i], 0.001);
+		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getV()[i], 0.001);
 	}
 }
