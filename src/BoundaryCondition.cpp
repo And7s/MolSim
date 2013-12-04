@@ -31,7 +31,7 @@ LCDomain& BoundaryCondition::getLCDomain(){
 	return linkedCell;
 }
 
-Calculation*& BoundaryCondition::getCalculation(){
+Calculation* BoundaryCondition::getCalculation(){
 	return calculation;
 }
 
@@ -43,7 +43,7 @@ void BoundaryCondition::setSigma(double sigma) {
 	this->sigma = sigma;
 }
 
-void BoundaryCondition::setCalculation(Calculation*& calculation) {
+void BoundaryCondition::setCalculation(Calculation* calculation) {
 	this->calculation = calculation;
 }
 
@@ -69,12 +69,13 @@ void OutflowBoundary::applyBoundaryCondition(int* noOfParticles){
 }
 
 void ReflectingBoundary::applyBoundaryCondition(int* noOfParticles) {
-	/*LCell** cell = linkedCell->getCells();
+	ParticleContainer** pcArray = linkedCell.getCells();
+	int size = linkedCell.getNumberOfCells();
 	double maxDistance = pow(sigma, 1/6);
-	for(int i = 0;i < linkedCell->getNumberOfCells();i++){
-		LCell* actCell = cell[i];
-		Particle* p = actCell->getNextItem();
-		while(p !=NULL){
+	for(int i = 0;i < size;i++){
+		Particle* p;
+		int j=0;
+		while((p = pcArray[i]->nextParticle(&j)) != NULL){
 			//Check Difference for x-direction
 			//Check if the Particle p is close to the left boundary of the domain
 			if((p->getX()[0]<maxDistance)&&(p->getX()[0]>0)){
@@ -99,9 +100,8 @@ void ReflectingBoundary::applyBoundaryCondition(int* noOfParticles) {
 			}else if((p->getX()[2]>(domainSize[2]-maxDistance))&&(p->getX()[2]<domainSize[2])){
 				applyForce(p, 2, false);
 			}
-			p = actCell->getNextItem();
 		}
-	}*/
+	}
 }
 
 void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
@@ -111,16 +111,6 @@ void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
 	}else{
 		counterP->getX()[axis] = domainSize[axis];
 	}
-	//Particle** pa = new Particle*[2];
-	//pa[0] = p;
-	//pa[1] = counterP;
-	std::vector<Particle*> pa;
-	pa.push_back(p);
-	pa.push_back(counterP);
-	ParticleContainer pc(2);
-	pc.setParticles(pa);
-	calculation->setParticleContainer(pc);
-	calculation->calculateForce();
+	Sheet3Calc::calculateSingleForce(p,counterP);
 	delete counterP;
-	delete &pc;
 }

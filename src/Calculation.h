@@ -74,6 +74,8 @@ public:
 	void setLcDomain(LCDomain& lcDomain);
 
 	LCDomain& getLcDomain();
+
+	void calculateSingleForce(Particle* p1, Particle* p2);
 };
 
 /**
@@ -117,6 +119,8 @@ public:
 	 * Function to calculate velocity, position and force at once as described in Shee1
 	 */
 	void calculateAll();
+
+	static void calculateSingleForce(Particle* p1, Particle* p2);
 };
 
 

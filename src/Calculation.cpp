@@ -49,17 +49,6 @@ void Calculation::calculatePosition(){
 			p->setX(newX);
 		}
 	}
-	/*
-	Particle* p;
-	//LOG4CXX_INFO(loggerCalc, "In CalculatePosition");
-	while((p = particleContainer.nextParticle()) != NULL) {
-		utils::Vector<double, 3> old_pos = p->getX();
-		utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
-		double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
-		utils::Vector<double, 3> new_force = p->getF() * (scalar);
-		utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
-		p->setX(newX);
-	}*/
 }
 
 void Calculation::calculateVelocity(){
@@ -76,16 +65,6 @@ void Calculation::calculateVelocity(){
 			p->setV(new_v);
 		}
 	}
-	/*
-	Particle* p;
-	//LOG4CXX_INFO(loggerCalc, "In CalculateVelocity");
-	while((p = particleContainer.nextParticle()) != NULL) {
-		utils::Vector<double, 3> old_v = p->getV();
-		double scalar = getDeltaT()/(2*p->getM());
-		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-		utils::Vector<double, 3> new_v = old_v +(new_acc);
-		p->setV(new_v);
-	}*/
 }
 
 void Calculation::resetForce() {
@@ -100,14 +79,6 @@ void Calculation::resetForce() {
 			p->setF(z);
 		}
 	}
-	/*
-	Particle* p;
-	while((p = particleContainer.nextParticle()) != NULL) {
-		p->setOldF(p->getF());
-		utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
-		p->setF(z);
-	}
-	*/
 }
 
 void Calculation::setParticleContainer(ParticleContainer& pc_) {
@@ -207,4 +178,15 @@ void Sheet3Calc::calculateAll() {
 	lcDomain.reset();
 	calculateForce();
 
+}
+
+void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2){
+	double epsilon = 5.0;
+	double sigma = 1.0;
+	double dist = ((p1->getX() -(p2->getX())).L2Norm());
+	double factor1 = (24 * epsilon)/pow(dist,2);
+	double factor2 = pow((sigma/dist),6)- (2*pow((sigma/dist),12));
+	utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
+	utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
+	p1->addOnF(forceIJ);
 }

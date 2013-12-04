@@ -38,9 +38,9 @@ public:
 	 */
 	virtual void applyBoundaryCondition(int* noOfParticles)=0;
 
-	Calculation*& getCalculation();
+	Calculation* getCalculation();
 
-	void setCalculation(Calculation*& calculation);
+	void setCalculation(Calculation* calculation);
 
 	void setDomainSize(std::vector<int>& domainSize);
 
