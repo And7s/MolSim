@@ -31,20 +31,12 @@ LCDomain& BoundaryCondition::getLCDomain(){
 	return linkedCell;
 }
 
-Calculation* BoundaryCondition::getCalculation(){
-	return calculation;
-}
-
 void BoundaryCondition::setDomainSize(std::vector<int>& domainSize) {
 	this->domainSize = domainSize;
 }
 
 void BoundaryCondition::setSigma(double sigma) {
 	this->sigma = sigma;
-}
-
-void BoundaryCondition::setCalculation(Calculation* calculation) {
-	this->calculation = calculation;
 }
 
 void OutflowBoundary::applyBoundaryCondition(int* noOfParticles){

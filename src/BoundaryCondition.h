@@ -17,7 +17,6 @@
 class BoundaryCondition {
 
 protected:
-	Calculation *calculation;
 	LCDomain linkedCell;
 	std::vector<int> domainSize;
 	double sigma;
@@ -37,10 +36,6 @@ public:
 	 * Abstract function to check the Boundary Conditions
 	 */
 	virtual void applyBoundaryCondition(int* noOfParticles)=0;
-
-	Calculation* getCalculation();
-
-	void setCalculation(Calculation* calculation);
 
 	void setDomainSize(std::vector<int>& domainSize);
 

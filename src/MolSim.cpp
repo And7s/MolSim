@@ -130,7 +130,6 @@ int main(int argc, char* argsv[]) {
 	calculation->setParticleContainer(pc);
 	calculation->setLcDomain(lcDomain);
 
-	boundaryCondition->setCalculation(calculation);
 	boundaryCondition->setDomainSize(domainSize);
 	boundaryCondition->setLCDomain(lcDomain);
 
