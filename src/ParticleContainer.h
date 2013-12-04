@@ -54,6 +54,11 @@ class ParticleContainer {
 		 */
 		void deleteParticle(Particle* particle, bool destroy);
 
+		/**
+		 * this is less precise than deletePartilce(), since this deletes the whole vector, but more effective.
+		 */
+		void clearParticles();
+
 		void show();
 		Particle* nextParticlePair1();
 		Particle* nextParticlePair2();

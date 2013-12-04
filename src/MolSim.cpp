@@ -24,7 +24,11 @@
 
 
 #include "input.h"
+#include <iostream>
+#include <cstdlib>
+#include <sys/timeb.h>
 
+using namespace std;
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
@@ -54,6 +58,8 @@ OutflowBoundary outflowBoundary;
 BoundaryCondition *boundaryCondition = &outflowBoundary;
 
 void showUsage();
+int getMilliCount();
+int getMilliSpan(int);
 /**
  * lifecycle.. iterates through simulation step by step
  */
@@ -140,6 +146,10 @@ int main(int argc, char* argsv[]) {
 	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
 	
+
+	int startTime = getMilliCount();
+	double accTime = 0;
+	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec" );
 	while (current_time < end_time){
 		calculation->resetForce();
 		boundaryCondition->applyBoundaryCondition(length);
@@ -148,7 +158,10 @@ int main(int argc, char* argsv[]) {
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
 			plotter->plotParticles(iteration, *length);
-			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished.");
+			int time = getMilliSpan(startTime);
+			accTime += time;
+			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
+			startTime = getMilliCount();
 		}
 
 		current_time += delta_t;
@@ -160,6 +173,19 @@ int main(int argc, char* argsv[]) {
 	return 0;
 }
 
+int getMilliCount(){
+	timeb tb;
+	ftime(&tb);
+	int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
+	return nCount;
+}
+
+int getMilliSpan(int nTimeStart){
+	int nSpan = getMilliCount() - nTimeStart;
+	if(nSpan < 0)
+		nSpan += 0x100000 * 1000;
+	return nSpan;
+}
 
 void showUsage() {
 	LOG4CXX_FATAL(loggerMain, "erroneous programm call - program will halt!");

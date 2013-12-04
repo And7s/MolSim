@@ -36,6 +36,7 @@ void ParticleContainer::setParticle(Particle* particle) {
 	this->particles.push_back(particle);
 }
 
+
 void ParticleContainer::deleteParticle(Particle* particle, bool destroy) {
 	int i;
 	int currentSize = this->particles.size();
@@ -54,6 +55,10 @@ void ParticleContainer::deleteParticle(Particle* particle, bool destroy) {
 		delete particle;
 		particle = NULL;
 	}
+}
+
+void ParticleContainer::clearParticles() {
+	this->particles.clear();
 }
 
 void ParticleContainer::show() {

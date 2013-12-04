@@ -126,8 +126,9 @@ void LCDomain::reset(){
 		while((currentP = this->getCellAt(dimensionalOrigin)->nextParticle(&iterator)) != NULL){
 			//std::cout << "ADDING PARTICLE" << std::endl;
 			particles.push_back(currentP);
-			this->getCellAt(dimensionalOrigin)->deleteParticle(currentP,false);
+			//this->getCellAt(dimensionalOrigin)->deleteParticle(currentP,false);
 		}
+		this->getCellAt(dimensionalOrigin)->clearParticles();
 	}
 	int amountOfParticles = particles.size();
 	for(i = 0; i < amountOfParticles; i++){
