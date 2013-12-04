@@ -113,6 +113,27 @@ void LCDomain::insertParticle(Particle* part){
 	LOG4CXX_INFO(loggerDomain,"added Particle to cell: " << index);
 }
 
+void LCDomain::reset(){
+	std::vector<Particle*> particles;
+	//store all particles refereces
+	int i;
+	for(i = 0; i < this->numberOfCells; i++){
+		Particle* currentP;
+		std::vector<int> dimensionalOrigin;
+		dimensionalOrigin = this->decodeDimensinalOrigin(i);
+		//std::cout << "PUSH FROM CELL" << (this->getCellAt(dimensionalOrigin)->getPosition()) << std::endl;
+		while((currentP = this->getCellAt(dimensionalOrigin)->nextParticle()) != NULL){
+			//std::cout << "ADDING PARTICLE" << std::endl;
+			particles.push_back(currentP);
+			this->getCellAt(dimensionalOrigin)->deleteParticle(currentP);
+		}
+	}
+	int amountOfParticles = particles.size();
+	for(i = 0; i < amountOfParticles; i++){
+		this->insertParticle(particles[i]);
+	}
+}
+
 void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleContainer*>* neighbours) {
 	std::vector<int> axis = this->decodeDimensinalOrigin(cell->getPosition());
 	//check, if the input cell's position is valid.

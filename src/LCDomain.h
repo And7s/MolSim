@@ -123,7 +123,7 @@ public:
 
 	void setCells(ParticleContainer**& cells);
 
-
+	void reset();
 
 	int getCutOffRadius();
 

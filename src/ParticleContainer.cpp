@@ -38,17 +38,25 @@ void ParticleContainer::setParticle(Particle* particle) {
 
 void ParticleContainer::deleteParticle(Particle* particle) {
 	int i;
-	for(i=0; i < this->particles.size(); i++){
+	int currentSize = this->particles.size();
+	for(i=0; i < currentSize; i++){
 		if((this->particles[i]->getX()[0] == particle->getX()[0]) &&
 				(this->particles[i]->getX()[1] == particle->getX()[1]) &&
 				(this->particles[i]->getX()[0] == particle->getX()[0])){
 			break;
 		}
 	}
+	if(i >= currentSize){
+		return;
+	}
+	std::cout << "HAAALLO " << currentSize << " | " << i << " lösche particle with x:" << particle->getX()[0] << std::endl;
+	show();
+	std::cout << std::endl;
+	std::cout << std::endl;
 	this->particles.erase(particles.begin()+i);
-	delete particle;
-	particle = NULL;
-	std::cout << particle->getType() << std::endl;
+	np = 0;
+	//delete particle;
+	//particle = NULL;
 }
 
 void ParticleContainer::show() {

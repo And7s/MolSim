@@ -70,9 +70,34 @@ void LCDomain_test::testBehaviour(){
 	pos[2] = 0;
 	cell = this->lcd->getCellAt(pos);
 	cell->show();
-	CPPUNIT_ASSERT_EQUAL(0.0,p1->getDistanceTo(p1));
-	cell->deleteParticle(p2);
-	std::cout << std::endl;
+
+	utils::Vector<double,3> p4;
+	p4[0] = 11;
+	p4[1] = 1;
+	p4[2] = 1;
+
+	utils::Vector<double,3> p5;
+	p5[0] = 12;
+	p5[1] = 1;
+	p5[2] = 1;
+
+	utils::Vector<double,3> p6;
+	p6[0] = 13;
+	p6[1] = 1;
+	p6[2] = 1;
+
+	p1->setX(p4);
+	p2->setX(p5);
+	p3->setX(p6);
+
+	lcd->reset();
+	std::cout << "showing cell 3:" <<std::endl;
+	cell->show();
+	pos[0] = 4;
+	pos[1] = 0;
+	pos[2] = 0;
+	cell = this->lcd->getCellAt(pos);
+	std::cout << "showing cell 4:" <<std::endl;
 	cell->show();
 }
 
