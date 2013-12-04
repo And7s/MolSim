@@ -79,46 +79,60 @@ public:
 
 /**
  * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
+ * for Sheet1
  */
 class Sheet1Calc: public Calculation {
 
 public:
 	/**
-	 * Function to calculate the force as described in Sheet1
+	 * Function to calculate the force
 	 */
 	void calculateForce();
 
 	/**
-	 * Function to calculate velocity, position and force at once as described in Shee1
+	 * Function to calculate velocity, position and force
 	 */
 	void calculateAll();
 };
 
+/**
+ * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
+ * for Sheet2
+ */
 class Sheet2Calc: public Calculation {
 public:
 	/**
-	 * Function to calculate the force as described in Sheet1
+	 * Function to calculate the force
 	 */
 	void calculateForce();
 
 	/**
-	 * Function to calculate velocity, position and force at once as described in Shee1
+	 * Function to calculate velocity, position and force at once
 	 */
 	void calculateAll();
 };
 
+/**
+ * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
+ * for Sheet3
+ */
 class Sheet3Calc: public Calculation {
 public:
 	/**
-	 * Function to calculate the force as described in Sheet1
+	 * Function to calculate the force
 	 */
 	void calculateForce();
 
 	/**
-	 * Function to calculate velocity, position and force at once as described in Shee1
+	 * Function to calculate velocity, position and force at once
 	 */
 	void calculateAll();
 
+	/**
+	 * Function to calculate the force between the two specific particles p1 and p2
+	 * @param p1
+	 * @param p2
+	 */
 	static void calculateSingleForce(Particle* p1, Particle* p2);
 };
 
