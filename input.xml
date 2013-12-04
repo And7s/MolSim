@@ -51,8 +51,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <mass>1.0</mass>
     <velocity>
       <x>0</x>
-      <y>0</y>
-      <z>-10</z>
+      <y>-10</y>
+      <z>0</z>
     </velocity>
   </cuboid>
 </input>
