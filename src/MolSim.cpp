@@ -55,7 +55,8 @@ Calculation *calculation = &sheet3calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
 OutflowBoundary outflowBoundary;
-BoundaryCondition *boundaryCondition = &outflowBoundary;
+ReflectingBoundary reflectingBoundary;
+BoundaryCondition *boundaryCondition = &reflectingBoundary;
 
 void showUsage();
 int getMilliCount();
