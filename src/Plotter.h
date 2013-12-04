@@ -10,6 +10,7 @@
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "ParticleContainer.h"
+#include "LCDomain.h"
 
 #include <iostream>
 #include <unistd.h>
@@ -20,8 +21,9 @@ using namespace std;
  */
 class Plotter
 {
-	private:
+	protected:
 		ParticleContainer particleContainer;
+		LCDomain lcDomain;
 
 	public:
 		virtual ~Plotter() {}
@@ -35,6 +37,8 @@ class Plotter
 		ParticleContainer& getParticleContainer();
 
 		void setParticleContainer(ParticleContainer& particleContainer);
+
+		void setLcDomain(LCDomain& lcDomain);
 };
 
 /**

@@ -129,6 +129,7 @@ int main(int argc, char* argsv[]) {
 	boundaryCondition->setLCDomain(lcDomain);
 
 	plotter->setParticleContainer(pc);
+	plotter->setLcDomain(lcDomain);
 
 	//initially calculation of Forces
 	calculation->resetForce();
@@ -140,7 +141,7 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
 	
 	while (current_time < end_time){
-		calculation->resetForce();
+		//calculation->resetForce();
 		//boundaryCondition->applyBoundaryCondition();
 		calculation->calculateAll();
 

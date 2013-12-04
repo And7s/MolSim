@@ -70,7 +70,10 @@ public:
 	 * @return delta_t
 	 */
 	double getDeltaT();
+
 	void setLcDomain(LCDomain& lcDomain);
+
+	LCDomain& getLcDomain();
 };
 
 /**

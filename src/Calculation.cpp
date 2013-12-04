@@ -15,6 +15,10 @@ void Calculation::setDeltaT(double delta_t) {
 	this->delta_t = delta_t;
 }
 
+LCDomain& Calculation::getLcDomain(){
+	return lcDomain;
+}
+
 void Calculation::setLcDomain(LCDomain& lcDomain) {
 	this->lcDomain = lcDomain;
 }
@@ -31,6 +35,22 @@ void Calculation::calculateAll(){
 
 void Calculation::calculatePosition(){
 
+	ParticleContainer** pcArray = lcDomain.getCells();
+	int size = lcDomain.getNumberOfCells();
+
+	for(int i = 0; i<size;i++){
+		Particle* p;
+		while((p = pcArray[i]->nextParticle())!=NULL){
+			utils::Vector<double, 3> old_pos = p->getX();
+			utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
+			double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
+			utils::Vector<double, 3> new_force = p->getF() * (scalar);
+			utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
+			p->setX(newX);
+		}
+	}
+	std::cout << "Position: " << std::endl;
+	/*
 	Particle* p;
 	//LOG4CXX_INFO(loggerCalc, "In CalculatePosition");
 	while((p = particleContainer.nextParticle()) != NULL) {
@@ -40,10 +60,24 @@ void Calculation::calculatePosition(){
 		utils::Vector<double, 3> new_force = p->getF() * (scalar);
 		utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
 		p->setX(newX);
-	}
+	}*/
 }
 
 void Calculation::calculateVelocity(){
+	ParticleContainer** pcArray = lcDomain.getCells();
+	int size = lcDomain.getNumberOfCells();
+
+	for(int i = 0; i<size;i++){
+		Particle* p;
+		while((p = pcArray[i]->nextParticle())!=NULL){
+			utils::Vector<double, 3> old_v = p->getV();
+			double scalar = getDeltaT()/(2*p->getM());
+			utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
+			utils::Vector<double, 3> new_v = old_v +(new_acc);
+			p->setV(new_v);
+		}
+	}
+	/*
 	Particle* p;
 	//LOG4CXX_INFO(loggerCalc, "In CalculateVelocity");
 	while((p = particleContainer.nextParticle()) != NULL) {
@@ -52,17 +86,29 @@ void Calculation::calculateVelocity(){
 		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
 		utils::Vector<double, 3> new_v = old_v +(new_acc);
 		p->setV(new_v);
-	}
+	}*/
 }
 
 void Calculation::resetForce() {
+	ParticleContainer** pcArray = lcDomain.getCells();
+	int size = lcDomain.getNumberOfCells();
+
+	for(int i = 0; i<size;i++){
+		Particle* p;
+		while((p = pcArray[i]->nextParticle())!=NULL){
+			p->setOldF(p->getF());
+			utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
+			p->setF(z);
+		}
+	}
+	/*
 	Particle* p;
 	while((p = particleContainer.nextParticle()) != NULL) {
 		p->setOldF(p->getF());
 		utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
 		p->setF(z);
 	}
-
+	*/
 }
 
 void Calculation::setParticleContainer(ParticleContainer& pc_) {
@@ -128,13 +174,12 @@ void Sheet3Calc::calculateForce() {
 	ParticleContainer** pcArray = lcDomain.getCells();
 	int size = lcDomain.getNumberOfCells();
 	ParticleContainer* pc;
-
 	for(int i = 0; i < size; i++){
 		pc = pcArray[i];
 		std::vector<ParticleContainer*> neighboursOfPc;
-		int sizeNeighbours = neighboursOfPc.size();
 		lcDomain.getNeighbourCells(pc, &neighboursOfPc);
 		neighboursOfPc.push_back(pc);
+		int sizeNeighbours = neighboursOfPc.size();
 		Particle* p;
 		while((p = pc->nextParticle())!=NULL){
 			for(int j = 0; j < sizeNeighbours;j++){
