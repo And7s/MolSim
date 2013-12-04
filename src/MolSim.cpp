@@ -54,8 +54,8 @@ Sheet3Calc sheet3calc;
 Calculation *calculation = &sheet3calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
-OutflowBoundary outflowBoundary;
-BoundaryCondition *boundaryCondition = &outflowBoundary;
+
+std::vector<BoundaryCondition*> boundaryConditions;
 
 void showUsage();
 int getMilliCount();
@@ -101,7 +101,7 @@ int main(int argc, char* argsv[]) {
     	LOG4CXX_FATAL(loggerMain, "XML Parsing error, shut down");
     	exit(-1);
   	}
-
+cout << "EPSILON"<<inp->epsilon()<<endl;
     //assign values from xml file
     delta_t = inp->delta_t();
     end_time = inp->tend();
@@ -109,30 +109,58 @@ int main(int argc, char* argsv[]) {
 	ParticleGenerator pg;
 	int* length = new int;
 
-	//Particle** pa = pg.readFile(length, inp);
+
 	std::vector<Particle*> pa = pg.readFile(length, inp);
 
+
 	//Initialize LCDomain
+
 	std::vector<int> domainSize(3,0);
-	int cutOff = 1;
-	domainSize[0] = 180;
-	domainSize[1] = 90;
-	domainSize[2] = 1;
+	int cutOff = inp->LinkedCellDomain().cutoff();
+	domainSize[0] = inp->LinkedCellDomain().dimension().x();
+	domainSize[1] = inp->LinkedCellDomain().dimension().y();
+	domainSize[2] = inp->LinkedCellDomain().dimension().z();
+
+	
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
+	
 	lcDomain.insertParticles(pa);
-	/*for(int i = 0; i < pa.size(); i++){
-		lcDomain.insertParticle(pa[i]);
-	}*/
+
+
+	//initiallze boundary conditions
+	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
+		BoundaryCondition *boundaryCondition;	
+		if(si->reflecting()) {	//create a reflecting boundary
+			boundaryCondition = new ReflectingBoundary();
+		}else {		//create a non reflecting boundary
+			boundaryCondition = new OutflowBoundary();;
+		}
+		
+		std::vector<int> domainSize(3,0);
+		//set the dimension of the boundary
+		domainSize[0] = si->dimension().x();
+		domainSize[1] = si->dimension().y();
+		domainSize[2] = si->dimension().z();
+		boundaryCondition->setDomainSize(domainSize);
+		boundaryCondition->setLCDomain(lcDomain);
+		//add to the vector of all boundary collections
+		boundaryConditions.push_back(boundaryCondition);
+
+	}
+	LOG4CXX_INFO(loggerMain, "Created "<<boundaryConditions.size()<<" boundary Conditions");
+	
+
 
 	ParticleContainer pc(*length);
+
 	pc.setParticles(pa);
 
 	calculation->setDeltaT(delta_t);
+	calculation->setEpsilon(5);
+	calculation->setSigma(1);
 	calculation->setParticleContainer(pc);
 	calculation->setLcDomain(lcDomain);
 
-	boundaryCondition->setDomainSize(domainSize);
-	boundaryCondition->setLCDomain(lcDomain);
 
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);
@@ -146,13 +174,16 @@ int main(int argc, char* argsv[]) {
 	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
 	
-
 	int startTime = getMilliCount();
 	double accTime = 0;
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec" );
 	while (current_time < end_time){
 		calculation->resetForce();
-		boundaryCondition->applyBoundaryCondition(length);
+		for(int i = 0; i < boundaryConditions.size(); i++) {
+			cout << "DO IT";
+			boundaryConditions[i]->applyBoundaryCondition(length);
+		}
+		
 		calculation->calculateAll();
 
 		iteration++;
@@ -168,7 +199,11 @@ int main(int argc, char* argsv[]) {
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
 
+
 	delete length;
+
+
+	//delete pa; needed???
 
 	return 0;
 }

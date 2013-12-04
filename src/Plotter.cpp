@@ -15,6 +15,7 @@ void Plotter::setParticleContainer(ParticleContainer& particleContainer) {
 
 void VTK::plotParticles(int iteration, int amountOfParticles) {
 	outputWriter::VTKWriter writer;
+	//cout <<"Amount"<<amountOfParticles<<endl; 	
 	writer.initializeOutput(amountOfParticles);
 
 	ParticleContainer** pcArray = lcDomain.getCells();

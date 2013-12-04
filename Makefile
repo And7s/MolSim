@@ -1,4 +1,3 @@
-# This is a makefile template
 
 
 # Compiler
@@ -22,8 +21,9 @@ INCLUDES= -I./src -I./libxsd
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=MolSim
 
-all: $(SOURCES) $(EXECUTABLE)
 
+all: $(SOURCES) $(EXECUTABLE)
+	
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@ 
 

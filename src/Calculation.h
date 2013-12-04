@@ -22,7 +22,7 @@ protected:
 	LCDomain lcDomain;
 	ParticleContainer particleContainer;
 	double delta_t;
-
+	double epsilon, sigma;
 
 public:
 	virtual ~Calculation() {
@@ -64,6 +64,18 @@ public:
 	 * @param deltaT
 	 */
 	void setDeltaT(double deltaT);
+
+	/**
+	 * Function to set the private parameter epsilon
+	 * @param epsilon
+	 */
+	void setEpsilon(double epsilon_);
+
+	/**
+	 * Function to set the private parameter sigma
+	 * @param sigma
+	 */
+	void setSigma(double sigma_);
 
 	/**
 	 * Function to get the private parameter delta_t

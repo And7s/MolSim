@@ -22,18 +22,48 @@ ParticleGenerator::~ParticleGenerator() {}
 std::vector<Particle*> ParticleGenerator::readFile(int* length, auto_ptr<input_t>& inp) {
 	LOG4CXX_TRACE(loggerPG, "ParticleGenerator called to generate particles");
 	
+std::vector<Particle*> partlist;
+
+	float dist = 0;
+	double x[] = {0,0,0};
+	double v[] = {1,1,1};
+	for(input_t::sphere_const_iterator si (inp->sphere().begin()); si != inp->sphere().end(); ++si) {
+		float max_dist = std::pow(si->radius(), 2); //eg. r: 5, dist: 2.5 -> max_even = 2 
+		v[0] = si->velocity().x();
+		v[1] = si->velocity().y();
+		v[2] = si->velocity().z();
+		LOG4CXX_INFO(loggerPG, "Generate a Sphere");
+					
+		for(float d1 = si->position().x()-si->radius()*si->distance(); d1 < si->position().x()+si->radius()*si->distance(); d1+=si->distance()) {
+			x[0] = d1;
+			for(float d2 = si->position().y()-si->radius()*si->distance(); d2 < si->position().y()+si->radius()*si->distance(); d2 +=si->distance()) {
+				x[1] = d2;
+				float d3 = si->position().z();
+				x[2] = d3;
+				dist = 
+					std::pow(si->position().x()-d1,2)+
+					std::pow(si->position().y()-d2,2)+
+					std::pow(si->position().z()-d3,2);
+				if(dist <= max_dist) {
+					Particle* p = new Particle(x,v,si->mass());
+
+					utils::Vector<double, 3> velo = v;
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),3);
+
+					partlist.push_back(p);
+				}
+			}
+		}
+	}
+	LOG4CXX_INFO(loggerPG, "Generated" << partlist.size() << "Particles for Spheres");
 	int num_particles = 0;
 
 	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){
 		num_particles += ci->number().x() * ci->number().y() * ci->number().z();
     }
-	std::vector<Particle*> pa;
-	Particle* p;
 
-	double x[] = {0,0,0};
-	double v[] = {1,1,1};
-
-	int num = 0;
+    LOG4CXX_INFO(loggerPG, "Generate Cuboids");
+	
 	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){
 		v[0] = ci->velocity().x();
 		v[1] = ci->velocity().y();
@@ -45,16 +75,22 @@ std::vector<Particle*> ParticleGenerator::readFile(int* length, auto_ptr<input_t
 				x[1] = d2*ci->distance()+ci->position().y();
 				for(int d3 = 0; d3 < ci->number().z(); d3++) {
 					x[2] = d3*ci->distance()+ci->position().z();
-					pa.push_back(new Particle(x,v,ci->mass()));
+
+					Particle* p = new Particle(x,v,ci->mass());
+
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*(pa[num]),velo.L2Norm(),2);
-					num++;
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),3);
+
+					partlist.push_back(p);
 				}
 			}
 		}
 	}
+
+
+	LOG4CXX_INFO(loggerPG, "Generated overall " << partlist.size() << " Particles");
 	
-	*length =num_particles;
-	return pa;
+	*length =partlist.size();
+	return partlist;
 }
 

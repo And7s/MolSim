@@ -60,6 +60,7 @@ LCDomain::LCDomain(std::vector<int>* bounds,int cutOffRad, int cellDimension) {
 		linearspace = linearspace * this->bounds[i];
 	}
 	cells = new ParticleContainer*[linearspace];
+
 	for (i = 0; i < linearspace; i++) {
 		ParticleContainer* lc = new ParticleContainer(i);
 		cells[i] = lc;
@@ -90,6 +91,7 @@ ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
 
 void LCDomain::insertParticle(Particle* part){
 	int index = -1;
+	
 	if(cutOffRadius <= 0){
 		LOG4CXX_ERROR(loggerDomain, "Invalid Cutoff radius. Please specify first");
 		return;
@@ -226,7 +228,7 @@ bool LCDomain::checkBounds(std::vector<int>& pos) {
 	for(i=0; i < dimension; i++){
 		if(((pos)[i] < 0) || ((pos)[i] > (bounds)[i])){
 			LOG4CXX_ERROR(loggerDomain,"The requested position is not located in the domain space.");
-			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i] <<
+			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i] << " dimension:" << i <<
 					" - This error may indicate a malfunction in the boundary condition");
 			return false;
 		}

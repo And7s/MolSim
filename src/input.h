@@ -223,8 +223,13 @@ namespace xml_schema
 //
 class input_t;
 class cuboid;
+class sphere;
+class boundaryCondition;
+class LinkedCellDomain;
 class vectorF;
 class vectorI;
+class nonNegativeFloat;
+class positiveFloat;
 
 #include <memory>    // std::auto_ptr
 #include <limits>    // std::numeric_limits
@@ -242,6 +247,34 @@ class vectorI;
 class input_t: public ::xml_schema::type
 {
   public:
+  // epsilon
+  // 
+  typedef ::xml_schema::double_ epsilon_type;
+  typedef ::xsd::cxx::tree::traits< epsilon_type, char, ::xsd::cxx::tree::schema_type::double_ > epsilon_traits;
+
+  const epsilon_type&
+  epsilon () const;
+
+  epsilon_type&
+  epsilon ();
+
+  void
+  epsilon (const epsilon_type& x);
+
+  // sigma
+  // 
+  typedef ::xml_schema::double_ sigma_type;
+  typedef ::xsd::cxx::tree::traits< sigma_type, char, ::xsd::cxx::tree::schema_type::double_ > sigma_traits;
+
+  const sigma_type&
+  sigma () const;
+
+  sigma_type&
+  sigma ();
+
+  void
+  sigma (const sigma_type& x);
+
   // base_output_file
   // 
   typedef ::xml_schema::string base_output_file_type;
@@ -349,14 +382,78 @@ class input_t: public ::xml_schema::type
   void
   cuboid (const cuboid_sequence& s);
 
+  // sphere
+  // 
+  typedef ::sphere sphere_type;
+  typedef ::xsd::cxx::tree::sequence< sphere_type > sphere_sequence;
+  typedef sphere_sequence::iterator sphere_iterator;
+  typedef sphere_sequence::const_iterator sphere_const_iterator;
+  typedef ::xsd::cxx::tree::traits< sphere_type, char > sphere_traits;
+
+  const sphere_sequence&
+  sphere () const;
+
+  sphere_sequence&
+  sphere ();
+
+  void
+  sphere (const sphere_sequence& s);
+
+  // boundaryCondition
+  // 
+  typedef ::boundaryCondition boundaryCondition_type;
+  typedef ::xsd::cxx::tree::sequence< boundaryCondition_type > boundaryCondition_sequence;
+  typedef boundaryCondition_sequence::iterator boundaryCondition_iterator;
+  typedef boundaryCondition_sequence::const_iterator boundaryCondition_const_iterator;
+  typedef ::xsd::cxx::tree::traits< boundaryCondition_type, char > boundaryCondition_traits;
+
+  const boundaryCondition_sequence&
+  boundaryCondition () const;
+
+  boundaryCondition_sequence&
+  boundaryCondition ();
+
+  void
+  boundaryCondition (const boundaryCondition_sequence& s);
+
+  // LinkedCellDomain
+  // 
+  typedef ::LinkedCellDomain LinkedCellDomain_type;
+  typedef ::xsd::cxx::tree::traits< LinkedCellDomain_type, char > LinkedCellDomain_traits;
+
+  const LinkedCellDomain_type&
+  LinkedCellDomain () const;
+
+  LinkedCellDomain_type&
+  LinkedCellDomain ();
+
+  void
+  LinkedCellDomain (const LinkedCellDomain_type& x);
+
+  void
+  LinkedCellDomain (::std::auto_ptr< LinkedCellDomain_type > p);
+
   // Constructors.
   //
-  input_t (const base_output_file_type&,
+  input_t (const epsilon_type&,
+           const sigma_type&,
+           const base_output_file_type&,
            const frequency_type&,
            const start_time_type&,
            const tend_type&,
            const delta_t_type&,
-           const input_file_type&);
+           const input_file_type&,
+           const LinkedCellDomain_type&);
+
+  input_t (const epsilon_type&,
+           const sigma_type&,
+           const base_output_file_type&,
+           const frequency_type&,
+           const start_time_type&,
+           const tend_type&,
+           const delta_t_type&,
+           const input_file_type&,
+           ::std::auto_ptr< LinkedCellDomain_type >&);
 
   input_t (const ::xercesc::DOMElement& e,
            ::xml_schema::flags f = 0,
@@ -384,6 +481,8 @@ class input_t: public ::xml_schema::type
          ::xml_schema::flags);
 
   protected:
+  ::xsd::cxx::tree::one< epsilon_type > epsilon_;
+  ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
   ::xsd::cxx::tree::one< start_time_type > start_time_;
@@ -391,6 +490,9 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< delta_t_type > delta_t_;
   ::xsd::cxx::tree::one< input_file_type > input_file_;
   cuboid_sequence cuboid_;
+  sphere_sequence sphere_;
+  boundaryCondition_sequence boundaryCondition_;
+  ::xsd::cxx::tree::one< LinkedCellDomain_type > LinkedCellDomain_;
 };
 
 class cuboid: public ::xml_schema::type
@@ -432,7 +534,7 @@ class cuboid: public ::xml_schema::type
 
   // distance
   // 
-  typedef ::xml_schema::float_ distance_type;
+  typedef ::nonNegativeFloat distance_type;
   typedef ::xsd::cxx::tree::traits< distance_type, char > distance_traits;
 
   const distance_type&
@@ -444,9 +546,12 @@ class cuboid: public ::xml_schema::type
   void
   distance (const distance_type& x);
 
+  void
+  distance (::std::auto_ptr< distance_type > p);
+
   // mass
   // 
-  typedef ::xml_schema::float_ mass_type;
+  typedef ::nonNegativeFloat mass_type;
   typedef ::xsd::cxx::tree::traits< mass_type, char > mass_traits;
 
   const mass_type&
@@ -457,6 +562,9 @@ class cuboid: public ::xml_schema::type
 
   void
   mass (const mass_type& x);
+
+  void
+  mass (::std::auto_ptr< mass_type > p);
 
   // velocity
   // 
@@ -520,6 +628,305 @@ class cuboid: public ::xml_schema::type
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
+};
+
+class sphere: public ::xml_schema::type
+{
+  public:
+  // position
+  // 
+  typedef ::vectorF position_type;
+  typedef ::xsd::cxx::tree::traits< position_type, char > position_traits;
+
+  const position_type&
+  position () const;
+
+  position_type&
+  position ();
+
+  void
+  position (const position_type& x);
+
+  void
+  position (::std::auto_ptr< position_type > p);
+
+  // radius
+  // 
+  typedef ::nonNegativeFloat radius_type;
+  typedef ::xsd::cxx::tree::traits< radius_type, char > radius_traits;
+
+  const radius_type&
+  radius () const;
+
+  radius_type&
+  radius ();
+
+  void
+  radius (const radius_type& x);
+
+  void
+  radius (::std::auto_ptr< radius_type > p);
+
+  // distance
+  // 
+  typedef ::xml_schema::float_ distance_type;
+  typedef ::xsd::cxx::tree::traits< distance_type, char > distance_traits;
+
+  const distance_type&
+  distance () const;
+
+  distance_type&
+  distance ();
+
+  void
+  distance (const distance_type& x);
+
+  // mass
+  // 
+  typedef ::nonNegativeFloat mass_type;
+  typedef ::xsd::cxx::tree::traits< mass_type, char > mass_traits;
+
+  const mass_type&
+  mass () const;
+
+  mass_type&
+  mass ();
+
+  void
+  mass (const mass_type& x);
+
+  void
+  mass (::std::auto_ptr< mass_type > p);
+
+  // velocity
+  // 
+  typedef ::vectorF velocity_type;
+  typedef ::xsd::cxx::tree::traits< velocity_type, char > velocity_traits;
+
+  const velocity_type&
+  velocity () const;
+
+  velocity_type&
+  velocity ();
+
+  void
+  velocity (const velocity_type& x);
+
+  void
+  velocity (::std::auto_ptr< velocity_type > p);
+
+  // Constructors.
+  //
+  sphere (const position_type&,
+          const radius_type&,
+          const distance_type&,
+          const mass_type&,
+          const velocity_type&);
+
+  sphere (::std::auto_ptr< position_type >&,
+          const radius_type&,
+          const distance_type&,
+          const mass_type&,
+          ::std::auto_ptr< velocity_type >&);
+
+  sphere (const ::xercesc::DOMElement& e,
+          ::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0);
+
+  sphere (const sphere& x,
+          ::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0);
+
+  virtual sphere*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  sphere&
+  operator= (const sphere& x);
+
+  virtual 
+  ~sphere ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< position_type > position_;
+  ::xsd::cxx::tree::one< radius_type > radius_;
+  ::xsd::cxx::tree::one< distance_type > distance_;
+  ::xsd::cxx::tree::one< mass_type > mass_;
+  ::xsd::cxx::tree::one< velocity_type > velocity_;
+};
+
+class boundaryCondition: public ::xml_schema::type
+{
+  public:
+  // dimension
+  // 
+  typedef ::vectorF dimension_type;
+  typedef ::xsd::cxx::tree::traits< dimension_type, char > dimension_traits;
+
+  const dimension_type&
+  dimension () const;
+
+  dimension_type&
+  dimension ();
+
+  void
+  dimension (const dimension_type& x);
+
+  void
+  dimension (::std::auto_ptr< dimension_type > p);
+
+  // cutoff
+  // 
+  typedef ::nonNegativeFloat cutoff_type;
+  typedef ::xsd::cxx::tree::traits< cutoff_type, char > cutoff_traits;
+
+  const cutoff_type&
+  cutoff () const;
+
+  cutoff_type&
+  cutoff ();
+
+  void
+  cutoff (const cutoff_type& x);
+
+  void
+  cutoff (::std::auto_ptr< cutoff_type > p);
+
+  // reflecting
+  // 
+  typedef ::xml_schema::boolean reflecting_type;
+  typedef ::xsd::cxx::tree::traits< reflecting_type, char > reflecting_traits;
+
+  const reflecting_type&
+  reflecting () const;
+
+  reflecting_type&
+  reflecting ();
+
+  void
+  reflecting (const reflecting_type& x);
+
+  // Constructors.
+  //
+  boundaryCondition (const dimension_type&,
+                     const cutoff_type&,
+                     const reflecting_type&);
+
+  boundaryCondition (::std::auto_ptr< dimension_type >&,
+                     const cutoff_type&,
+                     const reflecting_type&);
+
+  boundaryCondition (const ::xercesc::DOMElement& e,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+  boundaryCondition (const boundaryCondition& x,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+  virtual boundaryCondition*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  boundaryCondition&
+  operator= (const boundaryCondition& x);
+
+  virtual 
+  ~boundaryCondition ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< dimension_type > dimension_;
+  ::xsd::cxx::tree::one< cutoff_type > cutoff_;
+  ::xsd::cxx::tree::one< reflecting_type > reflecting_;
+};
+
+class LinkedCellDomain: public ::xml_schema::type
+{
+  public:
+  // dimension
+  // 
+  typedef ::vectorF dimension_type;
+  typedef ::xsd::cxx::tree::traits< dimension_type, char > dimension_traits;
+
+  const dimension_type&
+  dimension () const;
+
+  dimension_type&
+  dimension ();
+
+  void
+  dimension (const dimension_type& x);
+
+  void
+  dimension (::std::auto_ptr< dimension_type > p);
+
+  // cutoff
+  // 
+  typedef ::nonNegativeFloat cutoff_type;
+  typedef ::xsd::cxx::tree::traits< cutoff_type, char > cutoff_traits;
+
+  const cutoff_type&
+  cutoff () const;
+
+  cutoff_type&
+  cutoff ();
+
+  void
+  cutoff (const cutoff_type& x);
+
+  void
+  cutoff (::std::auto_ptr< cutoff_type > p);
+
+  // Constructors.
+  //
+  LinkedCellDomain (const dimension_type&,
+                    const cutoff_type&);
+
+  LinkedCellDomain (::std::auto_ptr< dimension_type >&,
+                    const cutoff_type&);
+
+  LinkedCellDomain (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+  LinkedCellDomain (const LinkedCellDomain& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+  virtual LinkedCellDomain*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  LinkedCellDomain&
+  operator= (const LinkedCellDomain& x);
+
+  virtual 
+  ~LinkedCellDomain ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< dimension_type > dimension_;
+  ::xsd::cxx::tree::one< cutoff_type > cutoff_;
 };
 
 class vectorF: public ::xml_schema::type
@@ -684,6 +1091,70 @@ class vectorI: public ::xml_schema::type
   ::xsd::cxx::tree::one< x_type > x_;
   ::xsd::cxx::tree::one< y_type > y_;
   ::xsd::cxx::tree::one< z_type > z_;
+};
+
+class nonNegativeFloat: public ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type >
+{
+  public:
+  // Constructors.
+  //
+  nonNegativeFloat (const ::xml_schema::float_&);
+
+  nonNegativeFloat (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+  nonNegativeFloat (const ::xercesc::DOMAttr& a,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+  nonNegativeFloat (const ::std::string& s,
+                    const ::xercesc::DOMElement* e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+  nonNegativeFloat (const nonNegativeFloat& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+  virtual nonNegativeFloat*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  virtual 
+  ~nonNegativeFloat ();
+};
+
+class positiveFloat: public ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type >
+{
+  public:
+  // Constructors.
+  //
+  positiveFloat (const ::xml_schema::float_&);
+
+  positiveFloat (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+  positiveFloat (const ::xercesc::DOMAttr& a,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+  positiveFloat (const ::std::string& s,
+                 const ::xercesc::DOMElement* e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+  positiveFloat (const positiveFloat& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+  virtual positiveFloat*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  virtual 
+  ~positiveFloat ();
 };
 
 #include <iosfwd>

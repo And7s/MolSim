@@ -22,6 +22,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </xsd:annotation>
 
     <xsd:sequence>
+      <xsd:element name="epsilon" type="xsd:double"></xsd:element>
+      <xsd:element name="sigma" type="xsd:double"></xsd:element>
       <xsd:element name="base_output_file" type="xsd:string" ></xsd:element>
       <xsd:element name="frequency" type="xsd:integer"></xsd:element>
       <xsd:element name="start_time" type="xsd:decimal"></xsd:element>
@@ -29,6 +31,9 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="delta_t" type="xsd:float"></xsd:element>
       <xsd:element name="input_file" type="xsd:string"></xsd:element>
       <xsd:element type="cuboid" name="cuboid" maxOccurs="unbounded"></xsd:element>
+      <xsd:element type="sphere" name="sphere" maxOccurs="unbounded"></xsd:element>
+      <xsd:element type="boundaryCondition" name="boundaryCondition"  maxOccurs="unbounded"></xsd:element>
+      <xsd:element type="LinkedCellDomain" name="LinkedCellDomain"></xsd:element>
     </xsd:sequence>
   </xsd:complexType>
 
@@ -36,9 +41,36 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <xsd:sequence>
       <xsd:element type="vectorF" name="position"></xsd:element>
       <xsd:element type="vectorI" name="number"></xsd:element>
-      <xsd:element type="xsd:float" name="distance"></xsd:element>
-      <xsd:element type="xsd:float" name="mass"></xsd:element>
+      <xsd:element type="nonNegativeFloat" name="distance"></xsd:element>
+      <xsd:element type="nonNegativeFloat" name="mass"></xsd:element>
       <xsd:element type="vectorF" name="velocity"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+   <xsd:complexType name="sphere">
+    <xsd:sequence>
+      <xsd:element type="vectorF" name="position"></xsd:element>
+      <xsd:element name="radius" type="nonNegativeFloat">
+       
+      </xsd:element>
+      <xsd:element type="xsd:float" name="distance"></xsd:element>
+      <xsd:element type="nonNegativeFloat" name="mass"></xsd:element>
+      <xsd:element type="vectorF" name="velocity"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="boundaryCondition">
+    <xsd:sequence>
+      <xsd:element type="vectorF" name="dimension"></xsd:element>
+      <xsd:element type="nonNegativeFloat" name="cutoff"></xsd:element>
+      <xsd:element type="xsd:boolean" name="reflecting"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LinkedCellDomain">
+    <xsd:sequence>
+      <xsd:element type="vectorF" name="dimension"></xsd:element>
+      <xsd:element type="nonNegativeFloat" name="cutoff"></xsd:element>
     </xsd:sequence>
   </xsd:complexType>
 
@@ -58,6 +90,17 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </xsd:sequence>
   </xsd:complexType>
 
+   <xsd:simpleType name="nonNegativeFloat">
+    <xsd:restriction base="xsd:float">
+     <xsd:minInclusive value="0" />
+    </xsd:restriction> 
+  </xsd:simpleType>
+
+  <xsd:simpleType name="positiveFloat">
+    <xsd:restriction base="xsd:float">
+     <xsd:maxExclusive value="0" />
+    </xsd:restriction> 
+  </xsd:simpleType>
 
   <xsd:element name="input" type="input_t">
     <xsd:annotation>

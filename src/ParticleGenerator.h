@@ -17,6 +17,7 @@
 
 #include <memory>   // std::auto_ptr
 #include <iostream>
+#include <vector>
 #include "input.h"
 
 using namespace log4cxx;

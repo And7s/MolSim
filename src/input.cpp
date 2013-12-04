@@ -43,6 +43,42 @@
 // input_t
 // 
 
+const input_t::epsilon_type& input_t::
+epsilon () const
+{
+  return this->epsilon_.get ();
+}
+
+input_t::epsilon_type& input_t::
+epsilon ()
+{
+  return this->epsilon_.get ();
+}
+
+void input_t::
+epsilon (const epsilon_type& x)
+{
+  this->epsilon_.set (x);
+}
+
+const input_t::sigma_type& input_t::
+sigma () const
+{
+  return this->sigma_.get ();
+}
+
+input_t::sigma_type& input_t::
+sigma ()
+{
+  return this->sigma_.get ();
+}
+
+void input_t::
+sigma (const sigma_type& x)
+{
+  this->sigma_.set (x);
+}
+
 const input_t::base_output_file_type& input_t::
 base_output_file () const
 {
@@ -181,6 +217,66 @@ cuboid (const cuboid_sequence& s)
   this->cuboid_ = s;
 }
 
+const input_t::sphere_sequence& input_t::
+sphere () const
+{
+  return this->sphere_;
+}
+
+input_t::sphere_sequence& input_t::
+sphere ()
+{
+  return this->sphere_;
+}
+
+void input_t::
+sphere (const sphere_sequence& s)
+{
+  this->sphere_ = s;
+}
+
+const input_t::boundaryCondition_sequence& input_t::
+boundaryCondition () const
+{
+  return this->boundaryCondition_;
+}
+
+input_t::boundaryCondition_sequence& input_t::
+boundaryCondition ()
+{
+  return this->boundaryCondition_;
+}
+
+void input_t::
+boundaryCondition (const boundaryCondition_sequence& s)
+{
+  this->boundaryCondition_ = s;
+}
+
+const input_t::LinkedCellDomain_type& input_t::
+LinkedCellDomain () const
+{
+  return this->LinkedCellDomain_.get ();
+}
+
+input_t::LinkedCellDomain_type& input_t::
+LinkedCellDomain ()
+{
+  return this->LinkedCellDomain_.get ();
+}
+
+void input_t::
+LinkedCellDomain (const LinkedCellDomain_type& x)
+{
+  this->LinkedCellDomain_.set (x);
+}
+
+void input_t::
+LinkedCellDomain (::std::auto_ptr< LinkedCellDomain_type > x)
+{
+  this->LinkedCellDomain_.set (x);
+}
+
 
 // cuboid
 // 
@@ -251,6 +347,12 @@ distance (const distance_type& x)
   this->distance_.set (x);
 }
 
+void cuboid::
+distance (::std::auto_ptr< distance_type > x)
+{
+  this->distance_.set (x);
+}
+
 const cuboid::mass_type& cuboid::
 mass () const
 {
@@ -265,6 +367,12 @@ mass ()
 
 void cuboid::
 mass (const mass_type& x)
+{
+  this->mass_.set (x);
+}
+
+void cuboid::
+mass (::std::auto_ptr< mass_type > x)
 {
   this->mass_.set (x);
 }
@@ -291,6 +399,246 @@ void cuboid::
 velocity (::std::auto_ptr< velocity_type > x)
 {
   this->velocity_.set (x);
+}
+
+
+// sphere
+// 
+
+const sphere::position_type& sphere::
+position () const
+{
+  return this->position_.get ();
+}
+
+sphere::position_type& sphere::
+position ()
+{
+  return this->position_.get ();
+}
+
+void sphere::
+position (const position_type& x)
+{
+  this->position_.set (x);
+}
+
+void sphere::
+position (::std::auto_ptr< position_type > x)
+{
+  this->position_.set (x);
+}
+
+const sphere::radius_type& sphere::
+radius () const
+{
+  return this->radius_.get ();
+}
+
+sphere::radius_type& sphere::
+radius ()
+{
+  return this->radius_.get ();
+}
+
+void sphere::
+radius (const radius_type& x)
+{
+  this->radius_.set (x);
+}
+
+void sphere::
+radius (::std::auto_ptr< radius_type > x)
+{
+  this->radius_.set (x);
+}
+
+const sphere::distance_type& sphere::
+distance () const
+{
+  return this->distance_.get ();
+}
+
+sphere::distance_type& sphere::
+distance ()
+{
+  return this->distance_.get ();
+}
+
+void sphere::
+distance (const distance_type& x)
+{
+  this->distance_.set (x);
+}
+
+const sphere::mass_type& sphere::
+mass () const
+{
+  return this->mass_.get ();
+}
+
+sphere::mass_type& sphere::
+mass ()
+{
+  return this->mass_.get ();
+}
+
+void sphere::
+mass (const mass_type& x)
+{
+  this->mass_.set (x);
+}
+
+void sphere::
+mass (::std::auto_ptr< mass_type > x)
+{
+  this->mass_.set (x);
+}
+
+const sphere::velocity_type& sphere::
+velocity () const
+{
+  return this->velocity_.get ();
+}
+
+sphere::velocity_type& sphere::
+velocity ()
+{
+  return this->velocity_.get ();
+}
+
+void sphere::
+velocity (const velocity_type& x)
+{
+  this->velocity_.set (x);
+}
+
+void sphere::
+velocity (::std::auto_ptr< velocity_type > x)
+{
+  this->velocity_.set (x);
+}
+
+
+// boundaryCondition
+// 
+
+const boundaryCondition::dimension_type& boundaryCondition::
+dimension () const
+{
+  return this->dimension_.get ();
+}
+
+boundaryCondition::dimension_type& boundaryCondition::
+dimension ()
+{
+  return this->dimension_.get ();
+}
+
+void boundaryCondition::
+dimension (const dimension_type& x)
+{
+  this->dimension_.set (x);
+}
+
+void boundaryCondition::
+dimension (::std::auto_ptr< dimension_type > x)
+{
+  this->dimension_.set (x);
+}
+
+const boundaryCondition::cutoff_type& boundaryCondition::
+cutoff () const
+{
+  return this->cutoff_.get ();
+}
+
+boundaryCondition::cutoff_type& boundaryCondition::
+cutoff ()
+{
+  return this->cutoff_.get ();
+}
+
+void boundaryCondition::
+cutoff (const cutoff_type& x)
+{
+  this->cutoff_.set (x);
+}
+
+void boundaryCondition::
+cutoff (::std::auto_ptr< cutoff_type > x)
+{
+  this->cutoff_.set (x);
+}
+
+const boundaryCondition::reflecting_type& boundaryCondition::
+reflecting () const
+{
+  return this->reflecting_.get ();
+}
+
+boundaryCondition::reflecting_type& boundaryCondition::
+reflecting ()
+{
+  return this->reflecting_.get ();
+}
+
+void boundaryCondition::
+reflecting (const reflecting_type& x)
+{
+  this->reflecting_.set (x);
+}
+
+
+// LinkedCellDomain
+// 
+
+const LinkedCellDomain::dimension_type& LinkedCellDomain::
+dimension () const
+{
+  return this->dimension_.get ();
+}
+
+LinkedCellDomain::dimension_type& LinkedCellDomain::
+dimension ()
+{
+  return this->dimension_.get ();
+}
+
+void LinkedCellDomain::
+dimension (const dimension_type& x)
+{
+  this->dimension_.set (x);
+}
+
+void LinkedCellDomain::
+dimension (::std::auto_ptr< dimension_type > x)
+{
+  this->dimension_.set (x);
+}
+
+const LinkedCellDomain::cutoff_type& LinkedCellDomain::
+cutoff () const
+{
+  return this->cutoff_.get ();
+}
+
+LinkedCellDomain::cutoff_type& LinkedCellDomain::
+cutoff ()
+{
+  return this->cutoff_.get ();
+}
+
+void LinkedCellDomain::
+cutoff (const cutoff_type& x)
+{
+  this->cutoff_.set (x);
+}
+
+void LinkedCellDomain::
+cutoff (::std::auto_ptr< cutoff_type > x)
+{
+  this->cutoff_.set (x);
 }
 
 
@@ -410,26 +758,68 @@ z (const z_type& x)
 }
 
 
+// nonNegativeFloat
+// 
+
+
+// positiveFloat
+// 
+
+
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
 // input_t
 //
 
 input_t::
-input_t (const base_output_file_type& base_output_file,
+input_t (const epsilon_type& epsilon,
+         const sigma_type& sigma,
+         const base_output_file_type& base_output_file,
          const frequency_type& frequency,
          const start_time_type& start_time,
          const tend_type& tend,
          const delta_t_type& delta_t,
-         const input_file_type& input_file)
+         const input_file_type& input_file,
+         const LinkedCellDomain_type& LinkedCellDomain)
 : ::xml_schema::type (),
+  epsilon_ (epsilon, this),
+  sigma_ (sigma, this),
   base_output_file_ (base_output_file, this),
   frequency_ (frequency, this),
   start_time_ (start_time, this),
   tend_ (tend, this),
   delta_t_ (delta_t, this),
   input_file_ (input_file, this),
-  cuboid_ (this)
+  cuboid_ (this),
+  sphere_ (this),
+  boundaryCondition_ (this),
+  LinkedCellDomain_ (LinkedCellDomain, this)
+{
+}
+
+input_t::
+input_t (const epsilon_type& epsilon,
+         const sigma_type& sigma,
+         const base_output_file_type& base_output_file,
+         const frequency_type& frequency,
+         const start_time_type& start_time,
+         const tend_type& tend,
+         const delta_t_type& delta_t,
+         const input_file_type& input_file,
+         ::std::auto_ptr< LinkedCellDomain_type >& LinkedCellDomain)
+: ::xml_schema::type (),
+  epsilon_ (epsilon, this),
+  sigma_ (sigma, this),
+  base_output_file_ (base_output_file, this),
+  frequency_ (frequency, this),
+  start_time_ (start_time, this),
+  tend_ (tend, this),
+  delta_t_ (delta_t, this),
+  input_file_ (input_file, this),
+  cuboid_ (this),
+  sphere_ (this),
+  boundaryCondition_ (this),
+  LinkedCellDomain_ (LinkedCellDomain, this)
 {
 }
 
@@ -438,13 +828,18 @@ input_t (const input_t& x,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (x, f, c),
+  epsilon_ (x.epsilon_, f, this),
+  sigma_ (x.sigma_, f, this),
   base_output_file_ (x.base_output_file_, f, this),
   frequency_ (x.frequency_, f, this),
   start_time_ (x.start_time_, f, this),
   tend_ (x.tend_, f, this),
   delta_t_ (x.delta_t_, f, this),
   input_file_ (x.input_file_, f, this),
-  cuboid_ (x.cuboid_, f, this)
+  cuboid_ (x.cuboid_, f, this),
+  sphere_ (x.sphere_, f, this),
+  boundaryCondition_ (x.boundaryCondition_, f, this),
+  LinkedCellDomain_ (x.LinkedCellDomain_, f, this)
 {
 }
 
@@ -453,13 +848,18 @@ input_t (const ::xercesc::DOMElement& e,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  epsilon_ (this),
+  sigma_ (this),
   base_output_file_ (this),
   frequency_ (this),
   start_time_ (this),
   tend_ (this),
   delta_t_ (this),
   input_file_ (this),
-  cuboid_ (this)
+  cuboid_ (this),
+  sphere_ (this),
+  boundaryCondition_ (this),
+  LinkedCellDomain_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -477,6 +877,28 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     const ::xercesc::DOMElement& i (p.cur_element ());
     const ::xsd::cxx::xml::qualified_name< char > n (
       ::xsd::cxx::xml::dom::name< char > (i));
+
+    // epsilon
+    //
+    if (n.name () == "epsilon" && n.namespace_ ().empty ())
+    {
+      if (!epsilon_.present ())
+      {
+        this->epsilon_.set (epsilon_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // sigma
+    //
+    if (n.name () == "sigma" && n.namespace_ ().empty ())
+    {
+      if (!sigma_.present ())
+      {
+        this->sigma_.set (sigma_traits::create (i, f, this));
+        continue;
+      }
+    }
 
     // base_output_file
     //
@@ -561,7 +983,57 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       continue;
     }
 
+    // sphere
+    //
+    if (n.name () == "sphere" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< sphere_type > r (
+        sphere_traits::create (i, f, this));
+
+      this->sphere_.push_back (r);
+      continue;
+    }
+
+    // boundaryCondition
+    //
+    if (n.name () == "boundaryCondition" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< boundaryCondition_type > r (
+        boundaryCondition_traits::create (i, f, this));
+
+      this->boundaryCondition_.push_back (r);
+      continue;
+    }
+
+    // LinkedCellDomain
+    //
+    if (n.name () == "LinkedCellDomain" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< LinkedCellDomain_type > r (
+        LinkedCellDomain_traits::create (i, f, this));
+
+      if (!LinkedCellDomain_.present ())
+      {
+        this->LinkedCellDomain_.set (r);
+        continue;
+      }
+    }
+
     break;
+  }
+
+  if (!epsilon_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "epsilon",
+      "");
+  }
+
+  if (!sigma_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "sigma",
+      "");
   }
 
   if (!base_output_file_.present ())
@@ -605,6 +1077,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "input_file",
       "");
   }
+
+  if (!LinkedCellDomain_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "LinkedCellDomain",
+      "");
+  }
 }
 
 input_t* input_t::
@@ -620,6 +1099,8 @@ operator= (const input_t& x)
   if (this != &x)
   {
     static_cast< ::xml_schema::type& > (*this) = x;
+    this->epsilon_ = x.epsilon_;
+    this->sigma_ = x.sigma_;
     this->base_output_file_ = x.base_output_file_;
     this->frequency_ = x.frequency_;
     this->start_time_ = x.start_time_;
@@ -627,6 +1108,9 @@ operator= (const input_t& x)
     this->delta_t_ = x.delta_t_;
     this->input_file_ = x.input_file_;
     this->cuboid_ = x.cuboid_;
+    this->sphere_ = x.sphere_;
+    this->boundaryCondition_ = x.boundaryCondition_;
+    this->LinkedCellDomain_ = x.LinkedCellDomain_;
   }
 
   return *this;
@@ -743,9 +1227,12 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     //
     if (n.name () == "distance" && n.namespace_ ().empty ())
     {
+      ::std::auto_ptr< distance_type > r (
+        distance_traits::create (i, f, this));
+
       if (!distance_.present ())
       {
-        this->distance_.set (distance_traits::create (i, f, this));
+        this->distance_.set (r);
         continue;
       }
     }
@@ -754,9 +1241,12 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     //
     if (n.name () == "mass" && n.namespace_ ().empty ())
     {
+      ::std::auto_ptr< mass_type > r (
+        mass_traits::create (i, f, this));
+
       if (!mass_.present ())
       {
-        this->mass_.set (mass_traits::create (i, f, this));
+        this->mass_.set (r);
         continue;
       }
     }
@@ -839,6 +1329,493 @@ operator= (const cuboid& x)
 
 cuboid::
 ~cuboid ()
+{
+}
+
+// sphere
+//
+
+sphere::
+sphere (const position_type& position,
+        const radius_type& radius,
+        const distance_type& distance,
+        const mass_type& mass,
+        const velocity_type& velocity)
+: ::xml_schema::type (),
+  position_ (position, this),
+  radius_ (radius, this),
+  distance_ (distance, this),
+  mass_ (mass, this),
+  velocity_ (velocity, this)
+{
+}
+
+sphere::
+sphere (::std::auto_ptr< position_type >& position,
+        const radius_type& radius,
+        const distance_type& distance,
+        const mass_type& mass,
+        ::std::auto_ptr< velocity_type >& velocity)
+: ::xml_schema::type (),
+  position_ (position, this),
+  radius_ (radius, this),
+  distance_ (distance, this),
+  mass_ (mass, this),
+  velocity_ (velocity, this)
+{
+}
+
+sphere::
+sphere (const sphere& x,
+        ::xml_schema::flags f,
+        ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  position_ (x.position_, f, this),
+  radius_ (x.radius_, f, this),
+  distance_ (x.distance_, f, this),
+  mass_ (x.mass_, f, this),
+  velocity_ (x.velocity_, f, this)
+{
+}
+
+sphere::
+sphere (const ::xercesc::DOMElement& e,
+        ::xml_schema::flags f,
+        ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  position_ (this),
+  radius_ (this),
+  distance_ (this),
+  mass_ (this),
+  velocity_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void sphere::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // position
+    //
+    if (n.name () == "position" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< position_type > r (
+        position_traits::create (i, f, this));
+
+      if (!position_.present ())
+      {
+        this->position_.set (r);
+        continue;
+      }
+    }
+
+    // radius
+    //
+    if (n.name () == "radius" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< radius_type > r (
+        radius_traits::create (i, f, this));
+
+      if (!radius_.present ())
+      {
+        this->radius_.set (r);
+        continue;
+      }
+    }
+
+    // distance
+    //
+    if (n.name () == "distance" && n.namespace_ ().empty ())
+    {
+      if (!distance_.present ())
+      {
+        this->distance_.set (distance_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // mass
+    //
+    if (n.name () == "mass" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< mass_type > r (
+        mass_traits::create (i, f, this));
+
+      if (!mass_.present ())
+      {
+        this->mass_.set (r);
+        continue;
+      }
+    }
+
+    // velocity
+    //
+    if (n.name () == "velocity" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< velocity_type > r (
+        velocity_traits::create (i, f, this));
+
+      if (!velocity_.present ())
+      {
+        this->velocity_.set (r);
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!position_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "position",
+      "");
+  }
+
+  if (!radius_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "radius",
+      "");
+  }
+
+  if (!distance_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "distance",
+      "");
+  }
+
+  if (!mass_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "mass",
+      "");
+  }
+
+  if (!velocity_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "velocity",
+      "");
+  }
+}
+
+sphere* sphere::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class sphere (*this, f, c);
+}
+
+sphere& sphere::
+operator= (const sphere& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->position_ = x.position_;
+    this->radius_ = x.radius_;
+    this->distance_ = x.distance_;
+    this->mass_ = x.mass_;
+    this->velocity_ = x.velocity_;
+  }
+
+  return *this;
+}
+
+sphere::
+~sphere ()
+{
+}
+
+// boundaryCondition
+//
+
+boundaryCondition::
+boundaryCondition (const dimension_type& dimension,
+                   const cutoff_type& cutoff,
+                   const reflecting_type& reflecting)
+: ::xml_schema::type (),
+  dimension_ (dimension, this),
+  cutoff_ (cutoff, this),
+  reflecting_ (reflecting, this)
+{
+}
+
+boundaryCondition::
+boundaryCondition (::std::auto_ptr< dimension_type >& dimension,
+                   const cutoff_type& cutoff,
+                   const reflecting_type& reflecting)
+: ::xml_schema::type (),
+  dimension_ (dimension, this),
+  cutoff_ (cutoff, this),
+  reflecting_ (reflecting, this)
+{
+}
+
+boundaryCondition::
+boundaryCondition (const boundaryCondition& x,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  dimension_ (x.dimension_, f, this),
+  cutoff_ (x.cutoff_, f, this),
+  reflecting_ (x.reflecting_, f, this)
+{
+}
+
+boundaryCondition::
+boundaryCondition (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  dimension_ (this),
+  cutoff_ (this),
+  reflecting_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void boundaryCondition::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // dimension
+    //
+    if (n.name () == "dimension" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< dimension_type > r (
+        dimension_traits::create (i, f, this));
+
+      if (!dimension_.present ())
+      {
+        this->dimension_.set (r);
+        continue;
+      }
+    }
+
+    // cutoff
+    //
+    if (n.name () == "cutoff" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< cutoff_type > r (
+        cutoff_traits::create (i, f, this));
+
+      if (!cutoff_.present ())
+      {
+        this->cutoff_.set (r);
+        continue;
+      }
+    }
+
+    // reflecting
+    //
+    if (n.name () == "reflecting" && n.namespace_ ().empty ())
+    {
+      if (!reflecting_.present ())
+      {
+        this->reflecting_.set (reflecting_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!dimension_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "dimension",
+      "");
+  }
+
+  if (!cutoff_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "cutoff",
+      "");
+  }
+
+  if (!reflecting_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "reflecting",
+      "");
+  }
+}
+
+boundaryCondition* boundaryCondition::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class boundaryCondition (*this, f, c);
+}
+
+boundaryCondition& boundaryCondition::
+operator= (const boundaryCondition& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->dimension_ = x.dimension_;
+    this->cutoff_ = x.cutoff_;
+    this->reflecting_ = x.reflecting_;
+  }
+
+  return *this;
+}
+
+boundaryCondition::
+~boundaryCondition ()
+{
+}
+
+// LinkedCellDomain
+//
+
+LinkedCellDomain::
+LinkedCellDomain (const dimension_type& dimension,
+                  const cutoff_type& cutoff)
+: ::xml_schema::type (),
+  dimension_ (dimension, this),
+  cutoff_ (cutoff, this)
+{
+}
+
+LinkedCellDomain::
+LinkedCellDomain (::std::auto_ptr< dimension_type >& dimension,
+                  const cutoff_type& cutoff)
+: ::xml_schema::type (),
+  dimension_ (dimension, this),
+  cutoff_ (cutoff, this)
+{
+}
+
+LinkedCellDomain::
+LinkedCellDomain (const LinkedCellDomain& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  dimension_ (x.dimension_, f, this),
+  cutoff_ (x.cutoff_, f, this)
+{
+}
+
+LinkedCellDomain::
+LinkedCellDomain (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  dimension_ (this),
+  cutoff_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void LinkedCellDomain::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // dimension
+    //
+    if (n.name () == "dimension" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< dimension_type > r (
+        dimension_traits::create (i, f, this));
+
+      if (!dimension_.present ())
+      {
+        this->dimension_.set (r);
+        continue;
+      }
+    }
+
+    // cutoff
+    //
+    if (n.name () == "cutoff" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< cutoff_type > r (
+        cutoff_traits::create (i, f, this));
+
+      if (!cutoff_.present ())
+      {
+        this->cutoff_.set (r);
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!dimension_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "dimension",
+      "");
+  }
+
+  if (!cutoff_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "cutoff",
+      "");
+  }
+}
+
+LinkedCellDomain* LinkedCellDomain::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class LinkedCellDomain (*this, f, c);
+}
+
+LinkedCellDomain& LinkedCellDomain::
+operator= (const LinkedCellDomain& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->dimension_ = x.dimension_;
+    this->cutoff_ = x.cutoff_;
+  }
+
+  return *this;
+}
+
+LinkedCellDomain::
+~LinkedCellDomain ()
 {
 }
 
@@ -1109,6 +2086,114 @@ operator= (const vectorI& x)
 
 vectorI::
 ~vectorI ()
+{
+}
+
+// nonNegativeFloat
+//
+
+nonNegativeFloat::
+nonNegativeFloat (const ::xml_schema::float_& _xsd_float__base)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (_xsd_float__base)
+{
+}
+
+nonNegativeFloat::
+nonNegativeFloat (const nonNegativeFloat& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (x, f, c)
+{
+}
+
+nonNegativeFloat::
+nonNegativeFloat (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (e, f, c)
+{
+}
+
+nonNegativeFloat::
+nonNegativeFloat (const ::xercesc::DOMAttr& a,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (a, f, c)
+{
+}
+
+nonNegativeFloat::
+nonNegativeFloat (const ::std::string& s,
+                  const ::xercesc::DOMElement* e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (s, e, f, c)
+{
+}
+
+nonNegativeFloat* nonNegativeFloat::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class nonNegativeFloat (*this, f, c);
+}
+
+nonNegativeFloat::
+~nonNegativeFloat ()
+{
+}
+
+// positiveFloat
+//
+
+positiveFloat::
+positiveFloat (const ::xml_schema::float_& _xsd_float__base)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (_xsd_float__base)
+{
+}
+
+positiveFloat::
+positiveFloat (const positiveFloat& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (x, f, c)
+{
+}
+
+positiveFloat::
+positiveFloat (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (e, f, c)
+{
+}
+
+positiveFloat::
+positiveFloat (const ::xercesc::DOMAttr& a,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (a, f, c)
+{
+}
+
+positiveFloat::
+positiveFloat (const ::std::string& s,
+               const ::xercesc::DOMElement* e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::float_, char, ::xml_schema::simple_type > (s, e, f, c)
+{
+}
+
+positiveFloat* positiveFloat::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class positiveFloat (*this, f, c);
+}
+
+positiveFloat::
+~positiveFloat ()
 {
 }
 
