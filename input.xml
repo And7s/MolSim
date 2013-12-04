@@ -15,12 +15,12 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <frequency>10</frequency>
   <start_time>0</start_time>
   <tend>5</tend>
-  <delta_t>0.0002</delta_t>
+  <delta_t>0.0001</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
-      <x>0</x>
-      <y>0</y>
+      <x>1</x>
+      <y>1</y>
       <z>0</z>
     </position>
     <number>
