@@ -48,7 +48,11 @@ class ParticleContainer {
 		 */
 		void setParticle(Particle* particle);
 
-		void deleteParticle(Particle* partilce);
+		/**
+		 * @param particle
+		 * @param destroy true, to delete from RAM
+		 */
+		void deleteParticle(Particle* particle, bool destroy);
 
 		void show();
 		Particle* nextParticlePair1();

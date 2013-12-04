@@ -36,7 +36,7 @@ void ParticleContainer::setParticle(Particle* particle) {
 	this->particles.push_back(particle);
 }
 
-void ParticleContainer::deleteParticle(Particle* particle) {
+void ParticleContainer::deleteParticle(Particle* particle, bool destroy) {
 	int i;
 	int currentSize = this->particles.size();
 	for(i=0; i < currentSize; i++){
@@ -50,9 +50,10 @@ void ParticleContainer::deleteParticle(Particle* particle) {
 		return;
 	}
 	this->particles.erase(particles.begin()+i);
-	np = 0;
-	//delete particle;
-	//particle = NULL;
+	if(destroy){
+		delete particle;
+		particle = NULL;
+	}
 }
 
 void ParticleContainer::show() {

@@ -122,10 +122,11 @@ void LCDomain::reset(){
 		std::vector<int> dimensionalOrigin;
 		dimensionalOrigin = this->decodeDimensinalOrigin(i);
 		//std::cout << "PUSH FROM CELL" << (this->getCellAt(dimensionalOrigin)->getPosition()) << std::endl;
-		while((currentP = this->getCellAt(dimensionalOrigin)->nextParticle()) != NULL){
+		int iterator = 0;
+		while((currentP = this->getCellAt(dimensionalOrigin)->nextParticle(&iterator)) != NULL){
 			//std::cout << "ADDING PARTICLE" << std::endl;
 			particles.push_back(currentP);
-			this->getCellAt(dimensionalOrigin)->deleteParticle(currentP);
+			this->getCellAt(dimensionalOrigin)->deleteParticle(currentP,false);
 		}
 	}
 	int amountOfParticles = particles.size();
@@ -217,7 +218,8 @@ bool LCDomain::checkBounds(std::vector<int>& pos) {
 	for(i=0; i < dimension; i++){
 		if(((pos)[i] < 0) || ((pos)[i] > (bounds)[i])){
 			LOG4CXX_ERROR(loggerDomain,"The requested position is not located in the domain space.");
-			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i]);
+			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i] <<
+					" - This error may indicate a malfunction in the boundary condition");
 			return false;
 		}
 	}
