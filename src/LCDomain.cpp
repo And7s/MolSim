@@ -107,10 +107,10 @@ void LCDomain::insertParticle(Particle* part){
 	partPos[0] = (part->getX()[0] / cutOffRadius);
 	partPos[1] = (part->getX()[1] / cutOffRadius);
 	partPos[2] = (part->getX()[2] / cutOffRadius);
-	LOG4CXX_INFO(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
+	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 	index = this->getCellAt(partPos)->getPosition();
 	this->cells[index]->setParticle(part);
-	LOG4CXX_INFO(loggerDomain,"added Particle to cell: " << index);
+	LOG4CXX_TRACE(loggerDomain,"added Particle to cell: " << index);
 }
 
 void LCDomain::reset(){
@@ -151,12 +151,12 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 		if(axis[0] > 0){
 			reference[0] = axis[0] -1;
 			neighbours->push_back(getCellAt(reference));
-			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
+			LOG4CXX_TRACE(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 		}
 		if(axis[0] < (bounds)[0]-1){
 			reference[0] = axis[0] +1;
 			neighbours->push_back(getCellAt(reference));
-			LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
+			LOG4CXX_TRACE(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 		}
 		break;
 	case 2:
@@ -167,7 +167,7 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 						reference[0] = x;
 						reference[1] = y;
 						neighbours->push_back(getCellAt(reference));
-						LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
+						LOG4CXX_TRACE(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 					}
 				}
 			}
@@ -185,7 +185,7 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 							reference[1] = y;
 							reference[2] = z;
 							neighbours->push_back(getCellAt(reference));
-							LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());
+							LOG4CXX_TRACE(loggerDomain,"added: " << getCellAt(reference)->getPosition());
 						}
 					}
 				}

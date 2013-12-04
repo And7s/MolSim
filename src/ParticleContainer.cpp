@@ -49,10 +49,6 @@ void ParticleContainer::deleteParticle(Particle* particle) {
 	if(i >= currentSize){
 		return;
 	}
-	std::cout << "HAAALLO " << currentSize << " | " << i << " lösche particle with x:" << particle->getX()[0] << std::endl;
-	show();
-	std::cout << std::endl;
-	std::cout << std::endl;
 	this->particles.erase(particles.begin()+i);
 	np = 0;
 	//delete particle;
