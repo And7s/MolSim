@@ -104,9 +104,9 @@ void LCDomain::insertParticle(Particle* part){
 	}
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
-	partPos[0] = (part->getX()[0] / cutOffRadius);
-	partPos[1] = (part->getX()[1] / cutOffRadius);
-	partPos[2] = (part->getX()[2] / cutOffRadius);
+	partPos[0] = (part->getX()[0] / cutOffRadius) + haloSize;
+	partPos[1] = (part->getX()[1] / cutOffRadius) + haloSize;
+	partPos[2] = (part->getX()[2] / cutOffRadius) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 	index = this->getCellAt(partPos)->getPosition();
 	this->cells[index]->setParticle(part);
@@ -217,7 +217,7 @@ bool LCDomain::checkBounds(std::vector<int>& pos) {
 	for(i=0; i < dimension; i++){
 		if(((pos)[i] < 0) || ((pos)[i] > (bounds)[i])){
 			LOG4CXX_ERROR(loggerDomain,"The requested position is not located in the domain space.");
-			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: " << (pos)[i] << " bounds: " << (bounds)[i]);
+			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i]);
 			return false;
 		}
 	}
@@ -263,4 +263,7 @@ int LCDomain::getCellDimension(){
 	return this->cellDimension;
 }
 
-
+void LCDomain::display() {
+	//for testing purpose only
+	std::cout << "not implemented yet";
+}

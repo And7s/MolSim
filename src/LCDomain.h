@@ -58,7 +58,7 @@ protected:
 	int cellDimension;
 
 	/**
-	 * stores the size of the halo-border
+	 * stores the size of the halo-border (in #cells)
 	 */
 	int haloSize;
 
@@ -130,6 +130,12 @@ public:
 	int getCellDimension();
 
 	int getNumberOfCells();
+
+	/**
+	 * call this method to gain a visual representation of the current cell grid..
+	 * This method will use the std::cout output stream
+	 */
+	void display();
 };
 
 #endif /* LCDOMAIN_H_ */

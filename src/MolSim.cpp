@@ -111,7 +111,7 @@ int main(int argc, char* argsv[]) {
 	int cutOff = 1;
 	domainSize[0] = 180;
 	domainSize[1] = 90;
-	domainSize[2] = 0;
+	domainSize[2] = 1;
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
 	for(int i = 0; i < pa.size(); i++){
 		lcDomain.insertParticle(pa[i]);
