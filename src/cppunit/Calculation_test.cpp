@@ -17,7 +17,6 @@ Calculation_test::~Calculation_test() {
 }
 
 void Calculation_test::setUp() {
-	//Particle** pa = new Particle*[2];
 	std::vector<Particle*> pa;
 	ParticleContainer pc(2);
 
@@ -30,7 +29,6 @@ void Calculation_test::setUp() {
 	domainSize[1] = 8;
 	domainSize[2] = 0;
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
-	//std::cout << "lcDomain created" << std::endl;
 	double x1[] = {4,0,0};
 	double x2[] = {0,3,0};
 	double v1[] = {1,1,1};
@@ -47,29 +45,19 @@ void Calculation_test::setUp() {
 
 	double m1 = 25;
 	double m2 = 10;
-	//pa[0] = new Particle(x1, v1, m1);
-	//pa[1] = new Particle(x2, v2, m2);
 	Particle* p = new Particle(x1, v1, m1);
 	pa.push_back(new Particle(x1, v1, m1));
 	p = new Particle(x2,v2,m2);
 	pa.push_back(new Particle(x2,v2,m2));
 	pa[0]->setF(f1);
 	pa[1]->setF(f2);
-	/*for(int i = 0; i < pa.size(); i++){
+	for(int i = 0; i < pa.size(); i++){
 			lcDomain.insertParticle(pa[i]);
 	}
-	std::cout << "particles inserted" << std::endl;*/
-	pc.setParticles(pa);
-
-	//test_calculator->setLcDomain(lcDomain);
-	//std::cout << "lcDomain setted" << std::endl;
-	test_calculator->setParticleContainer(pc);
 	test_calculator->setDeltaT(1);
-	//std::cout << "setUp finished" << std::endl;
 }
 
 void Calculation_test::tearDown() {
-	//std::cout << "tearDown finished" << std::endl;
 	delete test_calculator;
 }
 
@@ -129,8 +117,6 @@ void Calculation_test::testCalculatePosition() {
 	result2[1]=5.1;
 	result2[2]=2.1;
 	
-	ParticleContainer pc = test_calculator->getParticleContainer();
-
 	ParticleContainer** pcArray = test_calculator->getLcDomain().getCells();
 	int size = test_calculator->getLcDomain().getNumberOfCells();
 	for(int i = 0; i<size;i++){
@@ -147,11 +133,6 @@ void Calculation_test::testCalculatePosition() {
 			}
 		}
 	}
-	/*
-	for(int i = 0;i < 3; i++) {
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getX()[i], 0.001);
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getX()[i], 0.001);
-	}*/
 }
 
 void Calculation_test::testCalculateVelocity() {
@@ -164,7 +145,6 @@ void Calculation_test::testCalculateVelocity() {
 	result2[0]=2.1;
 	result2[1]=2.1;
 	result2[2]=2.1;
-	ParticleContainer pc = test_calculator->getParticleContainer();
 
 	ParticleContainer** pcArray = test_calculator->getLcDomain().getCells();
 	int size = test_calculator->getLcDomain().getNumberOfCells();
@@ -182,9 +162,4 @@ void Calculation_test::testCalculateVelocity() {
 			}
 		}
 	}
-	/*
-	for(int i = 0;i < 3; i++) {
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[i], pc.getParticles()[0]->getV()[i], 0.001);
-		CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getV()[i], 0.001);
-	}*/
 }
