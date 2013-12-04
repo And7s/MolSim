@@ -18,31 +18,33 @@ class BoundaryCondition {
 
 protected:
 	Calculation *calculation;
-	LCDomain *linkedCell;
-	utils::Vector<double, 3> domainSize;
+	LCDomain linkedCell;
+	std::vector<int> domainSize;
 	double sigma;
 
 public:
 	BoundaryCondition();
 
-	BoundaryCondition(LCDomain* linkedCell, utils::Vector<double, 3> domainSize);
+	BoundaryCondition(LCDomain& linkedCell, std::vector<int> domainSize);
 
 	virtual ~BoundaryCondition();
 
-	LCDomain* getLCDomain();
+	LCDomain& getLCDomain();
 
-	void setLCDomain(LCDomain* linkedCell);
+	void setLCDomain(LCDomain& linkedCell);
 
 	/**
 	 * Abstract function to check the Boundary Conditions
 	 */
 	virtual void applyBoundaryCondition()=0;
 
-	utils::Vector<double, 3> getDomainSize();
-
 	Calculation*& getCalculation();
 
 	void setCalculation(Calculation*& calculation);
+
+	void setDomainSize(std::vector<int>& domainSize);
+
+	void setSigma(double sigma);
 };
 
 /**

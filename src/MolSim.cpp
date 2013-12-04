@@ -122,13 +122,16 @@ int main(int argc, char* argsv[]) {
 
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
+	calculation->setLcDomain(lcDomain);
 
-	//boundaryCondition->setCalculation(calculation);
-	//boundaryCondition->setLCDomain(&lcDomain);
+	boundaryCondition->setCalculation(calculation);
+	boundaryCondition->setDomainSize(domainSize);
+	boundaryCondition->setLCDomain(lcDomain);
 
 	plotter->setParticleContainer(pc);
 
 	//initially calculation of Forces
+	calculation->resetForce();
 	calculation->calculateForce();
 
 
@@ -137,7 +140,8 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
 	
 	while (current_time < end_time){
-
+		calculation->resetForce();
+		//boundaryCondition->applyBoundaryCondition();
 		calculation->calculateAll();
 
 		iteration++;

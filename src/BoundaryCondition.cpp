@@ -16,18 +16,18 @@ BoundaryCondition::~BoundaryCondition() {
 	// TODO Auto-generated destructor stub
 }
 
-BoundaryCondition::BoundaryCondition(LCDomain* linkedCell, utils::Vector<double, 3> domainSize) {
+BoundaryCondition::BoundaryCondition(LCDomain& linkedCell, std::vector<int> domainSize) {
 	this->linkedCell = linkedCell;
 	for(int i = 0; i<3; i++){
 		this->domainSize[i] = domainSize[i];
 	}
 }
 
-void BoundaryCondition::setLCDomain(LCDomain* linkedCell) {
+void BoundaryCondition::setLCDomain(LCDomain& linkedCell) {
 	this->linkedCell = linkedCell;
 }
 
-LCDomain* BoundaryCondition::getLCDomain(){
+LCDomain& BoundaryCondition::getLCDomain(){
 	return linkedCell;
 }
 
@@ -35,30 +35,39 @@ Calculation*& BoundaryCondition::getCalculation(){
 	return calculation;
 }
 
+void BoundaryCondition::setDomainSize(std::vector<int>& domainSize) {
+	this->domainSize = domainSize;
+}
+
+void BoundaryCondition::setSigma(double sigma) {
+	this->sigma = sigma;
+}
+
 void BoundaryCondition::setCalculation(Calculation*& calculation) {
 	this->calculation = calculation;
 }
 
-utils::Vector<double, 3> BoundaryCondition::getDomainSize(){
-	return domainSize;
-}
-
 void OutflowBoundary::applyBoundaryCondition(){
-	/*LCell** cell = linkedCell->getCells();
-	for(int i = 0;i < linkedCell->getNumberOfCells();i++){
-		LCell* actCell = cell[i];
-		Particle* p = actCell->getNextItem();
-		while(p !=NULL){
-			if(p->getX()[0]<0||p->getX()[0]>domainSize[0]){
-				delete& p;
+	ParticleContainer** pcArray = linkedCell.getCells();
+	int size = linkedCell.getNumberOfCells();
+	for(int i = 0;i < size;i++){
+		Particle* p;
+		while((p = pcArray[i]->nextParticle()) != NULL){
+			if((p->getX()[0]<0)||(p->getX()[0]>domainSize[0])){
+				std::cout << "Wrong in x direction" << std::endl;
+				std::cout << "x: " << p->getX() << std::endl;
+				pcArray[i]->deleteParticle(p);
 			}else if(p->getX()[1]<0||p->getX()[1]>domainSize[1]){
-				delete& p;
+				std::cout << "Wrong in y direction" << std::endl;
+				std::cout << "y: " << p->getX() << std::endl;
+				pcArray[i]->deleteParticle(p);
 			}else if(p->getX()[2]<0||p->getX()[2]>domainSize[2]){
-				delete& p;
+				std::cout << "Wrong in z direction" << std::endl;
+				std::cout << "z: " << p->getX() << std::endl;
+				pcArray[i]->deleteParticle(p);
 			}
-			p = actCell->getNextItem();
 		}
-	}*/
+	}
 }
 
 void ReflectingBoundary::applyBoundaryCondition() {

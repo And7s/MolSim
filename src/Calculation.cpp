@@ -75,7 +75,6 @@ ParticleContainer& Calculation::getParticleContainer(){
 
 void Sheet1Calc::calculateForce() {
 	Particle* p1,* p2;
-	resetForce();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double euclidian_norm = ((p1->getX() -(p2->getX())).L2Norm());
@@ -101,7 +100,6 @@ void Sheet2Calc::calculateForce() {
 	double epsilon = 5.0;
 	double sigma = 1.0;
 	Particle *p1,*p2;
-	resetForce();
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
@@ -134,11 +132,12 @@ void Sheet3Calc::calculateForce() {
 	for(int i = 0; i < size; i++){
 		pc = pcArray[i];
 		std::vector<ParticleContainer*> neighboursOfPc;
+		int sizeNeighbours = neighboursOfPc.size();
 		lcDomain.getNeighbourCells(pc, &neighboursOfPc);
 		neighboursOfPc.push_back(pc);
 		Particle* p;
 		while((p = pc->nextParticle())!=NULL){
-			for(int j = 0; j < neighboursOfPc.size();j++){
+			for(int j = 0; j < sizeNeighbours;j++){
 				Particle* curP;
 				while((curP = neighboursOfPc[j]->nextParticle())!=NULL){
 					if((curP->getDistanceTo(p)<=lcDomain.getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
@@ -147,10 +146,7 @@ void Sheet3Calc::calculateForce() {
 						double factor2 = pow((sigma/dist),6)- (2*pow((sigma/dist),12));
 						utils::Vector<double,3> factor3 = curP->getX()-p->getX();
 						utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
-						//utils::Vector<double,3> forceJI = (-1) * forceIJ;
 						p->addOnF(forceIJ);
-						//p2->addOnF(forceJI);
-
 					}
 				}
 			}
@@ -159,5 +155,10 @@ void Sheet3Calc::calculateForce() {
 }
 
 void Sheet3Calc::calculateAll() {
+	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
+	calculateVelocity();
+	calculatePosition();
+	lcDomain.reset();
+	calculateForce();
 
 }
