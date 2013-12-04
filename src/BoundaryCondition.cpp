@@ -7,6 +7,11 @@
 
 #include "BoundaryCondition.h"
 
+/**
+ * Logger
+ */
+LoggerPtr loggerBoundaryCondition(Logger::getLogger( "main.boundary"));
+
 BoundaryCondition::BoundaryCondition() {
 	// TODO Auto-generated constructor stub
 
@@ -40,6 +45,7 @@ void BoundaryCondition::setSigma(double sigma) {
 }
 
 void OutflowBoundary::applyBoundaryCondition(int* noOfParticles){
+	LOG4CXX_TRACE(loggerBoundaryCondition, "Applying OutflowBoundaryCondition");
 	ParticleContainer** pcArray = linkedCell.getCells();
 	int size = linkedCell.getNumberOfCells();
 	for(int i = 0;i < size;i++){
@@ -61,6 +67,7 @@ void OutflowBoundary::applyBoundaryCondition(int* noOfParticles){
 }
 
 void ReflectingBoundary::applyBoundaryCondition(int* noOfParticles) {
+	LOG4CXX_TRACE(loggerBoundaryCondition, "Applying ReflectionBoundaryCondition");
 	ParticleContainer** pcArray = linkedCell.getCells();
 	int size = linkedCell.getNumberOfCells();
 	double maxDistance = pow(sigma, 1/6);

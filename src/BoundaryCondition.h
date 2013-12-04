@@ -11,8 +11,12 @@
 #include "LCDomain.h"
 #include "Calculation.h"
 
-/*
- *
+using namespace log4cxx;
+using namespace log4cxx::xml;
+using namespace log4cxx::helpers;
+
+/**
+ * Interface for BoundaryCondition
  */
 class BoundaryCondition {
 
@@ -67,6 +71,12 @@ public:
 	 */
 	void applyBoundaryCondition(int* noOfParticles);
 
+	/**
+	 * Apply the counterreactive Forces of the "counter"-particle
+	 * @param p
+	 * @param axis
+	 * @param orientation
+	 */
 	void applyForce(Particle* p, int axis, bool orientation);
 };
 

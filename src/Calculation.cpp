@@ -34,7 +34,6 @@ void Calculation::calculateAll(){
 }
 
 void Calculation::calculatePosition(){
-
 	ParticleContainer** pcArray = lcDomain.getCells();
 	int size = lcDomain.getNumberOfCells();
 
