@@ -14,6 +14,7 @@
 #include "Plotter.h"
 #include "BoundaryCondition.h"
 #include "cppunit/Tester.h"
+#include "input.h"
 
 #include <cppunit/ui/text/TestRunner.h>
 #include <log4cxx/logger.h>
@@ -22,11 +23,10 @@
 #include <memory>   // std::auto_ptr
 #include <iostream>
 
-
-#include "input.h"
 #include <iostream>
 #include <cstdlib>
 #include <sys/timeb.h>
+#include <assert.h>
 
 using namespace std;
 using namespace log4cxx;
@@ -106,6 +106,8 @@ int main(int argc, char* argsv[]) {
     //assign values from xml file
     delta_t = inp->delta_t();
     end_time = inp->tend();
+    assert(delta_t>0);
+    assert(end_time>0);
 
 	ParticleGenerator pg;
 	int* length = new int;
@@ -116,9 +118,13 @@ int main(int argc, char* argsv[]) {
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
 	int cutOff = 1;
+	assert(cutOff>0);
 	domainSize[0] = 180;
+	assert(domainSize[0]>0);
 	domainSize[1] = 90;
+	assert(domainSize[1]>0);
 	domainSize[2] = 1;
+	assert(domainSize[2]>0);
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
 	lcDomain.insertParticles(pa);
 	/*for(int i = 0; i < pa.size(); i++){
