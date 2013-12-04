@@ -11,11 +11,13 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
 <input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="input.xsd">
+  <epsilon>5</epsilon>
+  <sigma>1</sigma>
   <base_output_file>unused</base_output_file>
   <frequency>10</frequency>
   <start_time>0</start_time>
   <tend>5</tend>
-  <delta_t>0.0001</delta_t>
+  <delta_t>0.00005</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
@@ -24,7 +26,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0</z>
     </position>
     <number>
-      <x>40</x>
+      <x>0</x>
       <y>8</y>
       <z>1</z>
     </number>
@@ -43,7 +45,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0</z>
     </position>
     <number>
-      <x>15</x>
+      <x>0</x>
       <y>15</y>
       <z>1</z>
     </number>
@@ -55,4 +57,37 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0</z>
     </velocity>
   </cuboid>
+  <sphere>
+    <position>
+      <x>60</x>
+      <y>25</y>
+      <z>1</z>
+    </position>
+    <radius>10</radius>
+    <distance>1.1225</distance>
+    <mass>1.0</mass>
+    <velocity>
+      <x>0</x>
+      <y>-10</y>
+      <z>0</z>
+    </velocity>
+  </sphere>
+  <boundaryCondition>
+    <dimension>
+      <x>180</x>
+      <y>90</y>
+      <z>1</z>
+    </dimension>
+    <cutoff>1</cutoff>
+    <reflecting>true</reflecting>
+  </boundaryCondition>
+
+  <LinkedCellDomain>
+    <dimension>
+      <x>180</x>
+      <y>90</y>
+      <z>1</z>
+    </dimension>
+    <cutoff>1</cutoff>
+  </LinkedCellDomain>
 </input>
