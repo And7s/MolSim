@@ -2,6 +2,7 @@
 #define CALCULATION_H_
 
 #include "ParticleContainer.h"
+#include "LCDomain.h"
 
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
@@ -18,6 +19,7 @@ using namespace std;
 class Calculation {
 
 protected:
+	LCDomain lcDomain;
 	ParticleContainer particleContainer;
 	double delta_t;
 
@@ -48,9 +50,9 @@ public:
 	 * Abstract function to set the ParticleContainer
 	 * @param pc_
 	 */
-	virtual void setParticleContainer(ParticleContainer& pc_)=0;
+	void setParticleContainer(ParticleContainer& pc_);
 
-	virtual ParticleContainer& getParticleContainer()=0;
+	ParticleContainer& getParticleContainer();
 
 	/**
 	 * Function to reset the force of all particles to zero
@@ -68,6 +70,7 @@ public:
 	 * @return delta_t
 	 */
 	double getDeltaT();
+	void setLcDomain(LCDomain& lcDomain);
 };
 
 /**
@@ -85,14 +88,6 @@ public:
 	 * Function to calculate velocity, position and force at once as described in Shee1
 	 */
 	void calculateAll();
-
-	/**
-	 * Function to set the ParticleContainer
-	 * @param pc_
-	 */
-	void setParticleContainer(ParticleContainer& pc_);
-
-	ParticleContainer& getParticleContainer();
 };
 
 class Sheet2Calc: public Calculation {
@@ -106,14 +101,20 @@ public:
 	 * Function to calculate velocity, position and force at once as described in Shee1
 	 */
 	void calculateAll();
+};
+
+class Sheet3Calc: public Calculation {
+public:
+	/**
+	 * Function to calculate the force as described in Sheet1
+	 */
+	void calculateForce();
 
 	/**
-	 * Function to set the ParticleContainer
-	 * @param pc_
+	 * Function to calculate velocity, position and force at once as described in Shee1
 	 */
-	void setParticleContainer(ParticleContainer& pc_);
-
-	ParticleContainer& getParticleContainer();
+	void calculateAll();
 };
+
 
 #endif /* CALCULATION_H_ */

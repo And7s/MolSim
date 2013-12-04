@@ -15,6 +15,10 @@ void Calculation::setDeltaT(double delta_t) {
 	this->delta_t = delta_t;
 }
 
+void Calculation::setLcDomain(LCDomain& lcDomain) {
+	this->lcDomain = lcDomain;
+}
+
 double Calculation::getDeltaT(){
 	return delta_t;
 }
@@ -69,15 +73,6 @@ ParticleContainer& Calculation::getParticleContainer(){
 	return particleContainer;
 }
 
-
-void Sheet1Calc::setParticleContainer(ParticleContainer& pc_) {
-	this->particleContainer = pc_;
-}
-
-ParticleContainer& Sheet1Calc::getParticleContainer(){
-	return particleContainer;
-}
-
 void Sheet1Calc::calculateForce() {
 	Particle* p1,* p2;
 	resetForce();
@@ -128,10 +123,14 @@ void Sheet2Calc::calculateAll() {
 	calculateForce();
 }
 
-void Sheet2Calc::setParticleContainer(ParticleContainer& pc_) {
-	this->particleContainer = pc_;
+void Sheet3Calc::calculateForce() {
+	double epsilon = 5.0;
+	double sigma = 1.0;
+
+	ParticleContainer** pcArray = lcDomain.getCells();
+	int size = lcDomain.getNumberOfCells();
 }
 
-ParticleContainer& Sheet2Calc::getParticleContainer() {
-	return particleContainer;
+void Sheet3Calc::calculateAll() {
+
 }

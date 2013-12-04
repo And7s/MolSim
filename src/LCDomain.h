@@ -63,6 +63,8 @@ protected:
 	int haloSize;
 
 public:
+	LCDomain();
+
 	/**
 	 *
 	 * @param bounds  domain space (amount of cells) in each direction
@@ -121,19 +123,13 @@ public:
 
 	void setCells(ParticleContainer**& cells);
 
-	//TODO: implementation in header?
-	int getNumberOfCells(){
-		return numberOfCells;
-	}
 
-	//TODO: why this one? the number should computed correctly and stays constant over time
-	void setNumberOfCells(int numberOfCells) {
-		this->numberOfCells = numberOfCells;
-	}
 
 	int getCutOffRadius();
 
 	int getCellDimension();
+
+	int getNumberOfCells();
 };
 
 #endif /* LCDOMAIN_H_ */

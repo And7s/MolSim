@@ -12,6 +12,9 @@
  */
 LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 
+LCDomain::LCDomain() {
+
+}
 
 LCDomain::LCDomain(std::vector<int>* bounds,int cutOffRad, int cellDimension) {
 	this->cutOffRadius = cutOffRad;
@@ -227,6 +230,12 @@ int LCDomain::getDimension() {
 
 int LCDomain::getCutOffRadius(){
 	return this->cutOffRadius;
+}
+
+
+
+int LCDomain::getNumberOfCells() {
+	return numberOfCells;
 }
 
 int LCDomain::getCellDimension(){

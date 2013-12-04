@@ -107,14 +107,15 @@ int main(int argc, char* argsv[]) {
 	std::vector<Particle*> pa = pg.readFile(length, inp);
 
 	//Initialize LCDomain
-	std::vector<int> domainSize(2,0);
+	std::vector<int> domainSize(3,0);
 	int cutOff = 1;
 	domainSize[0] = 180;
 	domainSize[1] = 90;
-	//LCDomain lcDomain(&domainSize,cutOff, cutOff);
-	//for(int i = 0; i < pa.size(); i++){
-	//	lcDomain.insertParticle(pa[i]);
-	//}
+	domainSize[2] = 0;
+	LCDomain lcDomain(&domainSize,cutOff, cutOff);
+	for(int i = 0; i < pa.size(); i++){
+		lcDomain.insertParticle(pa[i]);
+	}
 
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
