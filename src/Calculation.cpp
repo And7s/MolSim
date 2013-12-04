@@ -49,7 +49,6 @@ void Calculation::calculatePosition(){
 			p->setX(newX);
 		}
 	}
-	std::cout << "Position: " << std::endl;
 	/*
 	Particle* p;
 	//LOG4CXX_INFO(loggerCalc, "In CalculatePosition");
@@ -181,10 +180,12 @@ void Sheet3Calc::calculateForce() {
 		neighboursOfPc.push_back(pc);
 		int sizeNeighbours = neighboursOfPc.size();
 		Particle* p;
-		while((p = pc->nextParticle())!=NULL){
+		int cellParticleIt = 0;
+		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
 			for(int j = 0; j < sizeNeighbours;j++){
 				Particle* curP;
-				while((curP = neighboursOfPc[j]->nextParticle())!=NULL){
+				int interactingParticlesIt = 0;
+				while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 					if((curP->getDistanceTo(p)<=lcDomain.getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
 						double dist = ((p->getX() -(curP->getX())).L2Norm());
 						double factor1 = (24 * epsilon)/pow(dist,2);

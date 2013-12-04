@@ -54,6 +54,7 @@ class ParticleContainer {
 		Particle* nextParticlePair1();
 		Particle* nextParticlePair2();
 		Particle* nextParticle();
+		Particle* nextParticle(int* iterator);
 		int getLength();
 		int getNp();
 		void setNp(int np);
