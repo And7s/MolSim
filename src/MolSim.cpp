@@ -142,12 +142,12 @@ int main(int argc, char* argsv[]) {
 	
 	while (current_time < end_time){
 		calculation->resetForce();
-		//boundaryCondition->applyBoundaryCondition();
+		boundaryCondition->applyBoundaryCondition(length);
 		calculation->calculateAll();
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
-			plotter->plotParticles(iteration, pc.getLength());
+			plotter->plotParticles(iteration, *length);
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished.");
 		}
 

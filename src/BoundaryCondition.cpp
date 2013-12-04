@@ -47,30 +47,28 @@ void BoundaryCondition::setCalculation(Calculation*& calculation) {
 	this->calculation = calculation;
 }
 
-void OutflowBoundary::applyBoundaryCondition(){
+void OutflowBoundary::applyBoundaryCondition(int* noOfParticles){
 	ParticleContainer** pcArray = linkedCell.getCells();
 	int size = linkedCell.getNumberOfCells();
 	for(int i = 0;i < size;i++){
 		Particle* p;
-		while((p = pcArray[i]->nextParticle()) != NULL){
+		int j=0;
+		while((p = pcArray[i]->nextParticle(&j)) != NULL){
 			if((p->getX()[0]<0)||(p->getX()[0]>domainSize[0])){
-				std::cout << "Wrong in x direction" << std::endl;
-				std::cout << "x: " << p->getX() << std::endl;
-				pcArray[i]->deleteParticle(p);
+				pcArray[i]->deleteParticle(p,true);
+				*noOfParticles= *noOfParticles-1;
 			}else if(p->getX()[1]<0||p->getX()[1]>domainSize[1]){
-				std::cout << "Wrong in y direction" << std::endl;
-				std::cout << "y: " << p->getX() << std::endl;
-				pcArray[i]->deleteParticle(p);
+				pcArray[i]->deleteParticle(p,true);
+				*noOfParticles= *noOfParticles-1;
 			}else if(p->getX()[2]<0||p->getX()[2]>domainSize[2]){
-				std::cout << "Wrong in z direction" << std::endl;
-				std::cout << "z: " << p->getX() << std::endl;
-				pcArray[i]->deleteParticle(p);
+				pcArray[i]->deleteParticle(p,true);
+				*noOfParticles= *noOfParticles-1;
 			}
 		}
 	}
 }
 
-void ReflectingBoundary::applyBoundaryCondition() {
+void ReflectingBoundary::applyBoundaryCondition(int* noOfParticles) {
 	/*LCell** cell = linkedCell->getCells();
 	double maxDistance = pow(sigma, 1/6);
 	for(int i = 0;i < linkedCell->getNumberOfCells();i++){

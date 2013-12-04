@@ -36,7 +36,7 @@ public:
 	/**
 	 * Abstract function to check the Boundary Conditions
 	 */
-	virtual void applyBoundaryCondition()=0;
+	virtual void applyBoundaryCondition(int* noOfParticles)=0;
 
 	Calculation*& getCalculation();
 
@@ -57,7 +57,7 @@ public:
 	/**
 	 * Function to apply the Boundary Conditions for OutflowBoundary
 	 */
-	void applyBoundaryCondition();
+	void applyBoundaryCondition(int* noOfParticles);
 };
 
 /**
@@ -70,7 +70,7 @@ public:
 	/**
 	 * Function to apply the Boundary Conditions for OutflowBoundary
 	 */
-	void applyBoundaryCondition();
+	void applyBoundaryCondition(int* noOfParticles);
 
 	void applyForce(Particle* p, int axis, bool orientation);
 };
