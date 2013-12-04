@@ -113,6 +113,13 @@ void LCDomain::insertParticle(Particle* part){
 	LOG4CXX_TRACE(loggerDomain,"added Particle to cell: " << index);
 }
 
+void LCDomain::insertParticles(std::vector<Particle*>& parts) {
+	for(int i = 0; i < parts.size(); i++){
+		this->insertParticle(parts[i]);
+	}
+}
+
+
 void LCDomain::reset(){
 	std::vector<Particle*> particles;
 	//store all particles refereces
@@ -265,6 +272,7 @@ int LCDomain::getNumberOfCells() {
 int LCDomain::getCellDimension(){
 	return this->cellDimension;
 }
+
 
 void LCDomain::display() {
 	//for testing purpose only

@@ -119,9 +119,10 @@ int main(int argc, char* argsv[]) {
 	domainSize[1] = 90;
 	domainSize[2] = 1;
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
-	for(int i = 0; i < pa.size(); i++){
+	lcDomain.insertParticles(pa);
+	/*for(int i = 0; i < pa.size(); i++){
 		lcDomain.insertParticle(pa[i]);
-	}
+	}*/
 
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);

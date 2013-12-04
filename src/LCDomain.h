@@ -104,6 +104,8 @@ public:
 	 */
 	void insertParticle(Particle* part);
 
+	void insertParticles(std::vector<Particle*>& part);
+
 	/**
 	 * checks whether the input vector specifies a position, which is valid in this domain.
 	 */
