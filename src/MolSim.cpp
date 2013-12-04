@@ -39,6 +39,8 @@ using namespace log4cxx::helpers;
 double start_time = 0;
 double end_time; 
 double delta_t;
+double sigma;
+double epsilon;
 
 
 /**
@@ -106,8 +108,15 @@ int main(int argc, char* argsv[]) {
     //assign values from xml file
     delta_t = inp->delta_t();
     end_time = inp->tend();
+    //epsilon = inp->;
+    //sigma = inp->;
+    epsilon = 5.0;
+    sigma = 1.0;
+
     assert(delta_t>0);
     assert(end_time>0);
+    assert(epsilon>0);
+    assert(sigma>0);
 
 	ParticleGenerator pg;
 	int* length = new int;
@@ -137,9 +146,13 @@ int main(int argc, char* argsv[]) {
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 	calculation->setLcDomain(lcDomain);
+	calculation->setEpsilon(epsilon);
+	calculation->setSigma(sigma);
 
 	boundaryCondition->setDomainSize(domainSize);
 	boundaryCondition->setLCDomain(lcDomain);
+	boundaryCondition->setEpsilon(epsilon);
+	boundaryCondition->setSigma(sigma);
 
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);

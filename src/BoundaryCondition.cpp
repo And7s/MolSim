@@ -40,6 +40,10 @@ void BoundaryCondition::setDomainSize(std::vector<int>& domainSize) {
 	this->domainSize = domainSize;
 }
 
+void BoundaryCondition::setEpsilon(double epsilon) {
+	this->epsilon = epsilon;
+}
+
 void BoundaryCondition::setSigma(double sigma) {
 	this->sigma = sigma;
 }
@@ -110,6 +114,6 @@ void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
 	}else{
 		counterP->getX()[axis] = domainSize[axis];
 	}
-	Sheet3Calc::calculateSingleForce(p,counterP);
+	Sheet3Calc::calculateSingleForce(p,counterP,sigma,epsilon);
 	delete counterP;
 }

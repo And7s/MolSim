@@ -24,6 +24,7 @@ protected:
 	LCDomain linkedCell;
 	std::vector<int> domainSize;
 	double sigma;
+	double epsilon;
 
 public:
 	BoundaryCondition();
@@ -44,6 +45,8 @@ public:
 	void setDomainSize(std::vector<int>& domainSize);
 
 	void setSigma(double sigma);
+
+	void setEpsilon(double epsilon);
 };
 
 /**

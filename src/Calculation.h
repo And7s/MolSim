@@ -21,6 +21,8 @@ protected:
 	LCDomain lcDomain;
 	ParticleContainer particleContainer;
 	double delta_t;
+	double sigma;
+	double epsilon;
 
 
 public:
@@ -75,6 +77,10 @@ public:
 	LCDomain& getLcDomain();
 
 	void calculateSingleForce(Particle* p1, Particle* p2);
+
+	void setEpsilon(double epsilon);
+
+	void setSigma(double sigma);
 };
 
 /**
@@ -132,8 +138,10 @@ public:
 	 * Function to calculate the force between the two specific particles p1 and p2
 	 * @param p1
 	 * @param p2
+	 * @param sigma_
+	 * @param epsilon_
 	 */
-	static void calculateSingleForce(Particle* p1, Particle* p2);
+	static void calculateSingleForce(Particle* p1, Particle* p2, double sigma_, double epsilon_);
 };
 
 
