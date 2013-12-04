@@ -129,6 +129,33 @@ void Sheet3Calc::calculateForce() {
 
 	ParticleContainer** pcArray = lcDomain.getCells();
 	int size = lcDomain.getNumberOfCells();
+	ParticleContainer* pc;
+
+	for(int i = 0; i < size; i++){
+		pc = pcArray[i];
+		std::vector<ParticleContainer*> neighboursOfPc;
+		lcDomain.getNeighbourCells(pc, &neighboursOfPc);
+		neighboursOfPc.push_back(pc);
+		Particle* p;
+		while((p = pc->nextParticle())!=NULL){
+			for(int j = 0; j < neighboursOfPc.size();j++){
+				Particle* curP;
+				while((curP = neighboursOfPc[j]->nextParticle())!=NULL){
+					if((curP->getDistanceTo(p)<=lcDomain.getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
+						double dist = ((p->getX() -(curP->getX())).L2Norm());
+						double factor1 = (24 * epsilon)/pow(dist,2);
+						double factor2 = pow((sigma/dist),6)- (2*pow((sigma/dist),12));
+						utils::Vector<double,3> factor3 = curP->getX()-p->getX();
+						utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
+						//utils::Vector<double,3> forceJI = (-1) * forceIJ;
+						p->addOnF(forceIJ);
+						//p2->addOnF(forceJI);
+
+					}
+				}
+			}
+		}
+	}
 }
 
 void Sheet3Calc::calculateAll() {

@@ -46,8 +46,8 @@ LoggerPtr loggerMain(Logger::getLogger( "main"));
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-Sheet2Calc sheet2calc;
-Calculation *calculation = &sheet2calc;
+Sheet3Calc sheet3calc;
+Calculation *calculation = &sheet3calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
 OutflowBoundary outflowBoundary;

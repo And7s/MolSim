@@ -15,7 +15,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <frequency>10</frequency>
   <start_time>0</start_time>
   <tend>5</tend>
-  <delta_t>0.1</delta_t>
+  <delta_t>0.0002</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
