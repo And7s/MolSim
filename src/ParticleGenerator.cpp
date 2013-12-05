@@ -48,7 +48,7 @@ std::vector<Particle*> partlist;
 					Particle* p = new Particle(x,v,si->mass());
 
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),3);
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),2);
 
 					partlist.push_back(p);
 				}
@@ -79,7 +79,7 @@ std::vector<Particle*> partlist;
 					Particle* p = new Particle(x,v,ci->mass());
 
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),3);
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),2);
 
 					partlist.push_back(p);
 				}

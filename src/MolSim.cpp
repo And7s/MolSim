@@ -81,7 +81,6 @@ int main(int argc, char* argsv[]) {
 		exit(0);
 	}
 
-
 	if(argc == 2 && string(argsv[1]) == "-test") {
 		LOG4CXX_TRACE(loggerMain, "Test-mode activated..");
 		CppUnit::TextUi::TestRunner runner;
@@ -108,11 +107,12 @@ int main(int argc, char* argsv[]) {
     //assign values from xml file
     delta_t = inp->delta_t();
     end_time = inp->tend();
-    //epsilon = inp->;
-    //sigma = inp->;
-    epsilon = 5.0;
-    sigma = 1.0;
-
+    epsilon = inp->epsilon();
+    sigma = inp->sigma();
+    int cutOff = inp->LinkedCellDomain().cutoff();
+    //epsilon = 5.0;
+    //sigma = 1.0;
+    std::cout << "Epsilon: " << epsilon << " Sigma: " << sigma << " Cutoff: "<< cutOff << std::endl;
     assert(delta_t>0);
     assert(end_time>0);
     assert(epsilon>0);
@@ -126,15 +126,16 @@ int main(int argc, char* argsv[]) {
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
-	int cutOff = 1;
+	//int cutOff = 1;
 	assert(cutOff>0);
-	domainSize[0] = 180;
+	domainSize[0] = inp->LinkedCellDomain().dimension().x();
 	assert(domainSize[0]>0);
-	domainSize[1] = 90;
+	domainSize[1] = inp->LinkedCellDomain().dimension().y();
 	assert(domainSize[1]>0);
-	domainSize[2] = 1;
+	domainSize[2] = inp->LinkedCellDomain().dimension().z();
 	assert(domainSize[2]>0);
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
+	std::cout << "DomainSize " << domainSize[0] << " " << domainSize[1] << " " << domainSize[2] << " " << std::endl;
 	lcDomain.insertParticles(pa);
 	/*for(int i = 0; i < pa.size(); i++){
 		lcDomain.insertParticle(pa[i]);

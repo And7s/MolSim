@@ -19,49 +19,11 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <tend>5</tend>
   <delta_t>0.00005</delta_t>
   <input_file>unused</input_file>
-  <cuboid>
-    <position>
-      <x>1</x>
-      <y>1</y>
-      <z>0</z>
-    </position>
-    <number>
-      <x>0</x>
-      <y>8</y>
-      <z>1</z>
-    </number>
-    <distance>1.225</distance>
-    <mass>1.0</mass>
-    <velocity>
-      <x>0</x>
-      <y>0</y>
-      <z>0</z>
-    </velocity>
-  </cuboid>
-  <cuboid>
-    <position>
-      <x>15</x>
-      <y>15</y>
-      <z>0</z>
-    </position>
-    <number>
-      <x>0</x>
-      <y>15</y>
-      <z>1</z>
-    </number>
-    <distance>1.225</distance>
-    <mass>1.0</mass>
-    <velocity>
-      <x>0</x>
-      <y>-10</y>
-      <z>0</z>
-    </velocity>
-  </cuboid>
   <sphere>
     <position>
-      <x>60</x>
-      <y>25</y>
-      <z>1</z>
+      <x>61</x>
+      <y>26</y>
+      <z>0</z>
     </position>
     <radius>10</radius>
     <distance>1.1225</distance>
