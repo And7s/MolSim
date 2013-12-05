@@ -32,7 +32,7 @@ class Plotter
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
-		virtual void plotParticles(int iteration, int amountOfParticles)=0;
+		virtual void plotParticles(int iteration, int amountOfParticles, const std::string& filename)=0;
 
 		ParticleContainer& getParticleContainer();
 
@@ -51,7 +51,7 @@ class VTK : public Plotter{
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
-		void plotParticles(int iteration, int amountOfParticles);
+		void plotParticles(int iteration, int amountOfParticles, const std::string& filename);
 };
 
 #endif /* PLOTTER_H */

@@ -13,7 +13,7 @@ void Plotter::setParticleContainer(ParticleContainer& particleContainer) {
 }
 
 
-void VTK::plotParticles(int iteration, int amountOfParticles) {
+void VTK::plotParticles(int iteration, int amountOfParticles, const std::string& filename) {
 	outputWriter::VTKWriter writer;
 	writer.initializeOutput(amountOfParticles);
 
@@ -26,12 +26,6 @@ void VTK::plotParticles(int iteration, int amountOfParticles) {
 			writer.plotParticle(*p);
 		}
 	}
-	/*
-	Particle* p;
-	while((p = getParticleContainer().nextParticle()) != NULL) {
-		writer.plotParticle(*p);	
-	}
-	*/
-	writer.writeFile("vtk", iteration);
+	writer.writeFile(filename, iteration);
 
 };

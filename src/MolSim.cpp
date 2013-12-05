@@ -201,7 +201,7 @@ int main(int argc, char* argsv[]) {
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
-			plotter->plotParticles(iteration, *length);
+			plotter->plotParticles(iteration, *length, inp->base_output_file());
 			int time = getMilliSpan(startTime);
 			accTime += time;
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
