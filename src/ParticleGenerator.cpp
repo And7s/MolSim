@@ -28,7 +28,7 @@ std::vector<Particle*> partlist;
 	double x[] = {0,0,0};
 	double v[] = {1,1,1};
 	for(input_t::sphere_const_iterator si (inp->sphere().begin()); si != inp->sphere().end(); ++si) {
-		float max_dist = std::pow(si->radius(), 2); //eg. r: 5, dist: 2.5 -> max_even = 2 
+		float max_dist = std::pow(si->radius(), 2); 
 		v[0] = si->velocity().x();
 		v[1] = si->velocity().y();
 		v[2] = si->velocity().z();
@@ -48,7 +48,7 @@ std::vector<Particle*> partlist;
 					Particle* p = new Particle(x,v,si->mass());
 
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),2);
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
 
 					partlist.push_back(p);
 				}
@@ -79,7 +79,7 @@ std::vector<Particle*> partlist;
 					Particle* p = new Particle(x,v,ci->mass());
 
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),2);
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
 
 					partlist.push_back(p);
 				}

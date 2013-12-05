@@ -42,6 +42,8 @@ double delta_t;
 double sigma;
 double epsilon;
 
+std::vector<BoundaryCondition*> boundaryConditions;
+
 
 /**
  * Logger
@@ -56,9 +58,7 @@ Sheet3Calc sheet3calc;
 Calculation *calculation = &sheet3calc;
 VTK vtk_plotter;
 Plotter *plotter = &vtk_plotter;
-OutflowBoundary outflowBoundary;
-ReflectingBoundary reflectingBoundary;
-BoundaryCondition *boundaryCondition = &reflectingBoundary;
+
 
 void showUsage();
 int getMilliCount();
@@ -150,10 +150,35 @@ int main(int argc, char* argsv[]) {
 	calculation->setEpsilon(epsilon);
 	calculation->setSigma(sigma);
 
-	boundaryCondition->setDomainSize(domainSize);
-	boundaryCondition->setLCDomain(lcDomain);
-	boundaryCondition->setEpsilon(epsilon);
-	boundaryCondition->setSigma(sigma);
+	//initiallze boundary conditions
+	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
+		BoundaryCondition *boundaryCondition;	
+		if(si->reflecting()) {	//create a reflecting boundary
+			boundaryCondition = new ReflectingBoundary();
+		}else {		//create a non reflecting boundary
+			boundaryCondition = new OutflowBoundary();;
+		}
+		
+		std::vector<int> domainSize(3,0);
+		//set the dimension of the boundary
+		domainSize[0] = si->dimension().x();
+		domainSize[1] = si->dimension().y();
+		domainSize[2] = si->dimension().z();
+		
+		boundaryCondition->setDomainSize(domainSize);
+		boundaryCondition->setLCDomain(lcDomain);
+		boundaryCondition->setEpsilon(epsilon);
+		boundaryCondition->setSigma(sigma);
+
+
+		//add to the vector of all boundary collections
+		boundaryConditions.push_back(boundaryCondition);
+
+	}
+	LOG4CXX_INFO(loggerMain, "Created "<<boundaryConditions.size()<<" boundary Conditions");
+	
+
+
 
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);
@@ -173,7 +198,9 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec" );
 	while (current_time < end_time){
 		calculation->resetForce();
-		boundaryCondition->applyBoundaryCondition(length);
+		for(int i = 0; i < boundaryConditions.size(); i++) {
+			boundaryConditions[i]->applyBoundaryCondition(length);
+		}
 		calculation->calculateAll();
 
 		iteration++;

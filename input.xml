@@ -15,6 +15,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <sigma>1</sigma>
   <base_output_file>unused</base_output_file>
   <frequency>10</frequency>
+  <dimensions>2</dimensions>
   <start_time>0</start_time>
   <tend>5</tend>
   <delta_t>0.00005</delta_t>

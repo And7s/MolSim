@@ -25,7 +25,7 @@
 // program, you may extend this exception to your version of the program,
 // but you are not obligated to do so. If you do not wish to do so, delete
 // this exception statement from your version.
-//hsbfhsdhf
+//
 // Furthermore, Code Synthesis Tools CC makes a special exception for
 // the Free/Libre and Open Source Software (FLOSS) which is described
 // in the accompanying FLOSSE file.
@@ -306,6 +306,20 @@ class input_t: public ::xml_schema::type
   void
   frequency (const frequency_type& x);
 
+  // dimensions
+  // 
+  typedef ::xml_schema::positive_integer dimensions_type;
+  typedef ::xsd::cxx::tree::traits< dimensions_type, char > dimensions_traits;
+
+  const dimensions_type&
+  dimensions () const;
+
+  dimensions_type&
+  dimensions ();
+
+  void
+  dimensions (const dimensions_type& x);
+
   // start_time
   // 
   typedef ::xml_schema::decimal start_time_type;
@@ -439,6 +453,7 @@ class input_t: public ::xml_schema::type
            const sigma_type&,
            const base_output_file_type&,
            const frequency_type&,
+           const dimensions_type&,
            const start_time_type&,
            const tend_type&,
            const delta_t_type&,
@@ -449,6 +464,7 @@ class input_t: public ::xml_schema::type
            const sigma_type&,
            const base_output_file_type&,
            const frequency_type&,
+           const dimensions_type&,
            const start_time_type&,
            const tend_type&,
            const delta_t_type&,
@@ -485,6 +501,7 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
+  ::xsd::cxx::tree::one< dimensions_type > dimensions_;
   ::xsd::cxx::tree::one< start_time_type > start_time_;
   ::xsd::cxx::tree::one< tend_type > tend_;
   ::xsd::cxx::tree::one< delta_t_type > delta_t_;

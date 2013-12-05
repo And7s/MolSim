@@ -34,7 +34,7 @@
 #include <xsd/cxx/pre.hxx>
 
 // Begin prologue.
-//asd
+//
 //
 // End prologue.
 
@@ -119,6 +119,24 @@ void input_t::
 frequency (const frequency_type& x)
 {
   this->frequency_.set (x);
+}
+
+const input_t::dimensions_type& input_t::
+dimensions () const
+{
+  return this->dimensions_.get ();
+}
+
+input_t::dimensions_type& input_t::
+dimensions ()
+{
+  return this->dimensions_.get ();
+}
+
+void input_t::
+dimensions (const dimensions_type& x)
+{
+  this->dimensions_.set (x);
 }
 
 const input_t::start_time_type& input_t::
@@ -776,6 +794,7 @@ input_t (const epsilon_type& epsilon,
          const sigma_type& sigma,
          const base_output_file_type& base_output_file,
          const frequency_type& frequency,
+         const dimensions_type& dimensions,
          const start_time_type& start_time,
          const tend_type& tend,
          const delta_t_type& delta_t,
@@ -786,6 +805,7 @@ input_t (const epsilon_type& epsilon,
   sigma_ (sigma, this),
   base_output_file_ (base_output_file, this),
   frequency_ (frequency, this),
+  dimensions_ (dimensions, this),
   start_time_ (start_time, this),
   tend_ (tend, this),
   delta_t_ (delta_t, this),
@@ -802,6 +822,7 @@ input_t (const epsilon_type& epsilon,
          const sigma_type& sigma,
          const base_output_file_type& base_output_file,
          const frequency_type& frequency,
+         const dimensions_type& dimensions,
          const start_time_type& start_time,
          const tend_type& tend,
          const delta_t_type& delta_t,
@@ -812,6 +833,7 @@ input_t (const epsilon_type& epsilon,
   sigma_ (sigma, this),
   base_output_file_ (base_output_file, this),
   frequency_ (frequency, this),
+  dimensions_ (dimensions, this),
   start_time_ (start_time, this),
   tend_ (tend, this),
   delta_t_ (delta_t, this),
@@ -832,6 +854,7 @@ input_t (const input_t& x,
   sigma_ (x.sigma_, f, this),
   base_output_file_ (x.base_output_file_, f, this),
   frequency_ (x.frequency_, f, this),
+  dimensions_ (x.dimensions_, f, this),
   start_time_ (x.start_time_, f, this),
   tend_ (x.tend_, f, this),
   delta_t_ (x.delta_t_, f, this),
@@ -852,6 +875,7 @@ input_t (const ::xercesc::DOMElement& e,
   sigma_ (this),
   base_output_file_ (this),
   frequency_ (this),
+  dimensions_ (this),
   start_time_ (this),
   tend_ (this),
   delta_t_ (this),
@@ -921,6 +945,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       if (!frequency_.present ())
       {
         this->frequency_.set (frequency_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // dimensions
+    //
+    if (n.name () == "dimensions" && n.namespace_ ().empty ())
+    {
+      if (!dimensions_.present ())
+      {
+        this->dimensions_.set (dimensions_traits::create (i, f, this));
         continue;
       }
     }
@@ -1050,6 +1085,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!dimensions_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "dimensions",
+      "");
+  }
+
   if (!start_time_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1103,6 +1145,7 @@ operator= (const input_t& x)
     this->sigma_ = x.sigma_;
     this->base_output_file_ = x.base_output_file_;
     this->frequency_ = x.frequency_;
+    this->dimensions_ = x.dimensions_;
     this->start_time_ = x.start_time_;
     this->tend_ = x.tend_;
     this->delta_t_ = x.delta_t_;
