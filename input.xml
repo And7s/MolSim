@@ -22,11 +22,11 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <input_file>unused</input_file>
   <sphere>
     <position>
-      <x>61</x>
-      <y>26</y>
+      <x>60</x>
+      <y>25</y>
       <z>0</z>
     </position>
-    <radius>10</radius>
+    <radius>15</radius>
     <distance>1.1225</distance>
     <mass>1.0</mass>
     <velocity>
