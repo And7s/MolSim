@@ -57,12 +57,13 @@ LCDomain::LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension
 
 	LOG4CXX_INFO(loggerDomain,"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells <<
 					" Halo size: " << haloSize);
+
+	assert(haloSize > 0);
+	assert(numberOfCells > 0);
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
-	if(!checkBounds(pos)){
-		return NULL;
-	}
+	assert(checkBounds(pos));
 	int index;
 	switch (dimension) {
 		case 1:
@@ -79,18 +80,13 @@ ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
 
 void LCDomain::insertParticle(Particle* part){
 	int index = -1;
-	if(cutOffRadius <= 0){
-		LOG4CXX_ERROR(loggerDomain, "Invalid Cutoff radius. Please specify first");
-		return;
-	}
-	if(dimension == 1 && (part->getX()[1] != 0 || part->getX()[2] != 0)){
-		LOG4CXX_ERROR(loggerDomain, "Non-matching dimensions. Domain currently set to 1D, Particle seems to have a higher dimensional Position vector");
-		return;
-	}
-	if(dimension == 2 && part->getX()[2] != 0){
-		LOG4CXX_ERROR(loggerDomain, "Non-matching dimensions. Domain currently set to 2D, Particle seems to have a 3D Position vector");
-		return;
-	}
+
+	ASSERT_WITH_MESSAGE(loggerDomain, (cutOffRadius<=0), "Invalid Cutoff radius. Please specify first");
+
+	ASSERT_WITH_MESSAGE(loggerDomain, (dimension == 1 && (part->getX()[1] != 0 || part->getX()[2] != 0)), "Non-matching dimensions. Domain currently set to 1D, Particle seems to have a higher dimensional Position vector");
+
+	ASSERT_WITH_MESSAGE(loggerDomain, (dimension == 2 && part->getX()[2] != 0), "Non-matching dimensions. Domain currently set to 2D, Particle seems to have a 3D Position vector");
+
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
 	partPos[0] = ((int)(part->getX()[0] / cutOffRadius)) + haloSize;

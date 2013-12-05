@@ -126,7 +126,6 @@ int main(int argc, char* argsv[]) {
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
-	//int cutOff = 1;
 	assert(cutOff>0);
 	domainSize[0] = inp->LinkedCellDomain().dimension().x();
 	assert(domainSize[0]>0);
@@ -137,9 +136,6 @@ int main(int argc, char* argsv[]) {
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
 	std::cout << "DomainSize " << domainSize[0] << " " << domainSize[1] << " " << domainSize[2] << " " << std::endl;
 	lcDomain.insertParticles(pa);
-	/*for(int i = 0; i < pa.size(); i++){
-		lcDomain.insertParticle(pa[i]);
-	}*/
 
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
@@ -221,6 +217,9 @@ int main(int argc, char* argsv[]) {
 	return 0;
 }
 
+/**
+ * current system time in msec
+ */
 int getMilliCount(){
 	timeb tb;
 	ftime(&tb);
@@ -228,6 +227,10 @@ int getMilliCount(){
 	return nCount;
 }
 
+/**
+ * gather time difference between now and previous timestamp
+ * @param nTimeStart previous timestamp -> getMilliCount
+ */
 int getMilliSpan(int nTimeStart){
 	int nSpan = getMilliCount() - nTimeStart;
 	if(nSpan < 0)
@@ -238,5 +241,5 @@ int getMilliSpan(int nTimeStart){
 void showUsage() {
 	LOG4CXX_FATAL(loggerMain, "erroneous programm call - program will halt!");
 	LOG4CXX_INFO(loggerMain, "Run : ./MolSim inputfile (input file must be of type described in associated xsd file)");
-	LOG4CXX_INFO(loggerMain, "Test: ./MolSim -test");
+	LOG4CXX_INFO(loggerMain, "Test: ./MolSim -test <testnames(optional)>");
 }
