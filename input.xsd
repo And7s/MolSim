@@ -30,8 +30,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="tend" type="xsd:decimal"></xsd:element>
       <xsd:element name="delta_t" type="xsd:float"></xsd:element>
       <xsd:element name="input_file" type="xsd:string"></xsd:element>
-      <xsd:element type="cuboid" name="cuboid" maxOccurs="unbounded"></xsd:element>
-      <xsd:element type="sphere" name="sphere" maxOccurs="unbounded"></xsd:element>
+      <xsd:element type="cuboid" name="cuboid" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+      <xsd:element type="sphere" name="sphere" maxOccurs="unbounded" minOccurs="0"></xsd:element>
       <xsd:element type="boundaryCondition" name="boundaryCondition"  maxOccurs="unbounded"></xsd:element>
       <xsd:element type="LinkedCellDomain" name="LinkedCellDomain"></xsd:element>
     </xsd:sequence>

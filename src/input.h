@@ -25,7 +25,7 @@
 // program, you may extend this exception to your version of the program,
 // but you are not obligated to do so. If you do not wish to do so, delete
 // this exception statement from your version.
-//
+//hsbfhsdhf
 // Furthermore, Code Synthesis Tools CC makes a special exception for
 // the Free/Libre and Open Source Software (FLOSS) which is described
 // in the accompanying FLOSSE file.
