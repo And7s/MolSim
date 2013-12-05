@@ -41,6 +41,7 @@ double end_time;
 double delta_t;
 double sigma;
 double epsilon;
+double cutOff;
 
 std::vector<BoundaryCondition*> boundaryConditions;
 
@@ -109,14 +110,13 @@ int main(int argc, char* argsv[]) {
     end_time = inp->tend();
     epsilon = inp->epsilon();
     sigma = inp->sigma();
-    double cutOff = inp->LinkedCellDomain().cutoff();
-    //epsilon = 5.0;
-    //sigma = 1.0;
-    std::cout << "Epsilon: " << epsilon << " Sigma: " << sigma << " Cutoff: "<< cutOff << std::endl;
+    cutOff = inp->LinkedCellDomain().cutoff();
+
     assert(delta_t>0);
     assert(end_time>0);
     assert(epsilon>0);
     assert(sigma>0);
+	assert(cutOff>0);
 
 	ParticleGenerator pg;
 	int* length = new int;
@@ -126,7 +126,6 @@ int main(int argc, char* argsv[]) {
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
-	assert(cutOff>0);
 	domainSize[0] = inp->LinkedCellDomain().dimension().x();
 	assert(domainSize[0]>0);
 	domainSize[1] = inp->LinkedCellDomain().dimension().y();
@@ -134,7 +133,6 @@ int main(int argc, char* argsv[]) {
 	domainSize[2] = inp->LinkedCellDomain().dimension().z();
 	assert(domainSize[2]>0);
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
-	std::cout << "DomainSize " << domainSize[0] << " " << domainSize[1] << " " << domainSize[2] << " " << std::endl;
 	lcDomain.insertParticles(pa);
 
 	ParticleContainer pc(*length);
@@ -173,9 +171,6 @@ int main(int argc, char* argsv[]) {
 	}
 	LOG4CXX_INFO(loggerMain, "Created "<<boundaryConditions.size()<<" boundary Conditions");
 	
-
-
-
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);
 
