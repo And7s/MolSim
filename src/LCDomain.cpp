@@ -13,19 +13,24 @@
 LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 
 LCDomain::LCDomain() {
-
+	//
 }
 
-LCDomain::LCDomain(std::vector<int>* bounds,int cutOffRad, int cellDimension) {
+LCDomain::LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension) {
 	this->cutOffRadius = cutOffRad;
 	this->cellDimension = cellDimension;
-	if((this->cutOffRadius % this->cellDimension) != 0){
-		LOG4CXX_WARN(loggerDomain,"the cut-off radius is not a multiple of the cell-dimension. Check configuration, since this is probably a mistake.");
-	}
+	//if((this->cutOffRadius % this->cellDimension) != 0){
+	//	LOG4CXX_WARN(loggerDomain,"the cut-off radius is not a multiple of the cell-dimension. Check configuration, since this is probably a mistake.");
+	//}
+
 	//calculate size of halo-border
-	this->haloSize = ((cutOffRad % cellDimension) == 0)?
-			(cutOffRadius / cellDimension):
-			(cutOffRadius / cellDimension) + 1;
+		//check whether the cutoff radius is an integer
+	if((((int)cutOffRad) - cutOffRad) == 0){
+		this->haloSize = cutOffRad / cellDimension;
+	}else{
+		this->haloSize = (cutOffRad / cellDimension) + 1;
+	}
+
 	this->dimension = bounds->size();
 	std::vector<int> b (dimension,0);
 	int k;
@@ -34,22 +39,6 @@ LCDomain::LCDomain(std::vector<int>* bounds,int cutOffRad, int cellDimension) {
 		this->bounds.push_back(z + haloSize*2);
 	}
 	//offset
-	/*
-	switch (dimension) {
-		case 1:
-			//no need to set an offset value
-			break;
-		case 2: case 3:
-			offset = new int[dimension -1];
-			int j;
-			for(j = 0; j < dimension-1;j++){
-				offset[j] = this->bounds[j];
-			}
-			break;
-		default:
-			LOG4CXX_ERROR(loggerDomain, "unsupported dimension size! - unable to establish domain");
-			return;
-	}*/
 	offset = new int[dimension - 1];
 	int i;
 	int linearspace = 1;
@@ -104,9 +93,9 @@ void LCDomain::insertParticle(Particle* part){
 	}
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
-	partPos[0] = (part->getX()[0] / cutOffRadius) + haloSize;
-	partPos[1] = (part->getX()[1] / cutOffRadius) + haloSize;
-	partPos[2] = (part->getX()[2] / cutOffRadius) + haloSize;
+	partPos[0] = ((int)(part->getX()[0] / cutOffRadius)) + haloSize;
+	partPos[1] = ((int)(part->getX()[1] / cutOffRadius)) + haloSize;
+	partPos[2] = ((int)(part->getX()[2] / cutOffRadius)) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 	index = this->getCellAt(partPos)->getPosition();
 	this->cells[index]->setParticle(part);
@@ -259,7 +248,7 @@ int LCDomain::getDimension() {
 	return dimension;
 }
 
-int LCDomain::getCutOffRadius(){
+double LCDomain::getCutOffRadius(){
 	return this->cutOffRadius;
 }
 

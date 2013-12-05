@@ -109,7 +109,7 @@ int main(int argc, char* argsv[]) {
     end_time = inp->tend();
     epsilon = inp->epsilon();
     sigma = inp->sigma();
-    int cutOff = inp->LinkedCellDomain().cutoff();
+    double cutOff = inp->LinkedCellDomain().cutoff();
     //epsilon = 5.0;
     //sigma = 1.0;
     std::cout << "Epsilon: " << epsilon << " Sigma: " << sigma << " Cutoff: "<< cutOff << std::endl;
