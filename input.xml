@@ -13,7 +13,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
        xsi:noNamespaceSchemaLocation="input.xsd">
   <epsilon>5</epsilon>
   <sigma>1</sigma>
-  <base_output_file>unused</base_output_file>
+  <base_output_file>out</base_output_file>
   <frequency>10</frequency>
   <dimensions>2</dimensions>
   <start_time>0</start_time>
