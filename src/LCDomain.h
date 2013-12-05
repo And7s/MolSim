@@ -12,8 +12,8 @@
 #include "ParticleContainer.h"
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
-#include <cassert>
 #include "help_macros.h"
+
 
 using namespace log4cxx;
 using namespace log4cxx::xml;

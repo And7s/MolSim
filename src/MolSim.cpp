@@ -15,6 +15,7 @@
 #include "BoundaryCondition.h"
 #include "cppunit/Tester.h"
 #include "input.h"
+#include "help_macros.h"
 
 #include <cppunit/ui/text/TestRunner.h>
 #include <log4cxx/logger.h>
@@ -26,7 +27,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <sys/timeb.h>
-#include <assert.h>
 
 using namespace std;
 using namespace log4cxx;
