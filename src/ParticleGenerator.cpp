@@ -55,7 +55,7 @@ std::vector<Particle*> partlist;
 			}
 		}
 	}
-	LOG4CXX_INFO(loggerPG, "Generated" << partlist.size() << "Particles for Spheres");
+	LOG4CXX_INFO(loggerPG, "Generated " << partlist.size() << " Particles for Spheres");
 	int num_particles = 0;
 
 	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){

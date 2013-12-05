@@ -112,11 +112,11 @@ int main(int argc, char* argsv[]) {
     sigma = inp->sigma();
     cutOff = inp->LinkedCellDomain().cutoff();
 
-    assert(delta_t>0);
-    assert(end_time>0);
-    assert(epsilon>0);
-    assert(sigma>0);
-	assert(cutOff>0);
+    ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
+    ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
+    ASSERT_WITH_MESSAGE(loggerMain, (epsilon>0), "Invalid epsilon. Please specify first " << epsilon);
+    ASSERT_WITH_MESSAGE(loggerMain, (sigma>0), "Invalid delta_t. Please specify first " << sigma);
+    ASSERT_WITH_MESSAGE(loggerMain, (cutOff>0), "Invalid delta_t. Please specify first " << cutOff);
 
 	ParticleGenerator pg;
 	int* length = new int;
@@ -127,11 +127,11 @@ int main(int argc, char* argsv[]) {
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
 	domainSize[0] = inp->LinkedCellDomain().dimension().x();
-	assert(domainSize[0]>0);
+	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[0]>0), "Invalid domainSize[0]. Please specify first " << domainSize[0]);
 	domainSize[1] = inp->LinkedCellDomain().dimension().y();
-	assert(domainSize[1]>0);
+	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[1]>0), "Invalid domainSize[1]. Please specify first " << domainSize[1]);
 	domainSize[2] = inp->LinkedCellDomain().dimension().z();
-	assert(domainSize[2]>0);
+	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[2]>0), "Invalid domainSize[2]. Please specify first " << domainSize[2]);
 	LCDomain lcDomain(&domainSize,cutOff, cutOff);
 	lcDomain.insertParticles(pa);
 
