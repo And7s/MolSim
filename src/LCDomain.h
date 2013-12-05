@@ -50,7 +50,7 @@ protected:
 	/**
 	 * cutOffRadius, which is not always equal to the length of an edge of a cell
 	 */
-	int cutOffRadius;
+	double cutOffRadius;
 
 	/**
 	 * the length of an edge
@@ -73,7 +73,7 @@ public:
 	 * @param cellDimension the length of an edge of a cell
 	 *  - vector size determines the dimension
 	 */
-	LCDomain(std::vector<int>* bounds, int cutOffRad, int cellDimension);
+	LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension);
 
 	/**
 	 * The maximum size of the returned vector with respect to the dimension:
@@ -127,7 +127,7 @@ public:
 
 	void reset();
 
-	int getCutOffRadius();
+	double getCutOffRadius();
 
 	int getCellDimension();
 
