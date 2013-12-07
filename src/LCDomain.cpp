@@ -60,19 +60,27 @@ LCDomain::LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
-	assert(checkBounds(pos));
+	
 	int index;
 	switch (dimension) {
 		case 1:
-			return cells[pos[0]];	//x
+			index = pos[0];
+			break;	//x
 		case 2:
-			return cells[pos[1] * (offset[0]) + pos[0]];	//y * offsetX + x
+			index = pos[1] * (offset[0]) + pos[0];	//y * offsetX + x
+			break;
 		case 3:
-			return cells[pos[2] * offset[0] * offset[1] + pos[1] * offset[0] + pos[0]]; //z * offsetX * offsetY + y * offsetX + x
+			index =  pos[2] * offset[0] * offset[1] + pos[1] * offset[0] + pos[0]; //z * offsetX * offsetY + y * offsetX + x
+			break;
 		default:
 			//can't happen
-			return NULL;
+			index = -1;	// will raise error on bounds check
 	}
+	if(index < 0 || index > numberOfCells) {	//more efficient check for out of bounds
+		assert(checkBounds(pos));
+	}
+	return cells[index];
+
 }
 
 void LCDomain::insertParticle(Particle* part){
@@ -106,16 +114,17 @@ void LCDomain::reset(){
 	std::vector<Particle*> particles;
 	//store all particles refereces
 	int i;
+	std::vector<int> dimensionalOrigin;
 	for(i = 0; i < this->numberOfCells; i++){
 		Particle* currentP;
-		std::vector<int> dimensionalOrigin;
+		
 		dimensionalOrigin = this->decodeDimensinalOrigin(i);
-		//std::cout << "PUSH FROM CELL" << (this->getCellAt(dimensionalOrigin)->getPosition()) << std::endl;
+		
 		int iterator = 0;
 		while((currentP = this->getCellAt(dimensionalOrigin)->nextParticle(&iterator)) != NULL){
 			//std::cout << "ADDING PARTICLE" << std::endl;
 			particles.push_back(currentP);
-			//this->getCellAt(dimensionalOrigin)->deleteParticle(currentP,false);
+
 		}
 		this->getCellAt(dimensionalOrigin)->clearParticles();
 	}
@@ -137,6 +146,7 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 	//gather actual neighbours
 	std::vector<int> reference (axis);
 	int x,y,z;
+
 	switch(dimension){
 	case 1:
 		if(axis[0] > 0){
@@ -175,8 +185,9 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 							reference[0] = x;
 							reference[1] = y;
 							reference[2] = z;
+							
 							neighbours->push_back(getCellAt(reference));
-							LOG4CXX_TRACE(loggerDomain,"added: " << getCellAt(reference)->getPosition());
+							//LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());	//do not log here, it'll get called too often
 						}
 					}
 				}

@@ -5,6 +5,7 @@
  *  Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
  */
 #include "Calculation.h"
+using namespace std;
 
 /**
  * Logger
@@ -146,9 +147,12 @@ void Sheet3Calc::calculateForce() {
 	ParticleContainer** pcArray = lcDomain.getCells();
 	int size = lcDomain.getNumberOfCells();
 	ParticleContainer* pc;
+	Particle* curP;
+	 
+	std::vector<ParticleContainer*> neighboursOfPc;
 	for(int i = 0; i < size; i++){
 		pc = pcArray[i];
-		std::vector<ParticleContainer*> neighboursOfPc;
+		
 		lcDomain.getNeighbourCells(pc, &neighboursOfPc);
 		neighboursOfPc.push_back(pc);
 		int sizeNeighbours = neighboursOfPc.size();
@@ -156,7 +160,7 @@ void Sheet3Calc::calculateForce() {
 		int cellParticleIt = 0;
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
 			for(int j = 0; j < sizeNeighbours;j++){
-				Particle* curP;
+				
 				int interactingParticlesIt = 0;
 				while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 					if((curP->getDistanceTo(p)<=lcDomain.getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
@@ -170,6 +174,7 @@ void Sheet3Calc::calculateForce() {
 				}
 			}
 		}
+		neighboursOfPc.clear();
 	}
 }
 
@@ -179,7 +184,6 @@ void Sheet3Calc::calculateAll() {
 	calculatePosition();
 	lcDomain.reset();
 	calculateForce();
-
 }
 
 void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2, double sigma_, double epsilon_){
