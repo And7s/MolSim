@@ -230,6 +230,8 @@ class vectorF;
 class vectorI;
 class nonNegativeFloat;
 class positiveFloat;
+class positionType;
+class boundaryType;
 
 #include <memory>    // std::auto_ptr
 #include <limits>    // std::numeric_limits
@@ -782,63 +784,44 @@ class sphere: public ::xml_schema::type
 class boundaryCondition: public ::xml_schema::type
 {
   public:
-  // dimension
+  // boundary
   // 
-  typedef ::vectorF dimension_type;
-  typedef ::xsd::cxx::tree::traits< dimension_type, char > dimension_traits;
+  typedef ::boundaryType boundary_type;
+  typedef ::xsd::cxx::tree::traits< boundary_type, char > boundary_traits;
 
-  const dimension_type&
-  dimension () const;
+  const boundary_type&
+  boundary () const;
 
-  dimension_type&
-  dimension ();
-
-  void
-  dimension (const dimension_type& x);
+  boundary_type&
+  boundary ();
 
   void
-  dimension (::std::auto_ptr< dimension_type > p);
+  boundary (const boundary_type& x);
 
-  // cutoff
+  void
+  boundary (::std::auto_ptr< boundary_type > p);
+
+  // position
   // 
-  typedef ::nonNegativeFloat cutoff_type;
-  typedef ::xsd::cxx::tree::traits< cutoff_type, char > cutoff_traits;
+  typedef ::positionType position_type;
+  typedef ::xsd::cxx::tree::traits< position_type, char > position_traits;
 
-  const cutoff_type&
-  cutoff () const;
+  const position_type&
+  position () const;
 
-  cutoff_type&
-  cutoff ();
-
-  void
-  cutoff (const cutoff_type& x);
+  position_type&
+  position ();
 
   void
-  cutoff (::std::auto_ptr< cutoff_type > p);
-
-  // reflecting
-  // 
-  typedef ::xml_schema::boolean reflecting_type;
-  typedef ::xsd::cxx::tree::traits< reflecting_type, char > reflecting_traits;
-
-  const reflecting_type&
-  reflecting () const;
-
-  reflecting_type&
-  reflecting ();
+  position (const position_type& x);
 
   void
-  reflecting (const reflecting_type& x);
+  position (::std::auto_ptr< position_type > p);
 
   // Constructors.
   //
-  boundaryCondition (const dimension_type&,
-                     const cutoff_type&,
-                     const reflecting_type&);
-
-  boundaryCondition (::std::auto_ptr< dimension_type >&,
-                     const cutoff_type&,
-                     const reflecting_type&);
+  boundaryCondition (const boundary_type&,
+                     const position_type&);
 
   boundaryCondition (const ::xercesc::DOMElement& e,
                      ::xml_schema::flags f = 0,
@@ -866,9 +849,8 @@ class boundaryCondition: public ::xml_schema::type
          ::xml_schema::flags);
 
   protected:
-  ::xsd::cxx::tree::one< dimension_type > dimension_;
-  ::xsd::cxx::tree::one< cutoff_type > cutoff_;
-  ::xsd::cxx::tree::one< reflecting_type > reflecting_;
+  ::xsd::cxx::tree::one< boundary_type > boundary_;
+  ::xsd::cxx::tree::one< position_type > position_;
 };
 
 class LinkedCellDomain: public ::xml_schema::type
@@ -1172,6 +1154,123 @@ class positiveFloat: public ::xsd::cxx::tree::fundamental_base< ::xml_schema::fl
 
   virtual 
   ~positiveFloat ();
+};
+
+class positionType: public ::xml_schema::string
+{
+  public:
+  enum value
+  {
+    right,
+    left,
+    top,
+    bottom,
+    front,
+    back
+  };
+
+  positionType (value v);
+
+  positionType (const char* v);
+
+  positionType (const ::std::string& v);
+
+  positionType (const ::xml_schema::string& v);
+
+  positionType (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  positionType (const ::xercesc::DOMAttr& a,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  positionType (const ::std::string& s,
+                const ::xercesc::DOMElement* e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  positionType (const positionType& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  virtual positionType*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  positionType&
+  operator= (value v);
+
+  virtual
+  operator value () const
+  {
+    return _xsd_positionType_convert ();
+  }
+
+  protected:
+  value
+  _xsd_positionType_convert () const;
+
+  public:
+  static const char* const _xsd_positionType_literals_[6];
+  static const value _xsd_positionType_indexes_[6];
+};
+
+class boundaryType: public ::xml_schema::string
+{
+  public:
+  enum value
+  {
+    outflow,
+    reflecting,
+    periodic
+  };
+
+  boundaryType (value v);
+
+  boundaryType (const char* v);
+
+  boundaryType (const ::std::string& v);
+
+  boundaryType (const ::xml_schema::string& v);
+
+  boundaryType (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  boundaryType (const ::xercesc::DOMAttr& a,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  boundaryType (const ::std::string& s,
+                const ::xercesc::DOMElement* e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  boundaryType (const boundaryType& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+  virtual boundaryType*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  boundaryType&
+  operator= (value v);
+
+  virtual
+  operator value () const
+  {
+    return _xsd_boundaryType_convert ();
+  }
+
+  protected:
+  value
+  _xsd_boundaryType_convert () const;
+
+  public:
+  static const char* const _xsd_boundaryType_literals_[3];
+  static const value _xsd_boundaryType_indexes_[3];
 };
 
 #include <iosfwd>

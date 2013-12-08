@@ -25,6 +25,8 @@ protected:
 	std::vector<int> domainSize;
 	double sigma;
 	double epsilon;
+	std::string position;
+	std::string boundaryType;
 
 public:
 	BoundaryCondition();
@@ -47,6 +49,8 @@ public:
 	void setSigma(double sigma);
 
 	void setEpsilon(double epsilon);
+	void setBoundaryType(std::string boundaryType);
+	void setPosition(std::string position);
 };
 
 /**

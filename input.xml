@@ -18,31 +18,108 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <dimensions>2</dimensions>
   <start_time>0</start_time>
   <tend>5</tend>
-  <delta_t>0.00005</delta_t>
+  <delta_t>0.0001</delta_t>
   <input_file>unused</input_file>
-  <sphere>
+  <cuboid>
     <position>
       <x>60</x>
-      <y>25</y>
+      <y>70</y>
       <z>0</z>
     </position>
-    <radius>15</radius>
-    <distance>1.1225</distance>
+    <number>
+      <x>4</x>
+      <y>4</y>
+      <z>1</z>
+    </number>
+    <distance>1.225</distance>
     <mass>1.0</mass>
     <velocity>
       <x>0</x>
-      <y>-10</y>
+      <y>100</y>
       <z>0</z>
     </velocity>
-  </sphere>
-  <boundaryCondition>
-    <dimension>
-      <x>180</x>
-      <y>90</y>
+  </cuboid>
+    <cuboid>
+    <position>
+      <x>60</x>
+      <y>40</y>
+      <z>0</z>
+    </position>
+    <number>
+      <x>4</x>
+      <y>4</y>
       <z>1</z>
-    </dimension>
-    <cutoff>1</cutoff>
-    <reflecting>true</reflecting>
+    </number>
+    <distance>1.225</distance>
+    <mass>1.0</mass>
+    <velocity>
+      <x>0</x>
+      <y>-100</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+    <cuboid>
+    <position>
+      <x>50</x>
+      <y>50</y>
+      <z>0</z>
+    </position>
+    <number>
+      <x>4</x>
+      <y>4</y>
+      <z>1</z>
+    </number>
+    <distance>1.225</distance>
+    <mass>1.0</mass>
+    <velocity>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+    <cuboid>
+    <position>
+      <x>70</x>
+      <y>50</y>
+      <z>0</z>
+    </position>
+    <number>
+      <x>4</x>
+      <y>4</y>
+      <z>1</z>
+    </number>
+    <distance>1.225</distance>
+    <mass>1.0</mass>
+    <velocity>
+      <x>+100</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+  
+  <boundaryCondition>
+    <boundary>reflecting</boundary>
+    <position>right</position>
+  </boundaryCondition>
+  <boundaryCondition>
+    <boundary>outflow</boundary>
+    <position>left</position>
+  </boundaryCondition>
+    <boundaryCondition>
+    <boundary>reflecting</boundary>
+    <position>top</position>
+  </boundaryCondition>
+    <boundaryCondition>
+    <boundary>outflow</boundary>
+    <position>bottom</position>
+  </boundaryCondition>
+    <boundaryCondition>
+    <boundary>outflow</boundary>
+    <position>front</position>
+  </boundaryCondition>
+    <boundaryCondition>
+    <boundary>outflow</boundary>
+    <position>back</position>
   </boundaryCondition>
 
   <LinkedCellDomain>

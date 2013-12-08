@@ -149,29 +149,32 @@ int main(int argc, char* argsv[]) {
 	//initiallze boundary conditions
 	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
 		BoundaryCondition *boundaryCondition;	
-		if(si->reflecting()) {	//create a reflecting boundary
+		string boundary = si->boundary();
+		string position = si->position();
+		if(boundary.compare("outflow")==0){
+			boundaryCondition = new OutflowBoundary();
+			LOG4CXX_INFO(loggerMain, "Created "<< boundary <<" boundary Condition at the "<<position<< " position");
+		}else if(boundary.compare("reflecting")==0){
 			boundaryCondition = new ReflectingBoundary();
-		}else {		//create a non reflecting boundary
-			boundaryCondition = new OutflowBoundary();;
+			LOG4CXX_INFO(loggerMain, "Created "<< boundary <<" boundary Condition at the "<<position<< " position");
+		}else if(boundary.compare("periodic")==0){
+			LOG4CXX_FATAL(loggerMain, "Periodic Boundary not yet implemented, come back later ;)");
+			exit(-1);
 		}
-		
-		std::vector<int> domainSize(3,0);
-		//set the dimension of the boundary
-		domainSize[0] = si->dimension().x();
-		domainSize[1] = si->dimension().y();
-		domainSize[2] = si->dimension().z();
-		
+
 		boundaryCondition->setDomainSize(domainSize);
 		boundaryCondition->setLCDomain(lcDomain);
 		boundaryCondition->setEpsilon(epsilon);
 		boundaryCondition->setSigma(sigma);
-
+		boundaryCondition->setBoundaryType(boundary);
+		boundaryCondition->setPosition(position);
 
 		//add to the vector of all boundary collections
 		boundaryConditions.push_back(boundaryCondition);
 
 	}
 	LOG4CXX_INFO(loggerMain, "Created "<<boundaryConditions.size()<<" boundary Conditions");
+	ASSERT_WITH_MESSAGE(loggerMain, (boundaryConditions.size()==6), "Invalid number of boundaryConditions. Four needed. Use default case. Please specify first " << boundaryConditions.size());
 	
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);
