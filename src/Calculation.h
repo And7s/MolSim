@@ -3,6 +3,7 @@
 
 #include "ParticleContainer.h"
 #include "LCDomain.h"
+#include "EnvInfl.h"
 
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>

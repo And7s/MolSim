@@ -144,6 +144,8 @@ int main(int argc, char* argsv[]) {
 	calculation->setEpsilon(epsilon);
 	calculation->setSigma(sigma);
 
+	EnvInfl::getInstance()->setG(0.0);
+
 	//initiallze boundary conditions
 	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
 		BoundaryCondition *boundaryCondition;	
@@ -205,7 +207,7 @@ int main(int argc, char* argsv[]) {
 
 		current_time += delta_t;
 	}
-	LOG4CXX_INFO(loggerMain, "Output successfully written. Terminating...");
+	LOG4CXX_INFO(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");
 
 	delete length;
 

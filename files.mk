@@ -1,7 +1,6 @@
 SOURCES=\
 src/MaxwellBoltzmannDistribution.cpp\
 src/input.cpp\
-src/LCell.cpp\
 src/ParticleGenerator.cpp\
 src/Calculation.cpp\
 src/outputWriter/vtk-unstructured.cpp\
@@ -22,3 +21,4 @@ src/cppunit/Tester.cpp\
 src/BoundaryCondition.cpp\
 src/ParticleContainer.cpp\
 src/LCDomain.cpp\
+src/EnvInfl.cpp\

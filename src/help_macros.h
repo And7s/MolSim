@@ -15,7 +15,12 @@
 #include <cassert>
 
 /**
+ *
  * extension for the assert function (with logger)
+ *
+ * @param logger a LOG4CXX logger
+ * @param condition if true, nothing happens in particular. otherwise the error message will be printed AND the assert fails
+ * @param message
  */
 #define ASSERT_WITH_MESSAGE(logger, condition, message) do { \
 if (!(condition)) { LOG4CXX_ERROR(logger,message) } \
