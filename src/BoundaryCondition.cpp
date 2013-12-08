@@ -168,3 +168,54 @@ void ReflectingBoundary::applyForce(Particle* p, int axis, bool orientation){
 	Sheet3Calc::calculateSingleForce(p,counterP,sigma,epsilon);
 	delete counterP;
 }
+
+void PeriodicBoundary::applyBoundaryCondition(int* noOfParticles) {
+	LOG4CXX_TRACE(loggerBoundaryCondition, "Applying PeriodicBoundaryCondition");
+	ParticleContainer** pcArray = linkedCell.getCells();
+	int size = linkedCell.getNumberOfCells();
+	for(int i = 0;i < size;i++){
+		Particle* p;
+		int j=0;
+		while((p = pcArray[i]->nextParticle(&j)) != NULL){
+			if(position.compare("right")==0){
+				if(p->getX()[0]>domainSize[0]){
+					utils::Vector<double, 3> oldX = p->getX();
+					oldX[0] = oldX[0]-domainSize[0];
+					p->setX(oldX);
+				}
+			}else if(position.compare("left")==0){
+				if(p->getX()[0]<0){
+					utils::Vector<double, 3> oldX = p->getX();
+					oldX[0] = oldX[0]+domainSize[0];
+					p->setX(oldX);
+				}
+			}else if(position.compare("top")==0){
+				if(p->getX()[1]>domainSize[1]){
+					utils::Vector<double, 3> oldX = p->getX();
+					oldX[1] = oldX[1]-domainSize[1];
+					p->setX(oldX);
+				}
+			}else if(position.compare("bottom")==0){
+				if(p->getX()[1]<0){
+					utils::Vector<double, 3> oldX = p->getX();
+					oldX[1] = oldX[1]+domainSize[1];
+					p->setX(oldX);
+				}
+			}else if(position.compare("front")==0){
+				if(p->getX()[2]>domainSize[2]){
+					utils::Vector<double, 3> oldX = p->getX();
+					oldX[2] = oldX[2]-domainSize[2];
+					p->setX(oldX);
+				}
+			}else if(position.compare("back")==0){
+				if(p->getX()[2]<0){
+					utils::Vector<double, 3> oldX = p->getX();
+					oldX[2] = oldX[2]+domainSize[2];
+					p->setX(oldX);
+				}
+			}else{
+				LOG4CXX_FATAL(loggerBoundaryCondition, "Wrong Input for Position in Peridiodic. Input: " << position);
+			}
+		}
+	}
+}

@@ -87,4 +87,17 @@ public:
 	void applyForce(Particle* p, int axis, bool orientation);
 };
 
+/**
+ * Actual Implementation of the Boundary Condition: Periodic Boundary, i.e.
+ * particles which are leaving on one side are entering on the other side
+ */
+class PeriodicBoundary: public BoundaryCondition {
+
+public:
+	/**
+	 * Function to apply the Boundary Conditions for OutflowBoundary
+	 */
+	void applyBoundaryCondition(int* noOfParticles);
+};
+
 #endif /* BOUNDARYCONDITION_H_ */

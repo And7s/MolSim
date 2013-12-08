@@ -153,14 +153,12 @@ int main(int argc, char* argsv[]) {
 		string position = si->position();
 		if(boundary.compare("outflow")==0){
 			boundaryCondition = new OutflowBoundary();
-			LOG4CXX_INFO(loggerMain, "Created "<< boundary <<" boundary Condition at the "<<position<< " position");
 		}else if(boundary.compare("reflecting")==0){
 			boundaryCondition = new ReflectingBoundary();
-			LOG4CXX_INFO(loggerMain, "Created "<< boundary <<" boundary Condition at the "<<position<< " position");
 		}else if(boundary.compare("periodic")==0){
-			LOG4CXX_FATAL(loggerMain, "Periodic Boundary not yet implemented, come back later ;)");
-			exit(-1);
+			boundaryCondition = new PeriodicBoundary();
 		}
+		LOG4CXX_INFO(loggerMain, "Created "<< boundary <<" boundary Condition at the "<<position<< " position");
 
 		boundaryCondition->setDomainSize(domainSize);
 		boundaryCondition->setLCDomain(lcDomain);
