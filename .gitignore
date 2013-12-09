@@ -1,4 +1,5 @@
 *.vtu
 *.o
 *.ogv
+*~
 MolSim
