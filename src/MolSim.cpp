@@ -48,6 +48,8 @@ double gravity = 0.0;
 std::string outFile;
 std::string dataFile;
 std::vector<double>* parameters = new std::vector<double>;
+std::vector<Particle*> pa;
+std::vector<Particle*> pb;
 
 std::vector<BoundaryCondition*> boundaryConditions;
 
@@ -117,7 +119,7 @@ int main(int argc, char* argsv[]) {
 			exit(-1);
 		}
 		if(argc==3){
-			xvf_plotter.readParticles(parameters, argsv[2]);
+			pb = xvf_plotter.readParticles(parameters, argsv[2]);
 			//assign values from xml file
 			delta_t = (*parameters)[0];
 			end_time = inp->tend();
@@ -148,7 +150,11 @@ int main(int argc, char* argsv[]) {
 	int* length = new int;
 
 	//Particle** pa = pg.readFile(length, inp);
-	std::vector<Particle*> pa = pg.readFile(length, inp);
+	pa = pg.readFile(length, inp);
+
+	if(argc==3){
+		pa.insert(pa.end(), pb.begin(), pb.end());
+	}
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
