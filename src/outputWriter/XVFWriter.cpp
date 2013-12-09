@@ -44,7 +44,7 @@ namespace outputWriter {
 				"#\n"
 				"# xyz-coord             velocity        force             old_force       mass     type" << std::endl;
 
-		    	output_file << particles_size() << endl;
+		    	//output_file << particles_size() << endl;
 		    	for(int i = 0; i<particles.size(); i++){
 					for (int j = 0; j < 3; j++) {
 						output_file << particles[i]->getX()[j] << " ";

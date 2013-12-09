@@ -36,6 +36,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element type="sphere" name="sphere" maxOccurs="unbounded" minOccurs="0"></xsd:element>
       <xsd:element type="boundaryCondition" name="boundaryCondition" maxOccurs="6"></xsd:element>
       <xsd:element type="LinkedCellDomain" name="LinkedCellDomain"></xsd:element>
+      <xsd:element type="Thermostats" name="Thermostats"></xsd:element>
+
     </xsd:sequence>
   </xsd:complexType>
 
@@ -73,6 +75,16 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:complexType name="Thermostats">
+    <xsd:sequence>
+      <xsd:element type="xsd:decimal" name="initial_temp"></xsd:element>
+      <xsd:element type="xsd:positiveInteger" name="applied_after" ></xsd:element>
+      <xsd:element type="positiveFloat" name="delta_temp"></xsd:element>
+      <xsd:element type="xsd:positiveInteger" name="changed_after"></xsd:element>
+      <xsd:element type="xsd:decimal" name="target_temp"></xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
   <xsd:complexType name="vectorF">
     <xsd:sequence>
       <xsd:element type="xsd:decimal" name="x"></xsd:element>
@@ -97,7 +109,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
   <xsd:simpleType name="positiveFloat">
     <xsd:restriction base="xsd:float">
-     <xsd:maxExclusive value="0" />
+     <xsd:minExclusive value="0" />
     </xsd:restriction> 
   </xsd:simpleType>
 

@@ -18,8 +18,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <frequency>10</frequency>
   <dimensions>2</dimensions>
   <start_time>0</start_time>
-  <tend>0.01</tend>
-  <delta_t>0.0001</delta_t>
+  <tend>0.5</tend>
+  <delta_t>0.001</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
@@ -75,4 +75,11 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </dimension>
     <cutoff>1</cutoff>
   </LinkedCellDomain>
+  <Thermostats>
+    <initial_temp>60</initial_temp>
+    <applied_after>10</applied_after>
+    <delta_temp>1</delta_temp>
+    <changed_after>50</changed_after>
+    <target_temp>30</target_temp>
+  </Thermostats>
 </input>

@@ -226,6 +226,7 @@ class cuboid;
 class sphere;
 class boundaryCondition;
 class LinkedCellDomain;
+class Thermostats;
 class vectorF;
 class vectorI;
 class nonNegativeFloat;
@@ -466,6 +467,23 @@ class input_t: public ::xml_schema::type
   void
   LinkedCellDomain (::std::auto_ptr< LinkedCellDomain_type > p);
 
+  // Thermostats
+  // 
+  typedef ::Thermostats Thermostats_type;
+  typedef ::xsd::cxx::tree::traits< Thermostats_type, char > Thermostats_traits;
+
+  const Thermostats_type&
+  Thermostats () const;
+
+  Thermostats_type&
+  Thermostats ();
+
+  void
+  Thermostats (const Thermostats_type& x);
+
+  void
+  Thermostats (::std::auto_ptr< Thermostats_type > p);
+
   // Constructors.
   //
   input_t (const epsilon_type&,
@@ -478,7 +496,8 @@ class input_t: public ::xml_schema::type
            const tend_type&,
            const delta_t_type&,
            const input_file_type&,
-           const LinkedCellDomain_type&);
+           const LinkedCellDomain_type&,
+           const Thermostats_type&);
 
   input_t (const epsilon_type&,
            const sigma_type&,
@@ -490,7 +509,8 @@ class input_t: public ::xml_schema::type
            const tend_type&,
            const delta_t_type&,
            const input_file_type&,
-           ::std::auto_ptr< LinkedCellDomain_type >&);
+           ::std::auto_ptr< LinkedCellDomain_type >&,
+           ::std::auto_ptr< Thermostats_type >&);
 
   input_t (const ::xercesc::DOMElement& e,
            ::xml_schema::flags f = 0,
@@ -532,6 +552,7 @@ class input_t: public ::xml_schema::type
   sphere_sequence sphere_;
   boundaryCondition_sequence boundaryCondition_;
   ::xsd::cxx::tree::one< LinkedCellDomain_type > LinkedCellDomain_;
+  ::xsd::cxx::tree::one< Thermostats_type > Thermostats_;
 };
 
 class cuboid: public ::xml_schema::type
@@ -946,6 +967,123 @@ class LinkedCellDomain: public ::xml_schema::type
   protected:
   ::xsd::cxx::tree::one< dimension_type > dimension_;
   ::xsd::cxx::tree::one< cutoff_type > cutoff_;
+};
+
+class Thermostats: public ::xml_schema::type
+{
+  public:
+  // initial_temp
+  // 
+  typedef ::xml_schema::decimal initial_temp_type;
+  typedef ::xsd::cxx::tree::traits< initial_temp_type, char, ::xsd::cxx::tree::schema_type::decimal > initial_temp_traits;
+
+  const initial_temp_type&
+  initial_temp () const;
+
+  initial_temp_type&
+  initial_temp ();
+
+  void
+  initial_temp (const initial_temp_type& x);
+
+  // applied_after
+  // 
+  typedef ::xml_schema::positive_integer applied_after_type;
+  typedef ::xsd::cxx::tree::traits< applied_after_type, char > applied_after_traits;
+
+  const applied_after_type&
+  applied_after () const;
+
+  applied_after_type&
+  applied_after ();
+
+  void
+  applied_after (const applied_after_type& x);
+
+  // delta_temp
+  // 
+  typedef ::positiveFloat delta_temp_type;
+  typedef ::xsd::cxx::tree::traits< delta_temp_type, char > delta_temp_traits;
+
+  const delta_temp_type&
+  delta_temp () const;
+
+  delta_temp_type&
+  delta_temp ();
+
+  void
+  delta_temp (const delta_temp_type& x);
+
+  void
+  delta_temp (::std::auto_ptr< delta_temp_type > p);
+
+  // changed_after
+  // 
+  typedef ::xml_schema::positive_integer changed_after_type;
+  typedef ::xsd::cxx::tree::traits< changed_after_type, char > changed_after_traits;
+
+  const changed_after_type&
+  changed_after () const;
+
+  changed_after_type&
+  changed_after ();
+
+  void
+  changed_after (const changed_after_type& x);
+
+  // target_temp
+  // 
+  typedef ::xml_schema::decimal target_temp_type;
+  typedef ::xsd::cxx::tree::traits< target_temp_type, char, ::xsd::cxx::tree::schema_type::decimal > target_temp_traits;
+
+  const target_temp_type&
+  target_temp () const;
+
+  target_temp_type&
+  target_temp ();
+
+  void
+  target_temp (const target_temp_type& x);
+
+  // Constructors.
+  //
+  Thermostats (const initial_temp_type&,
+               const applied_after_type&,
+               const delta_temp_type&,
+               const changed_after_type&,
+               const target_temp_type&);
+
+  Thermostats (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+  Thermostats (const Thermostats& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+  virtual Thermostats*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  Thermostats&
+  operator= (const Thermostats& x);
+
+  virtual 
+  ~Thermostats ();
+
+  // Implementation.
+  //
+  protected:
+  void
+  parse (::xsd::cxx::xml::dom::parser< char >&,
+         ::xml_schema::flags);
+
+  protected:
+  ::xsd::cxx::tree::one< initial_temp_type > initial_temp_;
+  ::xsd::cxx::tree::one< applied_after_type > applied_after_;
+  ::xsd::cxx::tree::one< delta_temp_type > delta_temp_;
+  ::xsd::cxx::tree::one< changed_after_type > changed_after_;
+  ::xsd::cxx::tree::one< target_temp_type > target_temp_;
 };
 
 class vectorF: public ::xml_schema::type

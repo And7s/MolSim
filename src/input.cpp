@@ -319,6 +319,30 @@ LinkedCellDomain (::std::auto_ptr< LinkedCellDomain_type > x)
   this->LinkedCellDomain_.set (x);
 }
 
+const input_t::Thermostats_type& input_t::
+Thermostats () const
+{
+  return this->Thermostats_.get ();
+}
+
+input_t::Thermostats_type& input_t::
+Thermostats ()
+{
+  return this->Thermostats_.get ();
+}
+
+void input_t::
+Thermostats (const Thermostats_type& x)
+{
+  this->Thermostats_.set (x);
+}
+
+void input_t::
+Thermostats (::std::auto_ptr< Thermostats_type > x)
+{
+  this->Thermostats_.set (x);
+}
+
 
 // cuboid
 // 
@@ -666,6 +690,106 @@ cutoff (::std::auto_ptr< cutoff_type > x)
 }
 
 
+// Thermostats
+// 
+
+const Thermostats::initial_temp_type& Thermostats::
+initial_temp () const
+{
+  return this->initial_temp_.get ();
+}
+
+Thermostats::initial_temp_type& Thermostats::
+initial_temp ()
+{
+  return this->initial_temp_.get ();
+}
+
+void Thermostats::
+initial_temp (const initial_temp_type& x)
+{
+  this->initial_temp_.set (x);
+}
+
+const Thermostats::applied_after_type& Thermostats::
+applied_after () const
+{
+  return this->applied_after_.get ();
+}
+
+Thermostats::applied_after_type& Thermostats::
+applied_after ()
+{
+  return this->applied_after_.get ();
+}
+
+void Thermostats::
+applied_after (const applied_after_type& x)
+{
+  this->applied_after_.set (x);
+}
+
+const Thermostats::delta_temp_type& Thermostats::
+delta_temp () const
+{
+  return this->delta_temp_.get ();
+}
+
+Thermostats::delta_temp_type& Thermostats::
+delta_temp ()
+{
+  return this->delta_temp_.get ();
+}
+
+void Thermostats::
+delta_temp (const delta_temp_type& x)
+{
+  this->delta_temp_.set (x);
+}
+
+void Thermostats::
+delta_temp (::std::auto_ptr< delta_temp_type > x)
+{
+  this->delta_temp_.set (x);
+}
+
+const Thermostats::changed_after_type& Thermostats::
+changed_after () const
+{
+  return this->changed_after_.get ();
+}
+
+Thermostats::changed_after_type& Thermostats::
+changed_after ()
+{
+  return this->changed_after_.get ();
+}
+
+void Thermostats::
+changed_after (const changed_after_type& x)
+{
+  this->changed_after_.set (x);
+}
+
+const Thermostats::target_temp_type& Thermostats::
+target_temp () const
+{
+  return this->target_temp_.get ();
+}
+
+Thermostats::target_temp_type& Thermostats::
+target_temp ()
+{
+  return this->target_temp_.get ();
+}
+
+void Thermostats::
+target_temp (const target_temp_type& x)
+{
+  this->target_temp_.set (x);
+}
+
+
 // vectorF
 // 
 
@@ -896,7 +1020,8 @@ input_t (const epsilon_type& epsilon,
          const tend_type& tend,
          const delta_t_type& delta_t,
          const input_file_type& input_file,
-         const LinkedCellDomain_type& LinkedCellDomain)
+         const LinkedCellDomain_type& LinkedCellDomain,
+         const Thermostats_type& Thermostats)
 : ::xml_schema::type (),
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
@@ -911,7 +1036,8 @@ input_t (const epsilon_type& epsilon,
   cuboid_ (this),
   sphere_ (this),
   boundaryCondition_ (this),
-  LinkedCellDomain_ (LinkedCellDomain, this)
+  LinkedCellDomain_ (LinkedCellDomain, this),
+  Thermostats_ (Thermostats, this)
 {
 }
 
@@ -926,7 +1052,8 @@ input_t (const epsilon_type& epsilon,
          const tend_type& tend,
          const delta_t_type& delta_t,
          const input_file_type& input_file,
-         ::std::auto_ptr< LinkedCellDomain_type >& LinkedCellDomain)
+         ::std::auto_ptr< LinkedCellDomain_type >& LinkedCellDomain,
+         ::std::auto_ptr< Thermostats_type >& Thermostats)
 : ::xml_schema::type (),
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
@@ -941,7 +1068,8 @@ input_t (const epsilon_type& epsilon,
   cuboid_ (this),
   sphere_ (this),
   boundaryCondition_ (this),
-  LinkedCellDomain_ (LinkedCellDomain, this)
+  LinkedCellDomain_ (LinkedCellDomain, this),
+  Thermostats_ (Thermostats, this)
 {
 }
 
@@ -963,7 +1091,8 @@ input_t (const input_t& x,
   cuboid_ (x.cuboid_, f, this),
   sphere_ (x.sphere_, f, this),
   boundaryCondition_ (x.boundaryCondition_, f, this),
-  LinkedCellDomain_ (x.LinkedCellDomain_, f, this)
+  LinkedCellDomain_ (x.LinkedCellDomain_, f, this),
+  Thermostats_ (x.Thermostats_, f, this)
 {
 }
 
@@ -985,7 +1114,8 @@ input_t (const ::xercesc::DOMElement& e,
   cuboid_ (this),
   sphere_ (this),
   boundaryCondition_ (this),
-  LinkedCellDomain_ (this)
+  LinkedCellDomain_ (this),
+  Thermostats_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -1170,6 +1300,20 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // Thermostats
+    //
+    if (n.name () == "Thermostats" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< Thermostats_type > r (
+        Thermostats_traits::create (i, f, this));
+
+      if (!Thermostats_.present ())
+      {
+        this->Thermostats_.set (r);
+        continue;
+      }
+    }
+
     break;
   }
 
@@ -1249,6 +1393,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "LinkedCellDomain",
       "");
   }
+
+  if (!Thermostats_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "Thermostats",
+      "");
+  }
 }
 
 input_t* input_t::
@@ -1278,6 +1429,7 @@ operator= (const input_t& x)
     this->sphere_ = x.sphere_;
     this->boundaryCondition_ = x.boundaryCondition_;
     this->LinkedCellDomain_ = x.LinkedCellDomain_;
+    this->Thermostats_ = x.Thermostats_;
   }
 
   return *this;
@@ -1949,6 +2101,190 @@ operator= (const LinkedCellDomain& x)
 
 LinkedCellDomain::
 ~LinkedCellDomain ()
+{
+}
+
+// Thermostats
+//
+
+Thermostats::
+Thermostats (const initial_temp_type& initial_temp,
+             const applied_after_type& applied_after,
+             const delta_temp_type& delta_temp,
+             const changed_after_type& changed_after,
+             const target_temp_type& target_temp)
+: ::xml_schema::type (),
+  initial_temp_ (initial_temp, this),
+  applied_after_ (applied_after, this),
+  delta_temp_ (delta_temp, this),
+  changed_after_ (changed_after, this),
+  target_temp_ (target_temp, this)
+{
+}
+
+Thermostats::
+Thermostats (const Thermostats& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  initial_temp_ (x.initial_temp_, f, this),
+  applied_after_ (x.applied_after_, f, this),
+  delta_temp_ (x.delta_temp_, f, this),
+  changed_after_ (x.changed_after_, f, this),
+  target_temp_ (x.target_temp_, f, this)
+{
+}
+
+Thermostats::
+Thermostats (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  initial_temp_ (this),
+  applied_after_ (this),
+  delta_temp_ (this),
+  changed_after_ (this),
+  target_temp_ (this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+    this->parse (p, f);
+  }
+}
+
+void Thermostats::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  for (; p.more_elements (); p.next_element ())
+  {
+    const ::xercesc::DOMElement& i (p.cur_element ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    // initial_temp
+    //
+    if (n.name () == "initial_temp" && n.namespace_ ().empty ())
+    {
+      if (!initial_temp_.present ())
+      {
+        this->initial_temp_.set (initial_temp_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // applied_after
+    //
+    if (n.name () == "applied_after" && n.namespace_ ().empty ())
+    {
+      if (!applied_after_.present ())
+      {
+        this->applied_after_.set (applied_after_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // delta_temp
+    //
+    if (n.name () == "delta_temp" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< delta_temp_type > r (
+        delta_temp_traits::create (i, f, this));
+
+      if (!delta_temp_.present ())
+      {
+        this->delta_temp_.set (r);
+        continue;
+      }
+    }
+
+    // changed_after
+    //
+    if (n.name () == "changed_after" && n.namespace_ ().empty ())
+    {
+      if (!changed_after_.present ())
+      {
+        this->changed_after_.set (changed_after_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // target_temp
+    //
+    if (n.name () == "target_temp" && n.namespace_ ().empty ())
+    {
+      if (!target_temp_.present ())
+      {
+        this->target_temp_.set (target_temp_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!initial_temp_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "initial_temp",
+      "");
+  }
+
+  if (!applied_after_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "applied_after",
+      "");
+  }
+
+  if (!delta_temp_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "delta_temp",
+      "");
+  }
+
+  if (!changed_after_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "changed_after",
+      "");
+  }
+
+  if (!target_temp_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "target_temp",
+      "");
+  }
+}
+
+Thermostats* Thermostats::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class Thermostats (*this, f, c);
+}
+
+Thermostats& Thermostats::
+operator= (const Thermostats& x)
+{
+  if (this != &x)
+  {
+    static_cast< ::xml_schema::type& > (*this) = x;
+    this->initial_temp_ = x.initial_temp_;
+    this->applied_after_ = x.applied_after_;
+    this->delta_temp_ = x.delta_temp_;
+    this->changed_after_ = x.changed_after_;
+    this->target_temp_ = x.target_temp_;
+  }
+
+  return *this;
+}
+
+Thermostats::
+~Thermostats ()
 {
 }
 

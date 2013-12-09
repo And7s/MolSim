@@ -98,6 +98,23 @@ public:
 		return Vector(result);
 	}
 
+	Vector operator/(double scalar) const{
+		type result[length];
+
+		for (int i = 0; i < length; i++) {
+			result[i] = this->content[i] / scalar;
+		}
+		return Vector(result);
+	}
+
+	double NormSq() const {
+		double square_sum = 0;
+		for (int i = 0; i < length; i++) {
+			square_sum += (this->content[i] * this->content[i]);
+		}
+		return square_sum;
+	}
+
 	double L2Norm() const {
 		double square_sum = 0;
 		for (int i = 0; i < length; i++) {

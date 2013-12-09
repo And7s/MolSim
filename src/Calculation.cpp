@@ -173,7 +173,7 @@ void Sheet3Calc::calculateForce() {
 					}
 				}
 			}
-			EnvInfl::getInstance()->calculateGravity(p);
+			//EnvInfl::getInstance()->calculateGravity(p);
 		}
 		neighboursOfPc.clear();
 	}

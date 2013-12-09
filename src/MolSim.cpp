@@ -17,7 +17,8 @@
 #include "cppunit/Tester.h"
 #include "input.h"
 #include "help_macros.h"
-#include "FileReader.h"
+//#include "FileReader.h"
+#include "Thermostat.h"
 
 #include <cppunit/ui/text/TestRunner.h>
 #include <log4cxx/logger.h>
@@ -65,7 +66,7 @@ VTK vtk_plotter;
 XVF xvf_plotter;
 Plotter *plotter = &vtk_plotter;
 Plotter *dataPlotter = &xvf_plotter;
-FileReader fileReader;
+//FileReader fileReader;
 
 
 void showUsage();
@@ -153,7 +154,7 @@ int main(int argc, char* argsv[]) {
 	calculation->setEpsilon(epsilon);
 	calculation->setSigma(sigma);
 
-	EnvInfl::getInstance()->setG(0.0);
+	//EnvInfl::getInstance()->setG(0.0);
 
 	//initiallze boundary conditions
 	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
@@ -192,7 +193,9 @@ int main(int argc, char* argsv[]) {
 	calculation->resetForce();
 	calculation->calculateForce();
 
-
+	//init the thermostat
+	Thermostat* thermo = new Thermostat(lcDomain, inp);
+Thermostat* thermo2 = new Thermostat(lcDomain, inp);
 	double current_time = start_time;
 	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
@@ -201,6 +204,7 @@ int main(int argc, char* argsv[]) {
 	int startTime = getMilliCount();
 	double accTime = 0;
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec" );
+
 	while (current_time < end_time){
 		calculation->resetForce();
 		for(int i = 0; i < boundaryConditions.size(); i++) {
@@ -215,6 +219,12 @@ int main(int argc, char* argsv[]) {
 			accTime += time;
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
 			startTime = getMilliCount();
+		}
+		if(iteration % inp->Thermostats().changed_after() == 0) {
+			thermo->change();
+		}
+		if(iteration % inp->Thermostats().applied_after() == 0) {
+			thermo->apply();
 		}
 
 		current_time += delta_t;
