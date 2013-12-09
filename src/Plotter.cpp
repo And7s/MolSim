@@ -13,7 +13,7 @@ void Plotter::setParticleContainer(ParticleContainer& particleContainer) {
 }
 
 
-void VTK::plotParticles(int iteration, int amountOfParticles, const std::string& filename) {
+void VTK::plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters) {
 	outputWriter::VTKWriter writer;
 	writer.initializeOutput(amountOfParticles);
 
@@ -31,7 +31,7 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 }
 ;
 
-void XVF::plotParticles(int iteration, int amountOfParticles, const std::string& filename) {
+void XVF::plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters) {
 	outputWriter::XVFWriter writer;
 
 	ParticleContainer** pcArray = lcDomain.getCells();
@@ -45,5 +45,14 @@ void XVF::plotParticles(int iteration, int amountOfParticles, const std::string&
 		}
 	}
 
-	writer.writeFile(particleList, filename);
+	writer.writeFile(particleList, filename, parameters);
+}
+
+std::vector<Particle*> XVF::readParticles(std::vector<double>* parameters, const std::string& filename) {
+	outputWriter::XVFWriter reader;
+
+	std::vector<Particle*> particles;
+	particles = reader.readFile(parameters, filename);
+
+	return particles;
 }

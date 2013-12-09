@@ -39,14 +39,18 @@ using namespace log4cxx::helpers;
 /**
  * values can be set at startup by passing params
  */
-double start_time = 0;
+double start_time = 0.0;
 double end_time; 
 double delta_t;
 double sigma;
 double epsilon;
 double cutOff;
+double gravity = 0.0;
 std::string outFile;
 std::string dataFile;
+std::vector<double>* parameters = new std::vector<double>;
+std::vector<Particle*> pa;
+std::vector<Particle*> pb;
 
 std::vector<BoundaryCondition*> boundaryConditions;
 
@@ -67,6 +71,11 @@ XVF xvf_plotter;
 Plotter *plotter = &vtk_plotter;
 Plotter *dataPlotter = &xvf_plotter;
 //FileReader fileReader;
+
+/**
+ * XML Pointer
+ */
+auto_ptr<input_t> inp;
 
 
 void showUsage();
@@ -98,29 +107,39 @@ int main(int argc, char* argsv[]) {
 		LOG4CXX_TRACE(loggerMain, "Test finished..");
 		exit(0);
 	}
-	if(argc != 2) {
+	if(argc != 2 && argc != 3) {
 		showUsage();
 		exit(-1);
+	}else{
+		try {
+			inp =  (input (argsv[1]));
+		} catch (const xml_schema::exception& e){
+			cerr << e << endl;
+			LOG4CXX_FATAL(loggerMain, e);
+			LOG4CXX_FATAL(loggerMain, "XML Parsing error, shut down");
+			exit(-1);
+		}
+		if(argc==3){
+			pb = xvf_plotter.readParticles(parameters, argsv[2]);
+			//assign values from xml file
+			delta_t = (*parameters)[0];
+			end_time = inp->tend();
+			epsilon = (*parameters)[1];
+			sigma = (*parameters)[2];
+			cutOff = (*parameters)[3];
+			gravity = (*parameters)[4];
+			outFile = inp->base_output_file();
+			dataFile = inp->xvf_data_file();
+		}else{
+			delta_t = inp->delta_t();
+			end_time = inp->tend();
+			epsilon = inp->epsilon();
+			sigma = inp->sigma();
+			cutOff = inp->LinkedCellDomain().cutoff();
+			outFile = inp->base_output_file();
+			dataFile = inp->xvf_data_file();
+		}
 	}
-
-	auto_ptr<input_t> inp;
-	try {
-		inp =  (input (argsv[1]));
-	} catch (const xml_schema::exception& e){
-    	cerr << e << endl;
-    	LOG4CXX_FATAL(loggerMain, e);
-    	LOG4CXX_FATAL(loggerMain, "XML Parsing error, shut down");
-    	exit(-1);
-  	}
-
-    //assign values from xml file
-    delta_t = inp->delta_t();
-    end_time = inp->tend();
-    epsilon = inp->epsilon();
-    sigma = inp->sigma();
-    cutOff = inp->LinkedCellDomain().cutoff();
-    outFile = inp->base_output_file();
-    dataFile = inp->xvf_data_file();
 
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
     ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
@@ -132,7 +151,11 @@ int main(int argc, char* argsv[]) {
 	int* length = new int;
 
 	//Particle** pa = pg.readFile(length, inp);
-	std::vector<Particle*> pa = pg.readFile(length, inp);
+	pa = pg.readFile(length, inp);
+
+	if(argc==3){
+		pa.insert(pa.end(), pb.begin(), pb.end());
+	}
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
@@ -195,7 +218,7 @@ int main(int argc, char* argsv[]) {
 
 	//init the thermostat
 	Thermostat* thermo = new Thermostat(lcDomain, inp);
-Thermostat* thermo2 = new Thermostat(lcDomain, inp);
+
 	double current_time = start_time;
 	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
@@ -214,7 +237,7 @@ Thermostat* thermo2 = new Thermostat(lcDomain, inp);
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
-			plotter->plotParticles(iteration, *length, outFile);
+			plotter->plotParticles(iteration, *length, outFile, *parameters);
 			int time = getMilliSpan(startTime);
 			accTime += time;
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
@@ -231,7 +254,23 @@ Thermostat* thermo2 = new Thermostat(lcDomain, inp);
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");
 
-	dataPlotter->plotParticles(0, *length, dataFile);
+	if(inp->plot_data_file()){
+		if(argc == 2){
+			parameters->push_back(delta_t);
+			parameters->push_back(epsilon);
+			parameters->push_back(sigma);
+			parameters->push_back(cutOff);
+			parameters->push_back(gravity);
+		}else{
+			(*parameters)[0]= delta_t;
+			(*parameters)[1]= epsilon;
+			(*parameters)[2]= sigma;
+			(*parameters)[3]= cutOff;
+			(*parameters)[4]= gravity;
+		}
+
+		dataPlotter->plotParticles(0, *length, dataFile, *parameters);
+	}
 	delete length;
 
 	return 0;
@@ -261,5 +300,6 @@ int getMilliSpan(int nTimeStart){
 void showUsage() {
 	LOG4CXX_FATAL(loggerMain, "erroneous programm call - program will halt!");
 	LOG4CXX_INFO(loggerMain, "Run : ./MolSim inputfile (input file must be of type described in associated xsd file)");
+	LOG4CXX_INFO(loggerMain, "or Run : ./MolSim inputfile datafile.txt (input file must be of type described in associated xsd file)");
 	LOG4CXX_INFO(loggerMain, "Test: ./MolSim -test <testnames(optional)>");
 }
