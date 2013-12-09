@@ -103,6 +103,30 @@ base_output_file (::std::auto_ptr< base_output_file_type > x)
   this->base_output_file_.set (x);
 }
 
+const input_t::xvf_data_file_type& input_t::
+xvf_data_file () const
+{
+  return this->xvf_data_file_.get ();
+}
+
+input_t::xvf_data_file_type& input_t::
+xvf_data_file ()
+{
+  return this->xvf_data_file_.get ();
+}
+
+void input_t::
+xvf_data_file (const xvf_data_file_type& x)
+{
+  this->xvf_data_file_.set (x);
+}
+
+void input_t::
+xvf_data_file (::std::auto_ptr< xvf_data_file_type > x)
+{
+  this->xvf_data_file_.set (x);
+}
+
 const input_t::frequency_type& input_t::
 frequency () const
 {
@@ -865,6 +889,7 @@ input_t::
 input_t (const epsilon_type& epsilon,
          const sigma_type& sigma,
          const base_output_file_type& base_output_file,
+         const xvf_data_file_type& xvf_data_file,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
          const start_time_type& start_time,
@@ -876,6 +901,7 @@ input_t (const epsilon_type& epsilon,
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
   base_output_file_ (base_output_file, this),
+  xvf_data_file_ (xvf_data_file, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
   start_time_ (start_time, this),
@@ -893,6 +919,7 @@ input_t::
 input_t (const epsilon_type& epsilon,
          const sigma_type& sigma,
          const base_output_file_type& base_output_file,
+         const xvf_data_file_type& xvf_data_file,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
          const start_time_type& start_time,
@@ -904,6 +931,7 @@ input_t (const epsilon_type& epsilon,
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
   base_output_file_ (base_output_file, this),
+  xvf_data_file_ (xvf_data_file, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
   start_time_ (start_time, this),
@@ -925,6 +953,7 @@ input_t (const input_t& x,
   epsilon_ (x.epsilon_, f, this),
   sigma_ (x.sigma_, f, this),
   base_output_file_ (x.base_output_file_, f, this),
+  xvf_data_file_ (x.xvf_data_file_, f, this),
   frequency_ (x.frequency_, f, this),
   dimensions_ (x.dimensions_, f, this),
   start_time_ (x.start_time_, f, this),
@@ -946,6 +975,7 @@ input_t (const ::xercesc::DOMElement& e,
   epsilon_ (this),
   sigma_ (this),
   base_output_file_ (this),
+  xvf_data_file_ (this),
   frequency_ (this),
   dimensions_ (this),
   start_time_ (this),
@@ -1006,6 +1036,20 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       if (!base_output_file_.present ())
       {
         this->base_output_file_.set (r);
+        continue;
+      }
+    }
+
+    // xvf_data_file
+    //
+    if (n.name () == "xvf_data_file" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< xvf_data_file_type > r (
+        xvf_data_file_traits::create (i, f, this));
+
+      if (!xvf_data_file_.present ())
+      {
+        this->xvf_data_file_.set (r);
         continue;
       }
     }
@@ -1150,6 +1194,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!xvf_data_file_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "xvf_data_file",
+      "");
+  }
+
   if (!frequency_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1216,6 +1267,7 @@ operator= (const input_t& x)
     this->epsilon_ = x.epsilon_;
     this->sigma_ = x.sigma_;
     this->base_output_file_ = x.base_output_file_;
+    this->xvf_data_file_ = x.xvf_data_file_;
     this->frequency_ = x.frequency_;
     this->dimensions_ = x.dimensions_;
     this->start_time_ = x.start_time_;

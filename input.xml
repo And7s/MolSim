@@ -14,40 +14,22 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <epsilon>5</epsilon>
   <sigma>1</sigma>
   <base_output_file>out</base_output_file>
+  <xvf_data_file>xvfData</xvf_data_file>
   <frequency>10</frequency>
   <dimensions>2</dimensions>
   <start_time>0</start_time>
-  <tend>5</tend>
+  <tend>0.01</tend>
   <delta_t>0.0001</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
-      <x>60</x>
+      <x>50</x>
       <y>70</y>
       <z>0</z>
     </position>
     <number>
-      <x>4</x>
-      <y>4</y>
-      <z>1</z>
-    </number>
-    <distance>1.225</distance>
-    <mass>1.0</mass>
-    <velocity>
-      <x>0</x>
-      <y>100</y>
-      <z>0</z>
-    </velocity>
-  </cuboid>
-    <cuboid>
-    <position>
-      <x>60</x>
-      <y>40</y>
-      <z>0</z>
-    </position>
-    <number>
-      <x>4</x>
-      <y>4</y>
+      <x>15</x>
+      <y>15</y>
       <z>1</z>
     </number>
     <distance>1.225</distance>
@@ -58,44 +40,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0</z>
     </velocity>
   </cuboid>
-    <cuboid>
-    <position>
-      <x>50</x>
-      <y>50</y>
-      <z>0</z>
-    </position>
-    <number>
-      <x>4</x>
-      <y>4</y>
-      <z>1</z>
-    </number>
-    <distance>1.225</distance>
-    <mass>1.0</mass>
-    <velocity>
-      <x>-100</x>
-      <y>0</y>
-      <z>0</z>
-    </velocity>
-  </cuboid>
-    <cuboid>
-    <position>
-      <x>70</x>
-      <y>50</y>
-      <z>0</z>
-    </position>
-    <number>
-      <x>4</x>
-      <y>4</y>
-      <z>1</z>
-    </number>
-    <distance>1.225</distance>
-    <mass>1.0</mass>
-    <velocity>
-      <x>+100</x>
-      <y>0</y>
-      <z>0</z>
-    </velocity>
-  </cuboid>
+
   
   <boundaryCondition>
     <boundary>reflecting</boundary>
@@ -106,11 +51,11 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <position>left</position>
   </boundaryCondition>
     <boundaryCondition>
-    <boundary>reflecting</boundary>
+    <boundary>periodic</boundary>
     <position>top</position>
   </boundaryCondition>
     <boundaryCondition>
-    <boundary>outflow</boundary>
+    <boundary>periodic</boundary>
     <position>bottom</position>
   </boundaryCondition>
     <boundaryCondition>

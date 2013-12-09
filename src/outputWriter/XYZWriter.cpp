@@ -6,9 +6,6 @@
  */
 
 #include "outputWriter/XYZWriter.h"
-#include "utils/Vector.h"
-#include <cstdlib>
-#include <sstream>
 
 using namespace std;
 

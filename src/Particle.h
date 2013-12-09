@@ -155,6 +155,8 @@ public:
 	 * computes the distance to another particle in space
 	 */
 	double getDistanceTo(Particle* part);
+	void setM(double m);
+	void setType(int type);
 };
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);

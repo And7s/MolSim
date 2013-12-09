@@ -6,6 +6,7 @@
  */
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
+#include "outputWriter/XVFWriter.h"
 
 #include "Particle.h"
 #include "ParticleContainer.h"
@@ -16,6 +17,7 @@
 #include "cppunit/Tester.h"
 #include "input.h"
 #include "help_macros.h"
+#include "FileReader.h"
 
 #include <cppunit/ui/text/TestRunner.h>
 #include <log4cxx/logger.h>
@@ -42,6 +44,8 @@ double delta_t;
 double sigma;
 double epsilon;
 double cutOff;
+std::string outFile;
+std::string dataFile;
 
 std::vector<BoundaryCondition*> boundaryConditions;
 
@@ -58,7 +62,10 @@ LoggerPtr loggerMain(Logger::getLogger( "main"));
 Sheet3Calc sheet3calc;
 Calculation *calculation = &sheet3calc;
 VTK vtk_plotter;
+XVF xvf_plotter;
 Plotter *plotter = &vtk_plotter;
+Plotter *dataPlotter = &xvf_plotter;
+FileReader fileReader;
 
 
 void showUsage();
@@ -111,6 +118,8 @@ int main(int argc, char* argsv[]) {
     epsilon = inp->epsilon();
     sigma = inp->sigma();
     cutOff = inp->LinkedCellDomain().cutoff();
+    outFile = inp->base_output_file();
+    dataFile = inp->xvf_data_file();
 
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
     ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
@@ -177,6 +186,8 @@ int main(int argc, char* argsv[]) {
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);
 
+	dataPlotter->setLcDomain(lcDomain);
+
 	//initially calculation of Forces
 	calculation->resetForce();
 	calculation->calculateForce();
@@ -199,7 +210,7 @@ int main(int argc, char* argsv[]) {
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
-			plotter->plotParticles(iteration, *length, inp->base_output_file());
+			plotter->plotParticles(iteration, *length, outFile);
 			int time = getMilliSpan(startTime);
 			accTime += time;
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
@@ -210,6 +221,7 @@ int main(int argc, char* argsv[]) {
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");
 
+	dataPlotter->plotParticles(0, *length, dataFile);
 	delete length;
 
 	return 0;

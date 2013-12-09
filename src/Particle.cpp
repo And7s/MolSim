@@ -88,8 +88,16 @@ double Particle::getM() {
 	return m;
 }
 
+void Particle::setM(double m) {
+	this->m = m;
+}
+
 int Particle::getType() {
 	return type;
+}
+
+void Particle::setType(int type) {
+	this->type = type;
 }
 
 std::string Particle::toString() {

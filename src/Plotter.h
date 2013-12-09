@@ -9,6 +9,7 @@
 
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
+#include "outputWriter/XVFWriter.h"
 #include "ParticleContainer.h"
 #include "LCDomain.h"
 
@@ -48,6 +49,19 @@ class VTK : public Plotter{
 	public:
 		/**
 		 * Will iterate through particles and plot them in a vtk File
+		 * @param iteration
+		 * @param amountOfParticles
+		 */
+		void plotParticles(int iteration, int amountOfParticles, const std::string& filename);
+};
+
+/**
+ * Actual implementation of a XVF, derived from Plotter
+ */
+class XVF : public Plotter{
+	public:
+		/**
+		 * Will iterate through particles and plot them in a .txt File
 		 * @param iteration
 		 * @param amountOfParticles
 		 */

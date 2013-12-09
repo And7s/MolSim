@@ -11,6 +11,9 @@
 #include "Particle.h"
 #include <fstream>
 #include <list>
+#include "utils/Vector.h"
+#include <cstdlib>
+#include <sstream>
 
 namespace outputWriter {
 

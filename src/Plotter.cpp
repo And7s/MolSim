@@ -1,5 +1,5 @@
 #include "Plotter.h"
-#include "ParticleContainer.h"
+
 ParticleContainer& Plotter::getParticleContainer(){
 	return particleContainer;
 }
@@ -28,4 +28,22 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 	}
 	writer.writeFile(filename, iteration);
 
-};
+}
+;
+
+void XVF::plotParticles(int iteration, int amountOfParticles, const std::string& filename) {
+	outputWriter::XVFWriter writer;
+
+	ParticleContainer** pcArray = lcDomain.getCells();
+	int size = lcDomain.getNumberOfCells();
+	std::vector<Particle*> particleList;
+
+	for(int i = 0; i<size;i++){
+		Particle* p;
+		while((p = pcArray[i]->nextParticle())!=NULL){
+			particleList.push_back(p);
+		}
+	}
+
+	writer.writeFile(particleList, filename);
+}

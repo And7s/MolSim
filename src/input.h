@@ -294,6 +294,23 @@ class input_t: public ::xml_schema::type
   void
   base_output_file (::std::auto_ptr< base_output_file_type > p);
 
+  // xvf_data_file
+  // 
+  typedef ::xml_schema::string xvf_data_file_type;
+  typedef ::xsd::cxx::tree::traits< xvf_data_file_type, char > xvf_data_file_traits;
+
+  const xvf_data_file_type&
+  xvf_data_file () const;
+
+  xvf_data_file_type&
+  xvf_data_file ();
+
+  void
+  xvf_data_file (const xvf_data_file_type& x);
+
+  void
+  xvf_data_file (::std::auto_ptr< xvf_data_file_type > p);
+
   // frequency
   // 
   typedef ::xml_schema::integer frequency_type;
@@ -454,6 +471,7 @@ class input_t: public ::xml_schema::type
   input_t (const epsilon_type&,
            const sigma_type&,
            const base_output_file_type&,
+           const xvf_data_file_type&,
            const frequency_type&,
            const dimensions_type&,
            const start_time_type&,
@@ -465,6 +483,7 @@ class input_t: public ::xml_schema::type
   input_t (const epsilon_type&,
            const sigma_type&,
            const base_output_file_type&,
+           const xvf_data_file_type&,
            const frequency_type&,
            const dimensions_type&,
            const start_time_type&,
@@ -502,6 +521,7 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< epsilon_type > epsilon_;
   ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
+  ::xsd::cxx::tree::one< xvf_data_file_type > xvf_data_file_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
   ::xsd::cxx::tree::one< dimensions_type > dimensions_;
   ::xsd::cxx::tree::one< start_time_type > start_time_;
