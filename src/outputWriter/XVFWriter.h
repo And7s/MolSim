@@ -28,7 +28,9 @@ class XVFWriter {
 	XVFWriter();
 	virtual ~XVFWriter();
 
-	void writeFile(std::vector<Particle*> particles, const std::string& filename);
+	std::vector<Particle*> readFile(std::vector<double>* parameters, const std::string&  filename);
+
+	void writeFile(std::vector<Particle*> particles, const std::string& filename, std::vector<double>& parameters);
 	};
 }
 

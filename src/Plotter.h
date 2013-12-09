@@ -33,7 +33,7 @@ class Plotter
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
-		virtual void plotParticles(int iteration, int amountOfParticles, const std::string& filename)=0;
+		virtual void plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters)=0;
 
 		ParticleContainer& getParticleContainer();
 
@@ -52,7 +52,7 @@ class VTK : public Plotter{
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
-		void plotParticles(int iteration, int amountOfParticles, const std::string& filename);
+		void plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters);
 };
 
 /**
@@ -65,7 +65,14 @@ class XVF : public Plotter{
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
-		void plotParticles(int iteration, int amountOfParticles, const std::string& filename);
+		void plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters);
+
+		/**
+		 * Will iterate through particles and plot them in a .txt File
+		 * @param iteration
+		 * @param amountOfParticles
+		 */
+		std::vector<Particle*> readParticles(std::vector<double>* parameters, const std::string& filename);
 };
 
 #endif /* PLOTTER_H */
