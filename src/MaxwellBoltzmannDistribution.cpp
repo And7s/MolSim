@@ -17,7 +17,7 @@ static double GaussDeviate();
 
 void MaxwellBoltzmannDistribution(Particle& p, double meanVelocity, int dimensions) {
 	utils::Vector<double, 3>& v = p.getV();
-	double brownianMotionFactor = 0.1;
+	double brownianMotionFactor = 1.2;
 	for (int i = 0; i < dimensions; i++) {
 		v[i] = v[i] + meanVelocity * GaussDeviate() * brownianMotionFactor;
 	}

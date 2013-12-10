@@ -118,12 +118,12 @@ void Sheet2Calc::calculateForce() {
 	double epsilon_tmp;
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
-			if(p->getType()!=curP->getType()){
-				epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-				sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+			if(p1->getType()!=p2->getType()){
+				epsilon_tmp = sqrt(p1->getEpsilon()*p2->getEpsilon());
+				sigma_tmp = (p1->getSigma()+p2->getSigma())/2.0;
 			}else{
-				epsilon_tmp = p->getEpsilon();
-				sigma_tmp = p->getSigma();
+				epsilon_tmp = p1->getEpsilon();
+				sigma_tmp = p1->getSigma();
 			}
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
 			double factor1 = (24 * epsilon_tmp)/pow(dist,2);
