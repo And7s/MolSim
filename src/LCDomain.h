@@ -54,6 +54,11 @@ protected:
 	int numberOfCells;
 
 	/**
+	 * number of cells, which are located in the boundary zone
+	 */
+	int numberOfBZCells;
+
+	/**
 	 * cutOffRadius, which is not always equal to the length of an edge of a cell
 	 */
 	double cutOffRadius;
@@ -140,6 +145,8 @@ public:
 	int getCellDimension();
 
 	int getNumberOfCells();
+
+	int getNumberOfBZCells();
 
 	bool isBoundaryCell(ParticleContainer& cell);
 

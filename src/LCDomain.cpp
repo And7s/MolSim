@@ -29,6 +29,19 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDim
 	}
 
 	this->dimension = initalBounds->size();
+	/*
+	 * if the 3-dimensional space is only 1 cell deep, it is far more efficient to treat the domain like 2D.
+	 * In this case, there wont be any halo regions along the x-y hyperplane, which decreses the number of cells by approximately 3 times.
+	 * It should be guaranteed, that the particles can not evolve any forces, which are unequal to zero along the z axis.
+	 * Furthermore, the neighbour and boundary calculation are way faster.
+	 */
+	if(this->dimension == 3){
+		if((*initalBounds)[2] <= 1){
+			this->dimension = 2;
+		}
+	}
+
+
 	std::vector<int> b (dimension,0);
 	int k;
 	for(k = 0; k < dimension; k++){
@@ -71,6 +84,7 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDim
 		}
 	}
 	boundaryZone = new ParticleContainer*[linearspace];
+	numberOfBZCells = linearspace;
 	k = 0;
 	for(i=0; i<numberOfCells;i++){
 		if(this->isBoundaryCell((*cells[i]))){
@@ -311,6 +325,10 @@ int LCDomain::getNumberOfCells() {
 
 int LCDomain::getCellDimension(){
 	return this->cellDimension;
+}
+
+int LCDomain::getNumberOfBZCells(){
+	return this->numberOfBZCells;
 }
 
 void LCDomain::display() {
