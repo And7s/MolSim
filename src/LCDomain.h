@@ -39,6 +39,11 @@ protected:
 	ParticleContainer** cells;
 
 	/**
+	 * this field stores direct references to the boundary zone, to access it faster.
+	 */
+	ParticleContainer** boundaryZone;
+
+	/**
 	 * stores the bounds of the domain
 	 */
 	std::vector<int> bounds;
@@ -124,6 +129,8 @@ public:
 
 	ParticleContainer**& getCells();
 
+	ParticleContainer**& getHaloCells();
+
 	void setCells(ParticleContainer**& cells);
 
 	void reset();
@@ -133,6 +140,8 @@ public:
 	int getCellDimension();
 
 	int getNumberOfCells();
+
+	bool isBoundaryCell(ParticleContainer& cell);
 
 	/**
 	 * call this method to gain a visual representation of the current cell grid..

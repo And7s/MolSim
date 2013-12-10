@@ -16,7 +16,7 @@ LCDomain::LCDomain() {
 	//
 }
 
-LCDomain::LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension) {
+LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDimension) {
 	this->cutOffRadius = cutOffRad;
 	this->cellDimension = cellDimension;
 
@@ -28,11 +28,11 @@ LCDomain::LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension
 		this->haloSize = (cutOffRad / cellDimension) + 1;
 	}
 
-	this->dimension = bounds->size();
+	this->dimension = initalBounds->size();
 	std::vector<int> b (dimension,0);
 	int k;
 	for(k = 0; k < dimension; k++){
-		int z = (*bounds)[k];
+		int z = (*initalBounds)[k];
 		this->bounds.push_back(z + haloSize*2);
 	}
 	//offset
@@ -52,11 +52,38 @@ LCDomain::LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension
 	}
 	numberOfCells = linearspace;
 
-	LOG4CXX_INFO(loggerDomain,"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells <<
-					" Halo size: " << haloSize);
+	//compute boundary zone
+	linearspace = 0;
 
-	assert(haloSize > 0);
-	assert(numberOfCells > 0);
+	for(i = 0; i < haloSize; i++){	//each loop, the domain's size is reduced by 2 in each dimension.
+		int sum = 0;
+		switch(dimension){
+		case 2:
+			linearspace = 2 * ((bounds[0] - i*2) + (bounds[1] - i*2));
+			break;
+		case 3:
+			linearspace = 2 * ((bounds[0] - i*2) * (bounds[1] - i*2) +
+					(bounds[1] - i*2) * ((bounds[2] - i*2) - 2) +
+					((bounds[0] - i*2) - 2) * ((bounds[2] - i*2) -2));
+			break;
+		default:
+			LOG4CXX_ERROR(loggerDomain, "unsupported dimension"); break;
+		}
+	}
+	boundaryZone = new ParticleContainer*[linearspace];
+	k = 0;
+	for(i=0; i<numberOfCells;i++){
+		if(this->isBoundaryCell((*cells[i]))){
+			boundaryZone[k] = cells[i];
+			k++;
+		}
+	}
+
+	LOG4CXX_INFO(loggerDomain,"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells <<
+					" Cells in boundary zone: "<< linearspace << " Halo size: " << haloSize);
+
+	ASSERT_WITH_MESSAGE(loggerDomain, haloSize > 0, "erroneous halo size");
+	ASSERT_WITH_MESSAGE(loggerDomain, numberOfCells > 0, "erroneous domain size");
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
@@ -80,7 +107,10 @@ ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
 		assert(checkBounds(pos));
 	}
 	return cells[index];
+}
 
+ParticleContainer**& LCDomain::getHaloCells() {
+	return boundaryZone;
 }
 
 void LCDomain::insertParticle(Particle* part){
@@ -227,6 +257,23 @@ bool LCDomain::checkBounds(std::vector<int>& pos) {
 	return true;
 }
 
+bool LCDomain::isBoundaryCell(ParticleContainer& cell) {
+	std::vector<int> axis(dimension,0);
+	axis = this->decodeDimensinalOrigin(cell.getPosition());
+
+	switch(dimension){
+	case 2:
+		return ((axis[0] - this->haloSize < 0) || (axis[0] + this->haloSize >= this->bounds[0])) ||
+					((axis[1] - this->haloSize < 0) || (axis[1] + this->haloSize >= this->bounds[1]));
+	case 3:
+		return ((axis[0] - this->haloSize < 0) || (axis[0] + this->haloSize >= this->bounds[0])) ||
+						((axis[1] - this->haloSize < 0) || (axis[1] + this->haloSize >= this->bounds[1])) ||
+						((axis[2] - this->haloSize < 0) || (axis[2] + this->haloSize >= this->bounds[2]));
+	default:
+		LOG4CXX_ERROR(loggerDomain, "unsupported dimension"); break;
+	}
+}
+
 std::vector<int> LCDomain::decodeDimensinalOrigin(int pos){
 	//decompose the 1D position into its higher dimensional origin.
 
@@ -265,7 +312,6 @@ int LCDomain::getNumberOfCells() {
 int LCDomain::getCellDimension(){
 	return this->cellDimension;
 }
-
 
 void LCDomain::display() {
 	//for testing purpose only
