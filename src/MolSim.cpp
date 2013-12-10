@@ -17,8 +17,8 @@
 #include "cppunit/Tester.h"
 #include "input.h"
 #include "help_macros.h"
-//#include "FileReader.h"
 #include "Thermostat.h"
+#include "EnvInfl.h"
 
 #include <cppunit/ui/text/TestRunner.h>
 #include <log4cxx/logger.h>
@@ -43,6 +43,7 @@ double start_time = 0.0;
 double end_time; 
 double delta_t;
 double sigma;
+int type;
 double epsilon;
 double cutOff;
 double gravity = 0.0;
@@ -135,6 +136,7 @@ int main(int argc, char* argsv[]) {
 			end_time = inp->tend();
 			epsilon = inp->epsilon();
 			sigma = inp->sigma();
+			gravity = inp->gravity();
 			cutOff = inp->LinkedCellDomain().cutoff();
 			outFile = inp->base_output_file();
 			dataFile = inp->xvf_data_file();
@@ -150,7 +152,6 @@ int main(int argc, char* argsv[]) {
 	ParticleGenerator pg;
 	int* length = new int;
 
-	//Particle** pa = pg.readFile(length, inp);
 	pa = pg.readFile(length, inp);
 
 	if(argc==3){
@@ -177,8 +178,7 @@ int main(int argc, char* argsv[]) {
 	calculation->setEpsilon(epsilon);
 	calculation->setSigma(sigma);
 
-	//from input
-	EnvInfl::getInstance()->setG(0.0);
+	EnvInfl::getInstance()->setG(gravity);
 
 	//initiallze boundary conditions
 	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {

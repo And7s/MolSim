@@ -27,11 +27,13 @@ std::vector<Particle*> partlist;
 	float dist = 0;
 	double x[] = {0,0,0};
 	double v[] = {1,1,1};
+	int type = -1;
 	for(input_t::sphere_const_iterator si (inp->sphere().begin()); si != inp->sphere().end(); ++si) {
 		float max_dist = std::pow(si->radius(), 2); 
 		v[0] = si->velocity().x();
 		v[1] = si->velocity().y();
 		v[2] = si->velocity().z();
+		type = si->type();
 		LOG4CXX_INFO(loggerPG, "Generate a Sphere");
 					
 		for(float d1 = si->position().x()-si->radius()*si->distance(); d1 < si->position().x()+si->radius()*si->distance(); d1+=si->distance()) {
@@ -47,6 +49,7 @@ std::vector<Particle*> partlist;
 				if(dist <= max_dist) {
 					Particle* p = new Particle(x,v,si->mass());
 
+					p->setType(type);
 					utils::Vector<double, 3> velo = v;
 					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
 
@@ -68,6 +71,7 @@ std::vector<Particle*> partlist;
 		v[0] = ci->velocity().x();
 		v[1] = ci->velocity().y();
 		v[2] = ci->velocity().z();
+		type = ci->type();
 
 		for(int d1 = 0; d1 < ci->number().x(); d1++) {
 			x[0] = d1*ci->distance()+ci->position().x();
@@ -78,6 +82,7 @@ std::vector<Particle*> partlist;
 
 					Particle* p = new Particle(x,v,ci->mass());
 
+					p->setType(type);
 					utils::Vector<double, 3> velo = v;
 					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
 

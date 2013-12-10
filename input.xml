@@ -13,6 +13,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
        xsi:noNamespaceSchemaLocation="input.xsd">
   <epsilon>5</epsilon>
   <sigma>1</sigma>
+   <gravity>0.0</gravity>
   <base_output_file>out</base_output_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_data_file>true</plot_data_file>
@@ -35,6 +36,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </number>
     <distance>1.225</distance>
     <mass>1.0</mass>
+    <type>1</type>
     <velocity>
       <x>0</x>
       <y>-100</y>
