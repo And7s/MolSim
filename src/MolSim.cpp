@@ -208,6 +208,8 @@ int main(int argc, char* argsv[]) {
 	//initially calculation of Forces
 	calculation->resetForce();
 	calculation->calculateForce();
+	calculation->calculateVelocity();
+	calculation->calculatePosition();
 
 	//init the thermostat
 	Thermostat* thermo = new Thermostat(lcDomain, inp);
