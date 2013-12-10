@@ -46,16 +46,22 @@ namespace outputWriter {
 
 				std::istringstream numstream(tmp_string);
 				numstream >> num_particles;
+				//delta_t
 				getline(input_file, tmp_string);
 				(*parameters).push_back(atof(tmp_string.c_str()));
+				//epsilon
 				getline(input_file, tmp_string);
 				(*parameters).push_back(atof(tmp_string.c_str()));
+				//sigma
 				getline(input_file, tmp_string);
 				(*parameters).push_back(atof(tmp_string.c_str()));
+				//cutOff
 				getline(input_file, tmp_string);
 				(*parameters).push_back(atof(tmp_string.c_str()));
+				//gravity
 				getline(input_file, tmp_string);
 				(*parameters).push_back(atof(tmp_string.c_str()));
+				//first line of data
 				getline(input_file, tmp_string);
 
 				for (int i = 0; i < num_particles; i++) {

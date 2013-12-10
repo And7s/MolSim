@@ -43,6 +43,7 @@ double start_time = 0.0;
 double end_time; 
 double delta_t;
 double sigma;
+int type;
 double epsilon;
 double cutOff;
 double gravity = 0.0;
@@ -151,7 +152,6 @@ int main(int argc, char* argsv[]) {
 	ParticleGenerator pg;
 	int* length = new int;
 
-	//Particle** pa = pg.readFile(length, inp);
 	pa = pg.readFile(length, inp);
 
 	if(argc==3){

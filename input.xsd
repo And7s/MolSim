@@ -36,7 +36,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="input_file" type="xsd:string"></xsd:element>
       <xsd:element type="cuboid" name="cuboid" maxOccurs="unbounded" minOccurs="0"></xsd:element>
       <xsd:element type="sphere" name="sphere" maxOccurs="unbounded" minOccurs="0"></xsd:element>
-      <xsd:element type="boundaryCondition" name="boundaryCondition" maxOccurs="6"></xsd:element>
+      <xsd:element type="boundaryCondition" name="boundaryCondition" minOccurs="6" maxOccurs="6"></xsd:element>
       <xsd:element type="LinkedCellDomain" name="LinkedCellDomain"></xsd:element>
       <xsd:element type="Thermostats" name="Thermostats"></xsd:element>
 
@@ -49,6 +49,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element type="vectorI" name="number"></xsd:element>
       <xsd:element type="nonNegativeFloat" name="distance"></xsd:element>
       <xsd:element type="nonNegativeFloat" name="mass"></xsd:element>
+      <xsd:element type="xsd:integer" name="type"></xsd:element>
       <xsd:element type="vectorF" name="velocity"></xsd:element>
     </xsd:sequence>
   </xsd:complexType>
@@ -59,6 +60,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="radius" type="nonNegativeFloat"></xsd:element>
       <xsd:element type="xsd:float" name="distance"></xsd:element>
       <xsd:element type="nonNegativeFloat" name="mass"></xsd:element>
+      <xsd:element type="xsd:integer" name="type"></xsd:element>
       <xsd:element type="vectorF" name="velocity"></xsd:element>
     </xsd:sequence>
   </xsd:complexType>

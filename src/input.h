@@ -660,6 +660,20 @@ class cuboid: public ::xml_schema::type
   void
   mass (::std::auto_ptr< mass_type > p);
 
+  // type
+  // 
+  typedef ::xml_schema::integer type_type;
+  typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
+
+  const type_type&
+  type () const;
+
+  type_type&
+  type ();
+
+  void
+  type (const type_type& x);
+
   // velocity
   // 
   typedef ::vectorF velocity_type;
@@ -683,12 +697,14 @@ class cuboid: public ::xml_schema::type
           const number_type&,
           const distance_type&,
           const mass_type&,
+          const type_type&,
           const velocity_type&);
 
   cuboid (::std::auto_ptr< position_type >&,
           ::std::auto_ptr< number_type >&,
           const distance_type&,
           const mass_type&,
+          const type_type&,
           ::std::auto_ptr< velocity_type >&);
 
   cuboid (const ::xercesc::DOMElement& e,
@@ -721,6 +737,7 @@ class cuboid: public ::xml_schema::type
   ::xsd::cxx::tree::one< number_type > number_;
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
+  ::xsd::cxx::tree::one< type_type > type_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
 };
 
@@ -792,6 +809,20 @@ class sphere: public ::xml_schema::type
   void
   mass (::std::auto_ptr< mass_type > p);
 
+  // type
+  // 
+  typedef ::xml_schema::integer type_type;
+  typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
+
+  const type_type&
+  type () const;
+
+  type_type&
+  type ();
+
+  void
+  type (const type_type& x);
+
   // velocity
   // 
   typedef ::vectorF velocity_type;
@@ -815,12 +846,14 @@ class sphere: public ::xml_schema::type
           const radius_type&,
           const distance_type&,
           const mass_type&,
+          const type_type&,
           const velocity_type&);
 
   sphere (::std::auto_ptr< position_type >&,
           const radius_type&,
           const distance_type&,
           const mass_type&,
+          const type_type&,
           ::std::auto_ptr< velocity_type >&);
 
   sphere (const ::xercesc::DOMElement& e,
@@ -853,6 +886,7 @@ class sphere: public ::xml_schema::type
   ::xsd::cxx::tree::one< radius_type > radius_;
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
+  ::xsd::cxx::tree::one< type_type > type_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
 };
 
