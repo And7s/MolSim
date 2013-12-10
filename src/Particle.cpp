@@ -96,6 +96,22 @@ int Particle::getType() {
 	return type;
 }
 
+double Particle::getEpsilon(){
+	return epsilon;
+}
+
+void Particle::setEpsilon(double epsilon) {
+	this->epsilon = epsilon;
+}
+
+double Particle::getSigma(){
+	return sigma;
+}
+
+void Particle::setSigma(double sigma) {
+	this->sigma = sigma;
+}
+
 void Particle::setType(int type) {
 	this->type = type;
 }

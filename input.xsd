@@ -22,8 +22,6 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </xsd:annotation>
 
     <xsd:sequence>
-      <xsd:element name="epsilon" type="xsd:double"></xsd:element>
-      <xsd:element name="sigma" type="xsd:double"></xsd:element>
       <xsd:element name="gravity" type="xsd:double"></xsd:element>
       <xsd:element name="base_output_file" type="xsd:string" ></xsd:element>
       <xsd:element name="xvf_data_file" type="xsd:string" ></xsd:element>
@@ -49,6 +47,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element type="vectorI" name="number"></xsd:element>
       <xsd:element type="nonNegativeFloat" name="distance"></xsd:element>
       <xsd:element type="nonNegativeFloat" name="mass"></xsd:element>
+      <xsd:element name="epsilon" type="xsd:double"></xsd:element>
+      <xsd:element name="sigma" type="xsd:double"></xsd:element>
       <xsd:element type="xsd:integer" name="type"></xsd:element>
       <xsd:element type="vectorF" name="velocity"></xsd:element>
     </xsd:sequence>
@@ -60,6 +60,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="radius" type="nonNegativeFloat"></xsd:element>
       <xsd:element type="xsd:float" name="distance"></xsd:element>
       <xsd:element type="nonNegativeFloat" name="mass"></xsd:element>
+      <xsd:element name="epsilon" type="xsd:double"></xsd:element>
+      <xsd:element name="sigma" type="xsd:double"></xsd:element>
       <xsd:element type="xsd:integer" name="type"></xsd:element>
       <xsd:element type="vectorF" name="velocity"></xsd:element>
     </xsd:sequence>

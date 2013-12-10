@@ -250,34 +250,6 @@ class boundaryType;
 class input_t: public ::xml_schema::type
 {
   public:
-  // epsilon
-  // 
-  typedef ::xml_schema::double_ epsilon_type;
-  typedef ::xsd::cxx::tree::traits< epsilon_type, char, ::xsd::cxx::tree::schema_type::double_ > epsilon_traits;
-
-  const epsilon_type&
-  epsilon () const;
-
-  epsilon_type&
-  epsilon ();
-
-  void
-  epsilon (const epsilon_type& x);
-
-  // sigma
-  // 
-  typedef ::xml_schema::double_ sigma_type;
-  typedef ::xsd::cxx::tree::traits< sigma_type, char, ::xsd::cxx::tree::schema_type::double_ > sigma_traits;
-
-  const sigma_type&
-  sigma () const;
-
-  sigma_type&
-  sigma ();
-
-  void
-  sigma (const sigma_type& x);
-
   // gravity
   // 
   typedef ::xml_schema::double_ gravity_type;
@@ -514,9 +486,7 @@ class input_t: public ::xml_schema::type
 
   // Constructors.
   //
-  input_t (const epsilon_type&,
-           const sigma_type&,
-           const gravity_type&,
+  input_t (const gravity_type&,
            const base_output_file_type&,
            const xvf_data_file_type&,
            const plot_data_file_type&,
@@ -529,9 +499,7 @@ class input_t: public ::xml_schema::type
            const LinkedCellDomain_type&,
            const Thermostats_type&);
 
-  input_t (const epsilon_type&,
-           const sigma_type&,
-           const gravity_type&,
+  input_t (const gravity_type&,
            const base_output_file_type&,
            const xvf_data_file_type&,
            const plot_data_file_type&,
@@ -570,8 +538,6 @@ class input_t: public ::xml_schema::type
          ::xml_schema::flags);
 
   protected:
-  ::xsd::cxx::tree::one< epsilon_type > epsilon_;
-  ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< gravity_type > gravity_;
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
   ::xsd::cxx::tree::one< xvf_data_file_type > xvf_data_file_;
@@ -660,6 +626,34 @@ class cuboid: public ::xml_schema::type
   void
   mass (::std::auto_ptr< mass_type > p);
 
+  // epsilon
+  // 
+  typedef ::xml_schema::double_ epsilon_type;
+  typedef ::xsd::cxx::tree::traits< epsilon_type, char, ::xsd::cxx::tree::schema_type::double_ > epsilon_traits;
+
+  const epsilon_type&
+  epsilon () const;
+
+  epsilon_type&
+  epsilon ();
+
+  void
+  epsilon (const epsilon_type& x);
+
+  // sigma
+  // 
+  typedef ::xml_schema::double_ sigma_type;
+  typedef ::xsd::cxx::tree::traits< sigma_type, char, ::xsd::cxx::tree::schema_type::double_ > sigma_traits;
+
+  const sigma_type&
+  sigma () const;
+
+  sigma_type&
+  sigma ();
+
+  void
+  sigma (const sigma_type& x);
+
   // type
   // 
   typedef ::xml_schema::integer type_type;
@@ -697,6 +691,8 @@ class cuboid: public ::xml_schema::type
           const number_type&,
           const distance_type&,
           const mass_type&,
+          const epsilon_type&,
+          const sigma_type&,
           const type_type&,
           const velocity_type&);
 
@@ -704,6 +700,8 @@ class cuboid: public ::xml_schema::type
           ::std::auto_ptr< number_type >&,
           const distance_type&,
           const mass_type&,
+          const epsilon_type&,
+          const sigma_type&,
           const type_type&,
           ::std::auto_ptr< velocity_type >&);
 
@@ -737,6 +735,8 @@ class cuboid: public ::xml_schema::type
   ::xsd::cxx::tree::one< number_type > number_;
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
+  ::xsd::cxx::tree::one< epsilon_type > epsilon_;
+  ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< type_type > type_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
 };
@@ -809,6 +809,34 @@ class sphere: public ::xml_schema::type
   void
   mass (::std::auto_ptr< mass_type > p);
 
+  // epsilon
+  // 
+  typedef ::xml_schema::double_ epsilon_type;
+  typedef ::xsd::cxx::tree::traits< epsilon_type, char, ::xsd::cxx::tree::schema_type::double_ > epsilon_traits;
+
+  const epsilon_type&
+  epsilon () const;
+
+  epsilon_type&
+  epsilon ();
+
+  void
+  epsilon (const epsilon_type& x);
+
+  // sigma
+  // 
+  typedef ::xml_schema::double_ sigma_type;
+  typedef ::xsd::cxx::tree::traits< sigma_type, char, ::xsd::cxx::tree::schema_type::double_ > sigma_traits;
+
+  const sigma_type&
+  sigma () const;
+
+  sigma_type&
+  sigma ();
+
+  void
+  sigma (const sigma_type& x);
+
   // type
   // 
   typedef ::xml_schema::integer type_type;
@@ -846,6 +874,8 @@ class sphere: public ::xml_schema::type
           const radius_type&,
           const distance_type&,
           const mass_type&,
+          const epsilon_type&,
+          const sigma_type&,
           const type_type&,
           const velocity_type&);
 
@@ -853,6 +883,8 @@ class sphere: public ::xml_schema::type
           const radius_type&,
           const distance_type&,
           const mass_type&,
+          const epsilon_type&,
+          const sigma_type&,
           const type_type&,
           ::std::auto_ptr< velocity_type >&);
 
@@ -886,6 +918,8 @@ class sphere: public ::xml_schema::type
   ::xsd::cxx::tree::one< radius_type > radius_;
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
+  ::xsd::cxx::tree::one< epsilon_type > epsilon_;
+  ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< type_type > type_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
 };

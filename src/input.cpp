@@ -43,42 +43,6 @@
 // input_t
 // 
 
-const input_t::epsilon_type& input_t::
-epsilon () const
-{
-  return this->epsilon_.get ();
-}
-
-input_t::epsilon_type& input_t::
-epsilon ()
-{
-  return this->epsilon_.get ();
-}
-
-void input_t::
-epsilon (const epsilon_type& x)
-{
-  this->epsilon_.set (x);
-}
-
-const input_t::sigma_type& input_t::
-sigma () const
-{
-  return this->sigma_.get ();
-}
-
-input_t::sigma_type& input_t::
-sigma ()
-{
-  return this->sigma_.get ();
-}
-
-void input_t::
-sigma (const sigma_type& x)
-{
-  this->sigma_.set (x);
-}
-
 const input_t::gravity_type& input_t::
 gravity () const
 {
@@ -479,6 +443,42 @@ mass (::std::auto_ptr< mass_type > x)
   this->mass_.set (x);
 }
 
+const cuboid::epsilon_type& cuboid::
+epsilon () const
+{
+  return this->epsilon_.get ();
+}
+
+cuboid::epsilon_type& cuboid::
+epsilon ()
+{
+  return this->epsilon_.get ();
+}
+
+void cuboid::
+epsilon (const epsilon_type& x)
+{
+  this->epsilon_.set (x);
+}
+
+const cuboid::sigma_type& cuboid::
+sigma () const
+{
+  return this->sigma_.get ();
+}
+
+cuboid::sigma_type& cuboid::
+sigma ()
+{
+  return this->sigma_.get ();
+}
+
+void cuboid::
+sigma (const sigma_type& x)
+{
+  this->sigma_.set (x);
+}
+
 const cuboid::type_type& cuboid::
 type () const
 {
@@ -613,6 +613,42 @@ void sphere::
 mass (::std::auto_ptr< mass_type > x)
 {
   this->mass_.set (x);
+}
+
+const sphere::epsilon_type& sphere::
+epsilon () const
+{
+  return this->epsilon_.get ();
+}
+
+sphere::epsilon_type& sphere::
+epsilon ()
+{
+  return this->epsilon_.get ();
+}
+
+void sphere::
+epsilon (const epsilon_type& x)
+{
+  this->epsilon_.set (x);
+}
+
+const sphere::sigma_type& sphere::
+sigma () const
+{
+  return this->sigma_.get ();
+}
+
+sphere::sigma_type& sphere::
+sigma ()
+{
+  return this->sigma_.get ();
+}
+
+void sphere::
+sigma (const sigma_type& x)
+{
+  this->sigma_.set (x);
 }
 
 const sphere::type_type& sphere::
@@ -1082,9 +1118,7 @@ operator= (value v)
 //
 
 input_t::
-input_t (const epsilon_type& epsilon,
-         const sigma_type& sigma,
-         const gravity_type& gravity,
+input_t (const gravity_type& gravity,
          const base_output_file_type& base_output_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_data_file_type& plot_data_file,
@@ -1097,8 +1131,6 @@ input_t (const epsilon_type& epsilon,
          const LinkedCellDomain_type& LinkedCellDomain,
          const Thermostats_type& Thermostats)
 : ::xml_schema::type (),
-  epsilon_ (epsilon, this),
-  sigma_ (sigma, this),
   gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
   xvf_data_file_ (xvf_data_file, this),
@@ -1118,9 +1150,7 @@ input_t (const epsilon_type& epsilon,
 }
 
 input_t::
-input_t (const epsilon_type& epsilon,
-         const sigma_type& sigma,
-         const gravity_type& gravity,
+input_t (const gravity_type& gravity,
          const base_output_file_type& base_output_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_data_file_type& plot_data_file,
@@ -1133,8 +1163,6 @@ input_t (const epsilon_type& epsilon,
          ::std::auto_ptr< LinkedCellDomain_type >& LinkedCellDomain,
          ::std::auto_ptr< Thermostats_type >& Thermostats)
 : ::xml_schema::type (),
-  epsilon_ (epsilon, this),
-  sigma_ (sigma, this),
   gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
   xvf_data_file_ (xvf_data_file, this),
@@ -1158,8 +1186,6 @@ input_t (const input_t& x,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (x, f, c),
-  epsilon_ (x.epsilon_, f, this),
-  sigma_ (x.sigma_, f, this),
   gravity_ (x.gravity_, f, this),
   base_output_file_ (x.base_output_file_, f, this),
   xvf_data_file_ (x.xvf_data_file_, f, this),
@@ -1183,8 +1209,6 @@ input_t (const ::xercesc::DOMElement& e,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-  epsilon_ (this),
-  sigma_ (this),
   gravity_ (this),
   base_output_file_ (this),
   xvf_data_file_ (this),
@@ -1217,28 +1241,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     const ::xercesc::DOMElement& i (p.cur_element ());
     const ::xsd::cxx::xml::qualified_name< char > n (
       ::xsd::cxx::xml::dom::name< char > (i));
-
-    // epsilon
-    //
-    if (n.name () == "epsilon" && n.namespace_ ().empty ())
-    {
-      if (!epsilon_.present ())
-      {
-        this->epsilon_.set (epsilon_traits::create (i, f, this));
-        continue;
-      }
-    }
-
-    // sigma
-    //
-    if (n.name () == "sigma" && n.namespace_ ().empty ())
-    {
-      if (!sigma_.present ())
-      {
-        this->sigma_.set (sigma_traits::create (i, f, this));
-        continue;
-      }
-    }
 
     // gravity
     //
@@ -1423,20 +1425,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     break;
   }
 
-  if (!epsilon_.present ())
-  {
-    throw ::xsd::cxx::tree::expected_element< char > (
-      "epsilon",
-      "");
-  }
-
-  if (!sigma_.present ())
-  {
-    throw ::xsd::cxx::tree::expected_element< char > (
-      "sigma",
-      "");
-  }
-
   if (!gravity_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1535,8 +1523,6 @@ operator= (const input_t& x)
   if (this != &x)
   {
     static_cast< ::xml_schema::type& > (*this) = x;
-    this->epsilon_ = x.epsilon_;
-    this->sigma_ = x.sigma_;
     this->gravity_ = x.gravity_;
     this->base_output_file_ = x.base_output_file_;
     this->xvf_data_file_ = x.xvf_data_file_;
@@ -1570,6 +1556,8 @@ cuboid (const position_type& position,
         const number_type& number,
         const distance_type& distance,
         const mass_type& mass,
+        const epsilon_type& epsilon,
+        const sigma_type& sigma,
         const type_type& type,
         const velocity_type& velocity)
 : ::xml_schema::type (),
@@ -1577,6 +1565,8 @@ cuboid (const position_type& position,
   number_ (number, this),
   distance_ (distance, this),
   mass_ (mass, this),
+  epsilon_ (epsilon, this),
+  sigma_ (sigma, this),
   type_ (type, this),
   velocity_ (velocity, this)
 {
@@ -1587,6 +1577,8 @@ cuboid (::std::auto_ptr< position_type >& position,
         ::std::auto_ptr< number_type >& number,
         const distance_type& distance,
         const mass_type& mass,
+        const epsilon_type& epsilon,
+        const sigma_type& sigma,
         const type_type& type,
         ::std::auto_ptr< velocity_type >& velocity)
 : ::xml_schema::type (),
@@ -1594,6 +1586,8 @@ cuboid (::std::auto_ptr< position_type >& position,
   number_ (number, this),
   distance_ (distance, this),
   mass_ (mass, this),
+  epsilon_ (epsilon, this),
+  sigma_ (sigma, this),
   type_ (type, this),
   velocity_ (velocity, this)
 {
@@ -1608,6 +1602,8 @@ cuboid (const cuboid& x,
   number_ (x.number_, f, this),
   distance_ (x.distance_, f, this),
   mass_ (x.mass_, f, this),
+  epsilon_ (x.epsilon_, f, this),
+  sigma_ (x.sigma_, f, this),
   type_ (x.type_, f, this),
   velocity_ (x.velocity_, f, this)
 {
@@ -1622,6 +1618,8 @@ cuboid (const ::xercesc::DOMElement& e,
   number_ (this),
   distance_ (this),
   mass_ (this),
+  epsilon_ (this),
+  sigma_ (this),
   type_ (this),
   velocity_ (this)
 {
@@ -1698,6 +1696,28 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // epsilon
+    //
+    if (n.name () == "epsilon" && n.namespace_ ().empty ())
+    {
+      if (!epsilon_.present ())
+      {
+        this->epsilon_.set (epsilon_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // sigma
+    //
+    if (n.name () == "sigma" && n.namespace_ ().empty ())
+    {
+      if (!sigma_.present ())
+      {
+        this->sigma_.set (sigma_traits::create (i, f, this));
+        continue;
+      }
+    }
+
     // type
     //
     if (n.name () == "type" && n.namespace_ ().empty ())
@@ -1754,6 +1774,20 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!epsilon_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "epsilon",
+      "");
+  }
+
+  if (!sigma_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "sigma",
+      "");
+  }
+
   if (!type_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1786,6 +1820,8 @@ operator= (const cuboid& x)
     this->number_ = x.number_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
+    this->epsilon_ = x.epsilon_;
+    this->sigma_ = x.sigma_;
     this->type_ = x.type_;
     this->velocity_ = x.velocity_;
   }
@@ -1806,6 +1842,8 @@ sphere (const position_type& position,
         const radius_type& radius,
         const distance_type& distance,
         const mass_type& mass,
+        const epsilon_type& epsilon,
+        const sigma_type& sigma,
         const type_type& type,
         const velocity_type& velocity)
 : ::xml_schema::type (),
@@ -1813,6 +1851,8 @@ sphere (const position_type& position,
   radius_ (radius, this),
   distance_ (distance, this),
   mass_ (mass, this),
+  epsilon_ (epsilon, this),
+  sigma_ (sigma, this),
   type_ (type, this),
   velocity_ (velocity, this)
 {
@@ -1823,6 +1863,8 @@ sphere (::std::auto_ptr< position_type >& position,
         const radius_type& radius,
         const distance_type& distance,
         const mass_type& mass,
+        const epsilon_type& epsilon,
+        const sigma_type& sigma,
         const type_type& type,
         ::std::auto_ptr< velocity_type >& velocity)
 : ::xml_schema::type (),
@@ -1830,6 +1872,8 @@ sphere (::std::auto_ptr< position_type >& position,
   radius_ (radius, this),
   distance_ (distance, this),
   mass_ (mass, this),
+  epsilon_ (epsilon, this),
+  sigma_ (sigma, this),
   type_ (type, this),
   velocity_ (velocity, this)
 {
@@ -1844,6 +1888,8 @@ sphere (const sphere& x,
   radius_ (x.radius_, f, this),
   distance_ (x.distance_, f, this),
   mass_ (x.mass_, f, this),
+  epsilon_ (x.epsilon_, f, this),
+  sigma_ (x.sigma_, f, this),
   type_ (x.type_, f, this),
   velocity_ (x.velocity_, f, this)
 {
@@ -1858,6 +1904,8 @@ sphere (const ::xercesc::DOMElement& e,
   radius_ (this),
   distance_ (this),
   mass_ (this),
+  epsilon_ (this),
+  sigma_ (this),
   type_ (this),
   velocity_ (this)
 {
@@ -1931,6 +1979,28 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // epsilon
+    //
+    if (n.name () == "epsilon" && n.namespace_ ().empty ())
+    {
+      if (!epsilon_.present ())
+      {
+        this->epsilon_.set (epsilon_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // sigma
+    //
+    if (n.name () == "sigma" && n.namespace_ ().empty ())
+    {
+      if (!sigma_.present ())
+      {
+        this->sigma_.set (sigma_traits::create (i, f, this));
+        continue;
+      }
+    }
+
     // type
     //
     if (n.name () == "type" && n.namespace_ ().empty ())
@@ -1987,6 +2057,20 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!epsilon_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "epsilon",
+      "");
+  }
+
+  if (!sigma_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "sigma",
+      "");
+  }
+
   if (!type_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -2019,6 +2103,8 @@ operator= (const sphere& x)
     this->radius_ = x.radius_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
+    this->epsilon_ = x.epsilon_;
+    this->sigma_ = x.sigma_;
     this->type_ = x.type_;
     this->velocity_ = x.velocity_;
   }

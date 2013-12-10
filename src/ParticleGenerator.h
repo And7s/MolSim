@@ -9,6 +9,8 @@
 
 #include "Particle.h"
 #include "utils/Vector.h"
+#include "help_macros.h"
+#include "input.h"
 
 #include <fstream>
 #include <sstream>
@@ -17,7 +19,7 @@
 
 #include <memory>   // std::auto_ptr
 #include <iostream>
-#include "input.h"
+
 
 using namespace log4cxx;
 using namespace log4cxx::xml;

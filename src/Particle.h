@@ -34,6 +34,16 @@ private:
 	 */
 	int type;
 
+	/**
+	 * the epsilon parameter of this particle
+	 */
+	double epsilon;
+
+	/**
+	 * the sigma parameter of this particle
+	 */
+	double sigma;
+
 public:
 	/**
 	 * Constructor
@@ -157,6 +167,10 @@ public:
 	double getDistanceTo(Particle* part);
 	void setM(double m);
 	void setType(int type);
+	double getEpsilon();
+	void setEpsilon(double epsilon);
+	double getSigma();
+	void setSigma(double sigma);
 };
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);

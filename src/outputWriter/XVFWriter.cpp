@@ -27,7 +27,9 @@ namespace outputWriter {
 			utils::Vector<double, 3> oldF = old_F;
 			utils::Vector<double, 3> f = f_;
 			double m = 1;
-			int type;
+			double sigma = -1;
+			double epsilon = -1;
+			int type = 0;
 			int num_particles = 0;
 			std::vector<Particle*> particles;
 
@@ -47,12 +49,6 @@ namespace outputWriter {
 				std::istringstream numstream(tmp_string);
 				numstream >> num_particles;
 				//delta_t
-				getline(input_file, tmp_string);
-				(*parameters).push_back(atof(tmp_string.c_str()));
-				//epsilon
-				getline(input_file, tmp_string);
-				(*parameters).push_back(atof(tmp_string.c_str()));
-				//sigma
 				getline(input_file, tmp_string);
 				(*parameters).push_back(atof(tmp_string.c_str()));
 				//cutOff
@@ -85,10 +81,14 @@ namespace outputWriter {
 						exit(-1);
 					}
 					datastream >> m;
+					datastream >> epsilon;
+					datastream >> sigma;
 					datastream >> type;
 					Particle* p = new Particle(x,v,m);
 					p->setF(f);
 					p->setOldF(oldF);
+					p->setEpsilon(epsilon);
+					p->setSigma(sigma);
 					p->setType(type);
 					particles.push_back(p);
 
@@ -121,8 +121,6 @@ namespace outputWriter {
 		    	"# 		Parameters:\n"
 		    	"# * numberOfParticles \n"
 		        "# * delta_t \n"
-		    	"# * epsilon \n"
-		    	"# * sigma \n"
 		    	"# * cutOff \n"
 		    	"# * gravity \n"
 				"# * xyz-coordinates (3 double values)\n"
@@ -132,15 +130,13 @@ namespace outputWriter {
 				"# * mass (1 double value)\n"
 		    	"# * type (1 int value)\n"
 				"#\n"
-				"# xyz-coord             velocity        force             old_force       mass     type" << std::endl;
+				"# xyz-coord             velocity        force             old_force       mass    epsilon    sigma     type" << std::endl;
 
 
 		    	output_file << particles.size() << std::endl;
 		    	output_file << parameters[0] << std::endl;
 		    	output_file << parameters[1] << std::endl;
 		    	output_file << parameters[2] << std::endl;
-		    	output_file << parameters[3] << std::endl;
-		    	output_file << parameters[4] << std::endl;
 
 		    	for(int i = 0; i<particles.size(); i++){
 					for (int j = 0; j < 3; j++) {
@@ -160,6 +156,10 @@ namespace outputWriter {
 					}
 					output_file << "\t";
 					output_file << particles[i]->getM() << " ";
+					output_file << "\t";
+					output_file << particles[i]->getEpsilon() << " ";
+					output_file << "\t";
+					output_file << particles[i]->getSigma() << " ";
 					output_file << "\t";
 					output_file << particles[i]->getType() << std::endl;
 					}

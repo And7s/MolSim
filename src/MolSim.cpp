@@ -125,17 +125,13 @@ int main(int argc, char* argsv[]) {
 			//assign values from xml file
 			delta_t = (*parameters)[0];
 			end_time = inp->tend();
-			epsilon = (*parameters)[1];
-			sigma = (*parameters)[2];
-			cutOff = (*parameters)[3];
-			gravity = (*parameters)[4];
+			cutOff = (*parameters)[1];
+			gravity = (*parameters)[2];
 			outFile = inp->base_output_file();
 			dataFile = inp->xvf_data_file();
 		}else{
 			delta_t = inp->delta_t();
 			end_time = inp->tend();
-			epsilon = inp->epsilon();
-			sigma = inp->sigma();
 			gravity = inp->gravity();
 			cutOff = inp->LinkedCellDomain().cutoff();
 			outFile = inp->base_output_file();
@@ -145,8 +141,6 @@ int main(int argc, char* argsv[]) {
 
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
     ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
-    ASSERT_WITH_MESSAGE(loggerMain, (epsilon>0), "Invalid epsilon. Please specify first " << epsilon);
-    ASSERT_WITH_MESSAGE(loggerMain, (sigma>0), "Invalid delta_t. Please specify first " << sigma);
     ASSERT_WITH_MESSAGE(loggerMain, (cutOff>0), "Invalid delta_t. Please specify first " << cutOff);
 
 	ParticleGenerator pg;
@@ -258,16 +252,12 @@ int main(int argc, char* argsv[]) {
 	if(inp->plot_data_file()){
 		if(argc == 2){
 			parameters->push_back(delta_t);
-			parameters->push_back(epsilon);
-			parameters->push_back(sigma);
 			parameters->push_back(cutOff);
 			parameters->push_back(gravity);
 		}else{
 			(*parameters)[0]= delta_t;
-			(*parameters)[1]= epsilon;
-			(*parameters)[2]= sigma;
-			(*parameters)[3]= cutOff;
-			(*parameters)[4]= gravity;
+			(*parameters)[1]= cutOff;
+			(*parameters)[2]= gravity;
 		}
 
 		dataPlotter->plotParticles(0, *length, dataFile, *parameters);

@@ -148,6 +148,8 @@ void Sheet3Calc::calculateForce() {
 	int size = lcDomain.getNumberOfCells();
 	ParticleContainer* pc;
 	Particle* curP;
+	int sigma_tmp;
+	int epsilon_tmp;
 	 
 	std::vector<ParticleContainer*> neighboursOfPc;
 	for(int i = 0; i < size; i++){
