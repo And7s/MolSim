@@ -169,8 +169,6 @@ int main(int argc, char* argsv[]) {
 	calculation->setDeltaT(delta_t);
 	calculation->setParticleContainer(pc);
 	calculation->setLcDomain(lcDomain);
-	calculation->setEpsilon(epsilon);
-	calculation->setSigma(sigma);
 
 	EnvInfl::getInstance()->setG(gravity);
 

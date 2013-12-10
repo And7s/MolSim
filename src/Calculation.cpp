@@ -16,14 +16,6 @@ void Calculation::setDeltaT(double delta_t) {
 	this->delta_t = delta_t;
 }
 
-void Calculation::setEpsilon(double epsilon) {
-	this->epsilon = epsilon;
-}
-
-void Calculation::setSigma(double sigma) {
-	this->sigma = sigma;
-}
-
 LCDomain& Calculation::getLcDomain(){
 	return lcDomain;
 }
@@ -122,11 +114,20 @@ void Sheet1Calc::calculateAll(){
 
 void Sheet2Calc::calculateForce() {
 	Particle *p1,*p2;
+	double sigma_tmp;
+	double epsilon_tmp;
 	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
 		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
+			if(p->getType()!=curP->getType()){
+				epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+				sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+			}else{
+				epsilon_tmp = p->getEpsilon();
+				sigma_tmp = p->getSigma();
+			}
 			double dist = ((p1->getX() -(p2->getX())).L2Norm());
-			double factor1 = (24 * epsilon)/pow(dist,2);
-			double factor2 = pow((sigma/dist),6)- (2*pow((sigma/dist),12));
+			double factor1 = (24 * epsilon_tmp)/pow(dist,2);
+			double factor2 = pow((sigma_tmp/dist),6)- (2*pow((sigma_tmp/dist),12));
 			utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
 			utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 			utils::Vector<double,3> forceJI = (-1) * forceIJ;
@@ -148,8 +149,8 @@ void Sheet3Calc::calculateForce() {
 	int size = lcDomain.getNumberOfCells();
 	ParticleContainer* pc;
 	Particle* curP;
-	int sigma_tmp;
-	int epsilon_tmp;
+	double sigma_tmp;
+	double epsilon_tmp;
 	 
 	std::vector<ParticleContainer*> neighboursOfPc;
 	for(int i = 0; i < size; i++){
@@ -162,13 +163,20 @@ void Sheet3Calc::calculateForce() {
 		int cellParticleIt = 0;
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
 			for(int j = 0; j < sizeNeighbours;j++){
-				
 				int interactingParticlesIt = 0;
 				while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 					if((curP->getDistanceTo(p)<=lcDomain.getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
+						if(p->getType()!=curP->getType()){
+							epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+							sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+						}else{
+							epsilon_tmp = p->getEpsilon();
+							sigma_tmp = p->getSigma();
+						}
+
 						double dist = ((p->getX() -(curP->getX())).L2Norm());
-						double factor1 = (24 * epsilon)/pow(dist,2);
-						double factor2 = pow((sigma/dist),6)- (2*pow((sigma/dist),12));
+						double factor1 = (24 * epsilon_tmp)/pow(dist,2);
+						double factor2 = pow((sigma_tmp/dist),6)- (2*pow((sigma_tmp/dist),12));
 						utils::Vector<double,3> factor3 = curP->getX()-p->getX();
 						utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 						p->addOnF(forceIJ);
@@ -191,8 +199,8 @@ void Sheet3Calc::calculateAll() {
 
 void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2, double sigma_, double epsilon_){
 	double dist = ((p1->getX() -(p2->getX())).L2Norm());
-	double factor1 = (24 * epsilon_)/pow(dist,2);
-	double factor2 = pow((sigma_/dist),6)- (2*pow((sigma_/dist),12));
+	double factor1 = (24 * p1->getEpsilon())/pow(dist,2);
+	double factor2 = pow((p1->getSigma()/dist),6)- (2*pow((p1->getSigma()/dist),12));
 	utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
 	utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 	p1->addOnF(forceIJ);

@@ -22,8 +22,6 @@ protected:
 	LCDomain lcDomain;
 	ParticleContainer particleContainer;
 	double delta_t;
-	double sigma;
-	double epsilon;
 
 
 public:
@@ -78,10 +76,6 @@ public:
 	LCDomain& getLcDomain();
 
 	void calculateSingleForce(Particle* p1, Particle* p2);
-
-	void setEpsilon(double epsilon);
-
-	void setSigma(double sigma);
 };
 
 /**
