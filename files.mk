@@ -15,7 +15,6 @@ src/BoundaryCondition.cpp\
 src/ParticleGenerator.cpp\
 src/ParticleContainer.cpp\
 src/LCDomain.cpp\
-src/LCell.cpp\
 src/Thermostat.cpp\
 src/Calculation.cpp\
 src/outputWriter/vtk-unstructured.cpp\
