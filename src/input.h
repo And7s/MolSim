@@ -278,6 +278,20 @@ class input_t: public ::xml_schema::type
   void
   sigma (const sigma_type& x);
 
+  // gravity
+  // 
+  typedef ::xml_schema::double_ gravity_type;
+  typedef ::xsd::cxx::tree::traits< gravity_type, char, ::xsd::cxx::tree::schema_type::double_ > gravity_traits;
+
+  const gravity_type&
+  gravity () const;
+
+  gravity_type&
+  gravity ();
+
+  void
+  gravity (const gravity_type& x);
+
   // base_output_file
   // 
   typedef ::xml_schema::string base_output_file_type;
@@ -502,6 +516,7 @@ class input_t: public ::xml_schema::type
   //
   input_t (const epsilon_type&,
            const sigma_type&,
+           const gravity_type&,
            const base_output_file_type&,
            const xvf_data_file_type&,
            const plot_data_file_type&,
@@ -516,6 +531,7 @@ class input_t: public ::xml_schema::type
 
   input_t (const epsilon_type&,
            const sigma_type&,
+           const gravity_type&,
            const base_output_file_type&,
            const xvf_data_file_type&,
            const plot_data_file_type&,
@@ -556,6 +572,7 @@ class input_t: public ::xml_schema::type
   protected:
   ::xsd::cxx::tree::one< epsilon_type > epsilon_;
   ::xsd::cxx::tree::one< sigma_type > sigma_;
+  ::xsd::cxx::tree::one< gravity_type > gravity_;
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
   ::xsd::cxx::tree::one< xvf_data_file_type > xvf_data_file_;
   ::xsd::cxx::tree::one< plot_data_file_type > plot_data_file_;

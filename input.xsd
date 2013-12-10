@@ -24,6 +24,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <xsd:sequence>
       <xsd:element name="epsilon" type="xsd:double"></xsd:element>
       <xsd:element name="sigma" type="xsd:double"></xsd:element>
+      <xsd:element name="gravity" type="xsd:double"></xsd:element>
       <xsd:element name="base_output_file" type="xsd:string" ></xsd:element>
       <xsd:element name="xvf_data_file" type="xsd:string" ></xsd:element>
       <xsd:element name="plot_data_file" type="xsd:boolean" ></xsd:element>

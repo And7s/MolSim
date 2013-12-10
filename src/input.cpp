@@ -79,6 +79,24 @@ sigma (const sigma_type& x)
   this->sigma_.set (x);
 }
 
+const input_t::gravity_type& input_t::
+gravity () const
+{
+  return this->gravity_.get ();
+}
+
+input_t::gravity_type& input_t::
+gravity ()
+{
+  return this->gravity_.get ();
+}
+
+void input_t::
+gravity (const gravity_type& x)
+{
+  this->gravity_.set (x);
+}
+
 const input_t::base_output_file_type& input_t::
 base_output_file () const
 {
@@ -1030,6 +1048,7 @@ operator= (value v)
 input_t::
 input_t (const epsilon_type& epsilon,
          const sigma_type& sigma,
+         const gravity_type& gravity,
          const base_output_file_type& base_output_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_data_file_type& plot_data_file,
@@ -1044,6 +1063,7 @@ input_t (const epsilon_type& epsilon,
 : ::xml_schema::type (),
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
+  gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
   xvf_data_file_ (xvf_data_file, this),
   plot_data_file_ (plot_data_file, this),
@@ -1064,6 +1084,7 @@ input_t (const epsilon_type& epsilon,
 input_t::
 input_t (const epsilon_type& epsilon,
          const sigma_type& sigma,
+         const gravity_type& gravity,
          const base_output_file_type& base_output_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_data_file_type& plot_data_file,
@@ -1078,6 +1099,7 @@ input_t (const epsilon_type& epsilon,
 : ::xml_schema::type (),
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
+  gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
   xvf_data_file_ (xvf_data_file, this),
   plot_data_file_ (plot_data_file, this),
@@ -1102,6 +1124,7 @@ input_t (const input_t& x,
 : ::xml_schema::type (x, f, c),
   epsilon_ (x.epsilon_, f, this),
   sigma_ (x.sigma_, f, this),
+  gravity_ (x.gravity_, f, this),
   base_output_file_ (x.base_output_file_, f, this),
   xvf_data_file_ (x.xvf_data_file_, f, this),
   plot_data_file_ (x.plot_data_file_, f, this),
@@ -1126,6 +1149,7 @@ input_t (const ::xercesc::DOMElement& e,
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
   epsilon_ (this),
   sigma_ (this),
+  gravity_ (this),
   base_output_file_ (this),
   xvf_data_file_ (this),
   plot_data_file_ (this),
@@ -1176,6 +1200,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       if (!sigma_.present ())
       {
         this->sigma_.set (sigma_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // gravity
+    //
+    if (n.name () == "gravity" && n.namespace_ ().empty ())
+    {
+      if (!gravity_.present ())
+      {
+        this->gravity_.set (gravity_traits::create (i, f, this));
         continue;
       }
     }
@@ -1366,6 +1401,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!gravity_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "gravity",
+      "");
+  }
+
   if (!base_output_file_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1459,6 +1501,7 @@ operator= (const input_t& x)
     static_cast< ::xml_schema::type& > (*this) = x;
     this->epsilon_ = x.epsilon_;
     this->sigma_ = x.sigma_;
+    this->gravity_ = x.gravity_;
     this->base_output_file_ = x.base_output_file_;
     this->xvf_data_file_ = x.xvf_data_file_;
     this->plot_data_file_ = x.plot_data_file_;
