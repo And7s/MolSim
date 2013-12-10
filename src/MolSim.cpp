@@ -177,7 +177,8 @@ int main(int argc, char* argsv[]) {
 	calculation->setEpsilon(epsilon);
 	calculation->setSigma(sigma);
 
-	//EnvInfl::getInstance()->setG(0.0);
+	//from input
+	EnvInfl::getInstance()->setG(0.0);
 
 	//initiallze boundary conditions
 	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
