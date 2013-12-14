@@ -28,7 +28,7 @@ void Calculation_test::setUp() {
 	domainSize[0] = 8;
 	domainSize[1] = 8;
 	domainSize[2] = 0;
-	LCDomain lcDomain(&domainSize,cutOff, cutOff);
+	LCDomain* lcDomain = new LCDomain(&domainSize,cutOff, cutOff);
 	double x1[] = {4,0,0};
 	double x2[] = {0,3,0};
 	double v1[] = {1,1,1};
@@ -52,7 +52,7 @@ void Calculation_test::setUp() {
 	pa[0]->setF(f1);
 	pa[1]->setF(f2);
 	for(int i = 0; i < pa.size(); i++){
-			lcDomain.insertParticle(pa[i]);
+			lcDomain->insertParticle(pa[i]);
 	}
 	test_calculator->setDeltaT(1);
 }
@@ -85,8 +85,8 @@ void Calculation_test::testCalculateForce() {
 			CPPUNIT_ASSERT_DOUBLES_EQUAL(result2[i], pc.getParticles()[1]->getF()[i], 0.001);
 		}
 	}else{
-		ParticleContainer** pcArray = test_calculator->getLcDomain().getCells();
-		int size = test_calculator->getLcDomain().getNumberOfCells();
+		ParticleContainer** pcArray = test_calculator->getLcDomain()->getCells();
+		int size = test_calculator->getLcDomain()->getNumberOfCells();
 
 		for(int i = 0; i<size;i++){
 			Particle* p;
@@ -117,8 +117,8 @@ void Calculation_test::testCalculatePosition() {
 	result2[1]=5.1;
 	result2[2]=2.1;
 	
-	ParticleContainer** pcArray = test_calculator->getLcDomain().getCells();
-	int size = test_calculator->getLcDomain().getNumberOfCells();
+	ParticleContainer** pcArray = test_calculator->getLcDomain()->getCells();
+	int size = test_calculator->getLcDomain()->getNumberOfCells();
 	for(int i = 0; i<size;i++){
 		Particle* p;
 		while((p = pcArray[i]->nextParticle())!=NULL){
@@ -146,8 +146,8 @@ void Calculation_test::testCalculateVelocity() {
 	result2[1]=2.1;
 	result2[2]=2.1;
 
-	ParticleContainer** pcArray = test_calculator->getLcDomain().getCells();
-	int size = test_calculator->getLcDomain().getNumberOfCells();
+	ParticleContainer** pcArray = test_calculator->getLcDomain()->getCells();
+	int size = test_calculator->getLcDomain()->getNumberOfCells();
 	for(int i = 0; i<size;i++){
 		Particle* p;
 		while((p = pcArray[i]->nextParticle())!=NULL){

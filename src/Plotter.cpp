@@ -4,8 +4,8 @@ ParticleContainer& Plotter::getParticleContainer(){
 	return particleContainer;
 }
 
-void Plotter::setLcDomain(LCDomain& lcDomain) {
-	this->lcDomain = lcDomain;
+void Plotter::setLcDomain(LCDomain* lcDomain_) {
+	lcDomain = lcDomain_;
 }
 
 void Plotter::setParticleContainer(ParticleContainer& particleContainer) {
@@ -17,8 +17,8 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 	outputWriter::VTKWriter writer;
 	writer.initializeOutput(amountOfParticles);
 
-	ParticleContainer** pcArray = lcDomain.getCells();
-	int size = lcDomain.getNumberOfCells();
+	ParticleContainer** pcArray = lcDomain->getCells();
+	int size = lcDomain->getNumberOfCells();
 
 	for(int i = 0; i<size;i++){
 		Particle* p;
@@ -34,8 +34,8 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 void XVF::plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters) {
 	outputWriter::XVFWriter writer;
 
-	ParticleContainer** pcArray = lcDomain.getCells();
-	int size = lcDomain.getNumberOfCells();
+	ParticleContainer** pcArray = lcDomain->getCells();
+	int size = lcDomain->getNumberOfCells();
 	std::vector<Particle*> particleList;
 
 	for(int i = 0; i<size;i++){

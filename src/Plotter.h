@@ -24,7 +24,7 @@ class Plotter
 {
 	protected:
 		ParticleContainer particleContainer;
-		LCDomain lcDomain;
+		LCDomain* lcDomain;
 
 	public:
 		virtual ~Plotter() {}
@@ -39,7 +39,7 @@ class Plotter
 
 		void setParticleContainer(ParticleContainer& particleContainer);
 
-		void setLcDomain(LCDomain& lcDomain);
+		void setLcDomain(LCDomain* lcDomain);
 };
 
 /**

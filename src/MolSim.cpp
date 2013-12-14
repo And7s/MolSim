@@ -160,8 +160,8 @@ int main(int argc, char* argsv[]) {
 	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[1]>0), "Invalid domainSize[1]. Please specify first " << domainSize[1]);
 	domainSize[2] = inp->LinkedCellDomain().dimension().z();
 	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[2]>0), "Invalid domainSize[2]. Please specify first " << domainSize[2]);
-	LCDomain lcDomain(&domainSize,cutOff, cutOff);
-	lcDomain.insertParticles(pa);
+	LCDomain* lcDomain = new LCDomain(&domainSize,cutOff, cutOff);
+	lcDomain->insertParticles(pa);
 
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
@@ -192,6 +192,7 @@ int main(int argc, char* argsv[]) {
 		boundaryCondition->setSigma(sigma);
 		boundaryCondition->setBoundaryType(boundary);
 		boundaryCondition->setPosition(position);
+		boundaryCondition->setDimension(inp->dimensions());
 
 		//add to the vector of all boundary collections
 		boundaryConditions.push_back(boundaryCondition);
@@ -225,12 +226,14 @@ int main(int argc, char* argsv[]) {
 	int startTime = getMilliCount();
 	double accTime = 0;
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec" );
-
 	while (current_time < end_time){
+		
 		calculation->resetForce();
 		for(int i = 0; i < boundaryConditions.size(); i++) {
-			boundaryConditions[i]->applyBoundaryCondition(length);
+			//boundaryConditions[i]->applyBoundaryCondition(length);
+
 		}
+		boundaryConditions[0]->apply();
 		calculation->calculateAll();
 
 		iteration++;

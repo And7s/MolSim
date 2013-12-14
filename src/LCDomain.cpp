@@ -12,11 +12,9 @@
  */
 LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 
-LCDomain::LCDomain() {
-	//
-}
 
 LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDimension) {
+	
 	this->cutOffRadius = cutOffRad;
 	this->cellDimension = cellDimension;
 
@@ -41,6 +39,7 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDim
 		}
 	}
 
+	LOG4CXX_INFO(loggerDomain, "generate LCD of size: "<<(*initalBounds)[0]<<" | "<<(*initalBounds)[1]<<" | "<<(*initalBounds)[2]);
 
 	std::vector<int> b (dimension,0);
 	int k;
@@ -92,12 +91,15 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDim
 			k++;
 		}
 	}
+	numberOfBZCells = k;	//reset, edges are xounted twice
 
 	LOG4CXX_INFO(loggerDomain,"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells <<
 					" Cells in boundary zone: "<< linearspace << " Halo size: " << haloSize);
 
 	ASSERT_WITH_MESSAGE(loggerDomain, haloSize > 0, "erroneous halo size");
 	ASSERT_WITH_MESSAGE(loggerDomain, numberOfCells > 0, "erroneous domain size");
+
+	std::cout << "init LCD: haloSize: "<<haloSize<<" cellDimension: "<<cellDimension<<"cutOffRadius: "<< cutOffRadius<<"\n";
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
@@ -138,44 +140,62 @@ void LCDomain::insertParticle(Particle* part){
 
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
-	partPos[0] = ((int)(part->getX()[0] / cutOffRadius)) + haloSize;
-	partPos[1] = ((int)(part->getX()[1] / cutOffRadius)) + haloSize;
-	partPos[2] = ((int)(part->getX()[2] / cutOffRadius)) + haloSize;
+	partPos[0] = floor((float)(part->getX()[0] / cutOffRadius)) + haloSize;
+	partPos[1] = floor((float)(part->getX()[1] / cutOffRadius)) + haloSize;
+	partPos[2] = floor((float)(part->getX()[2] / cutOffRadius)) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
+	
+if(partPos[1]<0 || partPos[0] < 0 || partPos[2] != 1) {
+	std::cerr<< "at undefined position\n"<<partPos[0] <<" " <<partPos[1]<<" "<<partPos[2]<<"\n";
+	std::cerr<<*part<<"\n";
+
+}
 	index = this->getCellAt(partPos)->getPosition();
 	this->cells[index]->setParticle(part);
 	LOG4CXX_TRACE(loggerDomain,"added Particle to cell: " << index);
 }
 
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
+	particles = parts;
+//std::cout << "particle size"<<parts.size()<<"\n";
 	for(int i = 0; i < parts.size(); i++){
+		if(parts[i]->getX()[2] != 0) {
+			std::cerr << "I :"<<i<<"unequal zero\n";
+			std::cout << *parts[i]<<"\n";
+			exit(0);
+		}
 		this->insertParticle(parts[i]);
 	}
 }
 
 
+void LCDomain::deleteParticle(Particle* particle) {
+	for(int i = 0; i < particles.size(); i++) {
+		
+
+		if((particles[i]->getX()[0] == particle->getX()[0]) &&
+			(particles[i]->getX()[1] == particle->getX()[1]) &&
+			(particles[i]->getX()[0] == particle->getX()[0])){
+			
+			particles.erase(particles.begin()+i);
+			LOG4CXX_TRACE(loggerDomain,"deleted particle in lcDomain at pos "<<i);
+			break;
+		}
+
+	}
+
+}
 void LCDomain::reset(){
-	std::vector<Particle*> particles;
-	//store all particles refereces
 	int i;
 	std::vector<int> dimensionalOrigin;
 	for(i = 0; i < this->numberOfCells; i++){
-		Particle* currentP;
-		
-		dimensionalOrigin = this->decodeDimensinalOrigin(i);
-		
-		int iterator = 0;
-		while((currentP = this->getCellAt(dimensionalOrigin)->nextParticle(&iterator)) != NULL){
-			//std::cout << "ADDING PARTICLE" << std::endl;
-			particles.push_back(currentP);
-
-		}
+		dimensionalOrigin = this->decodeDimensinalOrigin(i);		
 		this->getCellAt(dimensionalOrigin)->clearParticles();
 	}
-	int amountOfParticles = particles.size();
-	for(i = 0; i < amountOfParticles; i++){
-		this->insertParticle(particles[i]);
-	}
+	//std::cout <<"start reset by inserting\n";
+	insertParticles(particles);
+	//std::cout << "rest lcd to "<<particles.size()<<" Particles in "<<numberOfCells<<"Cells \n";
+	
 }
 
 void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleContainer*>* neighbours) {
@@ -317,6 +337,9 @@ double LCDomain::getCutOffRadius(){
 	return this->cutOffRadius;
 }
 
+int LCDomain::getHaloSize() {
+	return haloSize;
+}
 
 
 int LCDomain::getNumberOfCells() {

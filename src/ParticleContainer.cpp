@@ -33,6 +33,10 @@ void ParticleContainer::setParticles(std::vector<Particle*> particles) {
 }
 
 void ParticleContainer::setParticle(Particle* particle) {
+	if(particle->getX()[2] != 0) {
+		std::cerr<<"tryied to set unewual zero";
+		exit(0);
+	}
 	this->particles.push_back(particle);
 }
 

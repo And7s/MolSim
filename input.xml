@@ -11,25 +11,25 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
 <input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="input.xsd">
-   <gravity>0.0</gravity>
+   <gravity>-1000.0</gravity>
   <base_output_file>out</base_output_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_data_file>true</plot_data_file>
-  <frequency>10</frequency>
+  <frequency>15</frequency>
   <dimensions>2</dimensions>
   <start_time>0</start_time>
-  <tend>0.5</tend>
-  <delta_t>0.001</delta_t>
+  <tend>10</tend>
+  <delta_t>0.00005</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
-      <x>50</x>
-      <y>70</y>
+      <x>2</x>
+      <y>10</y>
       <z>0</z>
     </position>
     <number>
       <x>15</x>
-      <y>15</y>
+      <y>30</y>
       <z>1</z>
     </number>
     <distance>1.225</distance>
@@ -39,7 +39,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <type>1</type>
     <velocity>
       <x>0</x>
-      <y>-100</y>
+      <y>-1</y>
       <z>0</z>
     </velocity>
   </cuboid>
@@ -58,7 +58,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <position>top</position>
   </boundaryCondition>
     <boundaryCondition>
-    <boundary>periodic</boundary>
+    <boundary>outflow</boundary>
     <position>bottom</position>
   </boundaryCondition>
     <boundaryCondition>
@@ -72,11 +72,11 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
   <LinkedCellDomain>
     <dimension>
-      <x>180</x>
-      <y>90</y>
+      <x>10</x>
+      <y>60</y>
       <z>1</z>
     </dimension>
-    <cutoff>1</cutoff>
+    <cutoff>3</cutoff>
   </LinkedCellDomain>
   <Thermostats>
     <initial_temp>60</initial_temp>

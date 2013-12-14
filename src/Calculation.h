@@ -7,7 +7,7 @@
 
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
-
+#include <math.h>
 
 using namespace log4cxx;
 using namespace log4cxx::xml;
@@ -19,7 +19,7 @@ using namespace log4cxx::helpers;
 class Calculation {
 
 protected:
-	LCDomain lcDomain;
+	LCDomain* lcDomain;
 	ParticleContainer particleContainer;
 	double delta_t;
 
@@ -71,9 +71,9 @@ public:
 	 */
 	double getDeltaT();
 
-	void setLcDomain(LCDomain& lcDomain);
+	void setLcDomain(LCDomain* lcDomain);
 
-	LCDomain& getLcDomain();
+	LCDomain* getLcDomain();
 
 	void calculateSingleForce(Particle* p1, Particle* p2);
 };
@@ -133,10 +133,8 @@ public:
 	 * Function to calculate the force between the two specific particles p1 and p2
 	 * @param p1
 	 * @param p2
-	 * @param sigma_
-	 * @param epsilon_
 	 */
-	static void calculateSingleForce(Particle* p1, Particle* p2, double sigma_, double epsilon_);
+	static void calculateSingleForce(Particle* p1, Particle* p2);
 };
 
 

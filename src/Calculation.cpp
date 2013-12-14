@@ -16,12 +16,12 @@ void Calculation::setDeltaT(double delta_t) {
 	this->delta_t = delta_t;
 }
 
-LCDomain& Calculation::getLcDomain(){
+LCDomain* Calculation::getLcDomain(){
 	return lcDomain;
 }
 
-void Calculation::setLcDomain(LCDomain& lcDomain) {
-	this->lcDomain = lcDomain;
+void Calculation::setLcDomain(LCDomain* lcDomain_) {
+	lcDomain = lcDomain_;
 }
 
 double Calculation::getDeltaT(){
@@ -30,33 +30,42 @@ double Calculation::getDeltaT(){
 
 void Calculation::calculateAll(){
 	calculatePosition();
-	calculateForce();
+	calculateForce();	
 	calculateVelocity();
 }
 
 void Calculation::calculatePosition(){
-	ParticleContainer** pcArray = lcDomain.getCells();
-	int size = lcDomain.getNumberOfCells();
+	ParticleContainer** pcArray = lcDomain->getCells();
+	int size = lcDomain->getNumberOfCells();
 
 	for(int i = 0; i<size;i++){
 		Particle* p;
 		while((p = pcArray[i]->nextParticle())!=NULL){
-			utils::Vector<double, 3> old_pos = p->getX();
-			utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
-			double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
-			utils::Vector<double, 3> new_force = p->getF() * (scalar);
-			utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
-			p->setX(newX);
+			if(p->getType() != -1) {
+				utils::Vector<double, 3> old_pos = p->getX();
+				utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
+				double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
+				utils::Vector<double, 3> new_force = p->getF() * (scalar);
+				utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
+				p->setX(newX);
+
+				if(newX[2] != 0) {
+					std::cerr<<i<<"unequal zero at position\n";
+					std::cerr << *p<<" "<<p->getType()<<" @ "<<&*p<<"\n";
+					exit(0);
+				}
+			}
+			
 		}
 	}
 }
 
 void Calculation::calculateVelocity(){
-	ParticleContainer** pcArray = lcDomain.getCells();
-	int size = lcDomain.getNumberOfCells();
-
+	ParticleContainer** pcArray = lcDomain->getCells();
+	int size = lcDomain->getNumberOfCells();
 	for(int i = 0; i<size;i++){
 		Particle* p;
+		
 		while((p = pcArray[i]->nextParticle())!=NULL){
 			utils::Vector<double, 3> old_v = p->getV();
 			double scalar = getDeltaT()/(2*p->getM());
@@ -68,9 +77,9 @@ void Calculation::calculateVelocity(){
 }
 
 void Calculation::resetForce() {
-	ParticleContainer** pcArray = lcDomain.getCells();
-	int size = lcDomain.getNumberOfCells();
-
+	int size = lcDomain->getNumberOfCells();
+	ParticleContainer** pcArray = lcDomain->getCells();
+	
 	for(int i = 0; i<size;i++){
 		Particle* p;
 		while((p = pcArray[i]->nextParticle())!=NULL){
@@ -101,6 +110,10 @@ void Sheet1Calc::calculateForce() {
 			p1->addOnF(forceIJ);
 			utils::Vector<double, 3> forceJI = forceIJ *(-1);
 			p2->addOnF(forceJI);
+			if(forceIJ[2] != 0) {
+				std::cerr <<"force not zero\n";
+				std:cout << *p1<<"\n";
+			}
 		}
 	}
 }
@@ -145,45 +158,54 @@ void Sheet2Calc::calculateAll() {
 }
 
 void Sheet3Calc::calculateForce() {
-	ParticleContainer** pcArray = lcDomain.getCells();
-	int size = lcDomain.getNumberOfCells();
+	ParticleContainer** pcArray = lcDomain->getCells();
+	int size = lcDomain->getNumberOfCells();
 	ParticleContainer* pc;
 	Particle* curP;
 	double sigma_tmp;
 	double epsilon_tmp;
 	 
 	std::vector<ParticleContainer*> neighboursOfPc;
+	int bounds = 0;
 	for(int i = 0; i < size; i++){
 		pc = pcArray[i];
-		
-		lcDomain.getNeighbourCells(pc, &neighboursOfPc);
+	
+
+
+		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
 		neighboursOfPc.push_back(pc);
 		int sizeNeighbours = neighboursOfPc.size();
 		Particle* p;
 		int cellParticleIt = 0;
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
-			for(int j = 0; j < sizeNeighbours;j++){
-				int interactingParticlesIt = 0;
-				while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-					if((curP->getDistanceTo(p)<=lcDomain.getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
-						if(p->getType()!=curP->getType()){
-							epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-							sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-						}else{
-							epsilon_tmp = p->getEpsilon();
-							sigma_tmp = p->getSigma();
+			if(p->getType() == -1) {
+				//Do nothing
+			}else {
+				for(int j = 0; j < sizeNeighbours;j++){
+					int interactingParticlesIt = 0;
+					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
+						if((curP->getDistanceTo(p)<=lcDomain->getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
+							if(p->getType()!=curP->getType()){
+								epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+								sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+							}else{
+								epsilon_tmp = p->getEpsilon();
+								sigma_tmp = p->getSigma();
+							}
+							
+							double dist = ((p->getX() -(curP->getX())).L2Norm());
+							double factor1 = (24 * epsilon_tmp)/pow(dist,2);
+							double factor2 = pow((sigma_tmp/dist),6)- (2*pow((sigma_tmp/dist),12));
+							utils::Vector<double,3> factor3 = curP->getX()-p->getX();
+							
+							utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
+							p->addOnF(forceIJ);
+	
 						}
-
-						double dist = ((p->getX() -(curP->getX())).L2Norm());
-						double factor1 = (24 * epsilon_tmp)/pow(dist,2);
-						double factor2 = pow((sigma_tmp/dist),6)- (2*pow((sigma_tmp/dist),12));
-						utils::Vector<double,3> factor3 = curP->getX()-p->getX();
-						utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
-						p->addOnF(forceIJ);
 					}
 				}
+				EnvInfl::getInstance()->calculateGravity(p);
 			}
-			EnvInfl::getInstance()->calculateGravity(p);
 		}
 		neighboursOfPc.clear();
 	}
@@ -191,13 +213,14 @@ void Sheet3Calc::calculateForce() {
 
 void Sheet3Calc::calculateAll() {
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
+	calculateForce();
 	calculateVelocity();
 	calculatePosition();
-	lcDomain.reset();
-	calculateForce();
+	lcDomain->reset();
+	
 }
 
-void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2, double sigma_, double epsilon_){
+void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2){
 	double dist = ((p1->getX() -(p2->getX())).L2Norm());
 	double factor1 = (24 * p1->getEpsilon())/pow(dist,2);
 	double factor2 = pow((p1->getSigma()/dist),6)- (2*pow((p1->getSigma()/dist),12));

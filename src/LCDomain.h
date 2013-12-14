@@ -48,6 +48,8 @@ protected:
 	 */
 	std::vector<int> bounds;
 
+	std::vector<Particle*> particles;
+
 	/**
 	 * stores the number of cells
 	 */
@@ -74,7 +76,7 @@ protected:
 	int haloSize;
 
 public:
-	LCDomain();
+	
 
 	/**
 	 *
@@ -148,8 +150,11 @@ public:
 
 	int getNumberOfBZCells();
 
+	int getHaloSize();
+
 	bool isBoundaryCell(ParticleContainer& cell);
 
+	void deleteParticle(Particle* particle);
 	/**
 	 * call this method to gain a visual representation of the current cell grid..
 	 * This method will use the std::cout output stream

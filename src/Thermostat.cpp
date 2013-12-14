@@ -15,7 +15,7 @@ using namespace std;
 
 LoggerPtr loggerThermostat(Logger::getLogger( "thermostat"));
 
-Thermostat::Thermostat(LCDomain& linkedCell_, auto_ptr<input_t>& inp) {
+Thermostat::Thermostat(LCDomain* linkedCell_, auto_ptr<input_t>& inp) {
  	linkedCell = linkedCell_;
  	num_Particles = 0;
  	dimensions = inp->dimensions();
@@ -33,10 +33,10 @@ Thermostat::Thermostat(LCDomain& linkedCell_, auto_ptr<input_t>& inp) {
 
 /*will return the current kinetic Energy and calculate num_particles as well*/
 double Thermostat::getEkin() {
-	int size = linkedCell.getNumberOfCells();
+	int size = linkedCell->getNumberOfCells();
 	double Ekin = 0;
 	Particle* p;
-	ParticleContainer** pcArray = linkedCell.getCells();
+	ParticleContainer** pcArray = linkedCell->getCells();
 	num_Particles = 0;	//recalc the number of particles as well
 	utils::Vector<double, 3> tmp;
 	
@@ -91,8 +91,8 @@ void Thermostat::multiply(double beta) {
 		return;
 	}
 	
-	int size = linkedCell.getNumberOfCells();
-	ParticleContainer** pcArray = linkedCell.getCells();
+	int size = linkedCell->getNumberOfCells();
+	ParticleContainer** pcArray = linkedCell->getCells();
 	Particle* p;
 	for(int i = 0;i < size;i++){
 		int j=0;

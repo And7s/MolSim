@@ -23,14 +23,14 @@
 
 class Thermostat {
 	protected:
-	LCDomain linkedCell;
+	LCDomain* linkedCell;
 	int num_Particles, dimensions;
 	float cur_temp, target_temp, delta_temp;
 	bool subavg;
 	utils::Vector<double, 3> avg;
 
 	public:
-		Thermostat(LCDomain& linkedCell, std::auto_ptr<input_t>& inp);
+		Thermostat(LCDomain* linkedCell, std::auto_ptr<input_t>& inp);
 		~Thermostat();
 		void apply();
 		double getEkin();

@@ -10,6 +10,7 @@
 
 #include "LCDomain.h"
 #include "Calculation.h"
+#include "help_macros.h"
 
 using namespace log4cxx;
 using namespace log4cxx::xml;
@@ -21,23 +22,25 @@ using namespace log4cxx::helpers;
 class BoundaryCondition {
 
 protected:
-	LCDomain linkedCell;
+	LCDomain* linkedCell;
 	std::vector<int> domainSize;
 	double sigma;
 	double epsilon;
 	std::string position;
 	std::string boundaryType;
+	int dimension;
+	int boundarytype[6];
 
 public:
 	BoundaryCondition();
 
-	BoundaryCondition(LCDomain& linkedCell, std::vector<int> domainSize);
+	BoundaryCondition(LCDomain* linkedCell, std::vector<int> domainSize);
 
 	virtual ~BoundaryCondition();
 
-	LCDomain& getLCDomain();
+	LCDomain* getLCDomain();
 
-	void setLCDomain(LCDomain& linkedCell);
+	void setLCDomain(LCDomain* linkedCell);
 
 	/**
 	 * Abstract function to check the Boundary Conditions
@@ -51,6 +54,12 @@ public:
 	void setEpsilon(double epsilon);
 	void setBoundaryType(std::string boundaryType);
 	void setPosition(std::string position);
+	void apply();
+	void setDimension(int dim);
+	void applySwitch(int type,std::vector<int>& pos, int axis, bool zero);
+	void applyOutflow(ParticleContainer* pc);
+	void applyReflecting(ParticleContainer* pc, int axis, bool zero);
+	void applyPeriodic(ParticleContainer* pc, ParticleContainer* pc2, int axis, bool zero);
 };
 
 /**
