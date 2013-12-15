@@ -231,8 +231,7 @@ class vectorF;
 class vectorI;
 class nonNegativeFloat;
 class positiveFloat;
-class positionType;
-class boundaryType;
+class boundary_t;
 
 #include <memory>    // std::auto_ptr
 #include <limits>    // std::numeric_limits
@@ -436,19 +435,19 @@ class input_t: public ::xml_schema::type
   // boundaryCondition
   // 
   typedef ::boundaryCondition boundaryCondition_type;
-  typedef ::xsd::cxx::tree::sequence< boundaryCondition_type > boundaryCondition_sequence;
-  typedef boundaryCondition_sequence::iterator boundaryCondition_iterator;
-  typedef boundaryCondition_sequence::const_iterator boundaryCondition_const_iterator;
   typedef ::xsd::cxx::tree::traits< boundaryCondition_type, char > boundaryCondition_traits;
 
-  const boundaryCondition_sequence&
+  const boundaryCondition_type&
   boundaryCondition () const;
 
-  boundaryCondition_sequence&
+  boundaryCondition_type&
   boundaryCondition ();
 
   void
-  boundaryCondition (const boundaryCondition_sequence& s);
+  boundaryCondition (const boundaryCondition_type& x);
+
+  void
+  boundaryCondition (::std::auto_ptr< boundaryCondition_type > p);
 
   // LinkedCellDomain
   // 
@@ -496,6 +495,7 @@ class input_t: public ::xml_schema::type
            const tend_type&,
            const delta_t_type&,
            const input_file_type&,
+           const boundaryCondition_type&,
            const LinkedCellDomain_type&,
            const Thermostats_type&);
 
@@ -509,6 +509,7 @@ class input_t: public ::xml_schema::type
            const tend_type&,
            const delta_t_type&,
            const input_file_type&,
+           ::std::auto_ptr< boundaryCondition_type >&,
            ::std::auto_ptr< LinkedCellDomain_type >&,
            ::std::auto_ptr< Thermostats_type >&);
 
@@ -550,7 +551,7 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< input_file_type > input_file_;
   cuboid_sequence cuboid_;
   sphere_sequence sphere_;
-  boundaryCondition_sequence boundaryCondition_;
+  ::xsd::cxx::tree::one< boundaryCondition_type > boundaryCondition_;
   ::xsd::cxx::tree::one< LinkedCellDomain_type > LinkedCellDomain_;
   ::xsd::cxx::tree::one< Thermostats_type > Thermostats_;
 };
@@ -927,44 +928,116 @@ class sphere: public ::xml_schema::type
 class boundaryCondition: public ::xml_schema::type
 {
   public:
-  // boundary
+  // left
   // 
-  typedef ::boundaryType boundary_type;
-  typedef ::xsd::cxx::tree::traits< boundary_type, char > boundary_traits;
+  typedef ::boundary_t left_type;
+  typedef ::xsd::cxx::tree::traits< left_type, char > left_traits;
 
-  const boundary_type&
-  boundary () const;
+  const left_type&
+  left () const;
 
-  boundary_type&
-  boundary ();
-
-  void
-  boundary (const boundary_type& x);
+  left_type&
+  left ();
 
   void
-  boundary (::std::auto_ptr< boundary_type > p);
+  left (const left_type& x);
 
-  // position
+  void
+  left (::std::auto_ptr< left_type > p);
+
+  // right
   // 
-  typedef ::positionType position_type;
-  typedef ::xsd::cxx::tree::traits< position_type, char > position_traits;
+  typedef ::boundary_t right_type;
+  typedef ::xsd::cxx::tree::traits< right_type, char > right_traits;
 
-  const position_type&
-  position () const;
+  const right_type&
+  right () const;
 
-  position_type&
-  position ();
-
-  void
-  position (const position_type& x);
+  right_type&
+  right ();
 
   void
-  position (::std::auto_ptr< position_type > p);
+  right (const right_type& x);
+
+  void
+  right (::std::auto_ptr< right_type > p);
+
+  // bottom
+  // 
+  typedef ::boundary_t bottom_type;
+  typedef ::xsd::cxx::tree::traits< bottom_type, char > bottom_traits;
+
+  const bottom_type&
+  bottom () const;
+
+  bottom_type&
+  bottom ();
+
+  void
+  bottom (const bottom_type& x);
+
+  void
+  bottom (::std::auto_ptr< bottom_type > p);
+
+  // top
+  // 
+  typedef ::boundary_t top_type;
+  typedef ::xsd::cxx::tree::traits< top_type, char > top_traits;
+
+  const top_type&
+  top () const;
+
+  top_type&
+  top ();
+
+  void
+  top (const top_type& x);
+
+  void
+  top (::std::auto_ptr< top_type > p);
+
+  // front
+  // 
+  typedef ::boundary_t front_type;
+  typedef ::xsd::cxx::tree::traits< front_type, char > front_traits;
+
+  const front_type&
+  front () const;
+
+  front_type&
+  front ();
+
+  void
+  front (const front_type& x);
+
+  void
+  front (::std::auto_ptr< front_type > p);
+
+  // back
+  // 
+  typedef ::boundary_t back_type;
+  typedef ::xsd::cxx::tree::traits< back_type, char > back_traits;
+
+  const back_type&
+  back () const;
+
+  back_type&
+  back ();
+
+  void
+  back (const back_type& x);
+
+  void
+  back (::std::auto_ptr< back_type > p);
 
   // Constructors.
   //
-  boundaryCondition (const boundary_type&,
-                     const position_type&);
+  boundaryCondition (const left_type&,
+                     const right_type&,
+                     const bottom_type&,
+                     const top_type&,
+                     const front_type&,
+                     const back_type&);
 
   boundaryCondition (const ::xercesc::DOMElement& e,
                      ::xml_schema::flags f = 0,
@@ -992,8 +1065,12 @@ class boundaryCondition: public ::xml_schema::type
          ::xml_schema::flags);
 
   protected:
-  ::xsd::cxx::tree::one< boundary_type > boundary_;
-  ::xsd::cxx::tree::one< position_type > position_;
+  ::xsd::cxx::tree::one< left_type > left_;
+  ::xsd::cxx::tree::one< right_type > right_;
+  ::xsd::cxx::tree::one< bottom_type > bottom_;
+  ::xsd::cxx::tree::one< top_type > top_;
+  ::xsd::cxx::tree::one< front_type > front_;
+  ::xsd::cxx::tree::one< back_type > back_;
 };
 
 class LinkedCellDomain: public ::xml_schema::type
@@ -1416,121 +1493,36 @@ class positiveFloat: public ::xsd::cxx::tree::fundamental_base< ::xml_schema::fl
   ~positiveFloat ();
 };
 
-class positionType: public ::xml_schema::string
+class boundary_t: public ::xsd::cxx::tree::fundamental_base< ::xml_schema::integer, char, ::xml_schema::simple_type >
 {
   public:
-  enum value
-  {
-    right,
-    left,
-    top,
-    bottom,
-    front,
-    back
-  };
+  // Constructors.
+  //
+  boundary_t (const ::xml_schema::integer&);
 
-  positionType (value v);
+  boundary_t (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
 
-  positionType (const char* v);
+  boundary_t (const ::xercesc::DOMAttr& a,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
 
-  positionType (const ::std::string& v);
+  boundary_t (const ::std::string& s,
+              const ::xercesc::DOMElement* e,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
 
-  positionType (const ::xml_schema::string& v);
+  boundary_t (const boundary_t& x,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
 
-  positionType (const ::xercesc::DOMElement& e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  positionType (const ::xercesc::DOMAttr& a,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  positionType (const ::std::string& s,
-                const ::xercesc::DOMElement* e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  positionType (const positionType& x,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  virtual positionType*
+  virtual boundary_t*
   _clone (::xml_schema::flags f = 0,
           ::xml_schema::container* c = 0) const;
 
-  positionType&
-  operator= (value v);
-
-  virtual
-  operator value () const
-  {
-    return _xsd_positionType_convert ();
-  }
-
-  protected:
-  value
-  _xsd_positionType_convert () const;
-
-  public:
-  static const char* const _xsd_positionType_literals_[6];
-  static const value _xsd_positionType_indexes_[6];
-};
-
-class boundaryType: public ::xml_schema::string
-{
-  public:
-  enum value
-  {
-    outflow,
-    reflecting,
-    periodic
-  };
-
-  boundaryType (value v);
-
-  boundaryType (const char* v);
-
-  boundaryType (const ::std::string& v);
-
-  boundaryType (const ::xml_schema::string& v);
-
-  boundaryType (const ::xercesc::DOMElement& e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  boundaryType (const ::xercesc::DOMAttr& a,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  boundaryType (const ::std::string& s,
-                const ::xercesc::DOMElement* e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  boundaryType (const boundaryType& x,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-  virtual boundaryType*
-  _clone (::xml_schema::flags f = 0,
-          ::xml_schema::container* c = 0) const;
-
-  boundaryType&
-  operator= (value v);
-
-  virtual
-  operator value () const
-  {
-    return _xsd_boundaryType_convert ();
-  }
-
-  protected:
-  value
-  _xsd_boundaryType_convert () const;
-
-  public:
-  static const char* const _xsd_boundaryType_literals_[3];
-  static const value _xsd_boundaryType_indexes_[3];
+  virtual 
+  ~boundary_t ();
 };
 
 #include <iosfwd>

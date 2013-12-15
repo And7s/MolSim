@@ -34,7 +34,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="input_file" type="xsd:string"></xsd:element>
       <xsd:element type="cuboid" name="cuboid" maxOccurs="unbounded" minOccurs="0"></xsd:element>
       <xsd:element type="sphere" name="sphere" maxOccurs="unbounded" minOccurs="0"></xsd:element>
-      <xsd:element type="boundaryCondition" name="boundaryCondition" minOccurs="6" maxOccurs="6"></xsd:element>
+      <xsd:element type="boundaryCondition" name="boundaryCondition"></xsd:element>
       <xsd:element type="LinkedCellDomain" name="LinkedCellDomain"></xsd:element>
       <xsd:element type="Thermostats" name="Thermostats"></xsd:element>
 
@@ -69,8 +69,12 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
   <xsd:complexType name="boundaryCondition">
     <xsd:sequence>
-      <xsd:element type="boundaryType" name="boundary"></xsd:element>
-      <xsd:element type="positionType" name="position"></xsd:element>
+      <xsd:element type="boundary_t" name="left"></xsd:element>
+      <xsd:element type="boundary_t" name="right"></xsd:element>
+      <xsd:element type="boundary_t" name="bottom"></xsd:element>
+      <xsd:element type="boundary_t" name="top"></xsd:element>
+      <xsd:element type="boundary_t" name="front"></xsd:element>
+      <xsd:element type="boundary_t" name="back"></xsd:element>
     </xsd:sequence>
   </xsd:complexType>
 
@@ -127,23 +131,10 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     </xsd:annotation>
   </xsd:element>
   
-  <xsd:simpleType name="positionType">
-	  <xsd:restriction base="xsd:string">
-	    <xsd:enumeration value="right"/>
-	    <xsd:enumeration value="left"/>
-	    <xsd:enumeration value="top"/>
-	    <xsd:enumeration value="bottom"/>
-	    <xsd:enumeration value="front"/>
-	    <xsd:enumeration value="back"/>
+  <xsd:simpleType name="boundary_t">
+	  <xsd:restriction base="xsd:integer">
+	   <xsd:minInclusive value="0" />
+     <xsd:maxInclusive value="2" />
 	  </xsd:restriction>
   </xsd:simpleType>
-  
-  <xsd:simpleType name="boundaryType">
-	  <xsd:restriction base="xsd:string">
-	    <xsd:enumeration value="outflow"/>
-	    <xsd:enumeration value="reflecting"/>
-	    <xsd:enumeration value="periodic"/>
-	  </xsd:restriction>
-  </xsd:simpleType>
-
 </xsd:schema>

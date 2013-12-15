@@ -53,7 +53,7 @@ std::vector<double>* parameters = new std::vector<double>;
 std::vector<Particle*> pa;
 std::vector<Particle*> pb;
 
-std::vector<BoundaryCondition*> boundaryConditions;
+BoundaryCondition* boundaryCondition;
 
 
 /**
@@ -173,33 +173,8 @@ int main(int argc, char* argsv[]) {
 	EnvInfl::getInstance()->setG(gravity);
 
 	//initiallze boundary conditions
-	for(input_t::boundaryCondition_const_iterator si (inp->boundaryCondition().begin()); si != inp->boundaryCondition().end(); ++si) {
-		BoundaryCondition *boundaryCondition;	
-		string boundary = si->boundary();
-		string position = si->position();
-		if(boundary.compare("outflow")==0){
-			boundaryCondition = new OutflowBoundary();
-		}else if(boundary.compare("reflecting")==0){
-			boundaryCondition = new ReflectingBoundary();
-		}else if(boundary.compare("periodic")==0){
-			boundaryCondition = new PeriodicBoundary();
-		}
-		LOG4CXX_INFO(loggerMain, "Created "<< boundary <<" boundary Condition at the "<<position<< " position");
-
-		boundaryCondition->setDomainSize(domainSize);
-		boundaryCondition->setLCDomain(lcDomain);
-		boundaryCondition->setEpsilon(epsilon);
-		boundaryCondition->setSigma(sigma);
-		boundaryCondition->setBoundaryType(boundary);
-		boundaryCondition->setPosition(position);
-		boundaryCondition->setDimension(inp->dimensions());
-
-		//add to the vector of all boundary collections
-		boundaryConditions.push_back(boundaryCondition);
-
-	}
-	LOG4CXX_INFO(loggerMain, "Created "<<boundaryConditions.size()<<" boundary Conditions");
-	ASSERT_WITH_MESSAGE(loggerMain, (boundaryConditions.size()==6), "Invalid number of boundaryConditions. Four needed. Use default case. Please specify first " << boundaryConditions.size());
+	std::cout << domainSize.size();
+	boundaryCondition = new BoundaryCondition(lcDomain, domainSize, inp->dimensions(), inp);
 	
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);
@@ -229,11 +204,9 @@ int main(int argc, char* argsv[]) {
 	while (current_time < end_time){
 		
 		calculation->resetForce();
-		for(int i = 0; i < boundaryConditions.size(); i++) {
-			//boundaryConditions[i]->applyBoundaryCondition(length);
+	
+		boundaryCondition->apply();
 
-		}
-		boundaryConditions[0]->apply();
 		calculation->calculateAll();
 
 		iteration++;

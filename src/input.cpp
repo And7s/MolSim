@@ -277,22 +277,28 @@ sphere (const sphere_sequence& s)
   this->sphere_ = s;
 }
 
-const input_t::boundaryCondition_sequence& input_t::
+const input_t::boundaryCondition_type& input_t::
 boundaryCondition () const
 {
-  return this->boundaryCondition_;
+  return this->boundaryCondition_.get ();
 }
 
-input_t::boundaryCondition_sequence& input_t::
+input_t::boundaryCondition_type& input_t::
 boundaryCondition ()
 {
-  return this->boundaryCondition_;
+  return this->boundaryCondition_.get ();
 }
 
 void input_t::
-boundaryCondition (const boundaryCondition_sequence& s)
+boundaryCondition (const boundaryCondition_type& x)
 {
-  this->boundaryCondition_ = s;
+  this->boundaryCondition_.set (x);
+}
+
+void input_t::
+boundaryCondition (::std::auto_ptr< boundaryCondition_type > x)
+{
+  this->boundaryCondition_.set (x);
 }
 
 const input_t::LinkedCellDomain_type& input_t::
@@ -697,52 +703,148 @@ velocity (::std::auto_ptr< velocity_type > x)
 // boundaryCondition
 // 
 
-const boundaryCondition::boundary_type& boundaryCondition::
-boundary () const
+const boundaryCondition::left_type& boundaryCondition::
+left () const
 {
-  return this->boundary_.get ();
+  return this->left_.get ();
 }
 
-boundaryCondition::boundary_type& boundaryCondition::
-boundary ()
+boundaryCondition::left_type& boundaryCondition::
+left ()
 {
-  return this->boundary_.get ();
-}
-
-void boundaryCondition::
-boundary (const boundary_type& x)
-{
-  this->boundary_.set (x);
+  return this->left_.get ();
 }
 
 void boundaryCondition::
-boundary (::std::auto_ptr< boundary_type > x)
+left (const left_type& x)
 {
-  this->boundary_.set (x);
-}
-
-const boundaryCondition::position_type& boundaryCondition::
-position () const
-{
-  return this->position_.get ();
-}
-
-boundaryCondition::position_type& boundaryCondition::
-position ()
-{
-  return this->position_.get ();
+  this->left_.set (x);
 }
 
 void boundaryCondition::
-position (const position_type& x)
+left (::std::auto_ptr< left_type > x)
 {
-  this->position_.set (x);
+  this->left_.set (x);
+}
+
+const boundaryCondition::right_type& boundaryCondition::
+right () const
+{
+  return this->right_.get ();
+}
+
+boundaryCondition::right_type& boundaryCondition::
+right ()
+{
+  return this->right_.get ();
 }
 
 void boundaryCondition::
-position (::std::auto_ptr< position_type > x)
+right (const right_type& x)
 {
-  this->position_.set (x);
+  this->right_.set (x);
+}
+
+void boundaryCondition::
+right (::std::auto_ptr< right_type > x)
+{
+  this->right_.set (x);
+}
+
+const boundaryCondition::bottom_type& boundaryCondition::
+bottom () const
+{
+  return this->bottom_.get ();
+}
+
+boundaryCondition::bottom_type& boundaryCondition::
+bottom ()
+{
+  return this->bottom_.get ();
+}
+
+void boundaryCondition::
+bottom (const bottom_type& x)
+{
+  this->bottom_.set (x);
+}
+
+void boundaryCondition::
+bottom (::std::auto_ptr< bottom_type > x)
+{
+  this->bottom_.set (x);
+}
+
+const boundaryCondition::top_type& boundaryCondition::
+top () const
+{
+  return this->top_.get ();
+}
+
+boundaryCondition::top_type& boundaryCondition::
+top ()
+{
+  return this->top_.get ();
+}
+
+void boundaryCondition::
+top (const top_type& x)
+{
+  this->top_.set (x);
+}
+
+void boundaryCondition::
+top (::std::auto_ptr< top_type > x)
+{
+  this->top_.set (x);
+}
+
+const boundaryCondition::front_type& boundaryCondition::
+front () const
+{
+  return this->front_.get ();
+}
+
+boundaryCondition::front_type& boundaryCondition::
+front ()
+{
+  return this->front_.get ();
+}
+
+void boundaryCondition::
+front (const front_type& x)
+{
+  this->front_.set (x);
+}
+
+void boundaryCondition::
+front (::std::auto_ptr< front_type > x)
+{
+  this->front_.set (x);
+}
+
+const boundaryCondition::back_type& boundaryCondition::
+back () const
+{
+  return this->back_.get ();
+}
+
+boundaryCondition::back_type& boundaryCondition::
+back ()
+{
+  return this->back_.get ();
+}
+
+void boundaryCondition::
+back (const back_type& x)
+{
+  this->back_.set (x);
+}
+
+void boundaryCondition::
+back (::std::auto_ptr< back_type > x)
+{
+  this->back_.set (x);
 }
 
 
@@ -1022,94 +1124,8 @@ z (const z_type& x)
 // 
 
 
-// positionType
+// boundary_t
 // 
-
-positionType::
-positionType (value v)
-: ::xml_schema::string (_xsd_positionType_literals_[v])
-{
-}
-
-positionType::
-positionType (const char* v)
-: ::xml_schema::string (v)
-{
-}
-
-positionType::
-positionType (const ::std::string& v)
-: ::xml_schema::string (v)
-{
-}
-
-positionType::
-positionType (const ::xml_schema::string& v)
-: ::xml_schema::string (v)
-{
-}
-
-positionType::
-positionType (const positionType& v,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (v, f, c)
-{
-}
-
-positionType& positionType::
-operator= (value v)
-{
-  static_cast< ::xml_schema::string& > (*this) = 
-  ::xml_schema::string (_xsd_positionType_literals_[v]);
-
-  return *this;
-}
-
-
-// boundaryType
-// 
-
-boundaryType::
-boundaryType (value v)
-: ::xml_schema::string (_xsd_boundaryType_literals_[v])
-{
-}
-
-boundaryType::
-boundaryType (const char* v)
-: ::xml_schema::string (v)
-{
-}
-
-boundaryType::
-boundaryType (const ::std::string& v)
-: ::xml_schema::string (v)
-{
-}
-
-boundaryType::
-boundaryType (const ::xml_schema::string& v)
-: ::xml_schema::string (v)
-{
-}
-
-boundaryType::
-boundaryType (const boundaryType& v,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (v, f, c)
-{
-}
-
-boundaryType& boundaryType::
-operator= (value v)
-{
-  static_cast< ::xml_schema::string& > (*this) = 
-  ::xml_schema::string (_xsd_boundaryType_literals_[v]);
-
-  return *this;
-}
 
 
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
@@ -1128,6 +1144,7 @@ input_t (const gravity_type& gravity,
          const tend_type& tend,
          const delta_t_type& delta_t,
          const input_file_type& input_file,
+         const boundaryCondition_type& boundaryCondition,
          const LinkedCellDomain_type& LinkedCellDomain,
          const Thermostats_type& Thermostats)
 : ::xml_schema::type (),
@@ -1143,7 +1160,7 @@ input_t (const gravity_type& gravity,
   input_file_ (input_file, this),
   cuboid_ (this),
   sphere_ (this),
-  boundaryCondition_ (this),
+  boundaryCondition_ (boundaryCondition, this),
   LinkedCellDomain_ (LinkedCellDomain, this),
   Thermostats_ (Thermostats, this)
 {
@@ -1160,6 +1177,7 @@ input_t (const gravity_type& gravity,
          const tend_type& tend,
          const delta_t_type& delta_t,
          const input_file_type& input_file,
+         ::std::auto_ptr< boundaryCondition_type >& boundaryCondition,
          ::std::auto_ptr< LinkedCellDomain_type >& LinkedCellDomain,
          ::std::auto_ptr< Thermostats_type >& Thermostats)
 : ::xml_schema::type (),
@@ -1175,7 +1193,7 @@ input_t (const gravity_type& gravity,
   input_file_ (input_file, this),
   cuboid_ (this),
   sphere_ (this),
-  boundaryCondition_ (this),
+  boundaryCondition_ (boundaryCondition, this),
   LinkedCellDomain_ (LinkedCellDomain, this),
   Thermostats_ (Thermostats, this)
 {
@@ -1390,8 +1408,11 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       ::std::auto_ptr< boundaryCondition_type > r (
         boundaryCondition_traits::create (i, f, this));
 
-      this->boundaryCondition_.push_back (r);
-      continue;
+      if (!boundaryCondition_.present ())
+      {
+        this->boundaryCondition_.set (r);
+        continue;
+      }
     }
 
     // LinkedCellDomain
@@ -1492,6 +1513,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
   {
     throw ::xsd::cxx::tree::expected_element< char > (
       "input_file",
+      "");
+  }
+
+  if (!boundaryCondition_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "boundaryCondition",
       "");
   }
 
@@ -2121,11 +2149,19 @@ sphere::
 //
 
 boundaryCondition::
-boundaryCondition (const boundary_type& boundary,
-                   const position_type& position)
+boundaryCondition (const left_type& left,
+                   const right_type& right,
+                   const bottom_type& bottom,
+                   const top_type& top,
+                   const front_type& front,
+                   const back_type& back)
 : ::xml_schema::type (),
-  boundary_ (boundary, this),
-  position_ (position, this)
+  left_ (left, this),
+  right_ (right, this),
+  bottom_ (bottom, this),
+  top_ (top, this),
+  front_ (front, this),
+  back_ (back, this)
 {
 }
 
@@ -2134,8 +2170,12 @@ boundaryCondition (const boundaryCondition& x,
                    ::xml_schema::flags f,
                    ::xml_schema::container* c)
 : ::xml_schema::type (x, f, c),
-  boundary_ (x.boundary_, f, this),
-  position_ (x.position_, f, this)
+  left_ (x.left_, f, this),
+  right_ (x.right_, f, this),
+  bottom_ (x.bottom_, f, this),
+  top_ (x.top_, f, this),
+  front_ (x.front_, f, this),
+  back_ (x.back_, f, this)
 {
 }
 
@@ -2144,8 +2184,12 @@ boundaryCondition (const ::xercesc::DOMElement& e,
                    ::xml_schema::flags f,
                    ::xml_schema::container* c)
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-  boundary_ (this),
-  position_ (this)
+  left_ (this),
+  right_ (this),
+  bottom_ (this),
+  top_ (this),
+  front_ (this),
+  back_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -2164,30 +2208,86 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     const ::xsd::cxx::xml::qualified_name< char > n (
       ::xsd::cxx::xml::dom::name< char > (i));
 
-    // boundary
+    // left
     //
-    if (n.name () == "boundary" && n.namespace_ ().empty ())
+    if (n.name () == "left" && n.namespace_ ().empty ())
     {
-      ::std::auto_ptr< boundary_type > r (
-        boundary_traits::create (i, f, this));
+      ::std::auto_ptr< left_type > r (
+        left_traits::create (i, f, this));
 
-      if (!boundary_.present ())
+      if (!left_.present ())
       {
-        this->boundary_.set (r);
+        this->left_.set (r);
         continue;
       }
     }
 
-    // position
+    // right
     //
-    if (n.name () == "position" && n.namespace_ ().empty ())
+    if (n.name () == "right" && n.namespace_ ().empty ())
     {
-      ::std::auto_ptr< position_type > r (
-        position_traits::create (i, f, this));
+      ::std::auto_ptr< right_type > r (
+        right_traits::create (i, f, this));
 
-      if (!position_.present ())
+      if (!right_.present ())
       {
-        this->position_.set (r);
+        this->right_.set (r);
+        continue;
+      }
+    }
+
+    // bottom
+    //
+    if (n.name () == "bottom" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< bottom_type > r (
+        bottom_traits::create (i, f, this));
+
+      if (!bottom_.present ())
+      {
+        this->bottom_.set (r);
+        continue;
+      }
+    }
+
+    // top
+    //
+    if (n.name () == "top" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< top_type > r (
+        top_traits::create (i, f, this));
+
+      if (!top_.present ())
+      {
+        this->top_.set (r);
+        continue;
+      }
+    }
+
+    // front
+    //
+    if (n.name () == "front" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< front_type > r (
+        front_traits::create (i, f, this));
+
+      if (!front_.present ())
+      {
+        this->front_.set (r);
+        continue;
+      }
+    }
+
+    // back
+    //
+    if (n.name () == "back" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< back_type > r (
+        back_traits::create (i, f, this));
+
+      if (!back_.present ())
+      {
+        this->back_.set (r);
         continue;
       }
     }
@@ -2195,17 +2295,45 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     break;
   }
 
-  if (!boundary_.present ())
+  if (!left_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
-      "boundary",
+      "left",
       "");
   }
 
-  if (!position_.present ())
+  if (!right_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
-      "position",
+      "right",
+      "");
+  }
+
+  if (!bottom_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "bottom",
+      "");
+  }
+
+  if (!top_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "top",
+      "");
+  }
+
+  if (!front_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "front",
+      "");
+  }
+
+  if (!back_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "back",
       "");
   }
 }
@@ -2223,8 +2351,12 @@ operator= (const boundaryCondition& x)
   if (this != &x)
   {
     static_cast< ::xml_schema::type& > (*this) = x;
-    this->boundary_ = x.boundary_;
-    this->position_ = x.position_;
+    this->left_ = x.left_;
+    this->right_ = x.right_;
+    this->bottom_ = x.bottom_;
+    this->top_ = x.top_;
+    this->front_ = x.front_;
+    this->back_ = x.back_;
   }
 
   return *this;
@@ -2924,155 +3056,59 @@ positiveFloat::
 {
 }
 
-// positionType
+// boundary_t
 //
 
-positionType::
-positionType (const ::xercesc::DOMElement& e,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (e, f, c)
+boundary_t::
+boundary_t (const ::xml_schema::integer& _xsd_integer_base)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::integer, char, ::xml_schema::simple_type > (_xsd_integer_base)
 {
-  _xsd_positionType_convert ();
 }
 
-positionType::
-positionType (const ::xercesc::DOMAttr& a,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (a, f, c)
+boundary_t::
+boundary_t (const boundary_t& x,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::integer, char, ::xml_schema::simple_type > (x, f, c)
 {
-  _xsd_positionType_convert ();
 }
 
-positionType::
-positionType (const ::std::string& s,
-              const ::xercesc::DOMElement* e,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (s, e, f, c)
+boundary_t::
+boundary_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::integer, char, ::xml_schema::simple_type > (e, f, c)
 {
-  _xsd_positionType_convert ();
 }
 
-positionType* positionType::
+boundary_t::
+boundary_t (const ::xercesc::DOMAttr& a,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::integer, char, ::xml_schema::simple_type > (a, f, c)
+{
+}
+
+boundary_t::
+boundary_t (const ::std::string& s,
+            const ::xercesc::DOMElement* e,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::xsd::cxx::tree::fundamental_base< ::xml_schema::integer, char, ::xml_schema::simple_type > (s, e, f, c)
+{
+}
+
+boundary_t* boundary_t::
 _clone (::xml_schema::flags f,
         ::xml_schema::container* c) const
 {
-  return new class positionType (*this, f, c);
+  return new class boundary_t (*this, f, c);
 }
 
-positionType::value positionType::
-_xsd_positionType_convert () const
+boundary_t::
+~boundary_t ()
 {
-  ::xsd::cxx::tree::enum_comparator< char > c (_xsd_positionType_literals_);
-  const value* i (::std::lower_bound (
-                    _xsd_positionType_indexes_,
-                    _xsd_positionType_indexes_ + 6,
-                    *this,
-                    c));
-
-  if (i == _xsd_positionType_indexes_ + 6 || _xsd_positionType_literals_[*i] != *this)
-  {
-    throw ::xsd::cxx::tree::unexpected_enumerator < char > (*this);
-  }
-
-  return *i;
 }
-
-const char* const positionType::
-_xsd_positionType_literals_[6] =
-{
-  "right",
-  "left",
-  "top",
-  "bottom",
-  "front",
-  "back"
-};
-
-const positionType::value positionType::
-_xsd_positionType_indexes_[6] =
-{
-  ::positionType::back,
-  ::positionType::bottom,
-  ::positionType::front,
-  ::positionType::left,
-  ::positionType::right,
-  ::positionType::top
-};
-
-// boundaryType
-//
-
-boundaryType::
-boundaryType (const ::xercesc::DOMElement& e,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (e, f, c)
-{
-  _xsd_boundaryType_convert ();
-}
-
-boundaryType::
-boundaryType (const ::xercesc::DOMAttr& a,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (a, f, c)
-{
-  _xsd_boundaryType_convert ();
-}
-
-boundaryType::
-boundaryType (const ::std::string& s,
-              const ::xercesc::DOMElement* e,
-              ::xml_schema::flags f,
-              ::xml_schema::container* c)
-: ::xml_schema::string (s, e, f, c)
-{
-  _xsd_boundaryType_convert ();
-}
-
-boundaryType* boundaryType::
-_clone (::xml_schema::flags f,
-        ::xml_schema::container* c) const
-{
-  return new class boundaryType (*this, f, c);
-}
-
-boundaryType::value boundaryType::
-_xsd_boundaryType_convert () const
-{
-  ::xsd::cxx::tree::enum_comparator< char > c (_xsd_boundaryType_literals_);
-  const value* i (::std::lower_bound (
-                    _xsd_boundaryType_indexes_,
-                    _xsd_boundaryType_indexes_ + 3,
-                    *this,
-                    c));
-
-  if (i == _xsd_boundaryType_indexes_ + 3 || _xsd_boundaryType_literals_[*i] != *this)
-  {
-    throw ::xsd::cxx::tree::unexpected_enumerator < char > (*this);
-  }
-
-  return *i;
-}
-
-const char* const boundaryType::
-_xsd_boundaryType_literals_[3] =
-{
-  "outflow",
-  "reflecting",
-  "periodic"
-};
-
-const boundaryType::value boundaryType::
-_xsd_boundaryType_indexes_[3] =
-{
-  ::boundaryType::outflow,
-  ::boundaryType::periodic,
-  ::boundaryType::reflecting
-};
 
 #include <istream>
 #include <xsd/cxx/xml/sax/std-input-source.hxx>
