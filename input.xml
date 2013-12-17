@@ -43,28 +43,6 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0</z>
     </velocity>
   </cuboid>
-  <cuboid>
-    <position>
-      <x>0.6</x>
-      <y>19</y>
-      <z>0</z>
-    </position>
-    <number>
-      <x>50</x>
-      <y>14</y>
-      <z>1</z>
-    </number>
-    <distance>1.2</distance>
-    <mass>2.0</mass>
-    <epsilon>1.0</epsilon>
-    <sigma>0.9412</sigma>
-    <type>2</type>
-    <velocity>
-      <x>0</x>
-      <y>0</y>
-      <z>0</z>
-    </velocity>
-  </cuboid>
   <boundaryCondition>
     <left>2</left>
     <right>2</right>
@@ -84,7 +62,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   </LinkedCellDomain>
   <Thermostats>
     <initial_temp>40</initial_temp>
-    <applied_after>1</applied_after>
+    <applied_after>1000</applied_after>
     <delta_temp>1000</delta_temp>
     <changed_after>50</changed_after>
     <target_temp>40</target_temp>

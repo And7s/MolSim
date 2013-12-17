@@ -104,6 +104,7 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 			pcopy->setX(pos);
 			pcopy->setType(-1);
 			pc->setParticle(pcopy);
+			linkedCell->addHaloParticle(pcopy);
 
 		}
 	}

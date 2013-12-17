@@ -43,12 +43,18 @@ protected:
 	 */
 	ParticleContainer** boundaryZone;
 
+
 	/**
 	 * stores the bounds of the domain
 	 */
 	std::vector<int> bounds;
 
 	std::vector<Particle*> particles;
+
+	/**
+	 * stores particles, which are temporarily created in the halo-zone, to remove them later.
+	 */
+	std::vector<Particle*> haloParts;
 
 	/**
 	 * stores the number of cells
@@ -141,6 +147,11 @@ public:
 	void setCells(ParticleContainer**& cells);
 
 	void reset();
+
+	/**
+	 *
+	 */
+	void addHaloParticle(Particle* part);
 
 	double getCutOffRadius();
 

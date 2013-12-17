@@ -194,10 +194,18 @@ void LCDomain::reset(){
 		dimensionalOrigin = this->decodeDimensinalOrigin(i);		
 		this->getCellAt(dimensionalOrigin)->clearParticles();
 	}
+	int size = this->haloParts.size();
+	for(i = 0; i < size; i++){
+		delete this->haloParts[i];
+		this->haloParts.clear();
+	}
+
 	//std::cout <<"start reset by inserting\n";
 	insertParticles(particles);
 	//std::cout << "rest lcd to "<<particles.size()<<" Particles in "<<numberOfCells<<"Cells \n";
 	
+
+
 }
 
 void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleContainer*>* neighbours) {
@@ -331,6 +339,10 @@ std::vector<int> LCDomain::decodeDimensinalOrigin(int pos){
 	return axis;
 }
 
+void LCDomain::addHaloParticle(Particle* part) {
+	this->haloParts.push_back(part);
+}
+
 int LCDomain::getDimension() {
 	return dimension;
 }
@@ -355,6 +367,8 @@ int LCDomain::getCellDimension(){
 int LCDomain::getNumberOfBZCells(){
 	return this->numberOfBZCells;
 }
+
+
 
 void LCDomain::display() {
 	//for testing purpose only
