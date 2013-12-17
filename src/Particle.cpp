@@ -146,9 +146,9 @@ std::ostream& operator<<(std::ostream& stream, Particle& p) {
 	return stream;
 }
 
+double Particle::getDistanceToSq(Particle* part) {
+	return (x -part->getX()).NormSq();
+}
 double Particle::getDistanceTo(Particle* part) {
-	return std::sqrt(
-				std::pow(this->x[0] - part->getX()[0],2) +
-				std::pow(this->x[1] - part->getX()[1],2) +
-				std::pow(this->x[2] - part->getX()[2],2));
+	return (x -part->getX()).L2Norm();
 }

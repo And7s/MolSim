@@ -177,6 +177,9 @@ void Sheet3Calc::calculateForce() {
 		int sizeNeighbours = neighboursOfPc.size();
 		Particle* p;
 		int cellParticleIt = 0;
+		double dist = 0;
+		double distSq = 0;
+		double cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius();
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
 			if(p->getType() == -1) {
 				//Do nothing
@@ -184,7 +187,9 @@ void Sheet3Calc::calculateForce() {
 				for(int j = 0; j < sizeNeighbours;j++){
 					int interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-						if((curP->getDistanceTo(p)<=lcDomain->getCutOffRadius())&&(curP->getDistanceTo(p)>0)){
+						distSq = curP->getDistanceToSq(p);
+
+						if((distSq<=cutoffSq)&&(distSq>0)){
 							if(p->getType()!=curP->getType()){
 								epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
 								sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
@@ -193,9 +198,8 @@ void Sheet3Calc::calculateForce() {
 								sigma_tmp = p->getSigma();
 							}
 							
-							double dist = ((p->getX() -(curP->getX())).L2Norm());
-							double factor1 = (24 * epsilon_tmp)/pow(dist,2);
-							double factor2 = pow((sigma_tmp/dist),6)- (2*pow((sigma_tmp/dist),12));
+							double factor1 = (24 * epsilon_tmp)/distSq;
+							double factor2 = pow(sigma_tmp,6)/pow(distSq,3)- (2*pow(sigma_tmp, 12)/pow(distSq,6));
 							utils::Vector<double,3> factor3 = curP->getX()-p->getX();
 							
 							utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
