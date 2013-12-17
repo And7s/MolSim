@@ -11,15 +11,15 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
 <input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="input.xsd">
-   <gravity>-1000.0</gravity>
+   <gravity>-12.44</gravity>
   <base_output_file>out</base_output_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_data_file>true</plot_data_file>
   <frequency>40</frequency>
   <dimensions>2</dimensions>
   <start_time>0</start_time>
-  <tend>10</tend>
-  <delta_t>0.00005</delta_t>
+  <tend>25</tend>
+  <delta_t>0.0005</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
@@ -55,7 +55,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>1</z>
     </number>
     <distance>1.2</distance>
-    <mass>1.0</mass>
+    <mass>2.0</mass>
     <epsilon>1.0</epsilon>
     <sigma>0.9412</sigma>
     <type>2</type>
@@ -76,16 +76,16 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
   <LinkedCellDomain>
     <dimension>
-      <x>22</x>
-      <y>20</y>
+      <x>25</x>
+      <y>15</y>
       <z>1</z>
     </dimension>
-    <cutoff>3.01</cutoff>
+    <cutoff>2.5</cutoff>
   </LinkedCellDomain>
   <Thermostats>
     <initial_temp>40</initial_temp>
-    <applied_after>1000</applied_after>
-    <delta_temp>1</delta_temp>
+    <applied_after>1</applied_after>
+    <delta_temp>1000</delta_temp>
     <changed_after>50</changed_after>
     <target_temp>40</target_temp>
   </Thermostats>

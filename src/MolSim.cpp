@@ -181,6 +181,8 @@ int main(int argc, char* argsv[]) {
 
 	dataPlotter->setLcDomain(lcDomain);
 
+	plotter->plotParticles(0, *length, outFile, *parameters);
+
 	//initially calculation of Forces
 	calculation->resetForce();
 

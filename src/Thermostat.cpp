@@ -13,7 +13,7 @@ using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
 using namespace std;
 
-LoggerPtr loggerThermostat(Logger::getLogger( "thermostat"));
+LoggerPtr loggerThermostat(Logger::getLogger( "main.thermostat"));
 
 Thermostat::Thermostat(LCDomain* linkedCell_, auto_ptr<input_t>& inp) {
  	linkedCell = linkedCell_;
@@ -22,13 +22,14 @@ Thermostat::Thermostat(LCDomain* linkedCell_, auto_ptr<input_t>& inp) {
  	cur_temp = inp->Thermostats().initial_temp();
  	delta_temp = inp->Thermostats().delta_temp();
  	target_temp = inp->Thermostats().target_temp();
-	subavg = true;	//whether the avg velocity is subtracted or not
-	LOG4CXX_TRACE(loggerThermostat, "Initializing Thermostat at temperature "<<cur_temp);
+	subavg = false;	//whether the avg velocity is subtracted or not
+	LOG4CXX_INFO(loggerThermostat, "Initializing Thermostat at temperature "<<cur_temp);
  	
  	ASSERT_WITH_MESSAGE(loggerThermostat, delta_temp > 0, "Delta Temp must be greater 0");
 
-
-	apply();	
+ 	if(inp->Thermostats().applied_after() == 0){
+ 		apply();
+ 	}
 }
 
 /*will return the current kinetic Energy and calculate num_particles as well*/
@@ -126,5 +127,5 @@ void Thermostat::change() {
 			cur_temp += delta_temp;
 		}
 	}
-	LOG4CXX_TRACE(loggerThermostat, "Changed Temperatur to "<<cur_temp);	
+	LOG4CXX_INFO(loggerThermostat, "Changed Temperatur to "<<cur_temp);
 }

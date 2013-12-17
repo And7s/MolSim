@@ -212,12 +212,11 @@ void Sheet3Calc::calculateForce() {
 }
 
 void Sheet3Calc::calculateAll() {
-	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
+	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet3Calc");
 	calculateForce();
 	calculateVelocity();
 	calculatePosition();
 	lcDomain->reset();
-	
 }
 
 void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2){
