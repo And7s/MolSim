@@ -68,7 +68,7 @@ protected:
 	/**
 	 * the length of an edge
 	 */
-	int cellDimension;
+	double cellDimension;
 
 	/**
 	 * stores the size of the halo-border (in #cells)
@@ -86,7 +86,7 @@ public:
 	 * @param cellDimension the length of an edge of a cell
 	 *  - vector size determines the dimension
 	 */
-	LCDomain(std::vector<int>* bounds, double cutOffRad, int cellDimension);
+	LCDomain(std::vector<int>* bounds, double cutOffRad, double cellDimension);
 
 	/**
 	 * The maximum size of the returned vector with respect to the dimension:

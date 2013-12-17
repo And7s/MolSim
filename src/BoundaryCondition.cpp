@@ -53,7 +53,7 @@ void BoundaryCondition::applyReflecting(ParticleContainer* pc, int axis, bool ze
 	while((p = pc->nextParticle(&j)) != NULL){
 		Particle* counterP = new Particle(*p);
 
-		double distance = pow(p->getSigma(), 1/6);
+		double distance = pow(p->getSigma(), 1/6.0);
 		utils::Vector<double, 3> oldX = counterP->getX();
 		if(zero){
 			oldX[axis] = -distance;

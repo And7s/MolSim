@@ -80,7 +80,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <y>20</y>
       <z>1</z>
     </dimension>
-    <cutoff>3</cutoff>
+    <cutoff>3.01</cutoff>
   </LinkedCellDomain>
   <Thermostats>
     <initial_temp>40</initial_temp>

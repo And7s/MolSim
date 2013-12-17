@@ -24,7 +24,7 @@ void Calculation_test::setUp() {
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
-	int cutOff = 4;
+	double cutOff = 4.0;
 	domainSize[0] = 8;
 	domainSize[1] = 8;
 	domainSize[2] = 0;

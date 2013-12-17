@@ -45,7 +45,7 @@ double delta_t;
 double sigma;
 int type;
 double epsilon;
-double cutOff;
+float cutOff;
 double gravity = 0.0;
 std::string outFile;
 std::string dataFile;

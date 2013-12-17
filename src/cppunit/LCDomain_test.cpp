@@ -21,7 +21,7 @@ void LCDomain_test::setUp(){
 	dim.push_back(5);
 	dim.push_back(10);
 	dim.push_back(7);
-	this->lcd = new LCDomain(&dim,3.0,3);
+	this->lcd = new LCDomain(&dim,3.0,3.0);
 }
 
 void LCDomain_test::tearDown(){

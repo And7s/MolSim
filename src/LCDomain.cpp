@@ -13,18 +13,20 @@
 LoggerPtr loggerDomain(Logger::getLogger("main.domain"));
 
 
-LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, int cellDimension) {
+LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cellDimension) {
 	
 	this->cutOffRadius = cutOffRad;
 	this->cellDimension = cellDimension;
 
 	//calculate size of halo-border
 	//check whether the cutoff radius is an integer
+	/*
 	if((((int)cutOffRad) - cutOffRad) == 0){
 		this->haloSize = cutOffRad / cellDimension;
 	}else{
 		this->haloSize = (cutOffRad / cellDimension) + 1;
-	}
+	}*/
+	this->haloSize = ceil(cutOffRad / cellDimension);
 
 	this->dimension = initalBounds->size();
 	/*
