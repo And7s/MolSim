@@ -175,7 +175,7 @@ void LCDomain::deleteParticle(Particle* particle) {
 
 		if((particles[i]->getX()[0] == particle->getX()[0]) &&
 			(particles[i]->getX()[1] == particle->getX()[1]) &&
-			(particles[i]->getX()[0] == particle->getX()[0])){
+			(particles[i]->getX()[2] == particle->getX()[2])){
 			
 			particles.erase(particles.begin()+i);
 			LOG4CXX_TRACE(loggerDomain,"deleted particle in lcDomain at pos "<<i);

@@ -155,11 +155,11 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain, "Generated overall " << pa.size() << " Particles");
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
-	domainSize[0] = inp->LinkedCellDomain().dimension().x();
+	domainSize[0] = ceil( (inp->LinkedCellDomain().dimension().x())/cutOff);
 	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[0]>0), "Invalid domainSize[0]. Please specify first " << domainSize[0]);
-	domainSize[1] = inp->LinkedCellDomain().dimension().y();
+	domainSize[1] = ceil( (inp->LinkedCellDomain().dimension().y())/cutOff);
 	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[1]>0), "Invalid domainSize[1]. Please specify first " << domainSize[1]);
-	domainSize[2] = inp->LinkedCellDomain().dimension().z();
+	domainSize[2] = ceil( (inp->LinkedCellDomain().dimension().z())/cutOff);
 	ASSERT_WITH_MESSAGE(loggerMain, (domainSize[2]>0), "Invalid domainSize[2]. Please specify first " << domainSize[2]);
 	LCDomain* lcDomain = new LCDomain(&domainSize,cutOff, cutOff);
 	lcDomain->insertParticles(pa);
