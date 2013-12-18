@@ -151,7 +151,8 @@ int main(int argc, char* argsv[]) {
 	if(argc==3){
 		pa.insert(pa.end(), pb.begin(), pb.end());
 	}
-
+	*length = pa.size();
+	LOG4CXX_INFO(loggerMain, "Generated overall " << pa.size() << " Particles");
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
 	domainSize[0] = inp->LinkedCellDomain().dimension().x();
