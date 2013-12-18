@@ -280,6 +280,20 @@ class input_t: public ::xml_schema::type
   void
   base_output_file (::std::auto_ptr< base_output_file_type > p);
 
+  // plot_vtk_file
+  // 
+  typedef ::xml_schema::boolean plot_vtk_file_type;
+  typedef ::xsd::cxx::tree::traits< plot_vtk_file_type, char > plot_vtk_file_traits;
+
+  const plot_vtk_file_type&
+  plot_vtk_file () const;
+
+  plot_vtk_file_type&
+  plot_vtk_file ();
+
+  void
+  plot_vtk_file (const plot_vtk_file_type& x);
+
   // xvf_data_file
   // 
   typedef ::xml_schema::string xvf_data_file_type;
@@ -297,19 +311,19 @@ class input_t: public ::xml_schema::type
   void
   xvf_data_file (::std::auto_ptr< xvf_data_file_type > p);
 
-  // plot_data_file
+  // plot_xvf_file
   // 
-  typedef ::xml_schema::boolean plot_data_file_type;
-  typedef ::xsd::cxx::tree::traits< plot_data_file_type, char > plot_data_file_traits;
+  typedef ::xml_schema::boolean plot_xvf_file_type;
+  typedef ::xsd::cxx::tree::traits< plot_xvf_file_type, char > plot_xvf_file_traits;
 
-  const plot_data_file_type&
-  plot_data_file () const;
+  const plot_xvf_file_type&
+  plot_xvf_file () const;
 
-  plot_data_file_type&
-  plot_data_file ();
+  plot_xvf_file_type&
+  plot_xvf_file ();
 
   void
-  plot_data_file (const plot_data_file_type& x);
+  plot_xvf_file (const plot_xvf_file_type& x);
 
   // use_thermostat
   // 
@@ -501,8 +515,9 @@ class input_t: public ::xml_schema::type
   //
   input_t (const gravity_type&,
            const base_output_file_type&,
+           const plot_vtk_file_type&,
            const xvf_data_file_type&,
-           const plot_data_file_type&,
+           const plot_xvf_file_type&,
            const use_thermostat_type&,
            const frequency_type&,
            const dimensions_type&,
@@ -516,8 +531,9 @@ class input_t: public ::xml_schema::type
 
   input_t (const gravity_type&,
            const base_output_file_type&,
+           const plot_vtk_file_type&,
            const xvf_data_file_type&,
-           const plot_data_file_type&,
+           const plot_xvf_file_type&,
            const use_thermostat_type&,
            const frequency_type&,
            const dimensions_type&,
@@ -557,8 +573,9 @@ class input_t: public ::xml_schema::type
   protected:
   ::xsd::cxx::tree::one< gravity_type > gravity_;
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
+  ::xsd::cxx::tree::one< plot_vtk_file_type > plot_vtk_file_;
   ::xsd::cxx::tree::one< xvf_data_file_type > xvf_data_file_;
-  ::xsd::cxx::tree::one< plot_data_file_type > plot_data_file_;
+  ::xsd::cxx::tree::one< plot_xvf_file_type > plot_xvf_file_;
   ::xsd::cxx::tree::one< use_thermostat_type > use_thermostat_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
   ::xsd::cxx::tree::one< dimensions_type > dimensions_;

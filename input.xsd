@@ -24,8 +24,9 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <xsd:sequence>
       <xsd:element name="gravity" type="xsd:double"></xsd:element>
       <xsd:element name="base_output_file" type="xsd:string" ></xsd:element>
+      <xsd:element name="plot_vtk_file" type="xsd:boolean" ></xsd:element>
       <xsd:element name="xvf_data_file" type="xsd:string" ></xsd:element>
-      <xsd:element name="plot_data_file" type="xsd:boolean" ></xsd:element>
+      <xsd:element name="plot_xvf_file" type="xsd:boolean" ></xsd:element>
       <xsd:element name="use_thermostat" type="xsd:boolean" ></xsd:element>
       <xsd:element name="frequency" type="xsd:integer"></xsd:element>
       <xsd:element name="dimensions" type="xsd:positiveInteger"></xsd:element>

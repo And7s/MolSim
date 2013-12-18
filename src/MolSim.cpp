@@ -53,6 +53,8 @@ std::vector<double>* parameters = new std::vector<double>;
 std::vector<Particle*> pa;
 std::vector<Particle*> pb;
 bool use_thermostat;
+bool plot_vtk;
+bool plot_xvf;
 
 BoundaryCondition* boundaryCondition;
 Thermostat* thermo;
@@ -141,6 +143,8 @@ int main(int argc, char* argsv[]) {
 		}
 	}
 	use_thermostat = inp->use_thermostat();
+	plot_vtk = inp->plot_vtk_file();
+	plot_xvf = inp->plot_xvf_file();
 
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
     ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
@@ -215,7 +219,9 @@ int main(int argc, char* argsv[]) {
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {
-			plotter->plotParticles(iteration, *length, outFile, *parameters);
+			if(plot_vtk){
+				plotter->plotParticles(iteration, *length, outFile, *parameters);
+			}
 			int time = getMilliSpan(startTime);
 			accTime += time;
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
@@ -231,9 +237,7 @@ int main(int argc, char* argsv[]) {
 		}
 		current_time += delta_t;
 	}
-	LOG4CXX_INFO(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");
-
-	if(inp->plot_data_file()){
+	if(plot_xvf){
 		if(argc == 2){
 			parameters->push_back(delta_t);
 			parameters->push_back(cutOff);
@@ -243,9 +247,12 @@ int main(int argc, char* argsv[]) {
 			(*parameters)[1]= cutOff;
 			(*parameters)[2]= gravity;
 		}
-
 		dataPlotter->plotParticles(0, *length, dataFile, *parameters);
+
 	}
+
+	LOG4CXX_ERROR(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");
+
 	delete length;
 
 	return 0;

@@ -85,6 +85,24 @@ base_output_file (::std::auto_ptr< base_output_file_type > x)
   this->base_output_file_.set (x);
 }
 
+const input_t::plot_vtk_file_type& input_t::
+plot_vtk_file () const
+{
+  return this->plot_vtk_file_.get ();
+}
+
+input_t::plot_vtk_file_type& input_t::
+plot_vtk_file ()
+{
+  return this->plot_vtk_file_.get ();
+}
+
+void input_t::
+plot_vtk_file (const plot_vtk_file_type& x)
+{
+  this->plot_vtk_file_.set (x);
+}
+
 const input_t::xvf_data_file_type& input_t::
 xvf_data_file () const
 {
@@ -109,22 +127,22 @@ xvf_data_file (::std::auto_ptr< xvf_data_file_type > x)
   this->xvf_data_file_.set (x);
 }
 
-const input_t::plot_data_file_type& input_t::
-plot_data_file () const
+const input_t::plot_xvf_file_type& input_t::
+plot_xvf_file () const
 {
-  return this->plot_data_file_.get ();
+  return this->plot_xvf_file_.get ();
 }
 
-input_t::plot_data_file_type& input_t::
-plot_data_file ()
+input_t::plot_xvf_file_type& input_t::
+plot_xvf_file ()
 {
-  return this->plot_data_file_.get ();
+  return this->plot_xvf_file_.get ();
 }
 
 void input_t::
-plot_data_file (const plot_data_file_type& x)
+plot_xvf_file (const plot_xvf_file_type& x)
 {
-  this->plot_data_file_.set (x);
+  this->plot_xvf_file_.set (x);
 }
 
 const input_t::use_thermostat_type& input_t::
@@ -1154,8 +1172,9 @@ z (const z_type& x)
 input_t::
 input_t (const gravity_type& gravity,
          const base_output_file_type& base_output_file,
+         const plot_vtk_file_type& plot_vtk_file,
          const xvf_data_file_type& xvf_data_file,
-         const plot_data_file_type& plot_data_file,
+         const plot_xvf_file_type& plot_xvf_file,
          const use_thermostat_type& use_thermostat,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
@@ -1169,8 +1188,9 @@ input_t (const gravity_type& gravity,
 : ::xml_schema::type (),
   gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
+  plot_vtk_file_ (plot_vtk_file, this),
   xvf_data_file_ (xvf_data_file, this),
-  plot_data_file_ (plot_data_file, this),
+  plot_xvf_file_ (plot_xvf_file, this),
   use_thermostat_ (use_thermostat, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
@@ -1189,8 +1209,9 @@ input_t (const gravity_type& gravity,
 input_t::
 input_t (const gravity_type& gravity,
          const base_output_file_type& base_output_file,
+         const plot_vtk_file_type& plot_vtk_file,
          const xvf_data_file_type& xvf_data_file,
-         const plot_data_file_type& plot_data_file,
+         const plot_xvf_file_type& plot_xvf_file,
          const use_thermostat_type& use_thermostat,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
@@ -1204,8 +1225,9 @@ input_t (const gravity_type& gravity,
 : ::xml_schema::type (),
   gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
+  plot_vtk_file_ (plot_vtk_file, this),
   xvf_data_file_ (xvf_data_file, this),
-  plot_data_file_ (plot_data_file, this),
+  plot_xvf_file_ (plot_xvf_file, this),
   use_thermostat_ (use_thermostat, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
@@ -1228,8 +1250,9 @@ input_t (const input_t& x,
 : ::xml_schema::type (x, f, c),
   gravity_ (x.gravity_, f, this),
   base_output_file_ (x.base_output_file_, f, this),
+  plot_vtk_file_ (x.plot_vtk_file_, f, this),
   xvf_data_file_ (x.xvf_data_file_, f, this),
-  plot_data_file_ (x.plot_data_file_, f, this),
+  plot_xvf_file_ (x.plot_xvf_file_, f, this),
   use_thermostat_ (x.use_thermostat_, f, this),
   frequency_ (x.frequency_, f, this),
   dimensions_ (x.dimensions_, f, this),
@@ -1252,8 +1275,9 @@ input_t (const ::xercesc::DOMElement& e,
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
   gravity_ (this),
   base_output_file_ (this),
+  plot_vtk_file_ (this),
   xvf_data_file_ (this),
-  plot_data_file_ (this),
+  plot_xvf_file_ (this),
   use_thermostat_ (this),
   frequency_ (this),
   dimensions_ (this),
@@ -1309,6 +1333,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // plot_vtk_file
+    //
+    if (n.name () == "plot_vtk_file" && n.namespace_ ().empty ())
+    {
+      if (!plot_vtk_file_.present ())
+      {
+        this->plot_vtk_file_.set (plot_vtk_file_traits::create (i, f, this));
+        continue;
+      }
+    }
+
     // xvf_data_file
     //
     if (n.name () == "xvf_data_file" && n.namespace_ ().empty ())
@@ -1323,13 +1358,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
-    // plot_data_file
+    // plot_xvf_file
     //
-    if (n.name () == "plot_data_file" && n.namespace_ ().empty ())
+    if (n.name () == "plot_xvf_file" && n.namespace_ ().empty ())
     {
-      if (!plot_data_file_.present ())
+      if (!plot_xvf_file_.present ())
       {
-        this->plot_data_file_.set (plot_data_file_traits::create (i, f, this));
+        this->plot_xvf_file_.set (plot_xvf_file_traits::create (i, f, this));
         continue;
       }
     }
@@ -1495,6 +1530,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!plot_vtk_file_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "plot_vtk_file",
+      "");
+  }
+
   if (!xvf_data_file_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1502,10 +1544,10 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
-  if (!plot_data_file_.present ())
+  if (!plot_xvf_file_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
-      "plot_data_file",
+      "plot_xvf_file",
       "");
   }
 
@@ -1595,8 +1637,9 @@ operator= (const input_t& x)
     static_cast< ::xml_schema::type& > (*this) = x;
     this->gravity_ = x.gravity_;
     this->base_output_file_ = x.base_output_file_;
+    this->plot_vtk_file_ = x.plot_vtk_file_;
     this->xvf_data_file_ = x.xvf_data_file_;
-    this->plot_data_file_ = x.plot_data_file_;
+    this->plot_xvf_file_ = x.plot_xvf_file_;
     this->use_thermostat_ = x.use_thermostat_;
     this->frequency_ = x.frequency_;
     this->dimensions_ = x.dimensions_;

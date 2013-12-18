@@ -13,8 +13,9 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
        xsi:noNamespaceSchemaLocation="input.xsd">
    <gravity>-12.44</gravity>
   <base_output_file>out</base_output_file>
+  <plot_vtk_file>false</plot_vtk_file>
   <xvf_data_file>xvfData</xvf_data_file>
-  <plot_data_file>true</plot_data_file>
+  <plot_xvf_file>true</plot_xvf_file>
   <use_thermostat>true</use_thermostat>
   <frequency>40</frequency>
   <dimensions>2</dimensions>
