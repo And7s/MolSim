@@ -165,6 +165,7 @@ public:
 	 * computes the distance to another particle in space
 	 */
 	double getDistanceTo(Particle* part);
+	double getDistanceToSq(Particle* part);
 	void setM(double m);
 	void setType(int type);
 	double getEpsilon();

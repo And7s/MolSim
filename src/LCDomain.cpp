@@ -41,8 +41,6 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 		}
 	}
 
-	LOG4CXX_INFO(loggerDomain, "generate LCD of size: "<<(*initalBounds)[0]<<" | "<<(*initalBounds)[1]<<" | "<<(*initalBounds)[2]);
-
 	std::vector<int> b (dimension,0);
 	int k;
 	for(k = 0; k < dimension; k++){
@@ -93,7 +91,7 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 			k++;
 		}
 	}
-	numberOfBZCells = k;	//reset, edges are xounted twice
+	numberOfBZCells = k;	//reset, edges are xounted twice - dont think so
 
 	LOG4CXX_INFO(loggerDomain,"Domain generation finished --- dimensions: " << this->dimension << " Number of cells: " << numberOfCells <<
 					" Cells in boundary zone: "<< linearspace << " Halo size: " << haloSize);
@@ -101,7 +99,7 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 	ASSERT_WITH_MESSAGE(loggerDomain, haloSize > 0, "erroneous halo size");
 	ASSERT_WITH_MESSAGE(loggerDomain, numberOfCells > 0, "erroneous domain size");
 
-	std::cout << "init LCD: haloSize: "<<haloSize<<" cellDimension: "<<cellDimension<<"cutOffRadius: "<< cutOffRadius<<"\n";
+	//std::cout << "init LCD: haloSize: "<<haloSize<<" cellDimension: "<<cellDimension<<"cutOffRadius: "<< cutOffRadius<<"\n";
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
