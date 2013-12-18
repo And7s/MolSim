@@ -173,7 +173,7 @@ int main(int argc, char* argsv[]) {
 	EnvInfl::getInstance()->setG(gravity);
 
 	//initiallze boundary conditions
-	std::cout << domainSize.size();
+	//std::cout << domainSize.size();
 	boundaryCondition = new BoundaryCondition(lcDomain, domainSize, inp->dimensions(), inp);
 	
 	plotter->setParticleContainer(pc);
