@@ -1,0 +1,1264 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 35.83    591.89   591.89    30000    19.73    48.76  Sheet3Calc::calculateForce()
+ 28.71   1066.18   474.29 1783036804     0.00     0.00  Particle::getDistanceToSq(Particle*)
+  8.46   1205.90   139.72 1413751549     0.00     0.00  ParticleContainer::nextParticle(int*)
+  7.29   1326.27   120.37 4256918360     0.00     0.00  Particle::addOnF(utils::Vector<double, 3>&)
+  2.71   1370.98    44.71 10800231048     0.00     0.00  Particle::getX()
+  2.27   1408.44    37.46 375012500     0.00     0.00  LCDomain::insertParticle(Particle*)
+  2.12   1443.43    34.99 4212775980     0.00     0.00  Particle::getType()
+  1.69   1471.37    27.94 3902776936     0.00     0.00  Particle::getEpsilon()
+  1.37   1494.01    22.64 171125704     0.00     0.00  LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*)
+  1.20   1513.78    19.77    30000     0.66     1.20  Calculation::calculatePosition()
+  1.03   1530.73    16.95 1897617116     0.00     0.00  LCDomain::getCellAt(std::vector<int, std::allocator<int> >&)
+  0.96   1546.52    15.79    30000     0.53     0.92  Calculation::calculateVelocity()
+  0.93   1561.81    15.29 3921367288     0.00     0.00  Particle::getSigma()
+  0.90   1576.70    14.89 1646677236     0.00     0.00  ParticleContainer::nextParticle()
+  0.65   1587.45    10.75 342251408     0.00     0.00  LCDomain::decodeDimensinalOrigin(int)
+  0.57   1596.81     9.36 375012500     0.00     0.00  Particle::setOldF(utils::Vector<double, 3>&)
+  0.55   1605.96     9.15    30000     0.30     2.24  LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&)
+  0.38   1612.29     6.33 1129109316     0.00     0.00  Particle::getM()
+  0.33   1617.73     5.44                             EnvInfl::calculateGravity(Particle*)
+  0.25   1621.90     4.17 379158754     0.00     0.00  ParticleContainer::setParticle(Particle*)
+  0.23   1625.74     3.84                             EnvInfl::getInstance()
+  0.21   1629.29     3.55 1129154962     0.00     0.00  Particle::getF()
+  0.19   1632.41     3.12 546143908     0.00     0.00  ParticleContainer::getPosition()
+  0.16   1635.07     2.66 388453930     0.00     0.00  Particle::setX(utils::Vector<double, 3>&)
+  0.15   1637.47     2.40 379500608     0.00     0.00  Particle::setV(utils::Vector<double, 3>&)
+  0.14   1639.81     2.34                             Calculation::resetForce()
+  0.13   1641.91     2.10 375012500     0.00     0.00  Particle::setF(utils::Vector<double, 3>&)
+  0.11   1643.80     1.89 171125704     0.00     0.00  LCDomain::checkBounds(std::vector<int, std::allocator<int> >&)
+  0.11   1645.61     1.81                             std::vector<int, std::allocator<int> >::operator=(std::vector<int, std::allocator<int> > const&)
+  0.07   1646.73     1.12 755317462     0.00     0.00  Particle::getV()
+  0.07   1647.82     1.09                             BoundaryCondition::apply()
+  0.05   1648.68     0.86    30000     0.03     2.51  LCDomain::reset()
+  0.04   1649.37     0.69  9295176     0.00     0.00  Sheet3Calc::calculateSingleForce(Particle*, Particle*)
+  0.04   1650.03     0.66 379200608     0.00     0.00  Particle::getOldF()
+  0.03   1650.55     0.52 346430808     0.00     0.00  LCDomain::getCutOffRadius()
+  0.03   1651.06     0.51 173880000     0.00     0.00  ParticleContainer::clearParticles()
+  0.02   1651.46     0.40 13441430     0.00     0.00  Particle::Particle(Particle const&)
+  0.01   1651.61     0.15                             BoundaryCondition::applyReflecting(ParticleContainer*, int, bool)
+  0.01   1651.70     0.09                             BoundaryCondition::applySwitch(int, std::vector<int, std::allocator<int> >&, int, bool)
+  0.00   1651.77     0.07                             BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool)
+  0.00   1651.79     0.02 13441430     0.00     0.00  Particle::~Particle()
+  0.00   1651.81     0.02  4146254     0.00     0.00  LCDomain::addHaloParticle(Particle*)
+  0.00   1651.82     0.01                             Sheet3Calc::calculateAll()
+  0.00   1651.83     0.01                             Thermostat::getEkin()
+  0.00   1651.84     0.01                             Thermostat::multiply(double)
+  0.00   1651.85     0.01                             outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&)
+  0.00   1651.85     0.00  4158754     0.00     0.00  Particle::setType(int)
+  0.00   1651.85     0.00   150005     0.00     0.00  std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<ParticleContainer**, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> > >, ParticleContainer* const&)
+  0.00   1651.85     0.00   120066     0.00     0.00  LCDomain::getNumberOfCells()
+  0.00   1651.85     0.00   120066     0.00     0.00  LCDomain::getCells()
+  0.00   1651.85     0.00    38004     0.00     0.00  cuboid::number() const
+  0.00   1651.85     0.00    30003     0.00     0.00  std::vector<Particle*, std::allocator<Particle*> >::operator=(std::vector<Particle*, std::allocator<Particle*> > const&)
+  0.00   1651.85     0.00    25250     0.00     0.00  cuboid::distance() const
+  0.00   1651.85     0.00    25250     0.00     0.00  cuboid::position() const
+  0.00   1651.85     0.00    25001     0.00     0.00  vectorI::z() const
+  0.00   1651.85     0.00    12751     0.00     0.00  vectorI::y() const
+  0.00   1651.85     0.00    12501     0.00     0.00  input_t::dimensions()
+  0.00   1651.85     0.00    12501     0.00     0.00  vectorF::y() const
+  0.00   1651.85     0.00    12501     0.00     0.00  vectorF::z() const
+  0.00   1651.85     0.00    12500     0.00     0.00  Particle::setEpsilon(double)
+  0.00   1651.85     0.00    12500     0.00     0.00  Particle::setSigma(double)
+  0.00   1651.85     0.00    12500     0.00     0.00  Particle::Particle(utils::Vector<double, 3>, utils::Vector<double, 3>, double, int)
+  0.00   1651.85     0.00    12500     0.00     0.00  cuboid::mass() const
+  0.00   1651.85     0.00     5704     0.00     0.00  ParticleContainer::ParticleContainer(int)
+  0.00   1651.85     0.00     5704     0.00     0.00  LCDomain::isBoundaryCell(ParticleContainer&)
+  0.00   1651.85     0.00      252     0.00     0.00  vectorI::x() const
+  0.00   1651.85     0.00      251     0.00     0.00  vectorF::x() const
+  0.00   1651.85     0.00      170     0.00     0.00  xsd::cxx::tree::_type::~_type()
+  0.00   1651.85     0.00      157     0.00     0.00  _init
+  0.00   1651.85     0.00      132     0.00     0.00  xsd::cxx::tree::_type::_type(xsd::cxx::tree::_type const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00       92     0.00     0.00  xsd::cxx::xml::char_utf8_transcoder<char>::to(unsigned short const*, unsigned long)
+  0.00   1651.85     0.00       78     0.00     0.00  xsd::cxx::xml::char_utf8_transcoder<char>::from(char const*, unsigned long)
+  0.00   1651.85     0.00       66     0.00     0.00  xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string()
+  0.00   1651.85     0.00       63     0.00     0.00  xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const
+  0.00   1651.85     0.00       51     0.00     0.00  xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&)
+  0.00   1651.85     0.00       51     0.00     0.00  std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::xml::transcode<char>(unsigned short const*)
+  0.00   1651.85     0.00       41     0.00     0.00  std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&)
+  0.00   1651.85     0.00       38     0.00     0.00  xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&)
+  0.00   1651.85     0.00       35     0.00     0.00  xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&)
+  0.00   1651.85     0.00       18     0.00     0.00  std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::~vector()
+  0.00   1651.85     0.00       13     0.00     0.00  vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00       12     0.00     0.00  xsd::cxx::xml::dom::parser<char>::next_element()
+  0.00   1651.85     0.00       12     0.00     0.00  xsd::cxx::tree::sequence_common::sequence_common(xsd::cxx::tree::sequence_common const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00       12     0.00     0.00  std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::reserve(unsigned long)
+  0.00   1651.85     0.00        9     0.00     0.00  void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&)
+  0.00   1651.85     0.00        8     0.00     0.00  xsd::cxx::zc_istream<char>::~zc_istream()
+  0.00   1651.85     0.00        8     0.00     0.00  xsd::cxx::ro_string<char>::compare(char const*) const
+  0.00   1651.85     0.00        6     0.00     0.00  boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        6     0.00     0.00  boundary_t::~boundary_t()
+  0.00   1651.85     0.00        6     0.00     0.00  xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        6     0.00     0.00  input_t::boundaryCondition()
+  0.00   1651.85     0.00        6     0.00     0.00  input_t::cuboid()
+  0.00   1651.85     0.00        6     0.00     0.00  std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_check_len(unsigned long, char const*) const
+  0.00   1651.85     0.00        6     0.00     0.00  std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_insert_aux(__gnu_cxx::__normal_iterator<xsd::cxx::tree::sequence_common::ptr*, std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> > >, xsd::cxx::tree::sequence_common::ptr const&)
+  0.00   1651.85     0.00        5     0.00     0.00  xsd::cxx::auto_array<unsigned short, xsd::cxx::std_deallocator<unsigned short> >::~auto_array()
+  0.00   1651.85     0.00        5     0.00     0.00  xsd::cxx::tree::one<boundary_t, false>::set(std::auto_ptr<boundary_t>)
+  0.00   1651.85     0.00        5     0.00     0.00  xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        4     0.00     0.00  input_t::Thermostats()
+  0.00   1651.85     0.00        3     0.00     0.00  nonNegativeFloat::~nonNegativeFloat()
+  0.00   1651.85     0.00        3     0.00     0.00  xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        3     0.00     0.00  vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        3     0.00     0.00  vectorF::~vectorF()
+  0.00   1651.85     0.00        3     0.00     0.00  cuboid::velocity() const
+  0.00   1651.85     0.00        2     0.00     0.00  xsd::cxx::tree::one<nonNegativeFloat, false>::set(std::auto_ptr<nonNegativeFloat>)
+  0.00   1651.85     0.00        2     0.00     0.00  xsd::cxx::tree::one<vectorF, false>::set(std::auto_ptr<vectorF>)
+  0.00   1651.85     0.00        2     0.00     0.00  xsd::cxx::tree::one<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >, false>::set(std::auto_ptr<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> > >)
+  0.00   1651.85     0.00        2     0.00     0.00  input_t::sphere()
+  0.00   1651.85     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN8ParticleC2Ei
+  0.00   1651.85     0.00        1     0.00     0.00  _GLOBAL__sub_I_loggerCalc
+  0.00   1651.85     0.00        1     0.00     0.00  _GLOBAL__sub_I_loggerDomain
+  0.00   1651.85     0.00        1     0.00     0.00  _GLOBAL__sub_I_loggerPC
+  0.00   1651.85     0.00        1     0.00     0.00  _GLOBAL__sub_I_loggerPG
+  0.00   1651.85     0.00        1     0.00     0.00  _GLOBAL__sub_I_start_time
+  0.00   1651.85     0.00        1     0.00     0.00  input(xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument>&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&)
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::delta_temp()
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::target_temp()
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::initial_temp()
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::applied_after()
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  Thermostats::~Thermostats()
+  0.00   1651.85     0.00        1     0.00     0.00  positiveFloat::~positiveFloat()
+  0.00   1651.85     0.00        1     0.00     0.00  LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        1     0.00     0.00  LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  LinkedCellDomain::~LinkedCellDomain()
+  0.00   1651.85     0.00        1     0.00     0.00  LinkedCellDomain::~LinkedCellDomain()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::top()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::back()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::left()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::front()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::right()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::bottom()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::~boundaryCondition()
+  0.00   1651.85     0.00        1     0.00     0.00  boundaryCondition::~boundaryCondition()
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument> xsd::cxx::xml::dom::parse<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, xercesc_3_1::DOMErrorHandler&, xsd::cxx::xml::properties<char> const&, unsigned long)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::one<positiveFloat, false>::set(std::auto_ptr<positiveFloat>)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::one<LinkedCellDomain, false>::set(std::auto_ptr<LinkedCellDomain>)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::one<boundaryCondition, false>::set(std::auto_ptr<boundaryCondition>)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::one<vectorI, false>::set(std::auto_ptr<vectorI>)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::traits<positiveFloat, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  xsd::cxx::tree::sequence<cuboid, false>::push_back(std::auto_ptr<cuboid>)
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::~cuboid()
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::~cuboid()
+  0.00   1651.85     0.00        1     0.00     0.00  input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        1     0.00     0.00  input_t::sphere(xsd::cxx::tree::sequence<sphere, false> const&)
+  0.00   1651.85     0.00        1     0.00     0.00  input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*)
+  0.00   1651.85     0.00        1     0.00     0.00  input_t::~input_t()
+  0.00   1651.85     0.00        1     0.00     0.00  vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags)
+  0.00   1651.85     0.00        1     0.00     0.00  vectorI::~vectorI()
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::type() const
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::sigma() const
+  0.00   1651.85     0.00        1     0.00     0.00  cuboid::epsilon() const
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.00% of 1651.85 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     97.0    0.01 1601.83                 Sheet3Calc::calculateAll() [1]
+              591.89  871.02   30000/30000       Sheet3Calc::calculateForce() [2]
+                0.86   74.50   30000/30000       LCDomain::reset() [6]
+               19.77   16.08   30000/30000       Calculation::calculatePosition() [11]
+               15.79   11.91   30000/30000       Calculation::calculateVelocity() [14]
+-----------------------------------------------
+              591.89  871.02   30000/30000       Sheet3Calc::calculateAll() [1]
+[2]     88.6  591.89  871.02   30000         Sheet3Calc::calculateForce() [2]
+              474.29    0.00 1783036804/1783036804     Particle::getDistanceToSq(Particle*) [3]
+              136.95    0.00 1385678613/1413751549     ParticleContainer::nextParticle(int*) [4]
+              109.50    0.00 3872643830/4256918360     Particle::addOnF(utils::Vector<double, 3>&) [5]
+               22.64   20.20 171125704/171125704     LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+               32.06    0.00 7745287660/10800231048     Particle::getX() [9]
+               31.81    0.00 3829445972/4212775980     Particle::getType() [12]
+               27.87    0.00 3893469260/3902776936     Particle::getEpsilon() [13]
+               15.18    0.00 3893469260/3921367288     Particle::getSigma() [18]
+                0.51    0.00 342251408/346430808     LCDomain::getCutOffRadius() [38]
+                0.00    0.00   30001/120066      LCDomain::getCells() [63]
+                0.00    0.00   30001/120066      LCDomain::getNumberOfCells() [62]
+                0.00    0.00   30001/150005      std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<ParticleContainer**, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> > >, ParticleContainer* const&) [61]
+-----------------------------------------------
+              474.29    0.00 1783036804/1783036804     Sheet3Calc::calculateForce() [2]
+[3]     28.7  474.29    0.00 1783036804         Particle::getDistanceToSq(Particle*) [3]
+-----------------------------------------------
+                0.05    0.00  546120/1413751549     Thermostat::multiply(double) [43]
+                0.11    0.00 1092240/1413751549     Thermostat::getEkin() [42]
+                0.96    0.00 9699400/1413751549     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                1.65    0.00 16735176/1413751549     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+              136.95    0.00 1385678613/1413751549     Sheet3Calc::calculateForce() [2]
+[4]      8.5  139.72    0.00 1413751549         ParticleContainer::nextParticle(int*) [4]
+-----------------------------------------------
+                0.26    0.00 9295176/4256918360     Sheet3Calc::calculateSingleForce(Particle*, Particle*) [34]
+               10.60    0.00 374979354/4256918360     EnvInfl::calculateGravity(Particle*) [16]
+              109.50    0.00 3872643830/4256918360     Sheet3Calc::calculateForce() [2]
+[5]      7.3  120.37    0.00 4256918360         Particle::addOnF(utils::Vector<double, 3>&) [5]
+-----------------------------------------------
+                0.86   74.50   30000/30000       Sheet3Calc::calculateAll() [1]
+[6]      4.6    0.86   74.50   30000         LCDomain::reset() [6]
+                9.15   57.94   30000/30000       LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&) [7]
+                5.37    0.00 171120000/342251408     LCDomain::decodeDimensinalOrigin(int) [20]
+                1.53    0.00 171120000/1897617116     LCDomain::getCellAt(std::vector<int, std::allocator<int> >&) [17]
+                0.50    0.00 171120000/173880000     ParticleContainer::clearParticles() [39]
+                0.01    0.00 4146254/13441430     Particle::~Particle() [44]
+-----------------------------------------------
+                9.15   57.94   30000/30000       LCDomain::reset() [6]
+[7]      4.1    9.15   57.94   30000         LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&) [7]
+               37.46   18.93 375012500/375012500     LCDomain::insertParticle(Particle*) [8]
+                1.55    0.00 375012500/10800231048     Particle::getX() [9]
+                0.00    0.00   30001/30003       std::vector<Particle*, std::allocator<Particle*> >::operator=(std::vector<Particle*, std::allocator<Particle*> > const&) [65]
+-----------------------------------------------
+               37.46   18.93 375012500/375012500     LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&) [7]
+[8]      3.4   37.46   18.93 375012500         LCDomain::insertParticle(Particle*) [8]
+                7.76    0.00 1875062500/10800231048     Particle::getX() [9]
+                4.12    1.55 375012500/379158754     ParticleContainer::setParticle(Particle*) [23]
+                3.35    0.00 375012500/1897617116     LCDomain::getCellAt(std::vector<int, std::allocator<int> >&) [17]
+                2.14    0.00 375012500/546143908     ParticleContainer::getPosition() [27]
+-----------------------------------------------
+                0.00    0.00   37500/10800231048     outputWriter::VTKWriter::plotParticle(Particle&) [47]
+                0.00    0.00   37500/10800231048     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.02    0.00 4179400/10800231048     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                0.04    0.00 9295176/10800231048     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+                0.15    0.00 37180704/10800231048     Sheet3Calc::calculateSingleForce(Particle*, Particle*) [34]
+                1.55    0.00 374979354/10800231048     Calculation::calculatePosition() [11]
+                1.55    0.00 375012500/10800231048     LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&) [7]
+                1.57    0.00 379158754/10800231048     ParticleContainer::setParticle(Particle*) [23]
+                7.76    0.00 1875062500/10800231048     LCDomain::insertParticle(Particle*) [8]
+               32.06    0.00 7745287660/10800231048     Sheet3Calc::calculateForce() [2]
+[9]      2.7   44.71    0.00 10800231048         Particle::getX() [9]
+-----------------------------------------------
+               22.64   20.20 171125704/171125704     Sheet3Calc::calculateForce() [2]
+[10]     2.6   22.64   20.20 171125704         LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+               11.96    0.00 1338524616/1897617116     LCDomain::getCellAt(std::vector<int, std::allocator<int> >&) [17]
+                5.38    0.00 171125704/342251408     LCDomain::decodeDimensinalOrigin(int) [20]
+                1.89    0.00 171125704/171125704     LCDomain::checkBounds(std::vector<int, std::allocator<int> >&) [31]
+                0.98    0.00 171125704/546143908     ParticleContainer::getPosition() [27]
+                0.00    0.00  120004/150005      std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<ParticleContainer**, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> > >, ParticleContainer* const&) [61]
+-----------------------------------------------
+               19.77   16.08   30000/30000       Sheet3Calc::calculateAll() [1]
+[11]     2.2   19.77   16.08   30000         Calculation::calculatePosition() [11]
+                4.98    0.00 550251312/1646677236     ParticleContainer::nextParticle() [19]
+                3.15    0.00 379125608/4212775980     Particle::getType() [12]
+                2.57    0.00 374979354/388453930     Particle::setX(utils::Vector<double, 3>&) [28]
+                2.10    0.00 374979354/1129109316     Particle::getM() [22]
+                1.55    0.00 374979354/10800231048     Particle::getX() [9]
+                1.18    0.00 374979354/1129154962     Particle::getF() [25]
+                0.56    0.00 374979354/755317462     Particle::getV() [35]
+                0.00    0.00   30001/120066      LCDomain::getCells() [63]
+                0.00    0.00   30001/120066      LCDomain::getNumberOfCells() [62]
+-----------------------------------------------
+                0.00    0.00   12500/4212775980     outputWriter::VTKWriter::plotParticle(Particle&) [47]
+                0.00    0.00   12500/4212775980     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.03    0.00 4179400/4212775980     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                3.15    0.00 379125608/4212775980     Calculation::calculatePosition() [11]
+               31.81    0.00 3829445972/4212775980     Sheet3Calc::calculateForce() [2]
+[12]     2.1   34.99    0.00 4212775980         Particle::getType() [12]
+-----------------------------------------------
+                0.00    0.00   12500/3902776936     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.07    0.00 9295176/3902776936     Sheet3Calc::calculateSingleForce(Particle*, Particle*) [34]
+               27.87    0.00 3893469260/3902776936     Sheet3Calc::calculateForce() [2]
+[13]     1.7   27.94    0.00 3902776936         Particle::getEpsilon() [13]
+-----------------------------------------------
+               15.79   11.91   30000/30000       Sheet3Calc::calculateAll() [1]
+[14]     1.7   15.79   11.91   30000         Calculation::calculateVelocity() [14]
+                4.98    0.00 550251312/1646677236     ParticleContainer::nextParticle() [19]
+                2.40    0.00 379125608/379500608     Particle::setV(utils::Vector<double, 3>&) [29]
+                2.13    0.00 379125608/1129109316     Particle::getM() [22]
+                1.19    0.00 379125608/1129154962     Particle::getF() [25]
+                0.66    0.00 379125608/379200608     Particle::getOldF() [37]
+                0.56    0.00 379125608/755317462     Particle::getV() [35]
+                0.00    0.00   30001/120066      LCDomain::getNumberOfCells() [62]
+                0.00    0.00   30001/120066      LCDomain::getCells() [63]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     1.2    2.34   17.58                 Calculation::resetForce() [15]
+                9.36    0.00 375012500/375012500     Particle::setOldF(utils::Vector<double, 3>&) [21]
+                4.94    0.00 546138204/1646677236     ParticleContainer::nextParticle() [19]
+                2.10    0.00 375012500/375012500     Particle::setF(utils::Vector<double, 3>&) [30]
+                1.18    0.00 375012500/1129154962     Particle::getF() [25]
+                0.00    0.00   30001/120066      LCDomain::getCells() [63]
+                0.00    0.00   30001/120066      LCDomain::getNumberOfCells() [62]
+-----------------------------------------------
+                                                 <spontaneous>
+[16]     1.1    5.44   12.71                 EnvInfl::calculateGravity(Particle*) [16]
+               10.60    0.00 374979354/4256918360     Particle::addOnF(utils::Vector<double, 3>&) [5]
+                2.10    0.00 374979354/1129109316     Particle::getM() [22]
+-----------------------------------------------
+                0.12    0.00 12960000/1897617116     BoundaryCondition::applySwitch(int, std::vector<int, std::allocator<int> >&, int, bool) [41]
+                1.53    0.00 171120000/1897617116     LCDomain::reset() [6]
+                3.35    0.00 375012500/1897617116     LCDomain::insertParticle(Particle*) [8]
+               11.96    0.00 1338524616/1897617116     LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+[17]     1.0   16.95    0.00 1897617116         LCDomain::getCellAt(std::vector<int, std::allocator<int> >&) [17]
+-----------------------------------------------
+                0.00    0.00   12500/3921367288     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.04    0.00 9295176/3921367288     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+                0.07    0.00 18590352/3921367288     Sheet3Calc::calculateSingleForce(Particle*, Particle*) [34]
+               15.18    0.00 3893469260/3921367288     Sheet3Calc::calculateForce() [2]
+[18]     0.9   15.29    0.00 3921367288         Particle::getSigma() [18]
+-----------------------------------------------
+                0.00    0.00   18204/1646677236     XVF::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [51]
+                0.00    0.00   18204/1646677236     VTK::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [50]
+                4.94    0.00 546138204/1646677236     Calculation::resetForce() [15]
+                4.98    0.00 550251312/1646677236     Calculation::calculatePosition() [11]
+                4.98    0.00 550251312/1646677236     Calculation::calculateVelocity() [14]
+[19]     0.9   14.89    0.00 1646677236         ParticleContainer::nextParticle() [19]
+-----------------------------------------------
+                0.00    0.00    5704/342251408     LCDomain::isBoundaryCell(ParticleContainer&) [48]
+                5.37    0.00 171120000/342251408     LCDomain::reset() [6]
+                5.38    0.00 171125704/342251408     LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+[20]     0.7   10.75    0.00 342251408         LCDomain::decodeDimensinalOrigin(int) [20]
+-----------------------------------------------
+                9.36    0.00 375012500/375012500     Calculation::resetForce() [15]
+[21]     0.6    9.36    0.00 375012500         Particle::setOldF(utils::Vector<double, 3>&) [21]
+-----------------------------------------------
+                0.00    0.00   12500/1129109316     outputWriter::VTKWriter::plotParticle(Particle&) [47]
+                0.00    0.00   12500/1129109316     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                2.10    0.00 374979354/1129109316     EnvInfl::calculateGravity(Particle*) [16]
+                2.10    0.00 374979354/1129109316     Calculation::calculatePosition() [11]
+                2.13    0.00 379125608/1129109316     Calculation::calculateVelocity() [14]
+[22]     0.4    6.33    0.00 1129109316         Particle::getM() [22]
+-----------------------------------------------
+                0.05    0.02 4146254/379158754     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                4.12    1.55 375012500/379158754     LCDomain::insertParticle(Particle*) [8]
+[23]     0.3    4.17    1.57 379158754         ParticleContainer::setParticle(Particle*) [23]
+                1.57    0.00 379158754/10800231048     Particle::getX() [9]
+-----------------------------------------------
+                                                 <spontaneous>
+[24]     0.2    3.84    0.00                 EnvInfl::getInstance() [24]
+-----------------------------------------------
+                0.00    0.00   37500/1129154962     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                1.18    0.00 374979354/1129154962     Calculation::calculatePosition() [11]
+                1.18    0.00 375012500/1129154962     Calculation::resetForce() [15]
+                1.19    0.00 379125608/1129154962     Calculation::calculateVelocity() [14]
+[25]     0.2    3.55    0.00 1129154962         Particle::getF() [25]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     0.2    0.15    3.33                 BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+                1.65    0.00 16735176/1413751549     ParticleContainer::nextParticle(int*) [4]
+                0.69    0.56 9295176/9295176     Sheet3Calc::calculateSingleForce(Particle*, Particle*) [34]
+                0.28    0.00 9295176/13441430     Particle::Particle(Particle const&) [40]
+                0.06    0.00 9295176/388453930     Particle::setX(utils::Vector<double, 3>&) [28]
+                0.04    0.00 9295176/10800231048     Particle::getX() [9]
+                0.04    0.00 9295176/3921367288     Particle::getSigma() [18]
+                0.01    0.00 9295176/13441430     Particle::~Particle() [44]
+-----------------------------------------------
+                0.00    0.00    5704/546143908     LCDomain::isBoundaryCell(ParticleContainer&) [48]
+                0.98    0.00 171125704/546143908     LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+                2.14    0.00 375012500/546143908     LCDomain::insertParticle(Particle*) [8]
+[27]     0.2    3.12    0.00 546143908         ParticleContainer::getPosition() [27]
+-----------------------------------------------
+                0.03    0.00 4179400/388453930     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                0.06    0.00 9295176/388453930     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+                2.57    0.00 374979354/388453930     Calculation::calculatePosition() [11]
+[28]     0.2    2.66    0.00 388453930         Particle::setX(utils::Vector<double, 3>&) [28]
+-----------------------------------------------
+                0.00    0.00  375000/379500608     Thermostat::multiply(double) [43]
+                2.40    0.00 379125608/379500608     Calculation::calculateVelocity() [14]
+[29]     0.1    2.40    0.00 379500608         Particle::setV(utils::Vector<double, 3>&) [29]
+-----------------------------------------------
+                2.10    0.00 375012500/375012500     Calculation::resetForce() [15]
+[30]     0.1    2.10    0.00 375012500         Particle::setF(utils::Vector<double, 3>&) [30]
+-----------------------------------------------
+                1.89    0.00 171125704/171125704     LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+[31]     0.1    1.89    0.00 171125704         LCDomain::checkBounds(std::vector<int, std::allocator<int> >&) [31]
+-----------------------------------------------
+                                                 <spontaneous>
+[32]     0.1    1.81    0.00                 std::vector<int, std::allocator<int> >::operator=(std::vector<int, std::allocator<int> > const&) [32]
+-----------------------------------------------
+                                                 <spontaneous>
+[33]     0.1    0.07    1.26                 BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                0.96    0.00 9699400/1413751549     ParticleContainer::nextParticle(int*) [4]
+                0.12    0.00 4146254/13441430     Particle::Particle(Particle const&) [40]
+                0.05    0.02 4146254/379158754     ParticleContainer::setParticle(Particle*) [23]
+                0.03    0.00 4179400/4212775980     Particle::getType() [12]
+                0.03    0.00 4179400/388453930     Particle::setX(utils::Vector<double, 3>&) [28]
+                0.02    0.00 4146254/4146254     LCDomain::addHaloParticle(Particle*) [45]
+                0.02    0.00 4179400/10800231048     Particle::getX() [9]
+                0.01    0.00 2760000/173880000     ParticleContainer::clearParticles() [39]
+                0.01    0.00 4179400/346430808     LCDomain::getCutOffRadius() [38]
+                0.00    0.00 4146254/4158754     Particle::setType(int) [60]
+-----------------------------------------------
+                0.69    0.56 9295176/9295176     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+[34]     0.1    0.69    0.56 9295176         Sheet3Calc::calculateSingleForce(Particle*, Particle*) [34]
+                0.26    0.00 9295176/4256918360     Particle::addOnF(utils::Vector<double, 3>&) [5]
+                0.15    0.00 37180704/10800231048     Particle::getX() [9]
+                0.07    0.00 18590352/3921367288     Particle::getSigma() [18]
+                0.07    0.00 9295176/3902776936     Particle::getEpsilon() [13]
+-----------------------------------------------
+                0.00    0.00   12500/755317462     MaxwellBoltzmannDistribution(Particle&, double, int) [52]
+                0.00    0.00   37500/755317462     outputWriter::VTKWriter::plotParticle(Particle&) [47]
+                0.00    0.00   37500/755317462     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.00    0.00  375000/755317462     Thermostat::multiply(double) [43]
+                0.00    0.00  750000/755317462     Thermostat::getEkin() [42]
+                0.56    0.00 374979354/755317462     Calculation::calculatePosition() [11]
+                0.56    0.00 379125608/755317462     Calculation::calculateVelocity() [14]
+[35]     0.1    1.12    0.00 755317462         Particle::getV() [35]
+-----------------------------------------------
+                                                 <spontaneous>
+[36]     0.1    1.09    0.00                 BoundaryCondition::apply() [36]
+-----------------------------------------------
+                0.00    0.00   37500/379200608     outputWriter::VTKWriter::plotParticle(Particle&) [47]
+                0.00    0.00   37500/379200608     outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.66    0.00 379125608/379200608     Calculation::calculateVelocity() [14]
+[37]     0.0    0.66    0.00 379200608         Particle::getOldF() [37]
+-----------------------------------------------
+                0.01    0.00 4179400/346430808     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                0.51    0.00 342251408/346430808     Sheet3Calc::calculateForce() [2]
+[38]     0.0    0.52    0.00 346430808         LCDomain::getCutOffRadius() [38]
+-----------------------------------------------
+                0.01    0.00 2760000/173880000     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                0.50    0.00 171120000/173880000     LCDomain::reset() [6]
+[39]     0.0    0.51    0.00 173880000         ParticleContainer::clearParticles() [39]
+-----------------------------------------------
+                0.12    0.00 4146254/13441430     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+                0.28    0.00 9295176/13441430     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+[40]     0.0    0.40    0.00 13441430         Particle::Particle(Particle const&) [40]
+-----------------------------------------------
+                                                 <spontaneous>
+[41]     0.0    0.09    0.12                 BoundaryCondition::applySwitch(int, std::vector<int, std::allocator<int> >&, int, bool) [41]
+                0.12    0.00 12960000/1897617116     LCDomain::getCellAt(std::vector<int, std::allocator<int> >&) [17]
+-----------------------------------------------
+                                                 <spontaneous>
+[42]     0.0    0.01    0.11                 Thermostat::getEkin() [42]
+                0.11    0.00 1092240/1413751549     ParticleContainer::nextParticle(int*) [4]
+                0.00    0.00  750000/755317462     Particle::getV() [35]
+                0.00    0.00      30/120066      LCDomain::getCells() [63]
+                0.00    0.00      30/120066      LCDomain::getNumberOfCells() [62]
+-----------------------------------------------
+                                                 <spontaneous>
+[43]     0.0    0.01    0.06                 Thermostat::multiply(double) [43]
+                0.05    0.00  546120/1413751549     ParticleContainer::nextParticle(int*) [4]
+                0.00    0.00  375000/379500608     Particle::setV(utils::Vector<double, 3>&) [29]
+                0.00    0.00  375000/755317462     Particle::getV() [35]
+                0.00    0.00      30/120066      LCDomain::getNumberOfCells() [62]
+                0.00    0.00      30/120066      LCDomain::getCells() [63]
+-----------------------------------------------
+                0.01    0.00 4146254/13441430     LCDomain::reset() [6]
+                0.01    0.00 9295176/13441430     BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [26]
+[44]     0.0    0.02    0.00 13441430         Particle::~Particle() [44]
+-----------------------------------------------
+                0.02    0.00 4146254/4146254     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+[45]     0.0    0.02    0.00 4146254         LCDomain::addHaloParticle(Particle*) [45]
+-----------------------------------------------
+                                                 <spontaneous>
+[46]     0.0    0.01    0.00                 outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [46]
+                0.00    0.00   37500/10800231048     Particle::getX() [9]
+                0.00    0.00   37500/1129154962     Particle::getF() [25]
+                0.00    0.00   12500/4212775980     Particle::getType() [12]
+                0.00    0.00   12500/3902776936     Particle::getEpsilon() [13]
+                0.00    0.00   12500/1129109316     Particle::getM() [22]
+                0.00    0.00   37500/379200608     Particle::getOldF() [37]
+                0.00    0.00   37500/755317462     Particle::getV() [35]
+                0.00    0.00   12500/3921367288     Particle::getSigma() [18]
+-----------------------------------------------
+                                                 <spontaneous>
+[47]     0.0    0.00    0.00                 outputWriter::VTKWriter::plotParticle(Particle&) [47]
+                0.00    0.00   37500/10800231048     Particle::getX() [9]
+                0.00    0.00   12500/4212775980     Particle::getType() [12]
+                0.00    0.00   12500/1129109316     Particle::getM() [22]
+                0.00    0.00   37500/379200608     Particle::getOldF() [37]
+                0.00    0.00   37500/755317462     Particle::getV() [35]
+-----------------------------------------------
+                0.00    0.00    5704/5704        LCDomain::LCDomain(std::vector<int, std::allocator<int> >*, double, double) [49]
+[48]     0.0    0.00    0.00    5704         LCDomain::isBoundaryCell(ParticleContainer&) [48]
+                0.00    0.00    5704/342251408     LCDomain::decodeDimensinalOrigin(int) [20]
+                0.00    0.00    5704/546143908     ParticleContainer::getPosition() [27]
+-----------------------------------------------
+                                                 <spontaneous>
+[49]     0.0    0.00    0.00                 LCDomain::LCDomain(std::vector<int, std::allocator<int> >*, double, double) [49]
+                0.00    0.00    5704/5704        LCDomain::isBoundaryCell(ParticleContainer&) [48]
+                0.00    0.00    5704/5704        ParticleContainer::ParticleContainer(int) [77]
+-----------------------------------------------
+                                                 <spontaneous>
+[50]     0.0    0.00    0.00                 VTK::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [50]
+                0.00    0.00   18204/1646677236     ParticleContainer::nextParticle() [19]
+                0.00    0.00       1/120066      LCDomain::getNumberOfCells() [62]
+                0.00    0.00       1/120066      LCDomain::getCells() [63]
+-----------------------------------------------
+                                                 <spontaneous>
+[51]     0.0    0.00    0.00                 XVF::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [51]
+                0.00    0.00   18204/1646677236     ParticleContainer::nextParticle() [19]
+                0.00    0.00       1/120066      LCDomain::getCells() [63]
+                0.00    0.00       1/120066      LCDomain::getNumberOfCells() [62]
+-----------------------------------------------
+                                                 <spontaneous>
+[52]     0.0    0.00    0.00                 MaxwellBoltzmannDistribution(Particle&, double, int) [52]
+                0.00    0.00   12500/755317462     Particle::getV() [35]
+-----------------------------------------------
+                0.00    0.00   12500/4158754     ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+                0.00    0.00 4146254/4158754     BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [33]
+[60]     0.0    0.00    0.00 4158754         Particle::setType(int) [60]
+-----------------------------------------------
+                0.00    0.00   30001/150005      Sheet3Calc::calculateForce() [2]
+                0.00    0.00  120004/150005      LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*) [10]
+[61]     0.0    0.00    0.00  150005         std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<ParticleContainer**, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> > >, ParticleContainer* const&) [61]
+-----------------------------------------------
+                0.00    0.00       1/120066      XVF::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [51]
+                0.00    0.00       1/120066      VTK::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [50]
+                0.00    0.00      30/120066      Thermostat::getEkin() [42]
+                0.00    0.00      30/120066      Thermostat::multiply(double) [43]
+                0.00    0.00   30001/120066      Calculation::calculatePosition() [11]
+                0.00    0.00   30001/120066      Calculation::calculateVelocity() [14]
+                0.00    0.00   30001/120066      Calculation::resetForce() [15]
+                0.00    0.00   30001/120066      Sheet3Calc::calculateForce() [2]
+[62]     0.0    0.00    0.00  120066         LCDomain::getNumberOfCells() [62]
+-----------------------------------------------
+                0.00    0.00       1/120066      XVF::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [51]
+                0.00    0.00       1/120066      VTK::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&) [50]
+                0.00    0.00      30/120066      Thermostat::getEkin() [42]
+                0.00    0.00      30/120066      Thermostat::multiply(double) [43]
+                0.00    0.00   30001/120066      Calculation::calculatePosition() [11]
+                0.00    0.00   30001/120066      Calculation::calculateVelocity() [14]
+                0.00    0.00   30001/120066      Calculation::resetForce() [15]
+                0.00    0.00   30001/120066      Sheet3Calc::calculateForce() [2]
+[63]     0.0    0.00    0.00  120066         LCDomain::getCells() [63]
+-----------------------------------------------
+                0.00    0.00   38004/38004       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[64]     0.0    0.00    0.00   38004         cuboid::number() const [64]
+-----------------------------------------------
+                0.00    0.00       1/30003       Calculation::setParticleContainer(ParticleContainer&) [258]
+                0.00    0.00       1/30003       Plotter::setParticleContainer(ParticleContainer&) [750]
+                0.00    0.00   30001/30003       LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&) [7]
+[65]     0.0    0.00    0.00   30003         std::vector<Particle*, std::allocator<Particle*> >::operator=(std::vector<Particle*, std::allocator<Particle*> > const&) [65]
+-----------------------------------------------
+                0.00    0.00   25250/25250       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[66]     0.0    0.00    0.00   25250         cuboid::distance() const [66]
+-----------------------------------------------
+                0.00    0.00   25250/25250       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[67]     0.0    0.00    0.00   25250         cuboid::position() const [67]
+-----------------------------------------------
+                0.00    0.00   25001/25001       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[68]     0.0    0.00    0.00   25001         vectorI::z() const [68]
+-----------------------------------------------
+                0.00    0.00   12751/12751       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[69]     0.0    0.00    0.00   12751         vectorI::y() const [69]
+-----------------------------------------------
+                0.00    0.00       1/12501       Thermostat::Thermostat(LCDomain*, std::auto_ptr<input_t>&) [248]
+                0.00    0.00   12500/12501       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[70]     0.0    0.00    0.00   12501         input_t::dimensions() [70]
+-----------------------------------------------
+                0.00    0.00   12501/12501       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[71]     0.0    0.00    0.00   12501         vectorF::y() const [71]
+-----------------------------------------------
+                0.00    0.00   12501/12501       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[72]     0.0    0.00    0.00   12501         vectorF::z() const [72]
+-----------------------------------------------
+                0.00    0.00   12500/12500       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[73]     0.0    0.00    0.00   12500         Particle::setEpsilon(double) [73]
+-----------------------------------------------
+                0.00    0.00   12500/12500       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[74]     0.0    0.00    0.00   12500         Particle::setSigma(double) [74]
+-----------------------------------------------
+                0.00    0.00   12500/12500       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[75]     0.0    0.00    0.00   12500         Particle::Particle(utils::Vector<double, 3>, utils::Vector<double, 3>, double, int) [75]
+-----------------------------------------------
+                0.00    0.00   12500/12500       ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[76]     0.0    0.00    0.00   12500         cuboid::mass() const [76]
+-----------------------------------------------
+                0.00    0.00    5704/5704        LCDomain::LCDomain(std::vector<int, std::allocator<int> >*, double, double) [49]
+[77]     0.0    0.00    0.00    5704         ParticleContainer::ParticleContainer(int) [77]
+-----------------------------------------------
+                0.00    0.00     252/252         ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[78]     0.0    0.00    0.00     252         vectorI::x() const [78]
+-----------------------------------------------
+                0.00    0.00     251/251         ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[79]     0.0    0.00    0.00     251         vectorF::x() const [79]
+-----------------------------------------------
+                0.00    0.00       1/170         LinkedCellDomain::~LinkedCellDomain() [137]
+                0.00    0.00       1/170         boundaryCondition::~boundaryCondition() [147]
+                0.00    0.00       1/170         cuboid::~cuboid() [159]
+                0.00    0.00       1/170         input_t::~input_t() [790]
+                0.00    0.00       1/170         vectorI::~vectorI() [166]
+                0.00    0.00       1/170         positiveFloat::~positiveFloat() [134]
+                0.00    0.00       1/170         Thermostats::~Thermostats() [133]
+                0.00    0.00       1/170         VTKFile_t::~VTKFile_t() [867]
+                0.00    0.00       1/170         UnstructuredGrid_t::~UnstructuredGrid_t() [436]
+                0.00    0.00       2/170         PieceUnstructuredGrid_t::~PieceUnstructuredGrid_t() [471]
+                0.00    0.00       3/170         vectorF::~vectorF() [114]
+                0.00    0.00       3/170         nonNegativeFloat::~nonNegativeFloat() [111]
+                0.00    0.00       3/170         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [602]
+                0.00    0.00       3/170         Points::~Points() [654]
+                0.00    0.00       3/170         Cells::~Cells() [645]
+                0.00    0.00       3/170         PointData::~PointData() [847]
+                0.00    0.00       3/170         CellData::~CellData() [823]
+                0.00    0.00       6/170         boundary_t::~boundary_t() [101]
+                0.00    0.00      12/170         outputWriter::VTKWriter::initializeOutput(int) [310]
+                0.00    0.00      24/170         DataArray_t::~DataArray_t() [280]
+                0.00    0.00      30/170         type::~type() [636]
+                0.00    0.00      66/170         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [85]
+[80]     0.0    0.00    0.00     170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       1/157         input(xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument>&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [126]
+                0.00    0.00       1/157         xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [155]
+                0.00    0.00       3/157         vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165]
+                0.00    0.00       3/157         LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       3/157         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [602]
+                0.00    0.00       5/157         boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       5/157         Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+                0.00    0.00       9/157         vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+                0.00    0.00      11/157         vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00      12/157         boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+                0.00    0.00      13/157         cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+                0.00    0.00      25/157         input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00      66/157         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [85]
+[81]     0.0    0.00    0.00     157         _init [81]
+-----------------------------------------------
+                0.00    0.00       1/132         UnstructuredGrid_t::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [903]
+                0.00    0.00       2/132         PieceUnstructuredGrid_t::PieceUnstructuredGrid_t(PieceUnstructuredGrid_t const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [469]
+                0.00    0.00       3/132         Points::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [939]
+                0.00    0.00       3/132         CellData::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [973]
+                0.00    0.00       3/132         Cells::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [937]
+                0.00    0.00       3/132         PointData::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [975]
+                0.00    0.00      24/132         DataArray_t::DataArray_t(DataArray_t const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [279]
+                0.00    0.00      30/132         type::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [935]
+                0.00    0.00      63/132         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [86]
+[82]     0.0    0.00    0.00     132         xsd::cxx::tree::_type::_type(xsd::cxx::tree::_type const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [82]
+-----------------------------------------------
+                0.00    0.00      41/92          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00      51/92          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::xml::transcode<char>(unsigned short const*) [88]
+[83]     0.0    0.00    0.00      92         xsd::cxx::xml::char_utf8_transcoder<char>::to(unsigned short const*, unsigned long) [83]
+-----------------------------------------------
+                0.00    0.00       1/78          xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument> xsd::cxx::xml::dom::parse<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, xercesc_3_1::DOMErrorHandler&, xsd::cxx::xml::properties<char> const&, unsigned long) [149]
+                0.00    0.00       1/78          bool xsd::cxx::xml::dom::serialize<char>(xercesc_3_1::XMLFormatTarget&, xercesc_3_1::DOMDocument const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, xercesc_3_1::DOMErrorHandler&, unsigned long) [506]
+                0.00    0.00       1/78          xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument> xsd::cxx::xml::dom::serialize<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, xsd::cxx::xml::dom::namespace_infomap<char> const&, unsigned long) [505]
+                0.00    0.00       5/78          void xercesc_3_1::operator<< <char>(xercesc_3_1::DOMElement&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [308]
+                0.00    0.00      12/78          xercesc_3_1::DOMElement& xsd::cxx::xml::dom::create_element<char>(char const*, xercesc_3_1::DOMElement&) [490]
+                0.00    0.00      29/78          xercesc_3_1::DOMAttr& xsd::cxx::xml::dom::create_attribute<char>(char const*, xercesc_3_1::DOMElement&) [491]
+                0.00    0.00      29/78          void xercesc_3_1::operator<< <char>(xercesc_3_1::DOMAttr&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [309]
+[84]     0.0    0.00    0.00      78         xsd::cxx::xml::char_utf8_transcoder<char>::from(char const*, unsigned long) [84]
+-----------------------------------------------
+                0.00    0.00       3/66          input_t::~input_t() [164]
+                0.00    0.00       3/66          VTKFile_t::~VTKFile_t() [868]
+                0.00    0.00      60/66          DataArray_t::~DataArray_t() [281]
+[85]     0.0    0.00    0.00      66         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [85]
+                0.00    0.00      66/170         xsd::cxx::tree::_type::~_type() [80]
+                0.00    0.00      66/157         _init [81]
+-----------------------------------------------
+                0.00    0.00       3/63          VTKFile_t::VTKFile_t(xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> > const&) [865]
+                0.00    0.00      12/63          DataArray_t::DataArray_t(type const&, xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> > const&, long long const&) [276]
+                0.00    0.00      48/63          DataArray_t::DataArray_t(DataArray_t const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [279]
+[86]     0.0    0.00    0.00      63         xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [86]
+                0.00    0.00      63/132         xsd::cxx::tree::_type::_type(xsd::cxx::tree::_type const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [82]
+-----------------------------------------------
+                0.00    0.00       1/51          input(xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument>&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [126]
+                0.00    0.00       1/51          VTKFile(xercesc_3_1::DOMDocument&, VTKFile_t const&, xsd::cxx::tree::flags) [208]
+                0.00    0.00       2/51          LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       3/51          vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165]
+                0.00    0.00       5/51          Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+                0.00    0.00       6/51          boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+                0.00    0.00       8/51          cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+                0.00    0.00       9/51          vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+                0.00    0.00      16/51          input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[87]     0.0    0.00    0.00      51         xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00      51/51          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::xml::transcode<char>(unsigned short const*) [88]
+-----------------------------------------------
+                0.00    0.00      51/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+[88]     0.0    0.00    0.00      51         std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::xml::transcode<char>(unsigned short const*) [88]
+                0.00    0.00      51/92          xsd::cxx::xml::char_utf8_transcoder<char>::to(unsigned short const*, unsigned long) [83]
+-----------------------------------------------
+                0.00    0.00       1/41          LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       1/41          xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [155]
+                0.00    0.00       5/41          boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       5/41          cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+                0.00    0.00       6/41          boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+                0.00    0.00      11/41          vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00      12/41          input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[89]     0.0    0.00    0.00      41         std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00      41/92          xsd::cxx::xml::char_utf8_transcoder<char>::to(unsigned short const*, unsigned long) [83]
+-----------------------------------------------
+                0.00    0.00       1/38          input_t::sphere(xsd::cxx::tree::sequence<sphere, false> const&) [162]
+                0.00    0.00       3/38          xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       4/38          input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00       5/38          xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       6/38          boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       6/38          boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+                0.00    0.00      13/38          vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+[90]     0.0    0.00    0.00      38         xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+-----------------------------------------------
+                0.00    0.00       1/35          input_t::sphere(xsd::cxx::tree::sequence<sphere, false> const&) [162]
+                0.00    0.00       1/35          input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00       3/35          xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       5/35          xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       6/35          boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       6/35          boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+                0.00    0.00      13/35          vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+[91]     0.0    0.00    0.00      35         xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+-----------------------------------------------
+                0.00    0.00       1/18          Cells::~Cells() [646]
+                0.00    0.00       1/18          Points::~Points() [655]
+                0.00    0.00       1/18          CellData::~CellData() [824]
+                0.00    0.00       1/18          PointData::~PointData() [848]
+                0.00    0.00       2/18          input_t::~input_t() [164]
+                0.00    0.00       3/18          Points::~Points() [654]
+                0.00    0.00       3/18          Cells::~Cells() [645]
+                0.00    0.00       3/18          PointData::~PointData() [847]
+                0.00    0.00       3/18          CellData::~CellData() [823]
+[92]     0.0    0.00    0.00      18         std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::~vector() [92]
+                0.00    0.00       1/1           cuboid::~cuboid() [159]
+-----------------------------------------------
+                                  11             vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00       2/13          Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+                0.00    0.00       2/13          input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00       9/13          vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+[93]     0.0    0.00    0.00      13+11      vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00      13/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00      13/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+                0.00    0.00      11/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00      11/157         _init [81]
+                                  11             vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+-----------------------------------------------
+                0.00    0.00       3/12          vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165]
+                0.00    0.00       9/12          vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+[94]     0.0    0.00    0.00      12         xsd::cxx::xml::dom::parser<char>::next_element() [94]
+-----------------------------------------------
+                0.00    0.00       3/12          Points::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [939]
+                0.00    0.00       3/12          CellData::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [973]
+                0.00    0.00       3/12          Cells::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [937]
+                0.00    0.00       3/12          PointData::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const [975]
+[95]     0.0    0.00    0.00      12         xsd::cxx::tree::sequence_common::sequence_common(xsd::cxx::tree::sequence_common const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [95]
+                0.00    0.00      12/12          std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::reserve(unsigned long) [96]
+-----------------------------------------------
+                0.00    0.00      12/12          xsd::cxx::tree::sequence_common::sequence_common(xsd::cxx::tree::sequence_common const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [95]
+[96]     0.0    0.00    0.00      12         std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::reserve(unsigned long) [96]
+-----------------------------------------------
+                0.00    0.00       1/9           boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [146]
+                0.00    0.00       1/9           Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [132]
+                0.00    0.00       1/9           LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       1/9           LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [136]
+                0.00    0.00       1/9           cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [158]
+                0.00    0.00       1/9           input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [163]
+                0.00    0.00       3/9           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[97]     0.0    0.00    0.00       9         void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+-----------------------------------------------
+                0.00    0.00       3/8           xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       5/8           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+[98]     0.0    0.00    0.00       8         xsd::cxx::zc_istream<char>::~zc_istream() [98]
+-----------------------------------------------
+                0.00    0.00       3/8           xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       5/8           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+[99]     0.0    0.00    0.00       8         xsd::cxx::ro_string<char>::compare(char const*) const [99]
+-----------------------------------------------
+                                   5             boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       1/6           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00       2/6           Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+                0.00    0.00       3/6           vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165]
+[100]    0.0    0.00    0.00       6+5       boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       6/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00       6/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+                0.00    0.00       5/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00       5/157         _init [81]
+                                   5             boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+-----------------------------------------------
+                0.00    0.00       6/6           boundaryCondition::~boundaryCondition() [148]
+[101]    0.0    0.00    0.00       6         boundary_t::~boundary_t() [101]
+                0.00    0.00       6/170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       1/6           boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [146]
+                0.00    0.00       1/6           Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [132]
+                0.00    0.00       1/6           LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [136]
+                0.00    0.00       1/6           cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [158]
+                0.00    0.00       1/6           input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [163]
+                0.00    0.00       1/6           xsd::cxx::tree::traits<positiveFloat, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [154]
+[102]    0.0    0.00    0.00       6         xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+-----------------------------------------------
+                0.00    0.00       6/6           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[103]    0.0    0.00    0.00       6         input_t::boundaryCondition() [103]
+-----------------------------------------------
+                0.00    0.00       6/6           ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[104]    0.0    0.00    0.00       6         input_t::cuboid() [104]
+-----------------------------------------------
+                0.00    0.00       6/6           std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_insert_aux(__gnu_cxx::__normal_iterator<xsd::cxx::tree::sequence_common::ptr*, std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> > >, xsd::cxx::tree::sequence_common::ptr const&) [106]
+[105]    0.0    0.00    0.00       6         std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_check_len(unsigned long, char const*) const [105]
+-----------------------------------------------
+                0.00    0.00       1/6           xsd::cxx::tree::sequence<cuboid, false>::push_back(std::auto_ptr<cuboid>) [156]
+                0.00    0.00       5/6           outputWriter::VTKWriter::initializeOutput(int) [310]
+[106]    0.0    0.00    0.00       6         std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_insert_aux(__gnu_cxx::__normal_iterator<xsd::cxx::tree::sequence_common::ptr*, std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> > >, xsd::cxx::tree::sequence_common::ptr const&) [106]
+                0.00    0.00       6/6           std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_check_len(unsigned long, char const*) const [105]
+-----------------------------------------------
+                0.00    0.00       5/5           void xercesc_3_1::operator<< <char>(xercesc_3_1::DOMElement&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [308]
+[107]    0.0    0.00    0.00       5         xsd::cxx::auto_array<unsigned short, xsd::cxx::std_deallocator<unsigned short> >::~auto_array() [107]
+-----------------------------------------------
+                0.00    0.00       5/5           boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+[108]    0.0    0.00    0.00       5         xsd::cxx::tree::one<boundary_t, false>::set(std::auto_ptr<boundary_t>) [108]
+-----------------------------------------------
+                0.00    0.00       1/5           LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       1/5           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00       1/5           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [155]
+                0.00    0.00       2/5           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[109]    0.0    0.00    0.00       5         xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       5/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00       5/8           xsd::cxx::ro_string<char>::compare(char const*) const [99]
+                0.00    0.00       5/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+                0.00    0.00       5/8           xsd::cxx::zc_istream<char>::~zc_istream() [98]
+-----------------------------------------------
+                0.00    0.00       4/4           Thermostat::Thermostat(LCDomain*, std::auto_ptr<input_t>&) [248]
+[110]    0.0    0.00    0.00       4         input_t::Thermostats() [110]
+-----------------------------------------------
+                0.00    0.00       1/3           LinkedCellDomain::~LinkedCellDomain() [138]
+                0.00    0.00       2/3           cuboid::~cuboid() [160]
+[111]    0.0    0.00    0.00       3         nonNegativeFloat::~nonNegativeFloat() [111]
+                0.00    0.00       3/170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       1/3           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00       2/3           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[112]    0.0    0.00    0.00       3         xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       3/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00       3/8           xsd::cxx::ro_string<char>::compare(char const*) const [99]
+                0.00    0.00       3/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+                0.00    0.00       3/8           xsd::cxx::zc_istream<char>::~zc_istream() [98]
+-----------------------------------------------
+                0.00    0.00       1/3           LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       2/3           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[113]    0.0    0.00    0.00       3         vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+                0.00    0.00       9/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       9/13          vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00       9/12          xsd::cxx::xml::dom::parser<char>::next_element() [94]
+                0.00    0.00       9/157         _init [81]
+-----------------------------------------------
+                0.00    0.00       1/3           LinkedCellDomain::~LinkedCellDomain() [138]
+                0.00    0.00       2/3           cuboid::~cuboid() [160]
+[114]    0.0    0.00    0.00       3         vectorF::~vectorF() [114]
+                0.00    0.00       3/170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       3/3           ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[115]    0.0    0.00    0.00       3         cuboid::velocity() const [115]
+-----------------------------------------------
+                0.00    0.00       2/2           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[116]    0.0    0.00    0.00       2         xsd::cxx::tree::one<nonNegativeFloat, false>::set(std::auto_ptr<nonNegativeFloat>) [116]
+-----------------------------------------------
+                0.00    0.00       1/2           LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       1/2           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[117]    0.0    0.00    0.00       2         xsd::cxx::tree::one<vectorF, false>::set(std::auto_ptr<vectorF>) [117]
+-----------------------------------------------
+                0.00    0.00       2/2           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[118]    0.0    0.00    0.00       2         xsd::cxx::tree::one<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >, false>::set(std::auto_ptr<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> > >) [118]
+-----------------------------------------------
+                0.00    0.00       2/2           ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[119]    0.0    0.00    0.00       2         input_t::sphere() [119]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [1058]
+[120]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN8ParticleC2Ei [120]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [1058]
+[121]    0.0    0.00    0.00       1         _GLOBAL__sub_I_loggerCalc [121]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [1058]
+[122]    0.0    0.00    0.00       1         _GLOBAL__sub_I_loggerDomain [122]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [1058]
+[123]    0.0    0.00    0.00       1         _GLOBAL__sub_I_loggerPC [123]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [1058]
+[124]    0.0    0.00    0.00       1         _GLOBAL__sub_I_loggerPG [124]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [1058]
+[125]    0.0    0.00    0.00       1         _GLOBAL__sub_I_start_time [125]
+-----------------------------------------------
+                0.00    0.00       1/1           input(std::string const&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [191]
+[126]    0.0    0.00    0.00       1         input(xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument>&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [126]
+                0.00    0.00       1/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       1/1           input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [163]
+                0.00    0.00       1/157         _init [81]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostat::Thermostat(LCDomain*, std::auto_ptr<input_t>&) [248]
+[127]    0.0    0.00    0.00       1         Thermostats::delta_temp() [127]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostat::Thermostat(LCDomain*, std::auto_ptr<input_t>&) [248]
+[128]    0.0    0.00    0.00       1         Thermostats::target_temp() [128]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostat::Thermostat(LCDomain*, std::auto_ptr<input_t>&) [248]
+[129]    0.0    0.00    0.00       1         Thermostats::initial_temp() [129]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostat::Thermostat(LCDomain*, std::auto_ptr<input_t>&) [248]
+[130]    0.0    0.00    0.00       1         Thermostats::applied_after() [130]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [132]
+[131]    0.0    0.00    0.00       1         Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+                0.00    0.00       5/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       5/157         _init [81]
+                0.00    0.00       2/13          vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00       2/6           boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       1/1           xsd::cxx::tree::traits<positiveFloat, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [154]
+                0.00    0.00       1/1           xsd::cxx::tree::one<positiveFloat, false>::set(std::auto_ptr<positiveFloat>) [150]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[132]    0.0    0.00    0.00       1         Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [132]
+                0.00    0.00       1/6           xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+                0.00    0.00       1/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       1/1           Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::~input_t() [164]
+[133]    0.0    0.00    0.00       1         Thermostats::~Thermostats() [133]
+                0.00    0.00       1/1           positiveFloat::~positiveFloat() [134]
+                0.00    0.00       1/170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostats::~Thermostats() [133]
+[134]    0.0    0.00    0.00       1         positiveFloat::~positiveFloat() [134]
+                0.00    0.00       1/170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       1/1           LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [136]
+[135]    0.0    0.00    0.00       1         LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+                0.00    0.00       3/157         _init [81]
+                0.00    0.00       2/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       1/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00       1/5           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       1/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       1/3           vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+                0.00    0.00       1/2           xsd::cxx::tree::one<vectorF, false>::set(std::auto_ptr<vectorF>) [117]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[136]    0.0    0.00    0.00       1         LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [136]
+                0.00    0.00       1/6           xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+                0.00    0.00       1/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       1/1           LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [135]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::~input_t() [164]
+[137]    0.0    0.00    0.00       1         LinkedCellDomain::~LinkedCellDomain() [137]
+                0.00    0.00       1/170         xsd::cxx::tree::_type::~_type() [80]
+                0.00    0.00       1/1           LinkedCellDomain::~LinkedCellDomain() [138]
+-----------------------------------------------
+                0.00    0.00       1/1           LinkedCellDomain::~LinkedCellDomain() [137]
+[138]    0.0    0.00    0.00       1         LinkedCellDomain::~LinkedCellDomain() [138]
+                0.00    0.00       1/3           nonNegativeFloat::~nonNegativeFloat() [111]
+                0.00    0.00       1/3           vectorF::~vectorF() [114]
+-----------------------------------------------
+                0.00    0.00       1/1           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[139]    0.0    0.00    0.00       1         boundaryCondition::top() [139]
+-----------------------------------------------
+                0.00    0.00       1/1           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[140]    0.0    0.00    0.00       1         boundaryCondition::back() [140]
+-----------------------------------------------
+                0.00    0.00       1/1           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[141]    0.0    0.00    0.00       1         boundaryCondition::left() [141]
+-----------------------------------------------
+                0.00    0.00       1/1           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[142]    0.0    0.00    0.00       1         boundaryCondition::front() [142]
+-----------------------------------------------
+                0.00    0.00       1/1           boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [146]
+[143]    0.0    0.00    0.00       1         boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+                0.00    0.00      12/157         _init [81]
+                0.00    0.00       6/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       6/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00       6/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00       6/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+                0.00    0.00       5/5           xsd::cxx::tree::one<boundary_t, false>::set(std::auto_ptr<boundary_t>) [108]
+-----------------------------------------------
+                0.00    0.00       1/1           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[144]    0.0    0.00    0.00       1         boundaryCondition::right() [144]
+-----------------------------------------------
+                0.00    0.00       1/1           BoundaryCondition::BoundaryCondition(LCDomain*, std::vector<int, std::allocator<int> >, int, std::auto_ptr<input_t>&) [388]
+[145]    0.0    0.00    0.00       1         boundaryCondition::bottom() [145]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[146]    0.0    0.00    0.00       1         boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [146]
+                0.00    0.00       1/6           xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+                0.00    0.00       1/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       1/1           boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [143]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::~input_t() [164]
+[147]    0.0    0.00    0.00       1         boundaryCondition::~boundaryCondition() [147]
+                0.00    0.00       1/170         xsd::cxx::tree::_type::~_type() [80]
+                0.00    0.00       1/1           boundaryCondition::~boundaryCondition() [148]
+-----------------------------------------------
+                0.00    0.00       1/1           boundaryCondition::~boundaryCondition() [147]
+[148]    0.0    0.00    0.00       1         boundaryCondition::~boundaryCondition() [148]
+                0.00    0.00       6/6           boundary_t::~boundary_t() [101]
+-----------------------------------------------
+                0.00    0.00       1/1           input(std::string const&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [191]
+[149]    0.0    0.00    0.00       1         xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument> xsd::cxx::xml::dom::parse<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, xercesc_3_1::DOMErrorHandler&, xsd::cxx::xml::properties<char> const&, unsigned long) [149]
+                0.00    0.00       1/78          xsd::cxx::xml::char_utf8_transcoder<char>::from(char const*, unsigned long) [84]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+[150]    0.0    0.00    0.00       1         xsd::cxx::tree::one<positiveFloat, false>::set(std::auto_ptr<positiveFloat>) [150]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[151]    0.0    0.00    0.00       1         xsd::cxx::tree::one<LinkedCellDomain, false>::set(std::auto_ptr<LinkedCellDomain>) [151]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[152]    0.0    0.00    0.00       1         xsd::cxx::tree::one<boundaryCondition, false>::set(std::auto_ptr<boundaryCondition>) [152]
+-----------------------------------------------
+                0.00    0.00       1/1           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[153]    0.0    0.00    0.00       1         xsd::cxx::tree::one<vectorI, false>::set(std::auto_ptr<vectorI>) [153]
+-----------------------------------------------
+                0.00    0.00       1/1           Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [131]
+[154]    0.0    0.00    0.00       1         xsd::cxx::tree::traits<positiveFloat, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [154]
+                0.00    0.00       1/6           xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+                0.00    0.00       1/1           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [155]
+-----------------------------------------------
+                0.00    0.00       1/1           xsd::cxx::tree::traits<positiveFloat, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [154]
+[155]    0.0    0.00    0.00       1         xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [155]
+                0.00    0.00       1/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00       1/5           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       1/157         _init [81]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[156]    0.0    0.00    0.00       1         xsd::cxx::tree::sequence<cuboid, false>::push_back(std::auto_ptr<cuboid>) [156]
+                0.00    0.00       1/6           std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_insert_aux(__gnu_cxx::__normal_iterator<xsd::cxx::tree::sequence_common::ptr*, std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> > >, xsd::cxx::tree::sequence_common::ptr const&) [106]
+-----------------------------------------------
+                0.00    0.00       1/1           cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [158]
+[157]    0.0    0.00    0.00       1         cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+                0.00    0.00      13/157         _init [81]
+                0.00    0.00       8/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       5/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00       3/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       2/5           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       2/3           vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [113]
+                0.00    0.00       2/3           xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       2/2           xsd::cxx::tree::one<nonNegativeFloat, false>::set(std::auto_ptr<nonNegativeFloat>) [116]
+                0.00    0.00       1/1           vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165]
+                0.00    0.00       1/1           input_t::sphere(xsd::cxx::tree::sequence<sphere, false> const&) [162]
+                0.00    0.00       1/2           xsd::cxx::tree::one<vectorF, false>::set(std::auto_ptr<vectorF>) [117]
+                0.00    0.00       1/1           xsd::cxx::tree::one<vectorI, false>::set(std::auto_ptr<vectorI>) [153]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+[158]    0.0    0.00    0.00       1         cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [158]
+                0.00    0.00       1/6           xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+                0.00    0.00       1/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       1/1           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::~vector() [92]
+[159]    0.0    0.00    0.00       1         cuboid::~cuboid() [159]
+                0.00    0.00       1/170         xsd::cxx::tree::_type::~_type() [80]
+                0.00    0.00       1/1           cuboid::~cuboid() [160]
+-----------------------------------------------
+                0.00    0.00       1/1           cuboid::~cuboid() [159]
+[160]    0.0    0.00    0.00       1         cuboid::~cuboid() [160]
+                0.00    0.00       2/3           vectorF::~vectorF() [114]
+                0.00    0.00       2/3           nonNegativeFloat::~nonNegativeFloat() [111]
+                0.00    0.00       1/1           vectorI::~vectorI() [166]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [163]
+[161]    0.0    0.00    0.00       1         input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+                0.00    0.00      25/157         _init [81]
+                0.00    0.00      16/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00      12/41          std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [89]
+                0.00    0.00       4/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00       2/13          vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [93]
+                0.00    0.00       2/2           xsd::cxx::tree::one<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >, false>::set(std::auto_ptr<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> > >) [118]
+                0.00    0.00       1/1           cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [158]
+                0.00    0.00       1/1           xsd::cxx::tree::sequence<cuboid, false>::push_back(std::auto_ptr<cuboid>) [156]
+                0.00    0.00       1/3           xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112]
+                0.00    0.00       1/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+                0.00    0.00       1/6           boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       1/1           boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [146]
+                0.00    0.00       1/1           LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [136]
+                0.00    0.00       1/5           xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [109]
+                0.00    0.00       1/1           Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [132]
+                0.00    0.00       1/1           xsd::cxx::tree::one<LinkedCellDomain, false>::set(std::auto_ptr<LinkedCellDomain>) [151]
+                0.00    0.00       1/1           xsd::cxx::tree::one<boundaryCondition, false>::set(std::auto_ptr<boundaryCondition>) [152]
+-----------------------------------------------
+                0.00    0.00       1/1           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[162]    0.0    0.00    0.00       1         input_t::sphere(xsd::cxx::tree::sequence<sphere, false> const&) [162]
+                0.00    0.00       1/38          xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [90]
+                0.00    0.00       1/35          xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [91]
+-----------------------------------------------
+                0.00    0.00       1/1           input(xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument>&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [126]
+[163]    0.0    0.00    0.00       1         input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [163]
+                0.00    0.00       1/6           xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [102]
+                0.00    0.00       1/9           void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [97]
+                0.00    0.00       1/1           input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [161]
+-----------------------------------------------
+                0.00    0.00       1/1           input_t::~input_t() [790]
+[164]    0.0    0.00    0.00       1         input_t::~input_t() [164]
+                0.00    0.00       3/66          xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [85]
+                0.00    0.00       2/18          std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::~vector() [92]
+                0.00    0.00       1/1           Thermostats::~Thermostats() [133]
+                0.00    0.00       1/1           LinkedCellDomain::~LinkedCellDomain() [137]
+                0.00    0.00       1/1           boundaryCondition::~boundaryCondition() [147]
+-----------------------------------------------
+                0.00    0.00       1/1           cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [157]
+[165]    0.0    0.00    0.00       1         vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165]
+                0.00    0.00       3/51          xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [87]
+                0.00    0.00       3/6           boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [100]
+                0.00    0.00       3/12          xsd::cxx::xml::dom::parser<char>::next_element() [94]
+                0.00    0.00       3/157         _init [81]
+-----------------------------------------------
+                0.00    0.00       1/1           cuboid::~cuboid() [160]
+[166]    0.0    0.00    0.00       1         vectorI::~vectorI() [166]
+                0.00    0.00       1/170         xsd::cxx::tree::_type::~_type() [80]
+-----------------------------------------------
+                0.00    0.00       1/1           ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[167]    0.0    0.00    0.00       1         cuboid::type() const [167]
+-----------------------------------------------
+                0.00    0.00       1/1           ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[168]    0.0    0.00    0.00       1         cuboid::sigma() const [168]
+-----------------------------------------------
+                0.00    0.00       1/1           ParticleGenerator::readFile(int*, std::auto_ptr<input_t>&) [410]
+[169]    0.0    0.00    0.00       1         cuboid::epsilon() const [169]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+ [120] _GLOBAL__sub_I__ZN8ParticleC2Ei (Particle.cpp) [98] xsd::cxx::zc_istream<char>::~zc_istream() [7] LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&)
+ [121] _GLOBAL__sub_I_loggerCalc (Calculation.cpp) [83] xsd::cxx::xml::char_utf8_transcoder<char>::to(unsigned short const*, unsigned long) [62] LCDomain::getNumberOfCells()
+ [122] _GLOBAL__sub_I_loggerDomain (LCDomain.cpp) [84] xsd::cxx::xml::char_utf8_transcoder<char>::from(char const*, unsigned long) [10] LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*)
+ [123] _GLOBAL__sub_I_loggerPC (ParticleContainer.cpp) [87] xsd::cxx::xml::qualified_name<char> xsd::cxx::xml::dom::name<char>(xercesc_3_1::DOMElement const&) [20] LCDomain::decodeDimensinalOrigin(int)
+ [124] _GLOBAL__sub_I_loggerPG (ParticleGenerator.cpp) [149] xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument> xsd::cxx::xml::dom::parse<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, xercesc_3_1::DOMErrorHandler&, xsd::cxx::xml::properties<char> const&, unsigned long) [6] LCDomain::reset()
+ [125] _GLOBAL__sub_I_start_time (MolSim.cpp) [94] xsd::cxx::xml::dom::parser<char>::next_element() [63] LCDomain::getCells()
+ [126] input(xsd::cxx::xml::dom::auto_ptr<xercesc_3_1::DOMDocument>&, xsd::cxx::tree::flags, xsd::cxx::tree::properties<char> const&) [88] std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::xml::transcode<char>(unsigned short const*) [17] LCDomain::getCellAt(std::vector<int, std::allocator<int> >&)
+   [1] Sheet3Calc::calculateAll() [89] std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::text_content<char>(xercesc_3_1::DOMElement const&) [13] Particle::getEpsilon()
+   [2] Sheet3Calc::calculateForce() [95] xsd::cxx::tree::sequence_common::sequence_common(xsd::cxx::tree::sequence_common const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [73] Particle::setEpsilon(double)
+  [34] Sheet3Calc::calculateSingleForce(Particle*, Particle*) [108] xsd::cxx::tree::one<boundary_t, false>::set(std::auto_ptr<boundary_t>) [3] Particle::getDistanceToSq(Particle*)
+  [42] Thermostat::getEkin() [150] xsd::cxx::tree::one<positiveFloat, false>::set(std::auto_ptr<positiveFloat>) [25] Particle::getF()
+  [43] Thermostat::multiply(double) [151] xsd::cxx::tree::one<LinkedCellDomain, false>::set(std::auto_ptr<LinkedCellDomain>) [22] Particle::getM()
+ [100] boundary_t::boundary_t(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [116] xsd::cxx::tree::one<nonNegativeFloat, false>::set(std::auto_ptr<nonNegativeFloat>) [35] Particle::getV()
+ [101] boundary_t::~boundary_t() [152] xsd::cxx::tree::one<boundaryCondition, false>::set(std::auto_ptr<boundaryCondition>) [9] Particle::getX()
+  [15] Calculation::resetForce() [117] xsd::cxx::tree::one<vectorF, false>::set(std::auto_ptr<vectorF>) [30] Particle::setF(utils::Vector<double, 3>&)
+  [11] Calculation::calculatePosition() [153] xsd::cxx::tree::one<vectorI, false>::set(std::auto_ptr<vectorI>) [29] Particle::setV(utils::Vector<double, 3>&)
+  [14] Calculation::calculateVelocity() [118] xsd::cxx::tree::one<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >, false>::set(std::auto_ptr<xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> > >) [28] Particle::setX(utils::Vector<double, 3>&)
+ [127] Thermostats::delta_temp() [102] xsd::cxx::tree::_type::_type(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [5] Particle::addOnF(utils::Vector<double, 3>&)
+ [128] Thermostats::target_temp() [82] xsd::cxx::tree::_type::_type(xsd::cxx::tree::_type const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [37] Particle::getOldF()
+ [129] Thermostats::initial_temp() [80] xsd::cxx::tree::_type::~_type() [12] Particle::getType()
+ [130] Thermostats::applied_after() [85] xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::~string() [21] Particle::setOldF(utils::Vector<double, 3>&)
+ [131] Thermostats::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [154] xsd::cxx::tree::traits<positiveFloat, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [60] Particle::setType(int)
+ [132] Thermostats::Thermostats(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [112] xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [18] Particle::getSigma()
+ [133] Thermostats::~Thermostats() [155] xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [74] Particle::setSigma(double)
+  [46] outputWriter::XVFWriter::writeFile(std::vector<Particle*, std::allocator<Particle*> >, std::string const&, std::vector<double, std::allocator<double> >&) [109] xsd::cxx::tree::traits<float, char, (xsd::cxx::tree::schema_type::value)0>::create(std::string const&, xercesc_3_1::DOMElement const*, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [40] Particle::Particle(Particle const&)
+ [134] positiveFloat::~positiveFloat() [156] xsd::cxx::tree::sequence<cuboid, false>::push_back(std::auto_ptr<cuboid>) [75] Particle::Particle(utils::Vector<double, 3>, utils::Vector<double, 3>, double, int)
+ [135] LinkedCellDomain::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [90] xsd::cxx::ro_string<char>::size_type xsd::cxx::trim<char>(xsd::cxx::ro_string<char>&) [44] Particle::~Particle()
+ [136] LinkedCellDomain::LinkedCellDomain(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [157] cuboid::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [86] xsd::cxx::tree::string<char, xsd::cxx::tree::simple_type<xsd::cxx::tree::_type> >::_clone(xsd::cxx::tree::flags, xsd::cxx::tree::_type*) const
+ [137] LinkedCellDomain::~LinkedCellDomain() [158] cuboid::cuboid(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [99] xsd::cxx::ro_string<char>::compare(char const*) const
+ [138] LinkedCellDomain::~LinkedCellDomain() [159] cuboid::~cuboid() [76] cuboid::mass() const
+ [111] nonNegativeFloat::~nonNegativeFloat() [160] cuboid::~cuboid() [167] cuboid::type() const
+  [41] BoundaryCondition::applySwitch(int, std::vector<int, std::allocator<int> >&, int, bool) [97] void CppUnit::assertEquals<utils::Vector<double, 3> >(utils::Vector<double, 3> const&, utils::Vector<double, 3> const&, CppUnit::SourceLine, std::string const&) [168] cuboid::sigma() const
+  [33] BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool) [24] EnvInfl::getInstance() [64] cuboid::number() const
+  [26] BoundaryCondition::applyReflecting(ParticleContainer*, int, bool) [16] EnvInfl::calculateGravity(Particle*) [169] cuboid::epsilon() const
+  [36] BoundaryCondition::apply() [70] input_t::dimensions() [66] cuboid::distance() const
+  [27] ParticleContainer::getPosition() [110] input_t::Thermostats() [67] cuboid::position() const
+  [23] ParticleContainer::setParticle(Particle*) [103] input_t::boundaryCondition() [115] cuboid::velocity() const
+   [4] ParticleContainer::nextParticle(int*) [161] input_t::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [79] vectorF::x() const
+  [19] ParticleContainer::nextParticle() [104] input_t::cuboid() [71] vectorF::y() const
+  [39] ParticleContainer::clearParticles() [162] input_t::sphere(xsd::cxx::tree::sequence<sphere, false> const&) [72] vectorF::z() const
+  [77] ParticleContainer::ParticleContainer(int) [119] input_t::sphere() [78] vectorI::x() const
+ [139] boundaryCondition::top() [163] input_t::input_t(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [69] vectorI::y() const
+ [140] boundaryCondition::back() [164] input_t::~input_t() [68] vectorI::z() const
+ [141] boundaryCondition::left() [113] vectorF::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [105] std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_check_len(unsigned long, char const*) const
+ [142] boundaryCondition::front() [114] vectorF::~vectorF() [106] std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::_M_insert_aux(__gnu_cxx::__normal_iterator<xsd::cxx::tree::sequence_common::ptr*, std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> > >, xsd::cxx::tree::sequence_common::ptr const&)
+ [143] boundaryCondition::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [165] vectorI::parse(xsd::cxx::xml::dom::parser<char>&, xsd::cxx::tree::flags) [96] std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::reserve(unsigned long)
+ [144] boundaryCondition::right() [93] vectorI::vectorI(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [92] std::vector<xsd::cxx::tree::sequence_common::ptr, std::allocator<xsd::cxx::tree::sequence_common::ptr> >::~vector()
+ [145] boundaryCondition::bottom() [166] vectorI::~vectorI() [61] std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<ParticleContainer**, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> > >, ParticleContainer* const&)
+ [146] boundaryCondition::boundaryCondition(xercesc_3_1::DOMElement const&, xsd::cxx::tree::flags, xsd::cxx::tree::_type*) [31] LCDomain::checkBounds(std::vector<int, std::allocator<int> >&) [65] std::vector<Particle*, std::allocator<Particle*> >::operator=(std::vector<Particle*, std::allocator<Particle*> > const&)
+ [147] boundaryCondition::~boundaryCondition() [8] LCDomain::insertParticle(Particle*) [32] std::vector<int, std::allocator<int> >::operator=(std::vector<int, std::allocator<int> > const&)
+ [148] boundaryCondition::~boundaryCondition() [48] LCDomain::isBoundaryCell(ParticleContainer&) [81] _init
+ [107] xsd::cxx::auto_array<unsigned short, xsd::cxx::std_deallocator<unsigned short> >::~auto_array() [45] LCDomain::addHaloParticle(Particle*)
+  [91] xsd::cxx::zc_istream<char>::zc_istream(xsd::cxx::ro_string<char> const&) [38] LCDomain::getCutOffRadius()
