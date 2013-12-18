@@ -20,12 +20,7 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 
 	//calculate size of halo-border
 	//check whether the cutoff radius is an integer
-	/*
-	if((((int)cutOffRad) - cutOffRad) == 0){
-		this->haloSize = cutOffRad / cellDimension;
-	}else{
-		this->haloSize = (cutOffRad / cellDimension) + 1;
-	}*/
+
 	this->haloSize = ceil(cutOffRad / cellDimension);
 
 	this->dimension = initalBounds->size();
@@ -157,7 +152,7 @@ if(partPos[1]<0 || partPos[0] < 0 || partPos[2] != 1) {
 
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
-//std::cout << "particle size"<<parts.size()<<"\n";
+
 	for(int i = 0; i < parts.size(); i++){
 		if(parts[i]->getX()[2] != 0) {
 			std::cerr << "I :"<<i<<"unequal zero\n";

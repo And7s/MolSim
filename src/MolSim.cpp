@@ -174,7 +174,6 @@ int main(int argc, char* argsv[]) {
 	EnvInfl::getInstance()->setG(gravity);
 
 	//initiallze boundary conditions
-	//std::cout << domainSize.size();
 	boundaryCondition = new BoundaryCondition(lcDomain, domainSize, inp->dimensions(), inp);
 	
 	plotter->setParticleContainer(pc);
@@ -187,11 +186,9 @@ int main(int argc, char* argsv[]) {
 	//initially calculation of Forces
 	calculation->resetForce();
 
-	//NEW: First calculation step, so that the mean velocity is not zero
 	calculation->calculateForce();
 	calculation->calculateVelocity();
 	calculation->calculatePosition();
-	//NEW: First calculation step, so that the mean velocity is not zero
 
 	//init the thermostat
 	Thermostat* thermo = new Thermostat(lcDomain, inp);
