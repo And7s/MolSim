@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<!--
+
+input.xml
+Defines input parameter for the MolSim Project in an xml
+24-11-2013
+Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+
+-->
+
+<input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="input.xsd">
+   <gravity>-12.44</gravity>
+  <base_output_file>out</base_output_file>
+  <plot_vtk_file>true</plot_vtk_file>
+  <xvf_data_file>xvfData</xvf_data_file>
+  <plot_xvf_file>false</plot_xvf_file>
+  <use_thermostat>false</use_thermostat>
+  <frequency>40</frequency>
+  <dimensions>2</dimensions>
+  <start_time>0</start_time>
+  <tend>40</tend>
+  <delta_t>0.0005</delta_t>
+  <input_file>unused</input_file>
+  <sphere>
+    <position>
+      <x>150</x>
+      <y>150</y>
+      <z>0</z>
+    </position>
+    <radius>20</radius>
+    <distance>1.2</distance>
+    <mass>1.0</mass>
+    <epsilon>1.0</epsilon>
+    <sigma>1.0</sigma>
+    <type>2</type>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </sphere>
+
+  <boundaryCondition>
+    <left>2</left>
+    <right>2</right>
+    <bottom>1</bottom>
+    <top>1</top>
+    <front>1</front>
+    <back>1</back>
+  </boundaryCondition>
+
+  <LinkedCellDomain>
+    <dimension>
+      <x>303</x>
+      <y>180</y>
+      <z>1</z>
+    </dimension>
+    <cutoff>2.5</cutoff>
+  </LinkedCellDomain>
+  <Thermostats>
+    <initial_temp>0.5</initial_temp>
+    <applied_after>1000</applied_after>
+    <delta_temp>1000</delta_temp>
+    <changed_after>50</changed_after>
+    <target_temp>0.5</target_temp>
+  </Thermostats>
+</input>
