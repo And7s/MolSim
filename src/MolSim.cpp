@@ -52,8 +52,10 @@ std::string dataFile;
 std::vector<double>* parameters = new std::vector<double>;
 std::vector<Particle*> pa;
 std::vector<Particle*> pb;
+bool use_thermostat;
 
 BoundaryCondition* boundaryCondition;
+Thermostat* thermo;
 
 
 /**
@@ -138,6 +140,7 @@ int main(int argc, char* argsv[]) {
 			dataFile = inp->xvf_data_file();
 		}
 	}
+	use_thermostat = inp->use_thermostat();
 
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
     ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
@@ -191,8 +194,9 @@ int main(int argc, char* argsv[]) {
 	calculation->calculatePosition();
 
 	//init the thermostat
-	Thermostat* thermo = new Thermostat(lcDomain, inp);
-
+	if(use_thermostat){
+		thermo = new Thermostat(lcDomain, inp);
+	}
 	double current_time = start_time;
 	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
@@ -217,13 +221,14 @@ int main(int argc, char* argsv[]) {
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
 			startTime = getMilliCount();
 		}
-		if(iteration % inp->Thermostats().changed_after() == 0) {
-			thermo->change();
+		if(use_thermostat){
+			if(iteration % inp->Thermostats().changed_after() == 0) {
+				thermo->change();
+			}
+			if(iteration % inp->Thermostats().applied_after() == 0) {
+				thermo->apply();
+			}
 		}
-		if(iteration % inp->Thermostats().applied_after() == 0) {
-			thermo->apply();
-		}
-
 		current_time += delta_t;
 	}
 	LOG4CXX_INFO(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");

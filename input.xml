@@ -15,22 +15,23 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <base_output_file>out</base_output_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_data_file>true</plot_data_file>
+  <use_thermostat>true</use_thermostat>
   <frequency>40</frequency>
   <dimensions>2</dimensions>
   <start_time>0</start_time>
-  <tend>25</tend>
+  <tend>15</tend>
   <delta_t>0.0005</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
-      <x>0.6</x>
+      <x>1.5</x>
       <y>2</y>
       <z>0</z>
     </position>
     <number>
-      <x>50</x>
-      <y>14</y>
-      <z>1</z>
+      <x>250</x>
+      <y>50</y>
+      <z>0</z>
     </number>
     <distance>1.2</distance>
     <mass>1.0</mass>
@@ -43,6 +44,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0</z>
     </velocity>
   </cuboid>
+
   <boundaryCondition>
     <left>2</left>
     <right>2</right>
@@ -54,17 +56,17 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
   <LinkedCellDomain>
     <dimension>
-      <x>25</x>
-      <y>15</y>
+      <x>303</x>
+      <y>108</y>
       <z>1</z>
     </dimension>
     <cutoff>2.5</cutoff>
   </LinkedCellDomain>
   <Thermostats>
-    <initial_temp>40</initial_temp>
-    <applied_after>1000</applied_after>
+    <initial_temp>0.5</initial_temp>
+    <applied_after>1</applied_after>
     <delta_temp>1000</delta_temp>
     <changed_after>50</changed_after>
-    <target_temp>40</target_temp>
+    <target_temp>0.5</target_temp>
   </Thermostats>
 </input>

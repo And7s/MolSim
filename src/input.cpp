@@ -127,6 +127,24 @@ plot_data_file (const plot_data_file_type& x)
   this->plot_data_file_.set (x);
 }
 
+const input_t::use_thermostat_type& input_t::
+use_thermostat () const
+{
+  return this->use_thermostat_.get ();
+}
+
+input_t::use_thermostat_type& input_t::
+use_thermostat ()
+{
+  return this->use_thermostat_.get ();
+}
+
+void input_t::
+use_thermostat (const use_thermostat_type& x)
+{
+  this->use_thermostat_.set (x);
+}
+
 const input_t::frequency_type& input_t::
 frequency () const
 {
@@ -1138,6 +1156,7 @@ input_t (const gravity_type& gravity,
          const base_output_file_type& base_output_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_data_file_type& plot_data_file,
+         const use_thermostat_type& use_thermostat,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
          const start_time_type& start_time,
@@ -1152,6 +1171,7 @@ input_t (const gravity_type& gravity,
   base_output_file_ (base_output_file, this),
   xvf_data_file_ (xvf_data_file, this),
   plot_data_file_ (plot_data_file, this),
+  use_thermostat_ (use_thermostat, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
   start_time_ (start_time, this),
@@ -1171,6 +1191,7 @@ input_t (const gravity_type& gravity,
          const base_output_file_type& base_output_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_data_file_type& plot_data_file,
+         const use_thermostat_type& use_thermostat,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
          const start_time_type& start_time,
@@ -1185,6 +1206,7 @@ input_t (const gravity_type& gravity,
   base_output_file_ (base_output_file, this),
   xvf_data_file_ (xvf_data_file, this),
   plot_data_file_ (plot_data_file, this),
+  use_thermostat_ (use_thermostat, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
   start_time_ (start_time, this),
@@ -1208,6 +1230,7 @@ input_t (const input_t& x,
   base_output_file_ (x.base_output_file_, f, this),
   xvf_data_file_ (x.xvf_data_file_, f, this),
   plot_data_file_ (x.plot_data_file_, f, this),
+  use_thermostat_ (x.use_thermostat_, f, this),
   frequency_ (x.frequency_, f, this),
   dimensions_ (x.dimensions_, f, this),
   start_time_ (x.start_time_, f, this),
@@ -1231,6 +1254,7 @@ input_t (const ::xercesc::DOMElement& e,
   base_output_file_ (this),
   xvf_data_file_ (this),
   plot_data_file_ (this),
+  use_thermostat_ (this),
   frequency_ (this),
   dimensions_ (this),
   start_time_ (this),
@@ -1306,6 +1330,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       if (!plot_data_file_.present ())
       {
         this->plot_data_file_.set (plot_data_file_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // use_thermostat
+    //
+    if (n.name () == "use_thermostat" && n.namespace_ ().empty ())
+    {
+      if (!use_thermostat_.present ())
+      {
+        this->use_thermostat_.set (use_thermostat_traits::create (i, f, this));
         continue;
       }
     }
@@ -1474,6 +1509,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!use_thermostat_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "use_thermostat",
+      "");
+  }
+
   if (!frequency_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1555,6 +1597,7 @@ operator= (const input_t& x)
     this->base_output_file_ = x.base_output_file_;
     this->xvf_data_file_ = x.xvf_data_file_;
     this->plot_data_file_ = x.plot_data_file_;
+    this->use_thermostat_ = x.use_thermostat_;
     this->frequency_ = x.frequency_;
     this->dimensions_ = x.dimensions_;
     this->start_time_ = x.start_time_;

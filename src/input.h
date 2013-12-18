@@ -311,6 +311,20 @@ class input_t: public ::xml_schema::type
   void
   plot_data_file (const plot_data_file_type& x);
 
+  // use_thermostat
+  // 
+  typedef ::xml_schema::boolean use_thermostat_type;
+  typedef ::xsd::cxx::tree::traits< use_thermostat_type, char > use_thermostat_traits;
+
+  const use_thermostat_type&
+  use_thermostat () const;
+
+  use_thermostat_type&
+  use_thermostat ();
+
+  void
+  use_thermostat (const use_thermostat_type& x);
+
   // frequency
   // 
   typedef ::xml_schema::integer frequency_type;
@@ -489,6 +503,7 @@ class input_t: public ::xml_schema::type
            const base_output_file_type&,
            const xvf_data_file_type&,
            const plot_data_file_type&,
+           const use_thermostat_type&,
            const frequency_type&,
            const dimensions_type&,
            const start_time_type&,
@@ -503,6 +518,7 @@ class input_t: public ::xml_schema::type
            const base_output_file_type&,
            const xvf_data_file_type&,
            const plot_data_file_type&,
+           const use_thermostat_type&,
            const frequency_type&,
            const dimensions_type&,
            const start_time_type&,
@@ -543,6 +559,7 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< base_output_file_type > base_output_file_;
   ::xsd::cxx::tree::one< xvf_data_file_type > xvf_data_file_;
   ::xsd::cxx::tree::one< plot_data_file_type > plot_data_file_;
+  ::xsd::cxx::tree::one< use_thermostat_type > use_thermostat_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
   ::xsd::cxx::tree::one< dimensions_type > dimensions_;
   ::xsd::cxx::tree::one< start_time_type > start_time_;
