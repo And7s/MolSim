@@ -72,7 +72,7 @@ std::vector<Particle*> partlist;
 	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){
 		num_particles += ci->number().x() * ci->number().y() * ci->number().z();
     }
-	
+
 	for (input_t::cuboid_const_iterator ci (inp->cuboid ().begin ());ci != inp->cuboid ().end ();++ci){
 		v[0] = ci->velocity().x();
 		v[1] = ci->velocity().y();
