@@ -76,6 +76,8 @@ public:
 	LCDomain* getLcDomain();
 
 	void calculateSingleForce(Particle* p1, Particle* p2);
+
+	int counterAll, counterMiss;
 };
 
 /**

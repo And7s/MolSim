@@ -167,6 +167,7 @@ void Sheet3Calc::calculateForce() {
 	 
 	std::vector<ParticleContainer*> neighboursOfPc;
 	int bounds = 0;
+	double cutHalf = lcDomain->getCutOffRadius() / 2.0;
 	for(int i = 0; i < size; i++){
 		pc = pcArray[i];
 	
@@ -180,6 +181,7 @@ void Sheet3Calc::calculateForce() {
 		double dist = 0;
 		double distSq = 0;
 		double cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius();
+
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
 			if(p->getType() == -1) {
 				//Do nothing
@@ -187,25 +189,29 @@ void Sheet3Calc::calculateForce() {
 				for(int j = 0; j < sizeNeighbours;j++){
 					int interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-						distSq = curP->getDistanceToSq(p);
 
-						if((distSq<=cutoffSq)&&(distSq>0)){
-							if(p->getType()!=curP->getType()){
-								epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-								sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-							}else{
-								epsilon_tmp = p->getEpsilon();
-								sigma_tmp = p->getSigma();
+						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4%
+							distSq = curP->getDistanceToSq(p);
+							if((distSq<=cutoffSq)&&(distSq>0)){
+								if(p->getType()!=curP->getType()){
+									epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+									sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+								}else{
+									epsilon_tmp = p->getEpsilon();
+									sigma_tmp = p->getSigma();
+								}
+
+								double factor1 = (24 * epsilon_tmp)/distSq;
+								double factor2 = pow(sigma_tmp,6)/pow(distSq,3)- (2*pow(sigma_tmp, 12)/pow(distSq,6));
+								utils::Vector<double,3> factor3 = curP->getX()-p->getX();
+
+								utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
+								p->addOnF(forceIJ);
 							}
-							
-							double factor1 = (24 * epsilon_tmp)/distSq;
-							double factor2 = pow(sigma_tmp,6)/pow(distSq,3)- (2*pow(sigma_tmp, 12)/pow(distSq,6));
-							utils::Vector<double,3> factor3 = curP->getX()-p->getX();
-							
-							utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
-							p->addOnF(forceIJ);
-	
+						}else{
+							//counterMiss++;
 						}
+						//counterAll++;
 					}
 				}
 				EnvInfl::getInstance()->calculateGravity(p);

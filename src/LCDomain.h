@@ -81,6 +81,8 @@ protected:
 	 */
 	int haloSize;
 
+	int cellDimRatio;
+
 public:
 	
 

@@ -225,6 +225,7 @@ int main(int argc, char* argsv[]) {
 			int time = getMilliSpan(startTime);
 			accTime += time;
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
+			//LOG4CXX_INFO(loggerMain, "Miss-Ratio: "<< calculation->counterMiss / (double)calculation->counterAll);
 			startTime = getMilliCount();
 		}
 		if(use_thermostat){

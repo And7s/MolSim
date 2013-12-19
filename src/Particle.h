@@ -166,6 +166,7 @@ public:
 	 */
 	double getDistanceTo(Particle* part);
 	double getDistanceToSq(Particle* part);
+	bool approxDist(Particle*part, double cutHalf);
 	void setM(double m);
 	void setType(int type);
 	double getEpsilon();
