@@ -309,6 +309,7 @@ bool LCDomain::isBoundaryCell(ParticleContainer& cell) {
 	default:
 		LOG4CXX_ERROR(loggerDomain, "unsupported dimension"); break;
 	}
+	return false;
 }
 
 std::vector<int> LCDomain::decodeDimensinalOrigin(int pos){

@@ -182,6 +182,8 @@ void Sheet3Calc::calculateForce() {
 		double distSq = 0;
 		double cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius();
 
+		double factor1, factor2, powSigma, powDist;
+
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
 			if(p->getType() == -1) {
 				//Do nothing
@@ -190,7 +192,7 @@ void Sheet3Calc::calculateForce() {
 					int interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 
-						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4%
+						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4% + inline 1%
 							distSq = curP->getDistanceToSq(p);
 							if((distSq<=cutoffSq)&&(distSq>0)){
 								if(p->getType()!=curP->getType()){
@@ -201,8 +203,10 @@ void Sheet3Calc::calculateForce() {
 									sigma_tmp = p->getSigma();
 								}
 
-								double factor1 = (24 * epsilon_tmp)/distSq;
-								double factor2 = pow(sigma_tmp,6)/pow(distSq,3)- (2*pow(sigma_tmp, 12)/pow(distSq,6));
+								factor1 = (24 * epsilon_tmp)/distSq;
+								powSigma = pow(sigma_tmp,6);
+								powDist = pow(distSq,3);
+								factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
 								utils::Vector<double,3> factor3 = curP->getX()-p->getX();
 
 								utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
