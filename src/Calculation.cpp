@@ -36,26 +36,20 @@ void Calculation::calculateAll(){
 
 void Calculation::calculatePosition(){
 	ParticleContainer** pcArray = lcDomain->getCells();
-	//int size = lcDomain->getNumberOfCells();
-	//for(int i = 0; i<size;i++){
-		Particle* p;
-	//	while((p = pcArray[i]->nextParticle())!=NULL){
-		int size = lcDomain->getAllParticles()->size();
-		std::vector<Particle*>* parts = lcDomain->getAllParticles();
-		for(int i = 0; i < size ;i++){
-			p = (*parts)[i];
-			if(p->getType() != -1) {
-				utils::Vector<double, 3> old_pos = p->getX();
-				utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
-				double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
-				utils::Vector<double, 3> new_force = p->getF() * (scalar);
-				utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
-				p->setX(newX);
-			}
+	Particle* p;
+	int size = lcDomain->getAllParticles()->size();
+	std::vector<Particle*>* parts = lcDomain->getAllParticles();
+	for(int i = 0; i < size ;i++){
+		p = (*parts)[i];
+		if(p->getType() != -1) {
+			utils::Vector<double, 3> old_pos = p->getX();
+			utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
+			double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
+			utils::Vector<double, 3> new_force = p->getF() * (scalar);
+			utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
+			p->setX(newX);
 		}
-			
-//		}
-//	}
+	}
 }
 
 void Calculation::calculateVelocity(){
