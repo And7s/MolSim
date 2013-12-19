@@ -153,9 +153,4 @@ double Particle::getDistanceTo(Particle* part) {
 	return (x -part->getX()).L2Norm();
 }
 
-bool Particle::approxDist(Particle* part, double cutHalf) {
-	if(abs(x[0] - part->getX()[0]) < cutHalf && abs(x[1] - part->getX()[1]) < cutHalf){
-		return true;
-	}
-	return false;
-}
+

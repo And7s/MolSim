@@ -166,14 +166,23 @@ public:
 	 */
 	double getDistanceTo(Particle* part);
 	double getDistanceToSq(Particle* part);
-	bool approxDist(Particle*part, double cutHalf);
 	void setM(double m);
 	void setType(int type);
 	double getEpsilon();
 	void setEpsilon(double epsilon);
 	double getSigma();
 	void setSigma(double sigma);
+
+	/**
+	 * increases speed by about 1%
+	 */
+	inline bool approxDist(Particle* part, double cutHalf);
 };
+
+
+bool Particle::approxDist(Particle* part, double cutHalf) {
+	return (std::abs(this->getX()[0] - part->getX()[0]) < cutHalf && std::abs(this->getX()[1] - part->getX()[1]) < cutHalf);
+}
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);
 
