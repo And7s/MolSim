@@ -49,6 +49,9 @@ protected:
 	 */
 	std::vector<int> bounds;
 
+	/**
+	 * all particles, which are part of the actual simulation
+	 */
 	std::vector<Particle*> particles;
 
 	/**
@@ -164,6 +167,8 @@ public:
 	int getNumberOfBZCells();
 
 	int getHaloSize();
+
+	std::vector<Particle*>* getAllParticles();
 
 	bool isBoundaryCell(ParticleContainer& cell);
 

@@ -362,7 +362,9 @@ int LCDomain::getNumberOfBZCells(){
 	return this->numberOfBZCells;
 }
 
-
+std::vector<Particle*>* LCDomain::getAllParticles() {
+	return &(this->particles);
+}
 
 void LCDomain::display() {
 	//for testing purpose only

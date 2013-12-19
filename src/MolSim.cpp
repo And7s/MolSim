@@ -252,7 +252,7 @@ int main(int argc, char* argsv[]) {
 
 	}
 
-	LOG4CXX_ERROR(loggerMain, "Output successfully written. Elapsed Time: " << (int)(accTime/1000) <<" sec - Terminating...");
+	LOG4CXX_ERROR(loggerMain, "Output successfully written. Elapsed Time: " << (accTime) << "sec # of iterations: " << iteration << "- Terminating...");
 
 	delete length;
 

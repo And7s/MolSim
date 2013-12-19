@@ -36,11 +36,14 @@ void Calculation::calculateAll(){
 
 void Calculation::calculatePosition(){
 	ParticleContainer** pcArray = lcDomain->getCells();
-	int size = lcDomain->getNumberOfCells();
-
-	for(int i = 0; i<size;i++){
+	//int size = lcDomain->getNumberOfCells();
+	//for(int i = 0; i<size;i++){
 		Particle* p;
-		while((p = pcArray[i]->nextParticle())!=NULL){
+	//	while((p = pcArray[i]->nextParticle())!=NULL){
+		int size = lcDomain->getAllParticles()->size();
+		std::vector<Particle*>* parts = lcDomain->getAllParticles();
+		for(int i = 0; i < size ;i++){
+			p = (*parts)[i];
 			if(p->getType() != -1) {
 				utils::Vector<double, 3> old_pos = p->getX();
 				utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
@@ -48,31 +51,24 @@ void Calculation::calculatePosition(){
 				utils::Vector<double, 3> new_force = p->getF() * (scalar);
 				utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
 				p->setX(newX);
-
-				if(newX[2] != 0) {
-					std::cerr<<i<<"unequal zero at position\n";
-					std::cerr << *p<<" "<<p->getType()<<" @ "<<&*p<<"\n";
-					exit(0);
-				}
 			}
-			
 		}
-	}
+			
+//		}
+//	}
 }
 
 void Calculation::calculateVelocity(){
-	ParticleContainer** pcArray = lcDomain->getCells();
-	int size = lcDomain->getNumberOfCells();
-	for(int i = 0; i<size;i++){
-		Particle* p;
-		
-		while((p = pcArray[i]->nextParticle())!=NULL){
-			utils::Vector<double, 3> old_v = p->getV();
-			double scalar = getDeltaT()/(2*p->getM());
-			utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-			utils::Vector<double, 3> new_v = old_v +(new_acc);
-			p->setV(new_v);
-		}
+	int size = lcDomain->getAllParticles()->size();
+	std::vector<Particle*>* parts = lcDomain->getAllParticles();
+	Particle* p;
+	for(int i = 0; i < size; i++){
+		p = (*parts)[i];
+		utils::Vector<double, 3> old_v = p->getV();
+		double scalar = getDeltaT()/(2*p->getM());
+		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
+		utils::Vector<double, 3> new_v = old_v +(new_acc);
+		p->setV(new_v);
 	}
 }
 
@@ -192,6 +188,14 @@ void Sheet3Calc::calculateForce() {
 					int interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 
+						/*
+						 * Currently, the cutoff-rad is equal to the length of an cell.
+						 * The likelihood, that two particles, which are located in neighbour-cells,
+						 * have a higher distance than the cutoff-rad, is - depending on the the simulation - approximately 60%.
+						 * The approxDist-inline-function checks, whether the particles is in the box, which embraces the circle.
+						 * In the end, the actual distance has to be measured in only 3% of the cases.
+						 * Reducing the length would reduce the amount of misses even more.
+						 */
 						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4% + inline 1%
 							distSq = curP->getDistanceToSq(p);
 							if((distSq<=cutoffSq)&&(distSq>0)){
