@@ -1,3 +1,4 @@
+
 /*
  * Thermostats 
  * Forces to run the Molecular Simulation at a certain rising or decreasing temperature.
@@ -34,41 +35,38 @@ Thermostat::Thermostat(LCDomain* linkedCell_, auto_ptr<input_t>& inp) {
 
 /*will return the current kinetic Energy and calculate num_particles as well*/
 double Thermostat::getEkin() {
-	int size = linkedCell->getNumberOfCells();
 	double Ekin = 0;
 	Particle* p;
-	ParticleContainer** pcArray = linkedCell->getCells();
-	num_Particles = 0;	//recalc the number of particles as well
+	
+	std::vector<Particle*>* particles = linkedCell->getAllParticles();
+
 	utils::Vector<double, 3> tmp;
 	
-	avg = avg*0;//reset avg
-	
-	for(int i = 0;i < size;i++){
-		int j=0;
-		while((p = pcArray[i]->nextParticle(&j)) != NULL){
-			tmp = p->getV();
-			avg = avg+ tmp;	
-			num_Particles++;
-		}
+	avg = avg*0;	//reset avg
+	num_Particles = particles->size();
+	for(int i = 0;i < num_Particles;i++){
+		p = (*particles)[i];
+		tmp = p->getV();
+		avg = avg+ tmp;	
 	}
+	
 	avg = avg/num_Particles;
-	num_Particles = 0;
+	
 	//cout << "Sum of avg"<<avg[0]<<" "<<avg[1]<< " "<< avg[2] <<"\n";
 
-	for(int i = 0;i < size;i++){
-		int j=0;
-		while((p = pcArray[i]->nextParticle(&j)) != NULL){
-			tmp = p->getV();
-			if(subavg) {
-				Ekin += (tmp-avg).NormSq();
-			}else {
-				Ekin += tmp.NormSq();
-			}
-			
-			num_Particles++;
+	for(int i = 0;i < num_Particles;i++){
+		p = (*particles)[i];
+		tmp = p->getV();
+		if(subavg) {
+			Ekin += (tmp-avg).NormSq();
+		}else {
+			Ekin += tmp.NormSq();
 		}
+		
+		
+		
 	}
-	Ekin *= 0.5;
+	Ekin *= 0.5;	// 1/2 mv²
 
 	return Ekin;
 }
@@ -79,7 +77,7 @@ void Thermostat::apply() {
 
 	double Ekind = num_Particles*dimensions/2*cur_temp;
 	double beta = sqrt(Ekind / Ekin);
-	LOG4CXX_INFO(loggerThermostat, "apply Temperature"<<cur_temp<<" by faktor"<<beta);
+	LOG4CXX_TRACE(loggerThermostat, "apply Temperature"<<cur_temp<<" by faktor"<<beta);
 	multiply(beta);
 }
 
@@ -89,22 +87,20 @@ void Thermostat::multiply(double beta) {
 	if(beta == 1) {	//save time, dont calc
 		return;
 	}
-	
-	int size = linkedCell->getNumberOfCells();
-	ParticleContainer** pcArray = linkedCell->getCells();
+
+	std::vector<Particle*>* particles = linkedCell->getAllParticles();
 	Particle* p;
-	for(int i = 0;i < size;i++){
-		int j=0;
-		while((p = pcArray[i]->nextParticle(&j)) != NULL){
-			utils::Vector<double, 3> newvel;
-			if(subavg) {
-				newvel = (p->getV()-avg)*beta+avg;
-			}else {
-				newvel = p->getV()*beta;
-			}
-			
-			p->setV(newvel);		
+
+	for(int i = 0;i < num_Particles;i++){
+		p = (*particles)[i];
+		utils::Vector<double, 3> newvel;
+		if(subavg) {
+			newvel = (p->getV()-avg)*beta+avg;
+		}else {
+			newvel = p->getV()*beta;
 		}
+		
+		p->setV(newvel);		
 	}
 
 }

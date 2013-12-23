@@ -80,7 +80,7 @@ public:
 	 * Getter for position vector x
 	 * @return x
 	 */
-	utils::Vector<double, 3>& getX();
+	inline utils::Vector<double, 3>& getX();
 
 	/**
 	 * Sets position vector x
@@ -179,6 +179,9 @@ public:
 	inline bool approxDist(Particle* part, double cutHalf);
 };
 
+utils::Vector<double, 3>& Particle::getX() {
+	return x;
+}
 
 bool Particle::approxDist(Particle* part, double cutHalf) {
 	return (std::abs(this->getX()[0] - part->getX()[0]) < cutHalf && std::abs(this->getX()[1] - part->getX()[1]) < cutHalf);

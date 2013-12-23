@@ -17,14 +17,12 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 	outputWriter::VTKWriter writer;
 	writer.initializeOutput(amountOfParticles);
 
-	ParticleContainer** pcArray = lcDomain->getCells();
-	int size = lcDomain->getNumberOfCells();
+	std::vector<Particle*>* particles = lcDomain->getAllParticles();
+	Particle* p;
 
-	for(int i = 0; i<size;i++){
-		Particle* p;
-		while((p = pcArray[i]->nextParticle())!=NULL){
-			writer.plotParticle(*p);
-		}
+	int num_Particles = particles->size();
+	for(int i = 0;i < num_Particles;i++){
+		writer.plotParticle(*(*particles)[i]);
 	}
 	writer.writeFile(filename, iteration);
 
@@ -33,19 +31,8 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 
 void XVF::plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters) {
 	outputWriter::XVFWriter writer;
-
-	ParticleContainer** pcArray = lcDomain->getCells();
-	int size = lcDomain->getNumberOfCells();
-	std::vector<Particle*> particleList;
-
-	for(int i = 0; i<size;i++){
-		Particle* p;
-		while((p = pcArray[i]->nextParticle())!=NULL){
-			particleList.push_back(p);
-		}
-	}
-
-	writer.writeFile(particleList, filename, parameters);
+	std::vector<Particle*>* particles = lcDomain->getAllParticles();
+	writer.writeFile(*particles, filename, parameters);
 }
 
 std::vector<Particle*> XVF::readParticles(std::vector<double>* parameters, const std::string& filename) {

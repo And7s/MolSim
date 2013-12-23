@@ -67,16 +67,14 @@ void Calculation::calculateVelocity(){
 }
 
 void Calculation::resetForce() {
-	int size = lcDomain->getNumberOfCells();
-	ParticleContainer** pcArray = lcDomain->getCells();
-	
-	for(int i = 0; i<size;i++){
-		Particle* p;
-		while((p = pcArray[i]->nextParticle())!=NULL){
-			p->setOldF(p->getF());
-			utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
-			p->setF(z);
-		}
+	Particle* p;
+	std::vector<Particle*>* particles = lcDomain->getAllParticles();
+
+	for(int i = 0;i < particles->size();i++){
+		p = (*particles)[i];
+		p->setOldF(p->getF());
+		utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
+		p->setF(z);
 	}
 }
 
@@ -158,7 +156,7 @@ void Sheet3Calc::calculateForce() {
 	std::vector<ParticleContainer*> neighboursOfPc;
 	int bounds = 0;
 	double cutHalf = lcDomain->getCutOffRadius() / 2.0;
-	for(int i = 0; i < size; i++){
+	for(int i = 0; i < size; i++){	//iterate over all cells
 		pc = pcArray[i];
 	
 
@@ -174,11 +172,13 @@ void Sheet3Calc::calculateForce() {
 
 		double factor1, factor2, powSigma, powDist;
 
-		while((p = pc->nextParticle(&cellParticleIt))!=NULL){
+		
+		while((p = pc->nextParticle(&cellParticleIt))!=NULL){	//iterate over particles within this cell
+			
 			if(p->getType() == -1) {
 				//Do nothing
 			}else {
-				for(int j = 0; j < sizeNeighbours;j++){
+				for(int j = 0; j < sizeNeighbours;j++){		//iterate over their neighbours
 					int interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 

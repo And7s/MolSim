@@ -21,6 +21,8 @@
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
+
+
 /**
  * ParticleContainer which contains the list of particles
  */
@@ -81,7 +83,7 @@ class ParticleContainer {
 		 * @param iterator
 		 * @return Particle*
 		 */
-		Particle* nextParticle(int* iterator);
+		inline Particle* nextParticle(int* iterator);
 
 		int getLength();
 		int getNp();
@@ -92,5 +94,16 @@ class ParticleContainer {
 		void setNpp2(int npp2);
 		int getPosition();
 };
+
+Particle* ParticleContainer::nextParticle(int* iterator) {
+	if((*iterator) >=this->particles.size()){
+		*iterator = 0;		
+		return NULL;
+	}
+	(*iterator)++;
+	return (particles[(*iterator)-1]);
+}
+
+
 
 #endif /* PARTICLECONTAINER_H_ */

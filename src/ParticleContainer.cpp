@@ -134,11 +134,3 @@ Particle* ParticleContainer::nextParticle() {
 	}
 }
 
-Particle* ParticleContainer::nextParticle(int* iterator) {
-	if((*iterator) >=this->particles.size()){
-		*iterator = 0;
-		return NULL;
-	}
-	(*iterator)++;
-	return (particles[(*iterator)-1]);
-}

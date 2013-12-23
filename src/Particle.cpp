@@ -50,9 +50,7 @@ Particle::~Particle() {
 	//std::cout << "Particle destructed!" << std::endl;
 }
 
-utils::Vector<double, 3>& Particle::getX() {
-	return x;
-}
+
 
 void Particle::setX(utils::Vector<double, 3>& newX) {
 	x = newX;
