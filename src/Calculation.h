@@ -9,6 +9,7 @@
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
 #include <math.h>
+#include <omp.h>
 
 using namespace log4cxx;
 using namespace log4cxx::xml;

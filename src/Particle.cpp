@@ -115,6 +115,10 @@ void Particle::setSigma(double sigma) {
 void Particle::setType(int type) {
 	this->type = type;
 }
+void Particle::resetForce() {
+	old_f = f;
+	f = f * 0.0;
+}
 
 std::string Particle::toString() {
 	std::stringstream stream;

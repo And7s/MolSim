@@ -4,6 +4,7 @@
 # Compiler
 # --------
 CC=g++
+#CC= g++
 #CC=icpc
 
 include files.mk
@@ -11,11 +12,12 @@ include files.mk
 
 # Compiler flags
 # -------------------------------------------------------------------------
-CFLAGS=-g -O3 
+#CFLAGS=-g -O3 
+CFLAGS=-fopenmp -g -O3
 
 # Linker flags
 # ------------
-LDFLAGS= -lxerces-c -Wl,--no-as-needed -lcppunit -lapr-1 -laprutil-1 -llog4cxx
+LDFLAGS= -fopenmp -lxerces-c -Wl,--no-as-needed -lcppunit -lapr-1 -laprutil-1 -llog4cxx
 
 INCLUDES= -I./src -I./libxsd
 

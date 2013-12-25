@@ -69,12 +69,9 @@ void Calculation::calculateVelocity(){
 void Calculation::resetForce() {
 	Particle* p;
 	std::vector<Particle*>* particles = lcDomain->getAllParticles();
-
+	#pragma omp for private(p)
 	for(int i = 0;i < particles->size();i++){
-		p = (*particles)[i];
-		p->setOldF(p->getF());
-		utils::Vector<double, 3> z = utils::Vector<double, 3> (0.);
-		p->setF(z);
+		(*particles)[i]->resetForce();
 	}
 }
 
@@ -146,40 +143,48 @@ void Sheet2Calc::calculateAll() {
 }
 
 void Sheet3Calc::calculateForce() {
+
+
 	ParticleContainer** pcArray = lcDomain->getCells();
-	int size = lcDomain->getNumberOfCells();
+	int 
+		size = lcDomain->getNumberOfCells(),
+		interactingParticlesIt,
+		cellParticleIt,
+		sizeNeighbours;
 	ParticleContainer* pc;
-	Particle* curP;
-	double sigma_tmp;
-	double epsilon_tmp;
-	 
+	Particle
+		*curP,
+		*p;
+	double 
+		sigma_tmp,
+		epsilon_tmp,
+		cutHalf = lcDomain->getCutOffRadius() / 2.0,
+		distSq,
+		cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius(),
+		factor1,
+		factor2,
+		powSigma,
+		powDist;
 	std::vector<ParticleContainer*> neighboursOfPc;
-	int bounds = 0;
-	double cutHalf = lcDomain->getCutOffRadius() / 2.0;
+	utils::Vector<double,3> 
+		factor3,
+		forceIJ;
+//Try me
+	#pragma omp for private(pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
 	for(int i = 0; i < size; i++){	//iterate over all cells
 		pc = pcArray[i];
-	
-
 
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
 		neighboursOfPc.push_back(pc);
-		int sizeNeighbours = neighboursOfPc.size();
-		Particle* p;
-		int cellParticleIt = 0;
-		double dist = 0;
-		double distSq = 0;
-		double cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius();
-
-		double factor1, factor2, powSigma, powDist;
-
+		sizeNeighbours = neighboursOfPc.size();
+		
+		cellParticleIt = 0;
 		
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){	//iterate over particles within this cell
 			
-			if(p->getType() == -1) {
-				//Do nothing
-			}else {
+			if(p->getType() != -1) {
 				for(int j = 0; j < sizeNeighbours;j++){		//iterate over their neighbours
-					int interactingParticlesIt = 0;
+					interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 
 						/*
@@ -205,15 +210,12 @@ void Sheet3Calc::calculateForce() {
 								powSigma = pow(sigma_tmp,6);
 								powDist = pow(distSq,3);
 								factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-								utils::Vector<double,3> factor3 = curP->getX()-p->getX();
+								factor3 = curP->getX()-p->getX();
 
-								utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
+								forceIJ = factor1 * factor2 * factor3;
 								p->addOnF(forceIJ);
 							}
-						}else{
-							//counterMiss++;
 						}
-						//counterAll++;
 					}
 				}
 				EnvInfl::getInstance()->calculateGravity(p);

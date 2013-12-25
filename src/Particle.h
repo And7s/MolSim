@@ -172,7 +172,7 @@ public:
 	void setEpsilon(double epsilon);
 	double getSigma();
 	void setSigma(double sigma);
-
+	void resetForce();
 	/**
 	 * increases speed by about 1%
 	 */
