@@ -144,7 +144,6 @@ void Sheet2Calc::calculateAll() {
 
 void Sheet3Calc::calculateForce() {
 
-
 	ParticleContainer** pcArray = lcDomain->getCells();
 	int 
 		size = lcDomain->getNumberOfCells(),
@@ -170,7 +169,7 @@ void Sheet3Calc::calculateForce() {
 		factor3,
 		forceIJ;
 //Try me
-	#pragma omp for private(pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
+	#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
 	for(int i = 0; i < size; i++){	//iterate over all cells
 		pc = pcArray[i];
 
