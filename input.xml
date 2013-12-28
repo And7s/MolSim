@@ -11,30 +11,30 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
 <input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="input.xsd">
-   <gravity>-12.44</gravity>
+   <gravity>-0.001</gravity>
   <base_output_file>out</base_output_file>
-  <plot_vtk_file>false</plot_vtk_file>
+  <plot_vtk_file>true</plot_vtk_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_xvf_file>true</plot_xvf_file>
-  <use_thermostat>true</use_thermostat>
-  <frequency>40</frequency>
-  <dimensions>2</dimensions>
+  <use_thermostat>false</use_thermostat>
+  <frequency>25</frequency>
+  <dimensions>3</dimensions>
   <start_time>0</start_time>
-  <tend>15</tend>
-  <delta_t>0.0005</delta_t>
+  <tend>500</tend>
+  <delta_t>0.01</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
-      <x>1.5</x>
-      <y>2</y>
-      <z>0</z>
+      <x>15</x>
+      <y>15</y>
+      <z>15</z>
     </position>
     <number>
-      <x>250</x>
+      <x>50</x>
       <y>50</y>
       <z>1</z>
     </number>
-    <distance>1.2</distance>
+    <distance>2.2</distance>
     <mass>1.0</mass>
     <epsilon>1.0</epsilon>
     <sigma>1.0</sigma>
@@ -47,8 +47,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   </cuboid>
 
   <boundaryCondition>
-    <left>2</left>
-    <right>2</right>
+    <left>1</left>
+    <right>1</right>
     <bottom>1</bottom>
     <top>1</top>
     <front>1</front>
@@ -57,11 +57,11 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
 
   <LinkedCellDomain>
     <dimension>
-      <x>303</x>
-      <y>108</y>
-      <z>1</z>
+      <x>148</x>
+      <y>148</y>
+      <z>148</z>
     </dimension>
-    <cutoff>2.5</cutoff>
+    <cutoff>4</cutoff>
   </LinkedCellDomain>
   <Thermostats>
     <initial_temp>0.5</initial_temp>

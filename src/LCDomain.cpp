@@ -24,6 +24,8 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 	this->haloSize = ceil(cutOffRad / cellDimension);
 
 	this->dimension = initalBounds->size();
+	std::cout<< "CellD "<<this->cellDimension<<" dime "<<this->dimension;
+	//exit(0);
 	/*
 	 * if the 3-dimensional space is only 1 cell deep, it is far more efficient to treat the domain like 2D.
 	 * In this case, there wont be any halo regions along the x-y hyperplane, which decreses the number of cells by approximately 3 times.
@@ -140,11 +142,11 @@ void LCDomain::insertParticle(Particle* part){
 	partPos[2] = floor((float)(part->getX()[2] / cutOffRadius)) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 	
-if(partPos[1]<0 || partPos[0] < 0 || partPos[2] != 1) {
+/*if(partPos[1]<0 || partPos[0] < 0 || partPos[2] != 1) {
 	std::cerr<< "at undefined position\n"<<partPos[0] <<" " <<partPos[1]<<" "<<partPos[2]<<"\n";
 	std::cerr<<*part<<"\n";
 
-}
+}*/
 	index = this->getCellAt(partPos)->getPosition();
 	this->cells[index]->setParticle(part);
 	LOG4CXX_TRACE(loggerDomain,"added Particle to cell: " << index);
@@ -154,11 +156,13 @@ void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
 
 	for(int i = 0; i < parts.size(); i++){
+		/*
+		now 3 dimensions possible
 		if(parts[i]->getX()[2] != 0) {
 			std::cerr << "I :"<<i<<"unequal zero\n";
 			std::cout << *parts[i]<<"\n";
 			exit(0);
-		}
+		}*/
 		this->insertParticle(parts[i]);
 	}
 }

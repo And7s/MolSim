@@ -215,6 +215,36 @@ int main(int argc, char* argsv[]) {
 	
 		boundaryCondition->apply();
 
+		if(current_time <= 150) {
+
+			Particle* p;
+			std::vector<Particle*>* particles = lcDomain->getAllParticles();
+			#pragma omp for private(p)
+			for(int i = 0;i < particles->size();i++){
+				p = (*particles)[i];
+				int typa = p->getUid();
+
+	int sidelength = 50;
+
+							int x = typa % sidelength;
+							int y = typa / sidelength;
+utils::Vector<double,3> forceIJ;
+
+
+
+							if((x == 17 || x == 18) && (y == 24 || y == 25)) {
+								forceIJ[0] = 0;
+								forceIJ[1] = 0;
+								forceIJ[2] = 0.8;
+								p->addOnF(forceIJ);
+							}
+
+
+
+			}
+
+
+		}
 		calculation->calculateAll();
 
 		iteration++;

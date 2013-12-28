@@ -143,6 +143,138 @@ void Sheet2Calc::calculateAll() {
 }
 
 void Sheet3Calc::calculateForce() {
+//sheet 5 calculation
+	ParticleContainer** pcArray = lcDomain->getCells();
+	int 
+		size = lcDomain->getNumberOfCells(),
+		interactingParticlesIt,
+		cellParticleIt,
+		sizeNeighbours;
+	ParticleContainer* pc;
+	Particle
+		*curP,
+		*p;
+	double 
+		sigma_tmp,
+		epsilon_tmp,
+		cutHalf = lcDomain->getCutOffRadius() / 2.0,
+		distSq,
+		cutoff = lcDomain->getCutOffRadius(),
+		cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius(),
+		factor1,
+		factor2,
+		powSigma,
+		powDist;
+	std::vector<ParticleContainer*> neighboursOfPc;
+	utils::Vector<double,3> 
+
+		factor3,
+		forceIJ;
+
+//std::cout << "\n";
+	int sidelength = 50;	//This needs to be calculated/set by the input of the membran
+//Try me
+	#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
+	for(int i = 0; i < size; i++){	//iterate over all cells
+		pc = pcArray[i];
+
+		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
+		neighboursOfPc.push_back(pc);
+		sizeNeighbours = neighboursOfPc.size();
+		
+		cellParticleIt = 0;
+		
+		while((p = pc->nextParticle(&cellParticleIt))!=NULL){	//iterate over particles within this cell
+			
+			if(p->getType() != -1) {
+				for(int j = 0; j < sizeNeighbours;j++){		//iterate over their neighbours
+					interactingParticlesIt = 0;
+					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
+
+
+						double k = 300;//make me dynmaic TODO
+						double r0 = 2.2;	//distance, take from input file pls
+						double r0sqrt = std::sqrt(2)*r0;
+						bool direct = false;
+
+						int typa = p->getUid();
+						int typb = curP->getUid();
+
+						double mindist = std::pow(2, 1/6);
+
+						factor3 = curP->getX() - p->getX();
+						double length = factor3.L2Norm();
+
+						if(typa != typb) {
+
+
+							int x = typa % sidelength;
+							int y = typa / sidelength;
+
+							int xb = typb % sidelength;
+							int yb = typb / sidelength;
+
+
+
+							if(	//Direct neighbour
+								(std::abs(y-yb) <= 1 && x == xb) ||
+								(std::abs(x-xb) <= 1 && y == yb)) {
+									direct = true;
+
+									forceIJ = (length-r0)*k*factor3/length;
+									p->addOnF(forceIJ);
+
+
+							}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {		//diagonal neighbour
+		
+								forceIJ = (length-r0sqrt)*k*factor3/length;
+								p->addOnF(forceIJ);
+
+							} else {
+
+
+
+								if(length >= mindist && length <= cutoff){ 
+									double distSq = length*length;
+										if(p->getType()!=curP->getType()){
+											epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+											sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+										}else{
+											epsilon_tmp = p->getEpsilon();
+											sigma_tmp = p->getSigma();
+										}
+
+										factor1 = (24 * epsilon_tmp)/distSq;
+										powSigma = pow(sigma_tmp,6);
+										powDist = pow(distSq,3);
+										factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+										factor3 = curP->getX()-p->getX();
+
+										forceIJ = factor1 * factor2 * factor3*(-1);
+										p->addOnF(forceIJ);
+
+								}
+
+
+
+							}
+						}	
+
+							
+					}
+				}
+				EnvInfl::getInstance()->calculateGravity(p);
+			}
+		}
+		neighboursOfPc.clear();
+	}
+
+}
+
+/*
+
+
+void Sheet3Calc::calculateForce() {
 
 	ParticleContainer** pcArray = lcDomain->getCells();
 	int 
@@ -193,7 +325,7 @@ void Sheet3Calc::calculateForce() {
 						 * The approxDist-inline-function checks, whether the particles is in the box, which embraces the circle.
 						 * In the end, the actual distance has to be measured in only 3% of the cases.
 						 * Reducing the length would reduce the amount of misses even more.
-						 */
+						 *
 						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4% + inline 1%
 							distSq = curP->getDistanceToSq(p);
 							if((distSq<=cutoffSq)&&(distSq>0)){
@@ -223,6 +355,8 @@ void Sheet3Calc::calculateForce() {
 		neighboursOfPc.clear();
 	}
 }
+
+*/
 
 void Sheet3Calc::calculateAll() {
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet3Calc");

@@ -44,6 +44,8 @@ private:
 	 */
 	double sigma;
 
+	int uid;	//unique particle id
+
 public:
 	/**
 	 * Constructor
@@ -177,6 +179,8 @@ public:
 	 * increases speed by about 1%
 	 */
 	inline bool approxDist(Particle* part, double cutHalf);
+	inline void setUid(int uid_);
+	inline int getUid();
 };
 
 utils::Vector<double, 3>& Particle::getX() {
@@ -184,7 +188,16 @@ utils::Vector<double, 3>& Particle::getX() {
 }
 
 bool Particle::approxDist(Particle* part, double cutHalf) {
-	return (std::abs(this->getX()[0] - part->getX()[0]) < cutHalf && std::abs(this->getX()[1] - part->getX()[1]) < cutHalf);
+	return (std::abs(x[0] - part->getX()[0]) < cutHalf && std::abs(x[1] - part->getX()[1]) < cutHalf);
+}
+
+
+void Particle::setUid(int uid_) {
+	uid = uid_;
+}
+
+int Particle::getUid() {
+	return uid;
 }
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);

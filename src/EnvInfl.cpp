@@ -47,10 +47,10 @@ double EnvInfl::getG(){
  */
 void EnvInfl::calculateGravity(Particle* part){
 	utils::Vector<double,3> force;
-	force[0] = 0;
-	force[1] = 1;
-	force[2] = 0;
-	force[1] *= part->getM() * this->g;
+	force[0] = 0 * part->getM() * this->g;
+	force[1] = 0 * part->getM() * this->g;
+	force[2] = 1 * part->getM() * this->g;
+
 
 	part->addOnF(force);
 }

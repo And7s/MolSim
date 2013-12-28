@@ -30,6 +30,7 @@ std::vector<Particle*> partlist;
 	int type = -1;
 	double epsilon = -1.0;
 	double sigma = -1.0;
+	int count_uid = 0;
 	for(input_t::sphere_const_iterator si (inp->sphere().begin()); si != inp->sphere().end(); ++si) {
 		float max_dist = std::pow(si->radius(), 2); 
 		v[0] = si->velocity().x();
@@ -58,6 +59,8 @@ std::vector<Particle*> partlist;
 					p->setType(type);
 					p->setEpsilon(epsilon);
 					p->setSigma(sigma);
+					p->setUid(count_uid);
+					count_uid++;
 					utils::Vector<double, 3> velo = v;
 					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
 
@@ -96,9 +99,12 @@ std::vector<Particle*> partlist;
 					p->setType(type);
 					p->setEpsilon(epsilon);
 					p->setSigma(sigma);
+					p->setUid(count_uid);
+					count_uid++;
 					utils::Vector<double, 3> velo = v;
 					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
-
+					//MaxwellBoltzmannDistribution(*p,1,inp->dimensions());
+					//cout << *p<<"\n";
 					partlist.push_back(p);
 				}
 			}
