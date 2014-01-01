@@ -28,23 +28,19 @@ double Calculation::getDeltaT(){
 	return delta_t;
 }
 
-void Calculation::calculateAll(){
-	calculatePosition();
-	calculateForce();	
-	calculateVelocity();
-}
+
 
 void Calculation::calculatePosition(){
-	ParticleContainer** pcArray = lcDomain->getCells();
+
 	Particle* p;
-	int size = lcDomain->getAllParticles()->size();
 	std::vector<Particle*>* parts = lcDomain->getAllParticles();
-	for(int i = 0; i < size ;i++){
+	#pragma omp parallel for private(p)
+	for(int i = 0; i < parts->size() ;i++){
 		p = (*parts)[i];
 		if(p->getType() != -1) {
 			utils::Vector<double, 3> old_pos = p->getX();
-			utils::Vector<double, 3> new_v = p->getV()*(getDeltaT());
-			double scalar = getDeltaT()*getDeltaT()/(2*p->getM());
+			utils::Vector<double, 3> new_v = p->getV()*(delta_t);
+			double scalar = delta_t*delta_t/(2*p->getM());
 			utils::Vector<double, 3> new_force = p->getF() * (scalar);
 			utils::Vector<double, 3> newX = old_pos +(new_v+(new_force));
 			p->setX(newX);
@@ -53,15 +49,16 @@ void Calculation::calculatePosition(){
 }
 
 void Calculation::calculateVelocity(){
-	int size = lcDomain->getAllParticles()->size();
+
 	std::vector<Particle*>* parts = lcDomain->getAllParticles();
 	Particle* p;
-	for(int i = 0; i < size; i++){
+	#pragma omp parallel for private(p)
+	for(int i = 0; i < parts->size(); i++){
 		p = (*parts)[i];
 		utils::Vector<double, 3> old_v = p->getV();
-		double scalar = getDeltaT()/(2*p->getM());
+		double scalar = delta_t/(2*p->getM());
 		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-		utils::Vector<double, 3> new_v = old_v +(new_acc);
+		utils::Vector<double, 3> new_v = old_v +((p->getOldF()+(p->getF()))*(scalar));
 		p->setV(new_v);
 	}
 }
@@ -69,7 +66,7 @@ void Calculation::calculateVelocity(){
 void Calculation::resetForce() {
 	Particle* p;
 	std::vector<Particle*>* particles = lcDomain->getAllParticles();
-	#pragma omp for private(p)
+	#pragma omp parallel for private(p)
 	for(int i = 0;i < particles->size();i++){
 		(*particles)[i]->resetForce();
 	}
@@ -81,65 +78,6 @@ void Calculation::setParticleContainer(ParticleContainer& pc_) {
 
 ParticleContainer& Calculation::getParticleContainer(){
 	return particleContainer;
-}
-
-void Sheet1Calc::calculateForce() {
-	Particle* p1,* p2;
-	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
-		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
-			double euclidian_norm = ((p1->getX() -(p2->getX())).L2Norm());
-			double pow_3 = std::pow(euclidian_norm,3);
-			double mass_squared = (p1->getM()*p2->getM());
-			double scalar = mass_squared/pow_3;
-			utils::Vector<double, 3> forceIJ = (p2->getX()-(p1->getX()))*(scalar);
-			p1->addOnF(forceIJ);
-			utils::Vector<double, 3> forceJI = forceIJ *(-1);
-			p2->addOnF(forceJI);
-			if(forceIJ[2] != 0) {
-				std::cerr <<"force not zero\n";
-				std:cout << *p1<<"\n";
-			}
-		}
-	}
-}
-
-void Sheet1Calc::calculateAll(){
-	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet1Calc");
-	calculateVelocity();
-	calculatePosition();
-	calculateForce();
-}
-
-void Sheet2Calc::calculateForce() {
-	Particle *p1,*p2;
-	double sigma_tmp;
-	double epsilon_tmp;
-	while((p1 = particleContainer.nextParticlePair1()) != NULL) {
-		while((p2 = particleContainer.nextParticlePair2()) != NULL) {
-			if(p1->getType()!=p2->getType()){
-				epsilon_tmp = sqrt(p1->getEpsilon()*p2->getEpsilon());
-				sigma_tmp = (p1->getSigma()+p2->getSigma())/2.0;
-			}else{
-				epsilon_tmp = p1->getEpsilon();
-				sigma_tmp = p1->getSigma();
-			}
-			double dist = ((p1->getX() -(p2->getX())).L2Norm());
-			double factor1 = (24 * epsilon_tmp)/pow(dist,2);
-			double factor2 = pow((sigma_tmp/dist),6)- (2*pow((sigma_tmp/dist),12));
-			utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
-			utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
-			utils::Vector<double,3> forceJI = (-1) * forceIJ;
-			p1->addOnF(forceIJ);
-			p2->addOnF(forceJI);
-		}
-	}
-}
-
-void Sheet2Calc::calculateAll() {
-	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet2Calc");
-	calculateVelocity();
-	calculatePosition();
-	calculateForce();
 }
 
 void Sheet3Calc::calculateForce() {
@@ -157,8 +95,6 @@ void Sheet3Calc::calculateForce() {
 	double 
 		sigma_tmp,
 		epsilon_tmp,
-		cutHalf = lcDomain->getCutOffRadius() / 2.0,
-		distSq,
 		cutoff = lcDomain->getCutOffRadius(),
 		cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius(),
 		factor1,
@@ -167,15 +103,22 @@ void Sheet3Calc::calculateForce() {
 		powDist;
 	std::vector<ParticleContainer*> neighboursOfPc;
 	utils::Vector<double,3> 
-
 		factor3,
 		forceIJ;
 
-//std::cout << "\n";
+	
+	//Variables for Membrane simulation
+
+	double k = 300;//make me dynmaic TODO
+	double r0 = 2.2;	//distance, take from input file pls
+	double r0sqrt = std::sqrt(2)*r0;
+	double mindist = std::pow(2, 1/6);
 	int sidelength = 50;	//This needs to be calculated/set by the input of the membran
-//Try me
-	#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
+
+	//#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
+	#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
 	for(int i = 0; i < size; i++){	//iterate over all cells
+
 		pc = pcArray[i];
 
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
@@ -192,75 +135,50 @@ void Sheet3Calc::calculateForce() {
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 
 
-						double k = 300;//make me dynmaic TODO
-						double r0 = 2.2;	//distance, take from input file pls
-						double r0sqrt = std::sqrt(2)*r0;
-						bool direct = false;
-
 						int typa = p->getUid();
 						int typb = curP->getUid();
 
-						double mindist = std::pow(2, 1/6);
-
-						factor3 = curP->getX() - p->getX();
-						double length = factor3.L2Norm();
-
+					
 						if(typa != typb) {
+							factor3 = curP->getX() - p->getX();
+							double length = factor3.L2Norm();
 
-
+						
 							int x = typa % sidelength;
 							int y = typa / sidelength;
 
 							int xb = typb % sidelength;
 							int yb = typb / sidelength;
 
-
-
 							if(	//Direct neighbour
 								(std::abs(y-yb) <= 1 && x == xb) ||
 								(std::abs(x-xb) <= 1 && y == yb)) {
-									direct = true;
-
 									forceIJ = (length-r0)*k*factor3/length;
 									p->addOnF(forceIJ);
-
-
 							}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {		//diagonal neighbour
-		
 								forceIJ = (length-r0sqrt)*k*factor3/length;
 								p->addOnF(forceIJ);
-
 							} else {
-
-
-
 								if(length >= mindist && length <= cutoff){ 
 									double distSq = length*length;
-										if(p->getType()!=curP->getType()){
-											epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-											sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-										}else{
-											epsilon_tmp = p->getEpsilon();
-											sigma_tmp = p->getSigma();
-										}
+									if(p->getType()!=curP->getType()){
+										epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+										sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+									}else{
+										epsilon_tmp = p->getEpsilon();
+										sigma_tmp = p->getSigma();
+									}
 
-										factor1 = (24 * epsilon_tmp)/distSq;
-										powSigma = pow(sigma_tmp,6);
-										powDist = pow(distSq,3);
-										factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-										factor3 = curP->getX()-p->getX();
-
-										forceIJ = factor1 * factor2 * factor3*(-1);
-										p->addOnF(forceIJ);
-
+									factor1 = (24 * epsilon_tmp)/distSq;
+									powSigma = pow(sigma_tmp,6);
+									powDist = pow(distSq,3);
+									factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+									
+									forceIJ = factor1 * factor2 * factor3*(-1);
+									p->addOnF(forceIJ);
 								}
-
-
-
 							}
-						}	
-
-							
+						}		
 					}
 				}
 				EnvInfl::getInstance()->calculateGravity(p);
@@ -271,92 +189,7 @@ void Sheet3Calc::calculateForce() {
 
 }
 
-/*
 
-
-void Sheet3Calc::calculateForce() {
-
-	ParticleContainer** pcArray = lcDomain->getCells();
-	int 
-		size = lcDomain->getNumberOfCells(),
-		interactingParticlesIt,
-		cellParticleIt,
-		sizeNeighbours;
-	ParticleContainer* pc;
-	Particle
-		*curP,
-		*p;
-	double 
-		sigma_tmp,
-		epsilon_tmp,
-		cutHalf = lcDomain->getCutOffRadius() / 2.0,
-		distSq,
-		cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius(),
-		factor1,
-		factor2,
-		powSigma,
-		powDist;
-	std::vector<ParticleContainer*> neighboursOfPc;
-	utils::Vector<double,3> 
-		factor3,
-		forceIJ;
-//Try me
-	#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
-	for(int i = 0; i < size; i++){	//iterate over all cells
-		pc = pcArray[i];
-
-		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
-		neighboursOfPc.push_back(pc);
-		sizeNeighbours = neighboursOfPc.size();
-		
-		cellParticleIt = 0;
-		
-		while((p = pc->nextParticle(&cellParticleIt))!=NULL){	//iterate over particles within this cell
-			
-			if(p->getType() != -1) {
-				for(int j = 0; j < sizeNeighbours;j++){		//iterate over their neighbours
-					interactingParticlesIt = 0;
-					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-
-						/*
-						 * Currently, the cutoff-rad is equal to the length of an cell.
-						 * The likelihood, that two particles, which are located in neighbour-cells,
-						 * have a higher distance than the cutoff-rad, is - depending on the the simulation - approximately 60%.
-						 * The approxDist-inline-function checks, whether the particles is in the box, which embraces the circle.
-						 * In the end, the actual distance has to be measured in only 3% of the cases.
-						 * Reducing the length would reduce the amount of misses even more.
-						 *
-						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4% + inline 1%
-							distSq = curP->getDistanceToSq(p);
-							if((distSq<=cutoffSq)&&(distSq>0)){
-								if(p->getType()!=curP->getType()){
-									epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-									sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-								}else{
-									epsilon_tmp = p->getEpsilon();
-									sigma_tmp = p->getSigma();
-								}
-
-								factor1 = (24 * epsilon_tmp)/distSq;
-								powSigma = pow(sigma_tmp,6);
-								powDist = pow(distSq,3);
-								factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-								factor3 = curP->getX()-p->getX();
-
-								forceIJ = factor1 * factor2 * factor3;
-								p->addOnF(forceIJ);
-							}
-						}
-					}
-				}
-				EnvInfl::getInstance()->calculateGravity(p);
-			}
-		}
-		neighboursOfPc.clear();
-	}
-}
-
-*/
 
 void Sheet3Calc::calculateAll() {
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet3Calc");

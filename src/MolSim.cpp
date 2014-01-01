@@ -152,7 +152,14 @@ int main(int argc, char* argsv[]) {
 
 	ParticleGenerator pg;
 	int* length = new int;
-
+	int i;
+	#pragma omp parallel for private(i)
+	for(i = 0; i < 100; i++) {
+		
+		if(i == 0) {
+			//std::cout << omp_get_num_threads()<<" THREADS";
+		}
+	}
 	pa = pg.readFile(length, inp);
 
 	if(argc==3){
@@ -208,43 +215,40 @@ int main(int argc, char* argsv[]) {
 
 	int startTime = getMilliCount();
 	double accTime = 0;
-	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec" );
+	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
+	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
 		
 		calculation->resetForce();
 	
 		boundaryCondition->apply();
 
-		if(current_time <= 150) {
 
+		//Membrane Simulation, the skripted upforce is assigned here
+		if(current_time <= 150) {
 			Particle* p;
 			std::vector<Particle*>* particles = lcDomain->getAllParticles();
-			#pragma omp for private(p)
+			#pragma omp parallel for private(p)
 			for(int i = 0;i < particles->size();i++){
 				p = (*particles)[i];
 				int typa = p->getUid();
 
-	int sidelength = 50;
+				int sidelength = 50;
 
-							int x = typa % sidelength;
-							int y = typa / sidelength;
-utils::Vector<double,3> forceIJ;
+				int x = typa % sidelength;
+				int y = typa / sidelength;
 
-
-
-							if((x == 17 || x == 18) && (y == 24 || y == 25)) {
-								forceIJ[0] = 0;
-								forceIJ[1] = 0;
-								forceIJ[2] = 0.8;
-								p->addOnF(forceIJ);
-							}
-
-
-
+				if((x == 17 || x == 18) && (y == 24 || y == 25)) {
+					utils::Vector<double,3> forceIJ;
+					forceIJ[0] = 0;
+					forceIJ[1] = 0;
+					forceIJ[2] = 0.8;
+					p->addOnF(forceIJ);
+				}
 			}
-
-
 		}
+
+
 		calculation->calculateAll();
 
 		iteration++;
@@ -254,8 +258,7 @@ utils::Vector<double,3> forceIJ;
 			}
 			int time = getMilliSpan(startTime);
 			accTime += time;
-			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ") msec" );
-			//LOG4CXX_INFO(loggerMain, "Miss-Ratio: "<< calculation->counterMiss / (double)calculation->counterAll);
+			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ")  msec  " << (int)((double)iteration/iterationsteps*100)<<"%" );
 			startTime = getMilliCount();
 		}
 		if(use_thermostat){

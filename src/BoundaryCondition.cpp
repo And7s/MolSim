@@ -27,7 +27,6 @@ BoundaryCondition::BoundaryCondition(LCDomain* linkedCell_, std::vector<int> dom
 	domainSize = domainSize_;
 
 	dimension = dimension_;
-	//boundarytype = new int[6];
 	
 	boundarytype[0] = inp->boundaryCondition().left();	
 	boundarytype[1] = inp->boundaryCondition().right();
@@ -35,7 +34,6 @@ BoundaryCondition::BoundaryCondition(LCDomain* linkedCell_, std::vector<int> dom
 	boundarytype[3] = inp->boundaryCondition().top();
 	boundarytype[4] = inp->boundaryCondition().front();
 	boundarytype[5] = inp->boundaryCondition().back();
-	
 	
 }	
 
@@ -108,11 +106,9 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 
 		}
 	}
-
 }
 
-void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, bool zero) {
-	ParticleContainer* pc = linkedCell->getCellAt(pos);
+void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, bool zero, ParticleContainer* pc) {
 
 	if(type == 0) {
 		applyOutflow(pc);
@@ -134,52 +130,66 @@ void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, b
 	}else {
 		LOG4CXX_FATAL(loggerBoundaryCondition, "undefined BoundaryCondition called");	
 	}
+	
 }
 void BoundaryCondition::apply() {
-	int c = 0;
+	ParticleContainer* pc;
 
-	std::vector<int> pos (3,0);
-	for(pos[0] = 0; pos[0] < domainSize[0]+2; pos[0]++) {
+	#pragma omp parallel for schedule(dynamic) private(pc)
+	for(int i = 0; i < domainSize[0]+2; i++) {
+		std::vector<int> pos (3,0);
+		pos[0] = i;
 		for(pos[1] = 0; pos[1] < domainSize[1]+2; pos[1]++) {
 			for(pos[2] = 0; pos[2] < domainSize[2]+2 && (pos[2] == 0 || dimension > 2); pos[2]++) {
 				if(pos[0] == 0 ){
 					//check left
-					//std::cout << "Check left\n";
-					c++;
-					applySwitch(boundarytype[0], pos, 0, true);
+
+					pc = linkedCell->getCellAt(pos);
+					if(!pc->isempty()) {
+						applySwitch(boundarytype[0], pos, 0, true, pc);
+					}
 				}
 				if(pos[0] == domainSize[0]+1) {
 					//check right
-					c++;
-					applySwitch(boundarytype[1], pos, 0, false);
+					pc = linkedCell->getCellAt(pos);
+					if(!pc->isempty()) {
+						applySwitch(boundarytype[1], pos, 0, false, pc);
+					}
 				}
 
 				if(pos[1] == 0 ){
 					//check bottom
-					c++;
-					applySwitch(boundarytype[2], pos, 1, true);
+					pc = linkedCell->getCellAt(pos);
+					if(!pc->isempty()) {
+						applySwitch(boundarytype[2], pos, 1, true, pc);
+					}
 				}
 				if(pos[1] == domainSize[1]+1) {
 					//check top
-					c++;
-					applySwitch(boundarytype[3], pos, 1, false);
+					pc = linkedCell->getCellAt(pos);
+					if(!pc->isempty()) {
+						applySwitch(boundarytype[3], pos, 1, false, pc);
+					}
 				}
 				if(dimension == 3) {
 					if(pos[2] == 0 ){
 						//check front
-						c++;
-						applySwitch(boundarytype[4], pos, 2, true);
+						pc = linkedCell->getCellAt(pos);
+						if(!pc->isempty()) {
+							applySwitch(boundarytype[4], pos, 2, true, pc);
+						}
 					}
 					if(pos[2] == domainSize[2]+1) {
 						//check top
-						c++;
-						applySwitch(boundarytype[5], pos, 2, false);
+						pc = linkedCell->getCellAt(pos);
+						if(!pc->isempty()) {
+							applySwitch(boundarytype[5], pos, 2, false, pc);
+						}
 					}
 				}
 			}
 		}
 	}
-	//std::cout << "Boundary Checks did: "<<c<<"\n";
 }
 
 

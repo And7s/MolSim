@@ -47,7 +47,7 @@ public:
 
 	void apply();
 	
-	void applySwitch(int type,std::vector<int>& pos, int axis, bool zero);
+	void applySwitch(int type,std::vector<int>& pos, int axis, bool zero, ParticleContainer* pc);
 	void applyOutflow(ParticleContainer* pc);
 	void applyReflecting(ParticleContainer* pc, int axis, bool zero);
 	void applyPeriodic(ParticleContainer* pc, ParticleContainer* pc2, int axis, bool zero);

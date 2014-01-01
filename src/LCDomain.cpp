@@ -24,8 +24,8 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 	this->haloSize = ceil(cutOffRad / cellDimension);
 
 	this->dimension = initalBounds->size();
-	std::cout<< "CellD "<<this->cellDimension<<" dime "<<this->dimension;
-	//exit(0);
+	LOG4CXX_INFO(loggerDomain, "CellD "<<this->cellDimension<<" dime "<<this->dimension);
+
 	/*
 	 * if the 3-dimensional space is only 1 cell deep, it is far more efficient to treat the domain like 2D.
 	 * In this case, there wont be any halo regions along the x-y hyperplane, which decreses the number of cells by approximately 3 times.
@@ -155,22 +155,16 @@ void LCDomain::insertParticle(Particle* part){
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
 
+	#pragma omp parallel for
 	for(int i = 0; i < parts.size(); i++){
-		/*
-		now 3 dimensions possible
-		if(parts[i]->getX()[2] != 0) {
-			std::cerr << "I :"<<i<<"unequal zero\n";
-			std::cout << *parts[i]<<"\n";
-			exit(0);
-		}*/
 		this->insertParticle(parts[i]);
 	}
 }
 
 
 void LCDomain::deleteParticle(Particle* particle) {
+	#pragma omp parallel for
 	for(int i = 0; i < particles.size(); i++) {
-		
 
 		if((particles[i]->getX()[0] == particle->getX()[0]) &&
 			(particles[i]->getX()[1] == particle->getX()[1]) &&
@@ -178,31 +172,26 @@ void LCDomain::deleteParticle(Particle* particle) {
 			
 			particles.erase(particles.begin()+i);
 			LOG4CXX_TRACE(loggerDomain,"deleted particle in lcDomain at pos "<<i);
-			break;
 		}
-
 	}
-
 }
+
 void LCDomain::reset(){
 	int i;
-	std::vector<int> dimensionalOrigin;
+
+//	#pragma omp parallel for
 	for(i = 0; i < this->numberOfCells; i++){
-		dimensionalOrigin = this->decodeDimensinalOrigin(i);		
-		this->getCellAt(dimensionalOrigin)->clearParticles();
-	}
-	int size = this->haloParts.size();
-	for(i = 0; i < size; i++){
-		delete this->haloParts[i];
-		this->haloParts.clear();
+		cells[i]->clearParticles();
 	}
 
-	//std::cout <<"start reset by inserting\n";
+  	int size = this->haloParts.size();
+    for(i = 0; i < size; i++){
+            delete this->haloParts[i];
+            this->haloParts.clear();
+    }
+
+
 	insertParticles(particles);
-	//std::cout << "rest lcd to "<<particles.size()<<" Particles in "<<numberOfCells<<"Cells \n";
-	
-
-
 }
 
 void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleContainer*>* neighbours) {
@@ -352,7 +341,6 @@ double LCDomain::getCutOffRadius(){
 int LCDomain::getHaloSize() {
 	return haloSize;
 }
-
 
 int LCDomain::getNumberOfCells() {
 	return numberOfCells;

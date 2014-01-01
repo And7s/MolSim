@@ -82,40 +82,7 @@ public:
 	int counterAll, counterMiss;
 };
 
-/**
- * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
- * for Sheet1
- */
-class Sheet1Calc: public Calculation {
 
-public:
-	/**
-	 * Function to calculate the force
-	 */
-	void calculateForce();
-
-	/**
-	 * Function to calculate velocity, position and force
-	 */
-	void calculateAll();
-};
-
-/**
- * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
- * for Sheet2
- */
-class Sheet2Calc: public Calculation {
-public:
-	/**
-	 * Function to calculate the force
-	 */
-	void calculateForce();
-
-	/**
-	 * Function to calculate velocity, position and force at once
-	 */
-	void calculateAll();
-};
 
 /**
  * Actual Implementation of the calculation of force, velocity and position, derived from Calculation

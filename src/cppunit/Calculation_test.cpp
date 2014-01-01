@@ -90,7 +90,8 @@ void Calculation_test::testCalculateForce() {
 
 		for(int i = 0; i<size;i++){
 			Particle* p;
-			while((p = pcArray[i]->nextParticle())!=NULL){
+			int iterator = 0;
+			while((p = pcArray[i]->nextParticle(&iterator))!=NULL){
 				if(p->getX()[0]==4){
 					for(int j = 0; j < 3; j++){
 						CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[j], p->getF()[j], 0.001);
@@ -121,7 +122,8 @@ void Calculation_test::testCalculatePosition() {
 	int size = test_calculator->getLcDomain()->getNumberOfCells();
 	for(int i = 0; i<size;i++){
 		Particle* p;
-		while((p = pcArray[i]->nextParticle())!=NULL){
+		int iterator = 0;
+		while((p = pcArray[i]->nextParticle(&iterator))!=NULL){
 			if(p->getF()[0]==1.0){
 				for(int j = 0; j < 3; j++){
 					CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[j], p->getX()[j], 0.001);
@@ -150,7 +152,8 @@ void Calculation_test::testCalculateVelocity() {
 	int size = test_calculator->getLcDomain()->getNumberOfCells();
 	for(int i = 0; i<size;i++){
 		Particle* p;
-		while((p = pcArray[i]->nextParticle())!=NULL){
+		int iterator = 0;
+		while((p = pcArray[i]->nextParticle(&iterator))!=NULL){
 			if(p->getF()[0]==1.0){
 				for(int j = 0; j < 3; j++){
 					CPPUNIT_ASSERT_DOUBLES_EQUAL(result1[j], p->getV()[j], 0.001);

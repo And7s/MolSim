@@ -44,7 +44,10 @@ private:
 	 */
 	double sigma;
 
-	int uid;	//unique particle id
+	/**
+	 * unique particle id
+	 */
+	int uid;
 
 public:
 	/**
