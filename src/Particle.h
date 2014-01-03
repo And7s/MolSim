@@ -9,7 +9,7 @@
 #define PARTICLE_H_
 
 #include "utils/Vector.h"
-
+#include <stdlib.h>
 class Particle {
 
 private:
@@ -50,6 +50,9 @@ private:
 	int uid;
 
 public:
+utils::Vector<double, 3> last_move;
+
+utils::Vector<double, 3> deltav;
 	/**
 	 * Constructor
 	 * @param type
@@ -93,6 +96,8 @@ public:
 	 */
 	void setX(utils::Vector<double, 3>& x);
 
+	void setLastMove(utils::Vector<double, 3>& lm);
+	void setDeltaV(utils::Vector<double, 3>& dv);
 	/**
 	 * Getter for force vector f
 	 * @return f
@@ -110,6 +115,15 @@ public:
 	 * @param tmp
 	 */
 	void addOnF(utils::Vector<double, 3>& tmp);
+
+	/**
+	 * adds a tmp vector on actual force, but takes as param 3 double primitives (no reference)
+	 * if the parallel execution ends the references aren't valid any longer, so copies or primitives are needed to avoid malfunction
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	void addF(double x, double y, double z);
 
 	/**
 	 * Getter for old_force vector old_f

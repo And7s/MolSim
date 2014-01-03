@@ -17,6 +17,7 @@ using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
 
+
 /**
  * this class provides general environmental influences on the particles. Most likely, those forces do not depend on the location of the particle,
  * since they affect the whole space evenly.

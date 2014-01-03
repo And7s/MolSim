@@ -19,10 +19,10 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 
 	std::vector<Particle*>* particles = lcDomain->getAllParticles();
 	Particle* p;
-
+//cout << "=====\n";
 	int num_Particles = particles->size();
 	for(int i = 0;i < num_Particles;i++){
-		//cout << *(*particles)[i] <<"\n";
+	//		cout << *(*particles)[i] <<"\n";
 		writer.plotParticle(*(*particles)[i]);
 	}
 	writer.writeFile(filename, iteration);

@@ -46,11 +46,13 @@ double EnvInfl::getG(){
  * gravity in -y direction
  */
 void EnvInfl::calculateGravity(Particle* part){
+	//std::cerr << "ENV infl\n";
 	utils::Vector<double,3> force;
 	force[0] = 0 * part->getM() * this->g;
-	force[1] = 0 * part->getM() * this->g;
-	force[2] = 1 * part->getM() * this->g;
-
+	force[1] = 1 * part->getM() * this->g;
+	force[2] = 0 * part->getM() * this->g;
+//std::cerr <<force<<"\n";
+//LOG4CXX_ERROR(loggerEnv, "F: "<<force[0]<<" "<<force[1]<< " "<<force[2]);
 
 	part->addOnF(force);
 }

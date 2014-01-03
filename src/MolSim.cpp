@@ -215,17 +215,18 @@ int main(int argc, char* argsv[]) {
 
 	int startTime = getMilliCount();
 	double accTime = 0;
+	
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
 	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
-		
+		//std::cout << "============\n";	
 		calculation->resetForce();
 	
 		boundaryCondition->apply();
-
+lcDomain->resetafter();
 
 		//Membrane Simulation, the skripted upforce is assigned here
-		if(current_time <= 150) {
+		/*if(current_time <= 150) {
 			Particle* p;
 			std::vector<Particle*>* particles = lcDomain->getAllParticles();
 			#pragma omp parallel for private(p)
@@ -246,8 +247,15 @@ int main(int argc, char* argsv[]) {
 					p->addOnF(forceIJ);
 				}
 			}
-		}
-
+		}*/
+Particle* p;
+			std::vector<Particle*>* particles = lcDomain->getAllParticles();
+			//#pragma omp parallel for private(p)
+			
+			for(int i = 0;i < particles->size();i++){
+				p = (*particles)[i];
+				//if(p->getUid() == 4) std::cout << *p<<"\n";
+			}
 
 		calculation->calculateAll();
 
