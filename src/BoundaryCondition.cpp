@@ -192,7 +192,7 @@ void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, b
 void BoundaryCondition::apply() {
 	ParticleContainer* pc;
 
-	#pragma omp parallel for schedule(dynamic) private(pc)
+	//#pragma omp parallel for schedule(dynamic) private(pc)
 	for(int i = 0; i < domainSize[0]+2; i++) {
 		std::vector<int> pos (3,0);
 		pos[0] = i;

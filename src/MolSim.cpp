@@ -153,13 +153,13 @@ int main(int argc, char* argsv[]) {
 	ParticleGenerator pg;
 	int* length = new int;
 	int i;
-	#pragma omp parallel for private(i)
-	for(i = 0; i < 100; i++) {
-		
-		if(i == 0) {
-			//std::cout << omp_get_num_threads()<<" THREADS";
-		}
+	#pragma omp parallel
+	{
+		LOG4CXX_INFO(loggerMain,"Starting MolSim on "<<omp_get_num_threads()<<" Cores" );
 	}
+	
+
+
 	pa = pg.readFile(length, inp);
 
 	if(argc==3){
@@ -219,43 +219,11 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
 	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
-		//std::cout << "============\n";	
+
 		calculation->resetForce();
 	
 		boundaryCondition->apply();
-lcDomain->resetafter();
-
-		//Membrane Simulation, the skripted upforce is assigned here
-		/*if(current_time <= 150) {
-			Particle* p;
-			std::vector<Particle*>* particles = lcDomain->getAllParticles();
-			#pragma omp parallel for private(p)
-			for(int i = 0;i < particles->size();i++){
-				p = (*particles)[i];
-				int typa = p->getUid();
-
-				int sidelength = 50;
-
-				int x = typa % sidelength;
-				int y = typa / sidelength;
-
-				if((x == 17 || x == 18) && (y == 24 || y == 25)) {
-					utils::Vector<double,3> forceIJ;
-					forceIJ[0] = 0;
-					forceIJ[1] = 0;
-					forceIJ[2] = 0.8;
-					p->addOnF(forceIJ);
-				}
-			}
-		}*/
-Particle* p;
-			std::vector<Particle*>* particles = lcDomain->getAllParticles();
-			//#pragma omp parallel for private(p)
-			
-			for(int i = 0;i < particles->size();i++){
-				p = (*particles)[i];
-				//if(p->getUid() == 4) std::cout << *p<<"\n";
-			}
+		lcDomain->resetafter();
 
 		calculation->calculateAll();
 

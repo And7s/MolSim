@@ -147,27 +147,11 @@ void LCDomain::insertParticle(Particle* part){
 	partPos[2] = floor((double)(part->getX()[2] / cutOffRadius)) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 
-	/*if(part->getUid() == 27 ){
-		if(partPos[0] == 1 && partPos[1] == 1 && partPos[2] == 1) {
-			std::cerr << "\n\ninsert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
-			std::cerr << "try insert: "<<*part<<"\n";
-			float tmp = part->getX()[2];
-			std::cerr << "is: "<<tmp;
-			std::cerr << "And 12: "<< (tmp+12);
-		}
-	}*/
+
 	for(int i = 0; i< 3; i++) {
 		if(partPos[i]< 0 || partPos[i] >= bounds[i]) {	//shouldn be aaarg!!!
-			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
-			std::cerr << "try insert: "<<*part<<"\n";
-			exit(-1);
-		}
-		if(part->getX()[2]> 9) {
-	/*		std::cerr << "Out ";
-			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
-			std::cerr << "try insert: "<<*part<<"\n";
-			std::cerr << "dimension "<<bounds[2]<<" offset "<<offset[1]<<"\n";
-			//exit(-1);*/
+			LOG4CXX_ERROR(loggerDomain, "tried to insert Particle out of bounds position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
+
 		}
 	}
 	index = this->getCellAt(partPos)->getPosition();
@@ -177,10 +161,12 @@ void LCDomain::insertParticle(Particle* part){
 
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
-//std::cout << "insert "<<parts.size()<<"\n";
+
+	//This parallelisation causes an segmentation fault.
+	//inserting will fail if two particles should assigned to the same cell at a time
 	//#pragma omp parallel for
-	for(int i = 0; i < parts.size(); i++){
-		this->insertParticle(parts[i]);
+	for(int i = 0; i < particles.size(); i++){
+		this->insertParticle(particles[i]);
 	}
 }
 
@@ -204,7 +190,7 @@ void LCDomain::deleteParticle(Particle* particle) {
 void LCDomain::reset(){
 	int i;
 
-//	#pragma omp parallel for
+	#pragma omp parallel for
 	for(i = 0; i < this->numberOfCells; i++){
 		cells[i]->clearParticles();
 	}
@@ -222,13 +208,14 @@ void LCDomain::reset(){
 void LCDomain::resetafter(){
 	int i;
 
-//	#pragma omp parallel for
+	#pragma omp parallel for
 	for(i = 0; i < this->numberOfCells; i++){
 		cells[i]->clearParticles();
 	}
 
   	insertParticles(particles);
-  //	std::cout << "And "<<haloParts.size()<<"\n";	
+  	//inserting will fail if two particles should assigned to the same cell at a time
+  	//#pragma omp parallel for
   	for(int i = 0; i < haloParts.size(); i++){
 		this->insertParticle(haloParts[i]);
 	}
