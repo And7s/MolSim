@@ -114,6 +114,7 @@ void Sheet3Calc::calculateForce() {
 	double r0sqrt = std::sqrt(2)*r0;
 	double mindist = std::pow(2, 1/6);
 	int sidelength = 50;	//This needs to be calculated/set by the input of the membran
+	int typa,typb,naturea,natureb;
 
 	//#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
 	#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
@@ -134,51 +135,83 @@ void Sheet3Calc::calculateForce() {
 					interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 
+						naturea = p->getNature();
+						natureb = curP->getNature();
 
-						int typa = p->getUid();
-						int typb = curP->getUid();
-
-					
-						if(typa != typb) {
-							factor3 = curP->getX() - p->getX();
-							double length = factor3.L2Norm();
-
+						//factor3 = curP->getX() - p->getX();
+						double length = factor3.L2Norm();
 						
-							int x = typa % sidelength;
-							int y = typa / sidelength;
+						//Case 1: Both particles are of nature membrane
+						if(naturea == 1 && natureb == 1){
+							/*
+							typa = p->getUid();
+							typb = curP->getUid();
 
-							int xb = typb % sidelength;
-							int yb = typb / sidelength;
+							if(typa != typb) {
 
-							if(	//Direct neighbour
-								(std::abs(y-yb) <= 1 && x == xb) ||
-								(std::abs(x-xb) <= 1 && y == yb)) {
-									forceIJ = (length-r0)*k*factor3/length;
+								int x = typa % sidelength;
+								int y = typa / sidelength;
+
+								int xb = typb % sidelength;
+								int yb = typb / sidelength;
+
+								if(	//Direct neighbour
+									(std::abs(y-yb) <= 1 && x == xb) ||
+									(std::abs(x-xb) <= 1 && y == yb)) {
+										forceIJ = (length-r0)*k*factor3/length;
+										p->addOnF(forceIJ);
+								}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {		//diagonal neighbour
+									forceIJ = (length-r0sqrt)*k*factor3/length;
 									p->addOnF(forceIJ);
-							}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {		//diagonal neighbour
-								forceIJ = (length-r0sqrt)*k*factor3/length;
-								p->addOnF(forceIJ);
-							} else {
-								if(length >= mindist * p->getSigma() && length <= cutoff){
-									double distSq = length*length;
-									if(p->getType()!=curP->getType()){
-										epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-										sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-									}else{
-										epsilon_tmp = p->getEpsilon();
-										sigma_tmp = p->getSigma();
+								} else {
+									if(length >= mindist * p->getSigma() && length <= cutoff){
+										double distSq = length*length;
+										if(p->getType()!=curP->getType()){
+											epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+											sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+										}else{
+											epsilon_tmp = p->getEpsilon();
+											sigma_tmp = p->getSigma();
+										}
+
+										factor1 = (24 * epsilon_tmp)/distSq;
+										powSigma = pow(sigma_tmp,6);
+										powDist = pow(distSq,3);
+										factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+
+										forceIJ = factor1 * factor2 * factor3*(-1);
+										p->addOnF(forceIJ);
 									}
-
-									factor1 = (24 * epsilon_tmp)/distSq;
-									powSigma = pow(sigma_tmp,6);
-									powDist = pow(distSq,3);
-									factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-									
-									forceIJ = factor1 * factor2 * factor3*(-1);
-									p->addOnF(forceIJ);
 								}
-							}
-						}		
+							}*/
+							calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
+						//Case 2: Particle p is a wall, do nothing or reset force to zero
+						}else if(naturea==2){
+							utils::Vector<double, 3> zeroVector = 0.0;
+							p->setF(zeroVector);
+						//Case 3: Default Case, interaction via Lennard-Jones-Potential
+						}else{
+							/*
+							if(length <= cutoff){
+								double distSq = length*length;
+								if(p->getType()!=curP->getType()){
+									epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+									sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+								}else{
+									epsilon_tmp = p->getEpsilon();
+									sigma_tmp = p->getSigma();
+								}
+
+								factor1 = (24 * epsilon_tmp)/distSq;
+								powSigma = pow(sigma_tmp,6);
+								powDist = pow(distSq,3);
+								factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+
+								forceIJ = factor1 * factor2 * factor3*(-1);
+								p->addOnF(forceIJ);
+							}*/
+							calculateLJInteraction(p, curP, length, cutoff);
+						}
 					}
 				}
 				EnvInfl::getInstance()->calculateGravity(p);
@@ -205,4 +238,78 @@ void Sheet3Calc::calculateSingleForce(Particle* p1, Particle* p2){
 	utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
 	utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 	p1->addOnF(forceIJ);
+}
+
+void Sheet3Calc::calculateMembraneInteraction(Particle* p, Particle* curP, double length, double cutOff, int sidelength, double k, double r0, double r0sqrt, double mindist) {
+
+	int typa = p->getUid();
+	int typb = curP->getUid();
+	double epsilon_tmp;
+	double sigma_tmp;
+
+	utils::Vector<double,3> forceIJ;
+
+	if(typa != typb) {
+
+		int x = typa % sidelength;
+		int y = typa / sidelength;
+
+		int xb = typb % sidelength;
+		int yb = typb / sidelength;
+
+		utils::Vector<double,3>  factor3 = curP->getX() - p->getX();
+		if(	//Direct neighbour
+			(std::abs(y-yb) <= 1 && x == xb) ||
+			(std::abs(x-xb) <= 1 && y == yb)) {
+				forceIJ = (length-r0)*k*factor3/length;
+				p->addOnF(forceIJ);
+		}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {		//diagonal neighbour
+			forceIJ = (length-r0sqrt)*k*factor3/length;
+			p->addOnF(forceIJ);
+		} else {
+			if(length >= mindist * p->getSigma() && length <= cutOff){
+				double distSq = length*length;
+				if(p->getType()!=curP->getType()){
+					epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+					sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+				}else{
+					epsilon_tmp = p->getEpsilon();
+					sigma_tmp = p->getSigma();
+				}
+
+				double factor1 = (24 * epsilon_tmp)/distSq;
+				double powSigma = pow(sigma_tmp,6);
+				double powDist = pow(distSq,3);
+				double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+
+				forceIJ = factor1 * factor2 * factor3*(-1);
+				p->addOnF(forceIJ);
+			}
+		}
+	}
+}
+
+void Sheet3Calc::calculateLJInteraction(Particle* p, Particle* curP, double length, double cutOff) {
+	double epsilon_tmp;
+	double sigma_tmp;
+
+	if(length <= cutOff){
+		double distSq = length*length;
+		if(p->getType()!=curP->getType()){
+			epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+			sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+		}else{
+			epsilon_tmp = p->getEpsilon();
+			sigma_tmp = p->getSigma();
+		}
+
+		double factor1 = (24 * epsilon_tmp)/distSq;
+		double powSigma = pow(sigma_tmp,6);
+		double powDist = pow(distSq,3);
+		double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+		utils::Vector<double,3>  factor3 = curP->getX() - p->getX();
+
+		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3*(-1);
+		p->addOnF(forceIJ);
+	}
 }

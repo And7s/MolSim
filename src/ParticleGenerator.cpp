@@ -84,7 +84,7 @@ std::vector<Particle*> partlist;
 		v[1] = ci->velocity().y();
 		v[2] = ci->velocity().z();
 		type = ci->type();
-		nature = si->nature();
+		nature = ci->nature();
 		epsilon = ci->epsilon();
 		sigma = ci->sigma();
 	    LOG4CXX_INFO(loggerPG, "Generate Cuboids");

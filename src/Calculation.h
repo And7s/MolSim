@@ -106,6 +106,10 @@ public:
 	 * @param p2
 	 */
 	static void calculateSingleForce(Particle* p1, Particle* p2);
+
+	static void calculateMembraneInteraction(Particle* p, Particle* curP, double length, double cutOff, int sidelength, double k, double r0, double r0sqrt, double mindist);
+
+	static void calculateLJInteraction(Particle* p, Particle* curP, double length, double cutOff);
 };
 
 
