@@ -203,8 +203,6 @@ bool Particle::approxDist(Particle* part, double cutHalf) {
 	return (std::abs(x[0] - part->getX()[0]) < cutHalf && std::abs(x[1] - part->getX()[1]) < cutHalf);
 }
 
-
-
 int Particle::getNature() {
 	return this->nature;
 }
