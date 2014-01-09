@@ -29,24 +29,16 @@ protected:
 public:
 	virtual ~Calculation() {
 	}
+
 	/**
-	 * Abstract function to calculate the force
-	 */
-	virtual void calculateForce()=0;
-	/**
-	 * Abstract function to calculate the position
+	 * function to calculate the position
 	 */
 	void calculatePosition();
 
 	/**
-	 * Abstract function to calculate the velocity
+	 * function to calculate the velocity
 	 */
 	void calculateVelocity();
-
-	/**
-	 * Abstract function to calculate velocity, position and force at once
-	 */
-	virtual void calculateAll()=0;
 
 	/**
 	 * Abstract function to set the ParticleContainer
@@ -84,46 +76,28 @@ public:
 	 */
 	static void calculateSingleForce(Particle* p1, Particle* p2);
 
+	static void calculateLJInteraction(Particle* p, Particle* curP, double length, double cutOff);
+
+	/**
+	 * Function to calculate the force
+	 */
+	void calculateForce();
+
+
+	/**
+	 * Function to calculate velocity, position and force at once
+	 */
+	void calculateAll();
+
+	static void calculateMembraneInteraction(Particle* p, Particle* curP, double length, double cutOff, int sidelength, double k, double r0, double r0sqrt, double mindist);
+
+
 	int counterAll, counterMiss;
 };
 
 
 
-/**
- * Actual Implementation of the calculation of the Membrane Calculation, derived from Calculation
- * for Sheet3
- */
-class MemCalc: public Calculation {
-public:
-	/**
-	 * Function to calculate the force
-	 */
-	void calculateForce();
 
-	/**
-	 * Function to calculate velocity, position and force at once
-	 */
-	void calculateAll();
-};
-
-
-
-/**
- * Actual Implementation for the RayleighTailor Simulation, derived from Calculation
- * for Sheet3
- */
-class RayCalc: public Calculation {
-public:
-	/**
-	 * Function to calculate the force
-	 */
-	void calculateForce();
-
-	/**
-	 * Function to calculate velocity, position and force at once
-	 */
-	void calculateAll();
-};
 
 
 #endif /* CALCULATION_H_ */

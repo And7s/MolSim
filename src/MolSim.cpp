@@ -70,7 +70,7 @@ LoggerPtr loggerMain(Logger::getLogger( "main"));
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-RayCalc sheet3calc;
+Calculation sheet3calc;
 Calculation *calculation = &sheet3calc;
 VTK vtk_plotter;
 XVF xvf_plotter;
@@ -156,7 +156,7 @@ int main(int argc, char* argsv[]) {
 	int i;
 	#pragma omp parallel
 	{
-		LOG4CXX_INFO(loggerMain, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
+		//LOG4CXX_INFO(loggerMain, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
 	}
 	pa = pg.readFile(length, inp);
 
@@ -217,7 +217,14 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
 	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
-
+/*
+Particle* p;
+			std::vector<Particle*>* particles = lcDomain->getAllParticles();
+			//#pragma omp parallel for private(p)
+			for(int i = 0;i < particles->size();i++){
+				p = (*particles)[i];
+				cout << *p<<"\n";
+			}*/
 		calculation->resetForce();
 	
 		boundaryCondition->apply();
@@ -246,6 +253,8 @@ int main(int argc, char* argsv[]) {
 				}
 			}
 		}*/
+
+			
 
 		calculation->calculateAll();
 

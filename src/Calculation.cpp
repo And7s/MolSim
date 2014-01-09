@@ -93,91 +93,8 @@ ParticleContainer& Calculation::getParticleContainer(){
 	return particleContainer;
 }
 
-void RayCalc::calculateForce() {
-	 ParticleContainer** pcArray = lcDomain->getCells();
-	int
-		size = lcDomain->getNumberOfCells(),
-		interactingParticlesIt,
-		cellParticleIt,
-		sizeNeighbours;
-	ParticleContainer* pc;
-	Particle
-		*curP,
-		*p;
-	double
-		sigma_tmp,
-		epsilon_tmp,
-		cutHalf = lcDomain->getCutOffRadius() / 2.0,
-		distSq,
-		cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius(),
-		factor1,
-		factor2,
-		powSigma,
-		powDist;
-	std::vector<ParticleContainer*> neighboursOfPc;
-	utils::Vector<double,3>
-		factor3,
-		forceIJ;
-	//Try me
-	//#pragma omp parallel for private                (pc, sigma_tmp, epsilon_tmp, distSq,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours)
-	#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours, distSq)   
-	for(int i = 0; i < size; i++){        //iterate over all cells
-		pc = pcArray[i];
 
-		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
-		neighboursOfPc.push_back(pc);
-		sizeNeighbours = neighboursOfPc.size();
-		
-		cellParticleIt = 0;
-		
-		while((p = pc->nextParticle(&cellParticleIt))!=NULL){        //iterate over particles within this cell
-			
-			if(p->getType() != -1) {
-
-				for(int j = 0; j < sizeNeighbours;j++){                //iterate over their neighbours
-					interactingParticlesIt = 0;
-					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-
-						/*
-						 * Currently, the cutoff-rad is equal to the length of an cell.
-						 * The likelihood, that two particles, which are located in neighbour-cells,
-						 * have a higher distance than the cutoff-rad, is - depending on the the simulation - approximately 60%.
-						 * The approxDist-inline-function checks, whether the particles is in the box, which embraces the circle.
-						 * In the end, the actual distance has to be measured in only 3% of the cases.
-						 * Reducing the length would reduce the amount of misses even more.
-						 */
-						if(p->approxDist(curP,cutHalf)){ //improves speed by about 4% + inline 1%
-							distSq = curP->getDistanceToSq(p);
-							if((distSq<=cutoffSq)&&(distSq>0)){
-								if(p->getType()!=curP->getType()){
-									epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-									sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-								}else{
-									epsilon_tmp = p->getEpsilon();
-									sigma_tmp = p->getSigma();
-								}
-
-								factor1 = (24 * epsilon_tmp)/distSq;
-								powSigma = pow(sigma_tmp,6);
-								powDist = pow(distSq,3);
-								factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-								factor3 = curP->getX()-p->getX();
-
-								forceIJ = factor1 * factor2 * factor3;
-
-								p->addOnF(forceIJ);
-							}
-						}
-					}
-				}
-				EnvInfl::getInstance()->calculateGravity(p);
-			}
-		}
-		neighboursOfPc.clear();
-	}
-}
-
-void MemCalc::calculateForce() {
+void Calculation::calculateForce() {
 
 
 	ParticleContainer** pcArray = lcDomain->getCells();
@@ -211,10 +128,13 @@ void MemCalc::calculateForce() {
 	double r0 = 2.2;    //distance, take from input file pls
 	double r0sqrt = std::sqrt(2)*r0;
 	double mindist = std::pow(2, 1/6);
-	int sidelength = 50;    //This needs to be calculated/set by the input of the membran
+
+	int sidelength = 50;	//This needs to be calculated/set by the input of the membran
+	int typa,typb,naturea,natureb;
+
 
 	//#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
-	#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
+	//#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
 	for(int i = 0; i < size; i++){  //iterate over all cells
 
 		pc = pcArray[i];
@@ -232,51 +152,29 @@ void MemCalc::calculateForce() {
 					interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
 
+						if(curP->getUid() != p->getUid()) {
+							naturea = p->getNature();
+							natureb = curP->getNature();
 
-						int typa = p->getUid();
-						int typb = curP->getUid();
-
-					
-						if(typa != typb) {
 							factor3 = curP->getX() - p->getX();
 							double length = factor3.L2Norm();
+							
 
-						
-							int x = typa % sidelength;
-							int y = typa / sidelength;
-
-							int xb = typb % sidelength;
-							int yb = typb / sidelength;
-
-							if( //Direct neighbour
-								(std::abs(y-yb) <= 1 && x == xb) ||
-								(std::abs(x-xb) <= 1 && y == yb)) {
-									forceIJ = (length-r0)*k*factor3/length;
-									p->addOnF(forceIJ);
-							}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {        //diagonal neighbour
-								forceIJ = (length-r0sqrt)*k*factor3/length;
-								p->addOnF(forceIJ);
-							} else {
-								if(length >= mindist * p->getSigma() && length <= cutoff){
-									double distSq = length*length;
-									if(p->getType()!=curP->getType()){
-										epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
-										sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
-									}else{
-										epsilon_tmp = p->getEpsilon();
-										sigma_tmp = p->getSigma();
-									}
-
-									factor1 = (24 * epsilon_tmp)/distSq;
-									powSigma = pow(sigma_tmp,6);
-									powDist = pow(distSq,3);
-									factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-									
-									forceIJ = factor1 * factor2 * factor3*(-1);
-									p->addOnF(forceIJ);
-								}
+							//Case 1: Both particles are of nature membrane
+							if(naturea == 1 && natureb == 1){
+	
+								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
+							//Case 2: Particle p is a wall, do nothing or reset force to zero
+							}else if(naturea==2){
+								
+								utils::Vector<double, 3> zeroVector = 0.0;
+								p->setF(zeroVector);
+							//Case 3: Default Case, interaction via Lennard-Jones-Potential
+							}else{
+								
+								calculateLJInteraction(p, curP, length, cutoff);
 							}
-						}       
+						}
 					}
 				}
 				EnvInfl::getInstance()->calculateGravity(p);
@@ -288,16 +186,9 @@ void MemCalc::calculateForce() {
 }
 
 
-void MemCalc::calculateAll() {
-	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Membrane Calculation");
-	calculateForce();
-	calculateVelocity();
-	calculatePosition();
-	lcDomain->reset();
-}
 
-void RayCalc::calculateAll() {
-	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of RayLeighTailor Calculation");
+void Calculation::calculateAll() {
+	LOG4CXX_TRACE(loggerCalc, "starting new Calculation Loop");
 	calculateForce();
 	calculatePosition();
 	calculateVelocity();
@@ -311,4 +202,84 @@ void Calculation::calculateSingleForce(Particle* p1, Particle* p2){
 	utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
 	utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 	p1->addOnF(forceIJ);
+}
+
+void Calculation::calculateMembraneInteraction(Particle* p, Particle* curP, double length, double cutOff, int sidelength, double k, double r0, double r0sqrt, double mindist) {
+
+	int typa = p->getUid();
+	int typb = curP->getUid();
+	double epsilon_tmp;
+	double sigma_tmp;
+
+	utils::Vector<double,3> forceIJ;
+
+	if(typa != typb) {
+
+		int x = typa % sidelength;
+		int y = typa / sidelength;
+
+		int xb = typb % sidelength;
+		int yb = typb / sidelength;
+
+		utils::Vector<double,3>  factor3 = curP->getX() - p->getX();
+		if(	//Direct neighbour
+			(std::abs(y-yb) <= 1 && x == xb) ||
+			(std::abs(x-xb) <= 1 && y == yb)) {
+				forceIJ = (length-r0)*k*factor3/length;
+				p->addOnF(forceIJ);
+		}else if (std::abs(x-xb) <= 1 && std::abs(y-yb) <= 1 ) {		//diagonal neighbour
+			forceIJ = (length-r0sqrt)*k*factor3/length;
+			p->addOnF(forceIJ);
+		} else {
+			if(length >= mindist * p->getSigma() && length <= cutOff){
+				double distSq = length*length;
+				if(p->getType()!=curP->getType()){
+					epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+					sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+				}else{
+					epsilon_tmp = p->getEpsilon();
+					sigma_tmp = p->getSigma();
+				}
+
+				double factor1 = (24 * epsilon_tmp)/distSq;
+				double powSigma = pow(sigma_tmp,6);
+				double powDist = pow(distSq,3);
+				double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+
+				forceIJ = factor1 * factor2 * factor3*(-1);
+				p->addOnF(forceIJ);
+			}
+		}
+	}
+}
+
+void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double length, double cutOff) {
+	double epsilon_tmp;
+	double sigma_tmp;
+
+	if(length <= cutOff){
+		double distSq = length*length;
+		if(p->getType()!=curP->getType()){
+			epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
+			sigma_tmp = (p->getSigma()+curP->getSigma())/2.0;
+		}else{
+			epsilon_tmp = p->getEpsilon();
+			sigma_tmp = p->getSigma();
+		}
+
+		double factor1 = (24 * epsilon_tmp)/distSq;
+		double powSigma = pow(sigma_tmp,6);
+		double powDist = pow(distSq,3);
+		double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
+		utils::Vector<double,3>  factor3 = curP->getX() - p->getX();
+
+		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3*(-1);
+
+		if(isnan(forceIJ[0])) {
+			std::cout << *curP<<"\n";
+			std::cout << "f1 "<<factor1<<" powsig "<<powSigma<<" powdist "<<powDist<<" epstmp "<<epsilon_tmp<<" sigtmp "<<sigma_tmp;
+			exit(0);
+		}
+		p->addOnF(forceIJ);
+	}
 }

@@ -27,6 +27,7 @@ Particle::Particle(const Particle& other) {
 	old_f = other.old_f;
 	m = other.m;
 	type = other.type;
+	nature = other.nature;
 	epsilon = other.epsilon;
 	sigma = other.sigma;
 	uid = other.uid;	//TODO change me back to -1
@@ -47,6 +48,7 @@ Particle::Particle(	utils::Vector<double, 3> x_arg,
     f = 0.0;
     old_f = 0.0;
     last_move = 0.1;
+    nature = 0;
     //std::cout << "Particle generated!" << std::endl;
 }
 

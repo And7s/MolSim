@@ -16,8 +16,8 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <plot_vtk_file>true</plot_vtk_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_xvf_file>true</plot_xvf_file>
-  <use_thermostat>true</use_thermostat>
-  <frequency>100</frequency>
+  <use_thermostat>false</use_thermostat>
+  <frequency>10</frequency>
   <dimensions>3</dimensions>
   <start_time>0</start_time>
   <tend>100</tend>
@@ -30,16 +30,16 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0.6</z>
     </position>
     <number>
-      <x>48</x>
-      <y>9</y>
-      <z>42</z>
+      <x>5</x>
+      <y>5</y>
+      <z>5</z>
     </number>
     <distance>1.2</distance>
     <mass>40.0</mass>
     <epsilon>2.0</epsilon>
     <sigma>1.15</sigma>
     <type>1</type>
-    <nature>1</nature>
+    <nature>0</nature>
     <velocity>
       <x>0</x>
       <y>0</y>
@@ -54,7 +54,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <z>0.6</z>
     </position>
     <number>
-      <x>48</x>
+      <x>0</x>
       <y>9</y>
       <z>42</z>
     </number>
@@ -63,6 +63,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <epsilon>2.0</epsilon>
     <sigma>1.15</sigma>
     <type>1</type>
+    <nature>0</nature>
     <velocity>
       <x>0</x>
       <y>0</y>
