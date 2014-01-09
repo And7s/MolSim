@@ -200,7 +200,7 @@ int main(int argc, char* argsv[]) {
 	//initially calculation of Forces
 	calculation->resetForce();
 
-	calculation->calculateForce();
+	calculation->calculateForce(0.0);
 	calculation->calculateVelocity();
 	calculation->calculatePosition();
 
@@ -249,7 +249,7 @@ int main(int argc, char* argsv[]) {
 		}
 
 
-		calculation->calculateAll();
+		calculation->calculateAll(current_time);
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {

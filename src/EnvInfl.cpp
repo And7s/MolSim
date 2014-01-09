@@ -12,12 +12,9 @@ LoggerPtr loggerEnv(Logger::getLogger("main.env"));
 EnvInfl* EnvInfl::instance = NULL;
 
 EnvInfl::EnvInfl() {
-	// TODO Auto-generated constructor stub
-
 }
 
 EnvInfl::~EnvInfl() {
-	// TODO Auto-generated destructor stub
 }
 
 EnvInfl* EnvInfl::getInstance(){
@@ -55,4 +52,18 @@ void EnvInfl::calculateGravity(Particle* part){
 	part->addOnF(force);
 }
 
+void EnvInfl::calculateSpecParts(int timestep){
+	int size = specParts.size();
+	for(int i = 0; i < size; i++){
+		specParts[i]->adjustForce(timestep);
+	}
+}
 
+void EnvInfl::addSpecPart(double startTime, double endTime,
+		std::vector<double> force, bool relative, Particle* part) {
+	SpecializedParticle* sp = new SpecializedParticle(part);
+	sp->setStartTime(startTime);
+	sp->setEndTime(endTime);
+	sp->setConstForce(force,relative);
+	this->specParts.push_back(sp);
+}

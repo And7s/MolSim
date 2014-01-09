@@ -69,7 +69,7 @@ void Calculation_test::testGetDeltaT() {
 void Calculation_test::testCalculateForce() {
 	bool oldCalc = false;
 	test_calculator->resetForce();
-	test_calculator->calculateForce();
+	test_calculator->calculateForce(0.0);
 	utils::Vector<double,3> result1;
 	utils::Vector<double,3> result2;
 	result1[0]=-0.00122864;

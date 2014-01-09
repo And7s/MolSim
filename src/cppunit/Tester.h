@@ -15,6 +15,7 @@
 #include "ParticleContainer_suite.h"
 #include "Particle_suite.h"
 #include "LCDomain_suite.h"
+#include "EnvInfl_suite.h"
 
 /*
  *CppUnit::TestSuite which contains all the different testsuites

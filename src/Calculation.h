@@ -32,7 +32,7 @@ public:
 	/**
 	 * Abstract function to calculate the force
 	 */
-	virtual void calculateForce()=0;
+	virtual void calculateForce(double currentTime)=0;
 	/**
 	 * Abstract function to calculate the position
 	 */
@@ -46,7 +46,7 @@ public:
 	/**
 	 * Abstract function to calculate velocity, position and force at once
 	 */
-	virtual void calculateAll()=0;
+	virtual void calculateAll(double currentTime)=0;
 
 	/**
 	 * Abstract function to set the ParticleContainer
@@ -93,12 +93,12 @@ public:
 	/**
 	 * Function to calculate the force
 	 */
-	void calculateForce();
+	void calculateForce(double currentTime);
 
 	/**
 	 * Function to calculate velocity, position and force at once
 	 */
-	void calculateAll();
+	void calculateAll(double currentTime);
 
 	/**
 	 * Function to calculate the force between the two specific particles p1 and p2

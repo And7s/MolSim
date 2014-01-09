@@ -9,6 +9,7 @@
 #define ENVINFL_H_
 
 #include "Particle.h"
+#include "SpecializedParticle.h"
 
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>
@@ -37,6 +38,8 @@ private:
 	static EnvInfl* instance;
 
 public:
+	std::vector<SpecializedParticle*> specParts;
+
 	static EnvInfl* getInstance();
 
 	static void destroy();
@@ -57,6 +60,13 @@ public:
 	double getG();
 
 	void calculateGravity(Particle* parts);
+
+	void calculateSpecParts(int timestep);
+
+	/**
+	 * setup the particles special list
+	 */
+	void addSpecPart(double startTime, double endTime, std::vector<double> force, bool relative, Particle* part);
 
 };
 

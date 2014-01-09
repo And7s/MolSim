@@ -31,9 +31,9 @@ CppUnit::TestSuite *Tester::suite() {
 }
 
 CppUnit::TestSuite *Tester::singleSuite(std::string test) {
-	int numberOfTests = 8;
+	int numberOfTests = 9;
 	string testArray[] = {"testGetDeltaT","testCalculateForce","testCalculatePosition", "testCalculateVelocity", "testGetLength",
-			"testAddOnF", "testDomainEnv", "testDomainBehaviour"};
+			"testAddOnF", "testDomainEnv", "testDomainBehaviour", "testEnvInfl"};
 	int i=0;
 	while(test.compare(testArray[i])!=0 && i<=numberOfTests){
 		i++;
@@ -56,6 +56,10 @@ CppUnit::TestSuite *Tester::singleSuite(std::string test) {
 		LOG4CXX_TRACE(loggerTester, "In Tester_SingleSuite: Test " + test + " successful");
 		LOG4CXX_TRACE(loggerTester, "Starting LCDomain_suite");
 		suite_Tester->addTest(LCDomain_suite::singleSuite(test));
+	}else if(i==8){
+		LOG4CXX_TRACE(loggerTester, "In Tester_SingleSuite: Test " + test + " successful");
+		LOG4CXX_TRACE(loggerTester, "Starting EnvInfl_suite");
+		suite_Tester->addTest(EnvInfl_suite::singleSuite(test));
 	}else{
 		LOG4CXX_WARN(loggerTester, "Wrong input for singleTest: " << test);
 		LOG4CXX_WARN(loggerTester, "Use Input: ");

@@ -80,7 +80,7 @@ ParticleContainer& Calculation::getParticleContainer(){
 	return particleContainer;
 }
 
-void Sheet3Calc::calculateForce() {
+void Sheet3Calc::calculateForce(double currentTime) {
 //sheet 5 calculation
 	ParticleContainer** pcArray = lcDomain->getCells();
 	int 
@@ -112,7 +112,7 @@ void Sheet3Calc::calculateForce() {
 	double k = 300;//make me dynmaic TODO
 	double r0 = 2.2;	//distance, take from input file pls
 	double r0sqrt = std::sqrt(2)*r0;
-	double mindist = std::pow(2, 1/6);
+	double mindist = std::pow(2, 1.0/6);
 	int sidelength = 50;	//This needs to be calculated/set by the input of the membran
 	int typa,typb,naturea,natureb;
 
@@ -217,15 +217,16 @@ void Sheet3Calc::calculateForce() {
 				EnvInfl::getInstance()->calculateGravity(p);
 			}
 		}
+		EnvInfl::getInstance()->calculateSpecParts(currentTime);
 		neighboursOfPc.clear();
 	}
 }
 
 
 
-void Sheet3Calc::calculateAll() {
+void Sheet3Calc::calculateAll(double currentTime) {
 	LOG4CXX_TRACE(loggerCalc, "starting new calculation loop of Sheet3Calc");
-	calculateForce();
+	calculateForce(currentTime);
 	calculateVelocity();
 	calculatePosition();
 	lcDomain->reset();

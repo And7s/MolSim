@@ -20,7 +20,7 @@ public:
 	LCDomain_suite();
 	virtual ~LCDomain_suite();
 
-	static CppUnit::TestSuite *suite();
+	static CppUnit::TestSuite* suite();
 	static CppUnit::TestSuite* singleSuite(std::string test);
 };
 

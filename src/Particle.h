@@ -191,8 +191,8 @@ public:
 	 * increases speed by about 1%
 	 */
 	inline bool approxDist(Particle* part, double cutHalf);
-	inline void setUid(int uid_);
-	int getUid();
+	void setUid(int uid_);
+	inline int getUid();
 };
 
 utils::Vector<double, 3>& Particle::getX() {
@@ -208,7 +208,7 @@ int Particle::getNature() {
 }
 
 int Particle::getUid() {
-	return uid;
+	return this->uid;
 }
 
 std::ostream& operator<<(std::ostream& stream, Particle& p);
