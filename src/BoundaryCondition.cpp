@@ -90,7 +90,7 @@ oldv = oldv * 0.0;
 //p->setV(oldv);
 			counterP->setX(oldX);
 
-			Sheet3Calc::calculateSingleForce(p,counterP);
+			Calculation::calculateSingleForce(p,counterP);
 			//Sheet3Calc::calculateSingleForce(p,counterP);
 
 			delete counterP;

@@ -20,7 +20,7 @@ void Calculation_test::setUp() {
 	std::vector<Particle*> pa;
 	ParticleContainer pc(2);
 
-	test_calculator = new Sheet3Calc();
+	test_calculator = new RayCalc();
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);

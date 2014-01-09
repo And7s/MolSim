@@ -77,7 +77,12 @@ public:
 
 	LCDomain* getLcDomain();
 
-	void calculateSingleForce(Particle* p1, Particle* p2);
+	/**
+	 * Function to calculate the force between the two specific particles p1 and p2
+	 * @param p1
+	 * @param p2
+	 */
+	static void calculateSingleForce(Particle* p1, Particle* p2);
 
 	int counterAll, counterMiss;
 };
@@ -85,10 +90,10 @@ public:
 
 
 /**
- * Actual Implementation of the calculation of force, velocity and position, derived from Calculation
+ * Actual Implementation of the calculation of the Membrane Calculation, derived from Calculation
  * for Sheet3
  */
-class Sheet3Calc: public Calculation {
+class MemCalc: public Calculation {
 public:
 	/**
 	 * Function to calculate the force
@@ -99,13 +104,25 @@ public:
 	 * Function to calculate velocity, position and force at once
 	 */
 	void calculateAll();
+};
+
+
+
+/**
+ * Actual Implementation for the RayleighTailor Simulation, derived from Calculation
+ * for Sheet3
+ */
+class RayCalc: public Calculation {
+public:
+	/**
+	 * Function to calculate the force
+	 */
+	void calculateForce();
 
 	/**
-	 * Function to calculate the force between the two specific particles p1 and p2
-	 * @param p1
-	 * @param p2
+	 * Function to calculate velocity, position and force at once
 	 */
-	static void calculateSingleForce(Particle* p1, Particle* p2);
+	void calculateAll();
 };
 
 

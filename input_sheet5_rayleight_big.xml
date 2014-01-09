@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<!--
+
+input.xml
+Defines input parameter for the MolSim Project in an xml
+24-11-2013
+Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+
+-->
+
+<input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="input.xsd">
+   <gravity>-12.44</gravity>
+  <base_output_file>out</base_output_file>
+  <plot_vtk_file>true</plot_vtk_file>
+  <xvf_data_file>xvfData</xvf_data_file>
+  <plot_xvf_file>true</plot_xvf_file>
+  <use_thermostat>true</use_thermostat>
+  <frequency>25</frequency>
+  <dimensions>3</dimensions>
+  <start_time>0</start_time>
+  <tend>100</tend>
+  <delta_t>0.0002</delta_t>
+  <input_file>unused</input_file>
+  <cuboid>
+    <position>
+      <x>0.6</x>
+      <y>0.6</y>
+      <z>0.6</z>
+    </position>
+    <number>
+      <x>48</x>
+      <y>9</y>
+      <z>42</z>
+    </number>
+    <distance>1.2</distance>
+    <mass>40.0</mass>
+    <epsilon>2.0</epsilon>
+    <sigma>1.15</sigma>
+    <type>1</type>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+
+  <cuboid>
+    <position>
+      <x>0.6</x>
+      <y>11.4</y>
+      <z>0.6</z>
+    </position>
+    <number>
+      <x>48</x>
+      <y>9</y>
+      <z>42</z>
+    </number>
+    <distance>1.2</distance>
+    <mass>80.0</mass>
+    <epsilon>2.0</epsilon>
+    <sigma>1.15</sigma>
+    <type>1</type>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+
+
+
+  <boundaryCondition>
+    <left>2</left>
+    <right>2</right>
+    <bottom>1</bottom>
+    <top>1</top>
+    <front>2</front>
+    <back>2</back>
+  </boundaryCondition>
+
+  <LinkedCellDomain>
+    <dimension>
+      <x>60</x>
+      <y>24</y>
+      <z>51</z>
+    </dimension>
+    <cutoff>3</cutoff>
+  </LinkedCellDomain>
+  <Thermostats>
+    <initial_temp>40</initial_temp>
+    <applied_after>1000</applied_after>
+    <delta_temp>1</delta_temp>
+    <changed_after>1000</changed_after>
+    <target_temp>40</target_temp>
+  </Thermostats>
+</input>
