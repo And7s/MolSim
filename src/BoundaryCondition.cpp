@@ -58,7 +58,7 @@ void BoundaryCondition::applyReflecting(ParticleContainer* pc, int axis, bool ze
 			double distance = pow(p->getSigma(), 1/6.0);
 			
 			utils::Vector<double, 3> oldX = counterP->getX();
-			//if(axis == 2 && !zero) std::cout << "reflect at "<<oldX[axis]<<" "<< p->getUid()<<"\n";
+
 			if(zero){
 				if(oldX[axis] <= -distance) {
 					std::cerr << "Instability : too far \n"<<*p<<"\n";
@@ -83,19 +83,12 @@ void BoundaryCondition::applyReflecting(ParticleContainer* pc, int axis, bool ze
 				
 			}
 
-//I AM AN HACK DONT USE ME IM EVIL
-//JUST FOR DESTING AND CAUS IM DESPERATE
-utils::Vector<double, 3> oldv = p->getV();
-oldv = oldv * 0.0;
-//p->setV(oldv);
 			counterP->setX(oldX);
 
 			Calculation::calculateSingleForce(p,counterP);
-			//Sheet3Calc::calculateSingleForce(p,counterP);
+
 
 			delete counterP;
-		}else {
-			//std::cerr << "typ "<<p->getType();
 		}
 	}
 }
@@ -104,11 +97,10 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 	int j = 0;
 	while((p = pc->nextParticle(&j)) != NULL){
 		if(p->getType() == -1) {
-			//im a copy (delete?)
 		}else {
 			//im an original, move me to the other side
 			utils::Vector<double, 3> pos = p->getX();
-			//std::cerr << "From "<< pos[axis];
+			
 			if(zero) {
 				pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
 			}else {
@@ -117,16 +109,7 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 			pc2->setParticle(p);
 			Particle* pcopy = new Particle(*p);
 
-			//std::cerr << " 	periodic move"<< p->getUid()<<" to "<<pos[axis]<<"\n";
-
-		//	std::cerr << "Copy is at "<<pcopy->getX()[axis]<<"\n";
-			p->setX(pos);
-
-	
-			//AND create a copy of me, becuase im not in the real LCDomain, but in the halo
-
-
-			
+			p->setX(pos);	
 
 			pcopy->setType(-1);
 			pc->setParticle(pcopy);
@@ -138,30 +121,22 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 	pc->clearParticles();
 
 	while((p = pc2->nextParticle(&j)) != NULL){
-		/*if(p->getType() == -1) {
-			//im a copy (delete?)
-		}else {*/
-		//Do it for every axis, (mirroring)
-			Particle* pcopy = new Particle(*p);
 
-			utils::Vector<double, 3> pos = pcopy->getX();
-			if(p->getUid() == 27) {
-				//std::cout << "is at: "<<pos<<"\n";
-			}
-			if(zero) {
-				pos[axis] -= domainSize[axis]*linkedCell->getCutOffRadius();
-			}else {
-				pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
-			}
-			if(p->getUid() == 27) {
-			//	std::cerr << "Add Copy of "<< p->getUid()<<" at "<<pos[axis]<< "axis; "<<axis<<"\n";
-			}
-			pcopy->setX(pos);
-			pcopy->setType(-1);
-			pc->setParticle(pcopy);
-			linkedCell->addHaloParticle(pcopy);
+		Particle* pcopy = new Particle(*p);
 
-		//}
+		utils::Vector<double, 3> pos = pcopy->getX();
+		
+		if(zero) {
+			pos[axis] -= domainSize[axis]*linkedCell->getCutOffRadius();
+		}else {
+			pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
+		}
+		
+		pcopy->setX(pos);
+		pcopy->setType(-1);
+		pc->setParticle(pcopy);
+		linkedCell->addHaloParticle(pcopy);
+
 	}
 }
 
@@ -202,47 +177,47 @@ void BoundaryCondition::apply() {
 					//check left
 
 					pc = linkedCell->getCellAt(pos);
-					//if(!pc->isempty()) {
+
 						applySwitch(boundarytype[0], pos, 0, true, pc);
-					//}
+
 				}
 				if(pos[0] == domainSize[0]+1) {
 					//check right
 					pc = linkedCell->getCellAt(pos);
-					//if(!pc->isempty()) {
+
 						applySwitch(boundarytype[1], pos, 0, false, pc);
-					//}
+
 				}
 
 				if(pos[1] == 0 ){
 					//check bottom
 					pc = linkedCell->getCellAt(pos);
-					//if(!pc->isempty()) {
+
 						applySwitch(boundarytype[2], pos, 1, true, pc);
-					//}
+
 				}
 				if(pos[1] == domainSize[1]+1) {
 					//check top
 					pc = linkedCell->getCellAt(pos);
-					//if(!pc->isempty()) {
+
 						applySwitch(boundarytype[3], pos, 1, false, pc);
-					//}
+
 				}
 				if(dimension == 3) {
 					if(pos[2] == 0 ){
 						//check front
 						pc = linkedCell->getCellAt(pos);
-						//if(!pc->isempty()) {
-							applySwitch(boundarytype[4], pos, 2, true, pc);
-						//}
+
+						applySwitch(boundarytype[4], pos, 2, true, pc);
+
 					}
 					if(pos[2] == domainSize[2]+1) {
 						//check back
 
 						pc = linkedCell->getCellAt(pos);
-						//if(!pc->isempty()) {
-							applySwitch(boundarytype[5], pos, 2, false, pc);
-						//}
+
+						applySwitch(boundarytype[5], pos, 2, false, pc);
+
 					}
 				}
 			}
