@@ -159,7 +159,7 @@ void Sheet3Calc::calculateForce() {
 								forceIJ = (length-r0sqrt)*k*factor3/length;
 								p->addOnF(forceIJ);
 							} else {
-								if(length >= mindist && length <= cutoff){ 
+								if(length >= mindist * p->getSigma() && length <= cutoff){
 									double distSq = length*length;
 									if(p->getType()!=curP->getType()){
 										epsilon_tmp = sqrt(p->getEpsilon()*curP->getEpsilon());
@@ -186,7 +186,6 @@ void Sheet3Calc::calculateForce() {
 		}
 		neighboursOfPc.clear();
 	}
-
 }
 
 
