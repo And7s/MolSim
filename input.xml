@@ -39,6 +39,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <epsilon>1.0</epsilon>
     <sigma>1.0</sigma>
     <type>1</type>
+    <nature>1</nature>
     <velocity>
       <x>0</x>
       <y>0</y>

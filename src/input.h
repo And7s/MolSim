@@ -703,6 +703,20 @@ class cuboid: public ::xml_schema::type
   void
   type (const type_type& x);
 
+  // nature
+  // 
+  typedef ::xml_schema::integer nature_type;
+  typedef ::xsd::cxx::tree::traits< nature_type, char > nature_traits;
+
+  const nature_type&
+  nature () const;
+
+  nature_type&
+  nature ();
+
+  void
+  nature (const nature_type& x);
+
   // velocity
   // 
   typedef ::vectorF velocity_type;
@@ -729,6 +743,7 @@ class cuboid: public ::xml_schema::type
           const epsilon_type&,
           const sigma_type&,
           const type_type&,
+          const nature_type&,
           const velocity_type&);
 
   cuboid (::std::auto_ptr< position_type >&,
@@ -738,6 +753,7 @@ class cuboid: public ::xml_schema::type
           const epsilon_type&,
           const sigma_type&,
           const type_type&,
+          const nature_type&,
           ::std::auto_ptr< velocity_type >&);
 
   cuboid (const ::xercesc::DOMElement& e,
@@ -773,6 +789,7 @@ class cuboid: public ::xml_schema::type
   ::xsd::cxx::tree::one< epsilon_type > epsilon_;
   ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< type_type > type_;
+  ::xsd::cxx::tree::one< nature_type > nature_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
 };
 
@@ -886,6 +903,20 @@ class sphere: public ::xml_schema::type
   void
   type (const type_type& x);
 
+  // nature
+  // 
+  typedef ::xml_schema::integer nature_type;
+  typedef ::xsd::cxx::tree::traits< nature_type, char > nature_traits;
+
+  const nature_type&
+  nature () const;
+
+  nature_type&
+  nature ();
+
+  void
+  nature (const nature_type& x);
+
   // velocity
   // 
   typedef ::vectorF velocity_type;
@@ -912,6 +943,7 @@ class sphere: public ::xml_schema::type
           const epsilon_type&,
           const sigma_type&,
           const type_type&,
+          const nature_type&,
           const velocity_type&);
 
   sphere (::std::auto_ptr< position_type >&,
@@ -921,6 +953,7 @@ class sphere: public ::xml_schema::type
           const epsilon_type&,
           const sigma_type&,
           const type_type&,
+          const nature_type&,
           ::std::auto_ptr< velocity_type >&);
 
   sphere (const ::xercesc::DOMElement& e,
@@ -956,6 +989,7 @@ class sphere: public ::xml_schema::type
   ::xsd::cxx::tree::one< epsilon_type > epsilon_;
   ::xsd::cxx::tree::one< sigma_type > sigma_;
   ::xsd::cxx::tree::one< type_type > type_;
+  ::xsd::cxx::tree::one< nature_type > nature_;
   ::xsd::cxx::tree::one< velocity_type > velocity_;
 };
 
