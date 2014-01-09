@@ -35,6 +35,13 @@ private:
 	int type;
 
 	/**
+	 * 0 = fluid
+	 * 1 = membran
+	 * 2 = wall
+	 */
+	int nature;
+
+	/**
 	 * the epsilon parameter of this particle
 	 */
 	double epsilon;
@@ -178,12 +185,14 @@ public:
 	double getSigma();
 	void setSigma(double sigma);
 	void resetForce();
+	void setNature(int nature);
+	inline int getNature();
 	/**
 	 * increases speed by about 1%
 	 */
 	inline bool approxDist(Particle* part, double cutHalf);
 	inline void setUid(int uid_);
-	inline int getUid();
+	int getUid();
 };
 
 utils::Vector<double, 3>& Particle::getX() {
@@ -195,8 +204,9 @@ bool Particle::approxDist(Particle* part, double cutHalf) {
 }
 
 
-void Particle::setUid(int uid_) {
-	uid = uid_;
+
+int Particle::getNature() {
+	return this->nature;
 }
 
 int Particle::getUid() {

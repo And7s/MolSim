@@ -119,6 +119,14 @@ void Particle::resetForce() {
 	f = f * 0.0;
 }
 
+void Particle::setNature(int nature) {
+	this->nature = nature;
+}
+
+void Particle::setUid(int uid_) {
+	uid = uid_;
+}
+
 std::string Particle::toString() {
 	std::stringstream stream;
 	stream <<uid<< ": x: " << x <<  " v: " << v << " f: " << f << " old_f: " << old_f;
