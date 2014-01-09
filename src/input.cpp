@@ -539,6 +539,24 @@ type (const type_type& x)
   this->type_.set (x);
 }
 
+const cuboid::nature_type& cuboid::
+nature () const
+{
+  return this->nature_.get ();
+}
+
+cuboid::nature_type& cuboid::
+nature ()
+{
+  return this->nature_.get ();
+}
+
+void cuboid::
+nature (const nature_type& x)
+{
+  this->nature_.set (x);
+}
+
 const cuboid::velocity_type& cuboid::
 velocity () const
 {
@@ -709,6 +727,24 @@ void sphere::
 type (const type_type& x)
 {
   this->type_.set (x);
+}
+
+const sphere::nature_type& sphere::
+nature () const
+{
+  return this->nature_.get ();
+}
+
+sphere::nature_type& sphere::
+nature ()
+{
+  return this->nature_.get ();
+}
+
+void sphere::
+nature (const nature_type& x)
+{
+  this->nature_.set (x);
 }
 
 const sphere::velocity_type& sphere::
@@ -1673,6 +1709,7 @@ cuboid (const position_type& position,
         const epsilon_type& epsilon,
         const sigma_type& sigma,
         const type_type& type,
+        const nature_type& nature,
         const velocity_type& velocity)
 : ::xml_schema::type (),
   position_ (position, this),
@@ -1682,6 +1719,7 @@ cuboid (const position_type& position,
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
   type_ (type, this),
+  nature_ (nature, this),
   velocity_ (velocity, this)
 {
 }
@@ -1694,6 +1732,7 @@ cuboid (::std::auto_ptr< position_type >& position,
         const epsilon_type& epsilon,
         const sigma_type& sigma,
         const type_type& type,
+        const nature_type& nature,
         ::std::auto_ptr< velocity_type >& velocity)
 : ::xml_schema::type (),
   position_ (position, this),
@@ -1703,6 +1742,7 @@ cuboid (::std::auto_ptr< position_type >& position,
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
   type_ (type, this),
+  nature_ (nature, this),
   velocity_ (velocity, this)
 {
 }
@@ -1719,6 +1759,7 @@ cuboid (const cuboid& x,
   epsilon_ (x.epsilon_, f, this),
   sigma_ (x.sigma_, f, this),
   type_ (x.type_, f, this),
+  nature_ (x.nature_, f, this),
   velocity_ (x.velocity_, f, this)
 {
 }
@@ -1735,6 +1776,7 @@ cuboid (const ::xercesc::DOMElement& e,
   epsilon_ (this),
   sigma_ (this),
   type_ (this),
+  nature_ (this),
   velocity_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
@@ -1843,6 +1885,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // nature
+    //
+    if (n.name () == "nature" && n.namespace_ ().empty ())
+    {
+      if (!nature_.present ())
+      {
+        this->nature_.set (nature_traits::create (i, f, this));
+        continue;
+      }
+    }
+
     // velocity
     //
     if (n.name () == "velocity" && n.namespace_ ().empty ())
@@ -1909,6 +1962,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!nature_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "nature",
+      "");
+  }
+
   if (!velocity_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1937,6 +1997,7 @@ operator= (const cuboid& x)
     this->epsilon_ = x.epsilon_;
     this->sigma_ = x.sigma_;
     this->type_ = x.type_;
+    this->nature_ = x.nature_;
     this->velocity_ = x.velocity_;
   }
 
@@ -1959,6 +2020,7 @@ sphere (const position_type& position,
         const epsilon_type& epsilon,
         const sigma_type& sigma,
         const type_type& type,
+        const nature_type& nature,
         const velocity_type& velocity)
 : ::xml_schema::type (),
   position_ (position, this),
@@ -1968,6 +2030,7 @@ sphere (const position_type& position,
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
   type_ (type, this),
+  nature_ (nature, this),
   velocity_ (velocity, this)
 {
 }
@@ -1980,6 +2043,7 @@ sphere (::std::auto_ptr< position_type >& position,
         const epsilon_type& epsilon,
         const sigma_type& sigma,
         const type_type& type,
+        const nature_type& nature,
         ::std::auto_ptr< velocity_type >& velocity)
 : ::xml_schema::type (),
   position_ (position, this),
@@ -1989,6 +2053,7 @@ sphere (::std::auto_ptr< position_type >& position,
   epsilon_ (epsilon, this),
   sigma_ (sigma, this),
   type_ (type, this),
+  nature_ (nature, this),
   velocity_ (velocity, this)
 {
 }
@@ -2005,6 +2070,7 @@ sphere (const sphere& x,
   epsilon_ (x.epsilon_, f, this),
   sigma_ (x.sigma_, f, this),
   type_ (x.type_, f, this),
+  nature_ (x.nature_, f, this),
   velocity_ (x.velocity_, f, this)
 {
 }
@@ -2021,6 +2087,7 @@ sphere (const ::xercesc::DOMElement& e,
   epsilon_ (this),
   sigma_ (this),
   type_ (this),
+  nature_ (this),
   velocity_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
@@ -2126,6 +2193,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // nature
+    //
+    if (n.name () == "nature" && n.namespace_ ().empty ())
+    {
+      if (!nature_.present ())
+      {
+        this->nature_.set (nature_traits::create (i, f, this));
+        continue;
+      }
+    }
+
     // velocity
     //
     if (n.name () == "velocity" && n.namespace_ ().empty ())
@@ -2192,6 +2270,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!nature_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "nature",
+      "");
+  }
+
   if (!velocity_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -2220,6 +2305,7 @@ operator= (const sphere& x)
     this->epsilon_ = x.epsilon_;
     this->sigma_ = x.sigma_;
     this->type_ = x.type_;
+    this->nature_ = x.nature_;
     this->velocity_ = x.velocity_;
   }
 

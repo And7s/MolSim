@@ -30,6 +30,7 @@ namespace outputWriter {
 			double sigma = -1;
 			double epsilon = -1;
 			int type = 0;
+			int nature = -1;
 			int num_particles = 0;
 			std::vector<Particle*> particles;
 
@@ -84,12 +85,14 @@ namespace outputWriter {
 					datastream >> epsilon;
 					datastream >> sigma;
 					datastream >> type;
+					datastream >> nature;
 					Particle* p = new Particle(x,v,m);
 					p->setF(f);
 					p->setOldF(oldF);
 					p->setEpsilon(epsilon);
 					p->setSigma(sigma);
 					p->setType(type);
+					p->setNature(nature);
 					particles.push_back(p);
 
 					getline(input_file, tmp_string);
@@ -130,7 +133,7 @@ namespace outputWriter {
 				"# * mass (1 double value)\n"
 		    	"# * type (1 int value)\n"
 				"#\n"
-				"# xyz-coord             velocity        force             old_force       mass    epsilon    sigma     type" << std::endl;
+				"# xyz-coord             velocity        force             old_force       mass    epsilon    sigma     type     nature" << std::endl;
 
 
 		    	output_file << particles.size() << std::endl;
@@ -162,6 +165,8 @@ namespace outputWriter {
 					output_file << particles[i]->getSigma() << " ";
 					output_file << "\t";
 					output_file << particles[i]->getType() << std::endl;
+					output_file << "\t";
+					output_file << particles[i]->getNature() << std::endl;
 					}
 		    } else {
 		    	std::cout << "Error: could not open file " << filename << std::endl;

@@ -51,7 +51,7 @@ void Calculation::calculatePosition(){
 			for(int j = 0; j < 3; j++) {
 				if(std::abs(lastmove[j]) >= 1.023) {
 					std::cout << lastmove[j]<<"\n";
-					std::cout << "===travels too far\n"<<*p<<"\n";
+					std::cout << "moves too far\n"<<*p<<"\n";
 					exit(0);
 				}
 			}
@@ -133,9 +133,7 @@ void RayCalc::calculateForce() {
 		while((p = pc->nextParticle(&cellParticleIt))!=NULL){        //iterate over particles within this cell
 			
 			if(p->getType() != -1) {
-				if(p->getUid() == 6) {
-				   // std::cerr << "check 6 vs "<<sizeNeighbours<<"\n";
-				}
+
 				for(int j = 0; j < sizeNeighbours;j++){                //iterate over their neighbours
 					interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){

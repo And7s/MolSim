@@ -134,6 +134,11 @@ void Particle::setLastMove(utils::Vector<double, 3>& lm) {
 void Particle::setDeltaV(utils::Vector<double, 3>& dv) {
 	deltav = dv;
 }
+
+void Particle::setNature(int nature) {
+	this->nature = nature;
+}
+
 std::string Particle::toString() {
 	std::stringstream stream;
 	stream << uid << ": x: " << x <<  " v: " << v << " f: " << f << " old_f: " << old_f << " typ: "<<type << " last_move" <<last_move << "deltav "<<deltav;
