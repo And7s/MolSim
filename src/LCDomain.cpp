@@ -185,7 +185,8 @@ void LCDomain::insertParticle(Particle* part){
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
 //std::cout << "insert "<<parts.size()<<"\n";
-	#pragma omp parallel for
+	//unsave to parrelelize due the fact working on the same vektor
+	//#pragma omp parallel for
 	for(int i = 0; i < parts.size(); i++){
 		this->insertParticle(parts[i]);
 	}

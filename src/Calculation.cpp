@@ -52,7 +52,7 @@ void Calculation::calculatePosition(){
 				if(std::abs(lastmove[j]) >= 1.023) {
 					std::cout << lastmove[j]<<"\n";
 					std::cout << "moves too far\n"<<*p<<"\n";
-					//exit(0);
+					exit(0);
 				}
 			}
 		}
@@ -273,7 +273,7 @@ void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double len
 		double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
 		utils::Vector<double,3>  factor3 = curP->getX() - p->getX();
 
-		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3*(-1);
+		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 
 
 		if(isnan(forceIJ[0])) {
