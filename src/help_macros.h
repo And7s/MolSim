@@ -26,4 +26,7 @@
 if (!(condition)) { LOG4CXX_ERROR(logger,message) } \
 assert ((condition)); } while(false)
 
+//needs this fix because native cpp whould return floor(-1) == -2, but expected -1
+#define floorFix(d) ((d >= 0)? floor(d) : -floor(-d))
+
 #endif /* HELP_MACROS_H_ */

@@ -34,7 +34,7 @@ void Calculation::calculatePosition(){
 
 	Particle* p;
 	std::vector<Particle*>* parts = lcDomain->getAllParticles();
-	//#pragma omp parallel for private(p)
+	#pragma omp parallel for private(p)
 	for(int i = 0; i < parts->size() ;i++){
 		p = (*parts)[i];
 		if(p->getType() != -1) {
@@ -52,7 +52,7 @@ void Calculation::calculatePosition(){
 				if(std::abs(lastmove[j]) >= 1.023) {
 					std::cout << lastmove[j]<<"\n";
 					std::cout << "moves too far\n"<<*p<<"\n";
-					exit(0);
+					//exit(0);
 				}
 			}
 		}
@@ -63,7 +63,7 @@ void Calculation::calculateVelocity(){
 
 	std::vector<Particle*>* parts = lcDomain->getAllParticles();
 	Particle* p;
-	//#pragma omp parallel for private(p)
+	#pragma omp parallel for private(p)
 	for(int i = 0; i < parts->size(); i++){
 		p = (*parts)[i];
 		utils::Vector<double, 3> old_v = p->getV();
@@ -79,7 +79,7 @@ void Calculation::calculateVelocity(){
 void Calculation::resetForce() {
 	Particle* p;
 	std::vector<Particle*>* particles = lcDomain->getAllParticles();
-	//#pragma omp parallel for private(p)
+	#pragma omp parallel for private(p)
 	for(int i = 0;i < particles->size();i++){
 		(*particles)[i]->resetForce();
 	}
@@ -95,8 +95,6 @@ ParticleContainer& Calculation::getParticleContainer(){
 
 
 void Calculation::calculateForce() {
-
-
 	ParticleContainer** pcArray = lcDomain->getCells();
 	int 
 		size = lcDomain->getNumberOfCells(),
@@ -125,16 +123,16 @@ void Calculation::calculateForce() {
 	//Variables for Membrane simulation
 
 	double k = 300;     //make me dynmaic TODO
-	double r0 = 2.2;    //distance, take from input file pls
+	double r0 = 1.2;    //distance, take from input file pls
 	double r0sqrt = std::sqrt(2)*r0;
 	double mindist = std::pow(2, 1/6);
 
-	int sidelength = 50;	//This needs to be calculated/set by the input of the membran
+	int sidelength = 15;	//This needs to be calculated/set by the input of the membran
 	int typa,typb,naturea,natureb;
 
 
 	//#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
-	//#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
+	#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
 	for(int i = 0; i < size; i++){  //iterate over all cells
 
 		pc = pcArray[i];
@@ -151,7 +149,7 @@ void Calculation::calculateForce() {
 				for(int j = 0; j < sizeNeighbours;j++){     //iterate over their neighbours
 					interactingParticlesIt = 0;
 					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-
+					
 						if(curP->getUid() != p->getUid()) {
 							naturea = p->getNature();
 							natureb = curP->getNature();
@@ -169,6 +167,8 @@ void Calculation::calculateForce() {
 								
 								utils::Vector<double, 3> zeroVector = 0.0;
 								p->setF(zeroVector);
+								p->setV(zeroVector);
+								p->setOldF(zeroVector);
 							//Case 3: Default Case, interaction via Lennard-Jones-Potential
 							}else{
 								
@@ -275,8 +275,11 @@ void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double len
 
 		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3*(-1);
 
+
 		if(isnan(forceIJ[0])) {
 			std::cout << *curP<<"\n";
+			std::cout << *p<<"\n\n";
+
 			std::cout << "f1 "<<factor1<<" powsig "<<powSigma<<" powdist "<<powDist<<" epstmp "<<epsilon_tmp<<" sigtmp "<<sigma_tmp;
 			exit(0);
 		}

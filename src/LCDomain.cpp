@@ -131,6 +131,10 @@ ParticleContainer**& LCDomain::getHaloCells() {
 	return boundaryZone;
 }
 
+
+
+
+
 void LCDomain::insertParticle(Particle* part){
 	int index = -1;
 
@@ -142,9 +146,9 @@ void LCDomain::insertParticle(Particle* part){
 
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
-	partPos[0] = floor((double)(part->getX()[0] / cutOffRadius)) + haloSize;
-	partPos[1] = floor((double)(part->getX()[1] / cutOffRadius)) + haloSize;
-	partPos[2] = floor((double)(part->getX()[2] / cutOffRadius)) + haloSize;
+	partPos[0] = floorFix((double)(part->getX()[0] / cutOffRadius)) + haloSize;
+	partPos[1] = floorFix((double)(part->getX()[1] / cutOffRadius)) + haloSize;
+	partPos[2] = floorFix((double)(part->getX()[2] / cutOffRadius)) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 
 	/*if(part->getUid() == 27 ){
@@ -160,6 +164,9 @@ void LCDomain::insertParticle(Particle* part){
 		if(partPos[i]< 0 || partPos[i] >= bounds[i]) {	//shouldn be aaarg!!!
 			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
 			std::cerr << "try insert: "<<*part<<"\n";
+
+			std::cerr << ((double) part->getX()[0] / cutOffRadius)<<" | "<< floor((double) part->getX()[0] / cutOffRadius)<<"\n";
+			
 			exit(-1);
 		}
 		if(part->getX()[2]> 9) {
@@ -178,12 +185,11 @@ void LCDomain::insertParticle(Particle* part){
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
 //std::cout << "insert "<<parts.size()<<"\n";
-	//#pragma omp parallel for
+	#pragma omp parallel for
 	for(int i = 0; i < parts.size(); i++){
 		this->insertParticle(parts[i]);
 	}
 }
-
 
 void LCDomain::deleteParticle(Particle* particle) {
 	//parallel can cause error if found and removed, which changes the vektor length (for other threads as awell)
@@ -204,7 +210,7 @@ void LCDomain::deleteParticle(Particle* particle) {
 void LCDomain::reset(){
 	int i;
 
-//	#pragma omp parallel for
+	#pragma omp parallel for
 	for(i = 0; i < this->numberOfCells; i++){
 		cells[i]->clearParticles();
 	}
@@ -222,7 +228,7 @@ void LCDomain::reset(){
 void LCDomain::resetafter(){
 	int i;
 
-//	#pragma omp parallel for
+	#pragma omp parallel for
 	for(i = 0; i < this->numberOfCells; i++){
 		cells[i]->clearParticles();
 	}
