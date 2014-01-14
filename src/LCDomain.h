@@ -153,6 +153,8 @@ public:
 
 	void reset();
 
+	void resetafter();
+
 	void addHaloParticle(Particle* part);
 
 	double getCutOffRadius();

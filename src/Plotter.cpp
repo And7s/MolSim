@@ -22,7 +22,6 @@ void VTK::plotParticles(int iteration, int amountOfParticles, const std::string&
 
 	int num_Particles = particles->size();
 	for(int i = 0;i < num_Particles;i++){
-		//cout << *(*particles)[i] <<"\n";
 		writer.plotParticle(*(*particles)[i]);
 	}
 	writer.writeFile(filename, iteration);

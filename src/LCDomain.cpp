@@ -116,8 +116,13 @@ ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
 			//can't happen
 			index = -1;	// will raise error on bounds check
 	}
+
+	//does not get triggered if eg x is negative and other components are positive, so as a sum it's greater 0
+	//room for improvement
 	if(index < 0 || index > numberOfCells) {	//more efficient check for out of bounds
 		assert(checkBounds(pos));
+		std::cerr << " posizion demanded "<<pos[0]<<" "<<pos[1]<<" "<< pos[2]<<"\n";
+		std::cerr << "Failed getCellAt\n";
 	}
 	return cells[index];
 }
@@ -137,16 +142,34 @@ void LCDomain::insertParticle(Particle* part){
 
 	//transform to std::vector - not necessary,
 	std::vector<int> partPos (3,0);
-	partPos[0] = floor((float)(part->getX()[0] / cutOffRadius)) + haloSize;
-	partPos[1] = floor((float)(part->getX()[1] / cutOffRadius)) + haloSize;
-	partPos[2] = floor((float)(part->getX()[2] / cutOffRadius)) + haloSize;
+	partPos[0] = floor((double)(part->getX()[0] / cutOffRadius)) + haloSize;
+	partPos[1] = floor((double)(part->getX()[1] / cutOffRadius)) + haloSize;
+	partPos[2] = floor((double)(part->getX()[2] / cutOffRadius)) + haloSize;
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
-	
-/*if(partPos[1]<0 || partPos[0] < 0 || partPos[2] != 1) {
-	std::cerr<< "at undefined position\n"<<partPos[0] <<" " <<partPos[1]<<" "<<partPos[2]<<"\n";
-	std::cerr<<*part<<"\n";
 
-}*/
+	/*if(part->getUid() == 27 ){
+		if(partPos[0] == 1 && partPos[1] == 1 && partPos[2] == 1) {
+			std::cerr << "\n\ninsert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
+			std::cerr << "try insert: "<<*part<<"\n";
+			float tmp = part->getX()[2];
+			std::cerr << "is: "<<tmp;
+			std::cerr << "And 12: "<< (tmp+12);
+		}
+	}*/
+	for(int i = 0; i< 3; i++) {
+		if(partPos[i]< 0 || partPos[i] >= bounds[i]) {	//shouldn be aaarg!!!
+			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
+			std::cerr << "try insert: "<<*part<<"\n";
+			exit(-1);
+		}
+		if(part->getX()[2]> 9) {
+	/*		std::cerr << "Out ";
+			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
+			std::cerr << "try insert: "<<*part<<"\n";
+			std::cerr << "dimension "<<bounds[2]<<" offset "<<offset[1]<<"\n";
+			//exit(-1);*/
+		}
+	}
 	index = this->getCellAt(partPos)->getPosition();
 	this->cells[index]->setParticle(part);
 	LOG4CXX_TRACE(loggerDomain,"added Particle to cell: " << index);
@@ -154,8 +177,8 @@ void LCDomain::insertParticle(Particle* part){
 
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
-
-	#pragma omp parallel for
+//std::cout << "insert "<<parts.size()<<"\n";
+	//#pragma omp parallel for
 	for(int i = 0; i < parts.size(); i++){
 		this->insertParticle(parts[i]);
 	}
@@ -163,7 +186,8 @@ void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 
 
 void LCDomain::deleteParticle(Particle* particle) {
-	#pragma omp parallel for
+	//parallel can cause error if found and removed, which changes the vektor length (for other threads as awell)
+	//#pragma omp parallel for
 	for(int i = 0; i < particles.size(); i++) {
 
 		if((particles[i]->getX()[0] == particle->getX()[0]) &&
@@ -172,6 +196,7 @@ void LCDomain::deleteParticle(Particle* particle) {
 			
 			particles.erase(particles.begin()+i);
 			LOG4CXX_TRACE(loggerDomain,"deleted particle in lcDomain at pos "<<i);
+			break;
 		}
 	}
 }
@@ -192,6 +217,21 @@ void LCDomain::reset(){
 
 
 	insertParticles(particles);
+}
+
+void LCDomain::resetafter(){
+	int i;
+
+//	#pragma omp parallel for
+	for(i = 0; i < this->numberOfCells; i++){
+		cells[i]->clearParticles();
+	}
+
+  	insertParticles(particles);
+  //	std::cout << "And "<<haloParts.size()<<"\n";	
+  	for(int i = 0; i < haloParts.size(); i++){
+		this->insertParticle(haloParts[i]);
+	}
 }
 
 void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleContainer*>* neighbours) {
@@ -245,7 +285,10 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 							reference[0] = x;
 							reference[1] = y;
 							reference[2] = z;
-							
+							if(axis[0] == 0&& axis[1] == 0 && axis[2] == 0) {
+							//std::cout << x<<" "<<y<<" "<<z<<"\n";
+								
+							}
 							neighbours->push_back(getCellAt(reference));
 							//LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());	//do not log here, it'll get called too often
 						}
@@ -279,7 +322,7 @@ bool LCDomain::checkBounds(std::vector<int>& pos) {
 	for(i=0; i < dimension; i++){
 		if(((pos)[i] < 0) || ((pos)[i] > (bounds)[i])){
 			LOG4CXX_ERROR(loggerDomain,"The requested position is not located in the domain space.");
-			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i] <<
+			LOG4CXX_ERROR(loggerDomain,"INFO ABOUT ERROR: checked pos: " << (pos)[i] << " bounds: " << (bounds)[i] << "Dim: "<<i <<
 					" - This error may indicate a malfunction in the boundary condition");
 			return false;
 		}
