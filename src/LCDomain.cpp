@@ -411,6 +411,14 @@ std::vector<Particle*>* LCDomain::getAllParticles() {
 	return &(this->particles);
 }
 
+std::vector<int> LCDomain::getBounds() {
+	return bounds;
+}
+
+int* LCDomain::getOffset(){
+	return offset;
+}
+
 void LCDomain::display() {
 	//for testing purpose only
 }

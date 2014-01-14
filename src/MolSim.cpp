@@ -199,6 +199,7 @@ int main(int argc, char* argsv[]) {
 	calculation.resetForce();
 
 	calculation.calculateForce(0.0);
+
 	calculation.calculateVelocity();
 	calculation.calculatePosition();
 

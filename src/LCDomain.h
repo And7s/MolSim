@@ -177,6 +177,10 @@ public:
 	 * This method will use the std::cout output stream
 	 */
 	void display();
+
+	std::vector<int> getBounds();
+
+	int* getOffset();
 };
 
 #endif /* LCDOMAIN_H_ */
