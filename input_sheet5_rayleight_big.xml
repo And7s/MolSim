@@ -21,7 +21,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <dimensions>3</dimensions>
   <start_time>0</start_time>
   <tend>100</tend>
-  <delta_t>0.0002</delta_t>
+  <delta_t>0.00002</delta_t>
   <input_file>unused</input_file>
   <cuboid>
     <position>
@@ -62,7 +62,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <mass>80.0</mass>
     <epsilon>2.0</epsilon>
     <sigma>1.15</sigma>
-    <type>1</type>
+    <type>2</type>
     <nature>0</nature>
     <velocity>
       <x>0</x>

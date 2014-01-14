@@ -41,7 +41,8 @@ using namespace log4cxx::helpers;
  * values can be set at startup by passing params
  */
 double start_time = 0.0;
-double end_time; 
+double end_time;
+int numberOfIterations; 
 double delta_t;
 double sigma;
 int type;
@@ -147,6 +148,7 @@ int main(int argc, char* argsv[]) {
 	plot_vtk = inp->plot_vtk_file();
 	plot_xvf = inp->plot_xvf_file();
 
+	numberOfIterations = end_time/delta_t;
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
     ASSERT_WITH_MESSAGE(loggerMain, (end_time>0), "Invalid end_time. Please specify first " << end_time);
     ASSERT_WITH_MESSAGE(loggerMain, (cutOff>0), "Invalid delta_t. Please specify first " << cutOff);
@@ -266,7 +268,7 @@ Particle* p;
 			}
 			int time = getMilliSpan(startTime);
 			accTime += time;
-			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ")  msec  " << (int)((double)iteration/iterationsteps*100)<<"%" );
+			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " of " << numberOfIterations << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ")  msec  " << (int)((double)iteration/iterationsteps*100)<<"%" );
 			startTime = getMilliCount();
 		}
 		if(use_thermostat){
