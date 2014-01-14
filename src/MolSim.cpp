@@ -70,8 +70,8 @@ LoggerPtr loggerMain(Logger::getLogger( "main"));
  * set algorithm, which should be used for the calculation.
  * The strategy pattern guarantees, that all special implementations are able to compute the requested values.
  */
-Calculation sheet3calc;
-Calculation *calculation = &sheet3calc;
+
+Calculation calculation;
 VTK vtk_plotter;
 XVF xvf_plotter;
 Plotter *plotter = &vtk_plotter;
@@ -156,7 +156,7 @@ int main(int argc, char* argsv[]) {
 	int i;
 	#pragma omp parallel
 	{
-		//LOG4CXX_INFO(loggerMain, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
+		LOG4CXX_INFO(loggerMain, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
 	}
 	pa = pg.readFile(length, inp);
 
@@ -179,9 +179,9 @@ int main(int argc, char* argsv[]) {
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
-	calculation->setDeltaT(delta_t);
-	calculation->setParticleContainer(pc);
-	calculation->setLcDomain(lcDomain);
+	calculation.setDeltaT(delta_t);
+	calculation.setParticleContainer(pc);
+	calculation.setLcDomain(lcDomain);
 
 	EnvInfl::getInstance()->setG(gravity);
 
@@ -196,11 +196,11 @@ int main(int argc, char* argsv[]) {
 	plotter->plotParticles(0, *length, outFile, *parameters);
 
 	//initially calculation of Forces
-	calculation->resetForce();
+	calculation.resetForce();
 
-	calculation->calculateForce(0.0);
-	calculation->calculateVelocity();
-	calculation->calculatePosition();
+	calculation.calculateForce(0.0);
+	calculation.calculateVelocity();
+	calculation.calculatePosition();
 
 	//init the thermostat
 	if(use_thermostat){
@@ -225,7 +225,7 @@ Particle* p;
 				p = (*particles)[i];
 				cout << *p<<"\n";
 			}*/
-		calculation->resetForce();
+		calculation.resetForce();
 	
 		boundaryCondition->apply();
 		lcDomain->resetafter();
@@ -256,7 +256,7 @@ Particle* p;
 
 			
 
-		calculation->calculateAll(current_time);
+		calculation.calculateAll(current_time);
 
 		iteration++;
 		if (iteration % inp->frequency() == 0) {

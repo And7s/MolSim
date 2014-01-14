@@ -41,14 +41,14 @@ void BoundaryCondition::applyOutflow(ParticleContainer* pc) {
 	Particle* p;
 	int j = 0;
 	while((p = pc->nextParticle(&j)) != NULL){
-		std::cerr << "apply outflow, shouldn happen";
-		linkedCell->deleteParticle(p);
-		pc->deleteParticle(p,true);
+		if(p->getType() != -1) {
+			std::cerr << "apply outflow, shouldn happen";
+			linkedCell->deleteParticle(p);
+			pc->deleteParticle(p,true);
+		}
 	}
 }
 void BoundaryCondition::applyReflecting(ParticleContainer* pc, int axis, bool zero) {
-	//std::cerr << "Apply reflecting";
-
 	Particle* p;
 	int j = 0;
 	while((p = pc->nextParticle(&j)) != NULL){
@@ -86,8 +86,6 @@ void BoundaryCondition::applyReflecting(ParticleContainer* pc, int axis, bool ze
 			counterP->setX(oldX);
 
 			Calculation::calculateSingleForce(p,counterP);
-
-
 			delete counterP;
 		}
 	}
@@ -121,27 +119,33 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 	pc->clearParticles();
 
 	while((p = pc2->nextParticle(&j)) != NULL){
+		if(p->getType() != -1) {
+			Particle* pcopy = new Particle(*p);
 
-		Particle* pcopy = new Particle(*p);
+			utils::Vector<double, 3> pos = pcopy->getX();
+			
+			if(zero) {
+				pos[axis] -= domainSize[axis]*linkedCell->getCutOffRadius();
+			}else {
+				pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
+			}
 
-		utils::Vector<double, 3> pos = pcopy->getX();
-		
-		if(zero) {
-			pos[axis] -= domainSize[axis]*linkedCell->getCutOffRadius();
-		}else {
-			pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
+			pcopy->setX(pos);
+			pcopy->setType(-1);
+			pc->setParticle(pcopy);
+			linkedCell->addHaloParticle(pcopy);
 		}
 		
-		pcopy->setX(pos);
-		pcopy->setType(-1);
-		pc->setParticle(pcopy);
-		linkedCell->addHaloParticle(pcopy);
+//		pcopy->setX(pos);
+//		pcopy->setType(-1);
+//		pc->setParticle(pcopy);
+//		linkedCell->addHaloParticle(pcopy);
 
 	}
 }
 
-void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, bool zero, ParticleContainer* pc) {
-
+void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, bool zero) {
+	 ParticleContainer* pc = linkedCell->getCellAt(pos);
 	if(type == 0) {
 		applyOutflow(pc);
 	}else if(type == 1) {
@@ -166,8 +170,9 @@ void BoundaryCondition::applySwitch(int type, std::vector<int>& pos, int axis, b
 }
 void BoundaryCondition::apply() {
 	ParticleContainer* pc;
-
-	#pragma omp parallel for schedule(dynamic) private(pc)
+	//this leads for some unknown reason to a segmentation fault,
+	//propably, because the individual handlers interver with each other (periodic copies and outflow deletes -> solution needs design dicussion)
+	//#pragma omp parallel for schedule(dynamic) private(pc)
 	for(int i = 0; i < domainSize[0]+2; i++) {
 		std::vector<int> pos (3,0);
 		pos[0] = i;
@@ -176,48 +181,32 @@ void BoundaryCondition::apply() {
 				if(pos[0] == 0 ){
 					//check left
 
-					pc = linkedCell->getCellAt(pos);
-
-						applySwitch(boundarytype[0], pos, 0, true, pc);
-
+					applySwitch(boundarytype[0], pos, 0, true);
 				}
 				if(pos[0] == domainSize[0]+1) {
 					//check right
-					pc = linkedCell->getCellAt(pos);
-
-						applySwitch(boundarytype[1], pos, 0, false, pc);
+					applySwitch(boundarytype[1], pos, 0, false);
 
 				}
-
 				if(pos[1] == 0 ){
 					//check bottom
-					pc = linkedCell->getCellAt(pos);
 
-						applySwitch(boundarytype[2], pos, 1, true, pc);
-
+					applySwitch(boundarytype[2], pos, 1, true);
 				}
 				if(pos[1] == domainSize[1]+1) {
 					//check top
-					pc = linkedCell->getCellAt(pos);
-
-						applySwitch(boundarytype[3], pos, 1, false, pc);
+					applySwitch(boundarytype[3], pos, 1, false);
 
 				}
 				if(dimension == 3) {
 					if(pos[2] == 0 ){
 						//check front
-						pc = linkedCell->getCellAt(pos);
 
-						applySwitch(boundarytype[4], pos, 2, true, pc);
-
+						applySwitch(boundarytype[4], pos, 2, true);
 					}
 					if(pos[2] == domainSize[2]+1) {
 						//check back
-
-						pc = linkedCell->getCellAt(pos);
-
-						applySwitch(boundarytype[5], pos, 2, false, pc);
-
+						applySwitch(boundarytype[5], pos, 2, false);
 					}
 				}
 			}

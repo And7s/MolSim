@@ -94,14 +94,15 @@ void VTKWriter::plotParticle(Particle& p) {
 	dataIterator++;
 	dataIterator->push_back(p.getType());
 
-	dataIterator++;
-	dataIterator->push_back(p.getNature());
+//FIXME. this field doesn yet exist
+	//dataIterator++;
+	//dataIterator->push_back(p.getNature());
 
 	Points::DataArray_sequence& pointsSequence = vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
 	Points::DataArray_iterator pointsIterator = pointsSequence.begin();
 	pointsIterator->push_back(p.getX()[0]);
 	pointsIterator->push_back(p.getX()[1]);
 	pointsIterator->push_back(p.getX()[2]);
-}
 
+}
 }
