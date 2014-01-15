@@ -208,17 +208,14 @@ void Calculation::calculateForce(double currentTime) {
 		stepSizeTmp = ceil(maxSize/(double)numberOfThreads);
 		stepSize = ((threadNumber != (numberOfThreads - 1)) ? stepSizeTmp : ((maxSize) - (numberOfThreads-1) * stepSizeTmp ));
 		stepSizeLast = (maxSize) - (numberOfThreads-1) * stepSizeTmp;
-		numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = false;
 	}else{
 		stepSize = maxSize/numberOfThreads;
 		stepSizeLast = stepSize;
-		numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThreadLast = (stepSize - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = true;
 	}
+	numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
+	numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 
 
 	start = threadNumber * stepSizeTmp;
