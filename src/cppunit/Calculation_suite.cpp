@@ -48,7 +48,7 @@ CppUnit::TestSuite* Calculation_suite::singleSuite(std::string test) {
 	while(test.compare(testArray[i])!=0){
 		i++;
 	}
-	LOG4CXX_TRACE(loggerCalcTest, "In Calculation_SingleSuite: Starting Calculationtest: " + test);
+	LOG4CXX_TRACE(loggerCalcTest, "In Calculation_SingleSuite: Starting Calculationtest: " << test);
 	switch(i){
 	case 0:
 		suite_Calculation->addTest( new CppUnit::TestCaller<Calculation_test>(

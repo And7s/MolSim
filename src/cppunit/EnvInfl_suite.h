@@ -10,7 +10,13 @@
 
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestCaller.h>
-#include "LCDomain_test.h"
+#include <log4cxx/logger.h>
+#include <log4cxx/xml/domconfigurator.h>
+#include "EnvInfl_test.h"
+
+using namespace log4cxx;
+using namespace log4cxx::xml;
+using namespace log4cxx::helpers;
 
 class EnvInfl_suite {
 public:
