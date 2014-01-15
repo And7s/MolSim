@@ -201,12 +201,12 @@ void Calculation::calculateForce(double currentTime) {
 	if(floor(tmpNumberOfColumns)-tmpNumberOfColumns != 0){
 		//stepSize is not an integer
 		//stepSize = ceil(maxSize/(double)numberOfThreads);
-		//stepSizeLast = (maxSize) - (numberOfThreads-1) * stepSize;
 		//numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
 		//numberOfCellsPerThreadLast = (stepSizeLast - 1) * domainSize[1] * domainSize[2];
 		stepSizeTmp = ceil(maxSize/(double)numberOfThreads);
-		stepSize = ((threadNumber != (numberOfThreads - 1)) ? stepSizeTmp : (maxSize) - (numberOfThreads-1) * stepSizeTmp );
-		numberOfCellsPerThread = (threadNumber != (numberOfThreads - 1)) ? ((stepSize - 1) * domainSize[1] * domainSize[2]) : ((stepSizeLast - 1) * domainSize[1] * domainSize[2]);
+		stepSize = ((threadNumber != (numberOfThreads - 1)) ? stepSizeTmp : ((maxSize) - (numberOfThreads-1) * stepSizeTmp ));
+		stepSizeLast = (maxSize) - (numberOfThreads-1) * stepSizeTmp;
+		numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
 		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = false;
 	}else{
@@ -220,17 +220,20 @@ void Calculation::calculateForce(double currentTime) {
 
 
 	start = threadNumber * stepSize;
+	/*
 	#pragma omp critical
 	{
 	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
-	std::cout << "NumberOfThreads and ThreadNumber and numberOfCellsPerThread and Startindex"<< numberOfThreads << " " << threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
+	std::cout << "ThreadNumber and numberOfCellsPerThread and Startindex"<< threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
 	}
+	#pragma barrier
+	*/
 	curNumberOfCells = 0;
 	offSetCounterY = 0;
 	offSetCounterYLast = 0;
 	//((threadNumber != (numberOfThreads - 1)) ? numberOfCellsPerThread : numberOfCellsPerThreadLast)
 	for(j = start; curNumberOfCells < numberOfCellsPerThread ; j++){
-		std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
+		//std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
 		pc = pcArray[j];
 
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
@@ -285,16 +288,24 @@ void Calculation::calculateForce(double currentTime) {
 				offSetCounterY = 0;
 			}
 		}else{
-			if(offSetCounterY == (threadNumber != numberOfThreads -1) ? (stepSize - 1) : (stepSizeLast - 1)){
-				j = j + 1 + (numberOfThreads-2)*stepSize+stepSizeLast;
+			if(offSetCounterY ==  (stepSize - 1)){
+				j = j + 1 + (numberOfThreads-2)*stepSizeTmp+stepSizeLast;
 				offSetCounterY = 0;
 			}
 		}
 	}
 
 	#pragma omp barrier
+	/*
+    #pragma omp critical
+	{
+	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
+	std::cout << "ThreadNumber and numberOfCellsPerThread2 and Startindex"<< threadNumber << " " << numberOfCellsPerThread2 << " "<< start << std::endl;
+	}
+	#pragma barrier
+	*/
 
-	start = start + ((threadNumber != numberOfThreads -1) ? (stepSize-1) : (stepSizeLast-1));
+	start = start + (stepSize-1);
 	for(int j = start; curNumberOfCells < numberOfCellsPerThread2; j++){
 		pc = pcArray[j];
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
@@ -346,7 +357,7 @@ void Calculation::calculateForce(double currentTime) {
 		if(integerSize){
 			j = j + 1 + (numberOfThreads-1)*stepSize;
 		}else{
-			j = j + 1 + (numberOfThreads-2)*stepSize+stepSizeLast;
+			j = j + 1 + (numberOfThreads-2)*stepSizeTmp+stepSizeLast;
 		}
 	}
 	}
