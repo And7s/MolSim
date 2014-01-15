@@ -133,8 +133,9 @@ void Calculation::calculateForce(double currentTime) {
 	int
 		numberOfThreads,
 		threadNumber,
-		numberOfCellColumns,
-		numberOfCellColumnsLast,
+		stepSize,
+		stepSizeTmp,
+		stepSizeLast,
 		numberOfCellsPerThread,
 		numberOfCellsPerThreadLast,
 		numberOfCellsPerThread2,
@@ -196,29 +197,40 @@ void Calculation::calculateForce(double currentTime) {
 	}
 	LOG4CXX_INFO(loggerCalc, "Maximal size in dimension " << i << " where 0 is x, 1 is y and 2 is z direction");
 	*/
-	double tmpNumberOfColumns = maxSize/numberOfThreads;
+	double tmpNumberOfColumns = ((double)maxSize)/numberOfThreads;
 	if(floor(tmpNumberOfColumns)-tmpNumberOfColumns != 0){
-		//numberOfCellColumns is not an integer
-		numberOfCellColumns = ceil(maxSize/numberOfThreads);
-		numberOfCellColumnsLast = (maxSize) - (numberOfThreads-1) * numberOfCellColumns;
-		numberOfCellsPerThread = (numberOfCellColumns - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThreadLast = (numberOfCellColumnsLast - 1) * domainSize[1] * domainSize[2];
+		//stepSize is not an integer
+		//stepSize = ceil(maxSize/(double)numberOfThreads);
+		//stepSizeLast = (maxSize) - (numberOfThreads-1) * stepSize;
+		//numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
+		//numberOfCellsPerThreadLast = (stepSizeLast - 1) * domainSize[1] * domainSize[2];
+		stepSizeTmp = ceil(maxSize/(double)numberOfThreads);
+		stepSize = ((threadNumber != (numberOfThreads - 1)) ? stepSizeTmp : (maxSize) - (numberOfThreads-1) * stepSizeTmp );
+		numberOfCellsPerThread = (threadNumber != (numberOfThreads - 1)) ? ((stepSize - 1) * domainSize[1] * domainSize[2]) : ((stepSizeLast - 1) * domainSize[1] * domainSize[2]);
 		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = false;
 	}else{
-		numberOfCellColumns = maxSize/numberOfThreads;
-		numberOfCellColumnsLast = numberOfCellColumns;
-		numberOfCellsPerThread = (numberOfCellColumns - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThreadLast = (numberOfCellColumns - 1) * domainSize[1] * domainSize[2];
+		stepSize = maxSize/numberOfThreads;
+		stepSizeLast = stepSize;
+		numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
+		numberOfCellsPerThreadLast = (stepSize - 1) * domainSize[1] * domainSize[2];
 		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = true;
 	}
 
-	start = threadNumber * numberOfCellColumns;
+
+	start = threadNumber * stepSize;
+	#pragma omp critical
+	{
+	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
+	std::cout << "NumberOfThreads and ThreadNumber and numberOfCellsPerThread and Startindex"<< numberOfThreads << " " << threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
+	}
 	curNumberOfCells = 0;
 	offSetCounterY = 0;
 	offSetCounterYLast = 0;
-	for(j = start; curNumberOfCells < ((threadNumber != (numberOfThreads - 1)) ? numberOfCellsPerThread : numberOfCellsPerThreadLast); j++){
+	//((threadNumber != (numberOfThreads - 1)) ? numberOfCellsPerThread : numberOfCellsPerThreadLast)
+	for(j = start; curNumberOfCells < numberOfCellsPerThread ; j++){
+		std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
 		pc = pcArray[j];
 
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
@@ -268,13 +280,13 @@ void Calculation::calculateForce(double currentTime) {
 		curNumberOfCells++;
 		offSetCounterY++;
 		if(integerSize){
-			if(offSetCounterY == numberOfCellColumns - 1){
-				j = j + 1 + (numberOfThreads-1)*numberOfCellColumns;
+			if(offSetCounterY == stepSize - 1){
+				j = j + 1 + (numberOfThreads-1)*stepSize;
 				offSetCounterY = 0;
 			}
 		}else{
-			if(offSetCounterY == (threadNumber != numberOfThreads -1) ? (numberOfCellColumns - 1) : (numberOfCellColumnsLast - 1)){
-				j = j + 1 + (numberOfThreads-2)*numberOfCellColumns+numberOfCellColumnsLast;
+			if(offSetCounterY == (threadNumber != numberOfThreads -1) ? (stepSize - 1) : (stepSizeLast - 1)){
+				j = j + 1 + (numberOfThreads-2)*stepSize+stepSizeLast;
 				offSetCounterY = 0;
 			}
 		}
@@ -282,7 +294,7 @@ void Calculation::calculateForce(double currentTime) {
 
 	#pragma omp barrier
 
-	start = start + ((threadNumber != numberOfThreads -1) ? (numberOfCellColumns-1) : (numberOfCellColumnsLast-1));
+	start = start + ((threadNumber != numberOfThreads -1) ? (stepSize-1) : (stepSizeLast-1));
 	for(int j = start; curNumberOfCells < numberOfCellsPerThread2; j++){
 		pc = pcArray[j];
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
@@ -332,9 +344,9 @@ void Calculation::calculateForce(double currentTime) {
 
 		curNumberOfCells++;
 		if(integerSize){
-			j = j + 1 + (numberOfThreads-1)*numberOfCellColumns;
+			j = j + 1 + (numberOfThreads-1)*stepSize;
 		}else{
-			j = j + 1 + (numberOfThreads-2)*numberOfCellColumns+numberOfCellColumnsLast;
+			j = j + 1 + (numberOfThreads-2)*stepSize+stepSizeLast;
 		}
 	}
 	}
