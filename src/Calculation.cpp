@@ -219,21 +219,27 @@ void Calculation::calculateForce(double currentTime) {
 	}
 
 
-	start = threadNumber * stepSize;
+	start = threadNumber * stepSizeTmp;
+
 	/*
 	#pragma omp critical
 	{
 	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
-	std::cout << "ThreadNumber and numberOfCellsPerThread and Startindex"<< threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
+	}
+    #pragma barrier
+	#pragma omp critical
+	{
+	std::cout << "ThreadNumber and numberOfCellsPerThread and Startindex "<< threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
 	}
 	#pragma barrier
 	*/
+
 	curNumberOfCells = 0;
 	offSetCounterY = 0;
 	offSetCounterYLast = 0;
 	//((threadNumber != (numberOfThreads - 1)) ? numberOfCellsPerThread : numberOfCellsPerThreadLast)
 	for(j = start; curNumberOfCells < numberOfCellsPerThread ; j++){
-		//std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
+		//if(threadNumber==3) std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
 		pc = pcArray[j];
 
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
@@ -286,12 +292,12 @@ void Calculation::calculateForce(double currentTime) {
 		offSetCounterY++;
 		if(integerSize){
 			if(offSetCounterY == stepSize - 1){
-				j = j + 1 + (numberOfThreads-1)*stepSize;
+				j = j + 1+ (numberOfThreads-1)*stepSize;
 				offSetCounterY = 0;
 			}
 		}else{
 			if(offSetCounterY ==  (stepSize - 1)){
-				j = j + 1 + (numberOfThreads-2)*stepSizeTmp+stepSizeLast;
+				j = j + 1 + (numberOfThreads-2)*stepSizeTmp+((threadNumber!=numberOfThreads-1)? stepSizeLast : stepSizeTmp);
 				offSetCounterY = 0;
 			}
 		}
@@ -306,9 +312,10 @@ void Calculation::calculateForce(double currentTime) {
 	}
 	#pragma barrier
 	*/
-
+	curNumberOfCells = 0;
 	start = start + (stepSize-1);
-	for(int j = start; curNumberOfCells < numberOfCellsPerThread2; j++){
+	for(j = start; curNumberOfCells < numberOfCellsPerThread2; j++){
+		//if(threadNumber==2) std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
 		pc = pcArray[j];
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
 		neighboursOfPc.push_back(pc);
@@ -329,7 +336,9 @@ void Calculation::calculateForce(double currentTime) {
 
 							factor3 = curP->getX() - p->getX();
 							double length = factor3.L2Norm();
-
+							if(currentTime==0.0){
+								p->setType(threadNumber);
+							}
 							//Case 1: Both particles are of nature membrane
 							if(naturea == 1 && natureb == 1){
 
@@ -359,9 +368,11 @@ void Calculation::calculateForce(double currentTime) {
 		if(integerSize){
 			j = j + 1 + (numberOfThreads-1)*stepSize;
 		}else{
-			j = j + 1 + (numberOfThreads-2)*stepSizeTmp+stepSizeLast;
+			j = j + (numberOfThreads-1)*stepSizeTmp + stepSizeLast-1;
 		}
 	}
+    #pragma omp barrier
+	//exit(1);
 	}
 	/*
 	//#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
