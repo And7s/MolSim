@@ -141,6 +141,8 @@ void Calculation::calculateForce(double currentTime) {
 		numberOfCellsPerThread2,
 		numberOfCellsPerThread2Last,
 		curNumberOfCells,
+		offSet1,
+		offSet2,
 		offSetCounterY,
 		offSetCounterYLast,
 		dimension,
@@ -206,20 +208,19 @@ void Calculation::calculateForce(double currentTime) {
 		stepSizeTmp = ceil(maxSize/(double)numberOfThreads);
 		stepSize = ((threadNumber != (numberOfThreads - 1)) ? stepSizeTmp : ((maxSize) - (numberOfThreads-1) * stepSizeTmp ));
 		stepSizeLast = (maxSize) - (numberOfThreads-1) * stepSizeTmp;
-		numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = false;
 	}else{
 		stepSize = maxSize/numberOfThreads;
 		stepSizeLast = stepSize;
-		numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThreadLast = (stepSize - 1) * domainSize[1] * domainSize[2];
-		numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 		integerSize = true;
 	}
+	numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
+	numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
 
 
 	start = threadNumber * stepSizeTmp;
+	offSet1 = (integerSize) ? (1+ (numberOfThreads-1)*stepSize) : (1 + (numberOfThreads-2)*stepSizeTmp+((threadNumber!=numberOfThreads-1)? stepSizeLast : stepSizeTmp));
+	offSet2 = (integerSize) ? ((numberOfThreads-1)*stepSize + stepSize-1) : ((numberOfThreads-1)*stepSizeTmp + stepSizeLast-1);
 
 	/*
 	#pragma omp critical
@@ -290,16 +291,9 @@ void Calculation::calculateForce(double currentTime) {
 		neighboursOfPc.clear();
 		curNumberOfCells++;
 		offSetCounterY++;
-		if(integerSize){
-			if(offSetCounterY == stepSize - 1){
-				j = j + 1+ (numberOfThreads-1)*stepSize;
-				offSetCounterY = 0;
-			}
-		}else{
-			if(offSetCounterY ==  (stepSize - 1)){
-				j = j + 1 + (numberOfThreads-2)*stepSizeTmp+((threadNumber!=numberOfThreads-1)? stepSizeLast : stepSizeTmp);
-				offSetCounterY = 0;
-			}
+		if(offSetCounterY ==  (stepSize - 1)){
+			j = j + offSet1;
+			offSetCounterY = 0;
 		}
 	}
 
@@ -365,11 +359,7 @@ void Calculation::calculateForce(double currentTime) {
 		neighboursOfPc.clear();
 
 		curNumberOfCells++;
-		if(integerSize){
-			j = j + 1 + (numberOfThreads-1)*stepSize;
-		}else{
-			j = j + (numberOfThreads-1)*stepSizeTmp + stepSizeLast-1;
-		}
+		j = j + offSet2;
 	}
     #pragma omp barrier
 	//exit(1);
