@@ -57,8 +57,8 @@ CppUnit::TestSuite *Tester::singleSuite(std::string test) {
 		LOG4CXX_TRACE(loggerTester, "Starting LCDomain_suite");
 		suite_Tester->addTest(LCDomain_suite::singleSuite(test));
 	}else if(i==8){
-		LOG4CXX_TRACE(loggerTester, "In Tester_SingleSuite: Test " + test + " successful");
-		LOG4CXX_TRACE(loggerTester, "Starting EnvInfl_suite");
+		LOG4CXX_INFO(loggerTester, "In Tester_SingleSuite: Test " + test + " successful");
+		LOG4CXX_INFO(loggerTester, "Starting EnvInfl_suite");
 		suite_Tester->addTest(EnvInfl_suite::singleSuite(test));
 	}else{
 		LOG4CXX_WARN(loggerTester, "Wrong input for singleTest: " << test);
@@ -69,6 +69,6 @@ CppUnit::TestSuite *Tester::singleSuite(std::string test) {
 		LOG4CXX_WARN(loggerTester, "In Tester_SingleSuite: Test " + test + " unsuccessful");
 		return suite_Tester;
 	}
-	LOG4CXX_TRACE(loggerTester, "In Tester_SingleSuite: Test " + test + " successful");
+	//LOG4CXX_TRACE(loggerTester, "In Tester_SingleSuite: Test " + test + " successful");
 	return suite_Tester;
 }
