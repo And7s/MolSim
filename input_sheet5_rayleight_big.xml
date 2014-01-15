@@ -38,7 +38,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
     <mass>40.0</mass>
     <epsilon>2.0</epsilon>
     <sigma>1.15</sigma>
-    <type>1</type>
+    <type>5</type>
     <nature>0</nature>
 	<velocity>
       <x>0</x>

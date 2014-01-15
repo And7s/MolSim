@@ -171,14 +171,14 @@ void Calculation::calculateForce(double currentTime) {
 	maxSize = domainSize[0]; //With the condition that x direction is the biggest
 	int i, j;
 	i = 0;
-	for(j = 1; j < 3; j++){
+	for(j = 1; j < dimension; j++){
 		if(domainSize[j]>maxSize){
 			maxSize = domainSize[j];
 			i++;
 		}
 	}
 	if(i!=0){
-		LOG4CXX_ERROR(loggerCalc, "X direction not the biggest");
+		LOG4CXX_ERROR(loggerCalc, "X direction not the biggest, biggest dimension: " << i << " Size: " << maxSize);
 		exit(-1);
 	}
 	if(threadNumber == 0){
@@ -255,7 +255,9 @@ void Calculation::calculateForce(double currentTime) {
 
 							factor3 = curP->getX() - p->getX();
 							double length = factor3.L2Norm();
-
+							if(currentTime==0.0){
+								p->setType(threadNumber);
+							}
 							//Case 1: Both particles are of nature membrane
 							if(naturea == 1 && natureb == 1){
 
