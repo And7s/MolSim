@@ -2,6 +2,7 @@ SOURCES=\
 src/MaxwellBoltzmannDistribution.cpp\
 src/input.cpp\
 src/ParticleGenerator.cpp\
+src/DynamicThreadMngr.cpp\
 src/Calculation.cpp\
 src/outputWriter/vtk-unstructured.cpp\
 src/outputWriter/VTKWriter.cpp\
