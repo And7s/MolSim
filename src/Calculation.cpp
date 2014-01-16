@@ -152,6 +152,7 @@ void Calculation::calculateForce(double currentTime) {
 	int* offSet;
 	std::vector<int> domainSize;
 	bool integerSize;
+	std::vector<ParticleContainer*>* cellContainer;
 	
 	//Variables for Membrane simulation
 
@@ -186,19 +187,59 @@ void Calculation::calculateForce(double currentTime) {
 	if(threadNumber == 0){
 		LOG4CXX_TRACE(loggerCalc, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
 	}
-	/*
-	switch(i){
-	case 1:
-		j = 0;
-		break;
-	case 2:
-		j = 0;
-		break;
-	default:
-		j = 1;
+
+	cellContainer=DynamicThreadMngr::getComputingSpace(threadNumber);
+	for(j = start; j < cellContainer->size() ; j++){
+		pc = (*cellContainer)[j];
+
+		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
+		neighboursOfPc.push_back(pc);
+		sizeNeighbours = neighboursOfPc.size();
+
+		cellParticleIt = 0;
+
+		while((p = pc->nextParticle(&cellParticleIt))!=NULL){   //iterate over particles within this cell
+
+			if(p->getType() != -1) {
+				for(int j = 0; j < sizeNeighbours;j++){     //iterate over their neighbours
+					interactingParticlesIt = 0;
+					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
+
+						if(curP->getUid() != p->getUid()) {
+							naturea = p->getNature();
+							natureb = curP->getNature();
+
+							factor3 = curP->getX() - p->getX();
+							double length = factor3.L2Norm();
+							if(currentTime==0.0){
+								p->setType(threadNumber);
+							}
+							//Case 1: Both particles are of nature membrane
+							if(naturea == 1 && natureb == 1){
+
+								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
+							//Case 2: Particle p is a wall, do nothing or reset force to zero
+							}else if(naturea==2){
+
+								utils::Vector<double, 3> zeroVector = 0.0;
+								p->setF(zeroVector);
+								p->setV(zeroVector);
+								p->setOldF(zeroVector);
+							//Case 3: Default Case, interaction via Lennard-Jones-Potential
+							}else{
+
+								calculateLJInteraction(p, curP, length, cutoff);
+							}
+						}
+					}
+				}
+				EnvInfl::getInstance()->calculateGravity(p);
+			}
+		}
+		EnvInfl::getInstance()->calculateSpecParts(currentTime);
+		neighboursOfPc.clear();
 	}
-	LOG4CXX_INFO(loggerCalc, "Maximal size in dimension " << i << " where 0 is x, 1 is y and 2 is z direction");
-	*/
+	/*
 	double tmpNumberOfColumns = ((double)maxSize)/numberOfThreads;
 	if(floor(tmpNumberOfColumns)-tmpNumberOfColumns != 0){
 		//stepSize is not an integer
@@ -222,7 +263,7 @@ void Calculation::calculateForce(double currentTime) {
 	offSet1 = (integerSize) ? (1+ (numberOfThreads-1)*stepSize) : (1 + (numberOfThreads-2)*stepSizeTmp+((threadNumber!=numberOfThreads-1)? stepSizeLast : stepSizeTmp));
 	offSet2 = (integerSize) ? ((numberOfThreads-1)*stepSize + stepSize-1) : ((numberOfThreads-1)*stepSizeTmp + stepSizeLast-1);
 
-	/*
+
 	#pragma omp critical
 	{
 	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
@@ -233,7 +274,7 @@ void Calculation::calculateForce(double currentTime) {
 	std::cout << "ThreadNumber and numberOfCellsPerThread and Startindex "<< threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
 	}
 	#pragma barrier
-	*/
+
 
 	curNumberOfCells = 0;
 	offSetCounterY = 0;
@@ -298,14 +339,14 @@ void Calculation::calculateForce(double currentTime) {
 	}
 
 	#pragma omp barrier
-	/*
+
     #pragma omp critical
 	{
 	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
 	std::cout << "ThreadNumber and numberOfCellsPerThread2 and Startindex"<< threadNumber << " " << numberOfCellsPerThread2 << " "<< start << std::endl;
 	}
 	#pragma barrier
-	*/
+
 	curNumberOfCells = 0;
 	start = start + (stepSize-1);
 	for(j = start; curNumberOfCells < numberOfCellsPerThread2; j++){
@@ -360,64 +401,8 @@ void Calculation::calculateForce(double currentTime) {
 
 		curNumberOfCells++;
 		j = j + offSet2;
+	}*/
 	}
-    #pragma omp barrier
-	//exit(1);
-	}
-	/*
-	//#pragma omp parallel for private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
-	#pragma omp parallel for schedule(dynamic) private(pc, sigma_tmp, epsilon_tmp,factor1, forceIJ, factor2, powSigma, powDist, factor3, neighboursOfPc, curP, p, interactingParticlesIt, cellParticleIt, sizeNeighbours) 
-	for(int i = 0; i < size; i++){  //iterate over all cells
-
-		pc = pcArray[i];
-
-		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
-		neighboursOfPc.push_back(pc);
-		sizeNeighbours = neighboursOfPc.size();
-		
-		cellParticleIt = 0;
-		
-		while((p = pc->nextParticle(&cellParticleIt))!=NULL){   //iterate over particles within this cell
-			
-			if(p->getType() != -1) {
-				for(int j = 0; j < sizeNeighbours;j++){     //iterate over their neighbours
-					interactingParticlesIt = 0;
-					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-					
-						if(curP->getUid() != p->getUid()) {
-							naturea = p->getNature();
-							natureb = curP->getNature();
-
-							factor3 = curP->getX() - p->getX();
-							double length = factor3.L2Norm();
-							
-
-							//Case 1: Both particles are of nature membrane
-							if(naturea == 1 && natureb == 1){
-	
-								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
-							//Case 2: Particle p is a wall, do nothing or reset force to zero
-							}else if(naturea==2){
-								
-								utils::Vector<double, 3> zeroVector = 0.0;
-								p->setF(zeroVector);
-								p->setV(zeroVector);
-								p->setOldF(zeroVector);
-							//Case 3: Default Case, interaction via Lennard-Jones-Potential
-							}else{
-								
-								calculateLJInteraction(p, curP, length, cutoff);
-							}
-						}
-					}
-				}
-				EnvInfl::getInstance()->calculateGravity(p);
-			}
-		}
-		EnvInfl::getInstance()->calculateSpecParts(currentTime);
-		neighboursOfPc.clear();
-	}
-	*/
 }
 
 

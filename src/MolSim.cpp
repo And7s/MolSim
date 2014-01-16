@@ -156,9 +156,11 @@ int main(int argc, char* argsv[]) {
 	ParticleGenerator pg;
 	int* length = new int;
 	int i;
+	int numberOfThreads;
 	#pragma omp parallel
 	{
-		LOG4CXX_INFO(loggerMain, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
+		numberOfThreads = omp_get_num_threads();
+		LOG4CXX_INFO(loggerMain, "Starting calculation with " << numberOfThreads <<" THREADS");
 	}
 	pa = pg.readFile(length, inp);
 
@@ -198,8 +200,8 @@ int main(int argc, char* argsv[]) {
 	plotter->plotParticles(0, *length, outFile, *parameters);
 
 	//edit:
-	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, 4);
-	exit(-1);
+	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads);
+	//exit(-1);
 	//end
 
 	//initially calculation of Forces
