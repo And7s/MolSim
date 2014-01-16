@@ -13,27 +13,25 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
        xsi:noNamespaceSchemaLocation="input.xsd">
    <gravity>-12.44</gravity>
   <base_output_file>out</base_output_file>
-  <plot_vtk_file>false</plot_vtk_file>
+  <plot_vtk_file>true</plot_vtk_file>
   <xvf_data_file>water</xvf_data_file>
-  <plot_xvf_file>true</plot_xvf_file>
-  <use_thermostat>true</use_thermostat>
+  <plot_xvf_file>false</plot_xvf_file>
+  <use_thermostat>false</use_thermostat>
   <frequency>25</frequency>
   <dimensions>3</dimensions>
   <start_time>0</start_time>
-  <tend>2</tend>
-  <delta_t>0.0002</delta_t>
+  <tend>10</tend>
+  <delta_t>0.00005</delta_t>
   <input_file>unused</input_file>
-  <cuboid>
+
+
+  <sphere>
     <position>
-      <x>0.6</x>
-      <y>0.6</y>
-      <z>0.6</z>
+      <x>30</x>
+      <y>18</y>
+      <z>25</z>
     </position>
-    <number>
-      <x>48</x>
-      <y>9</y>
-      <z>42</z>
-    </number>
+    <radius>5</radius>
     <distance>1.2</distance>
     <mass>1</mass>
     <epsilon>1</epsilon>
@@ -45,7 +43,7 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <y>0</y>
       <z>0</z>
     </velocity>
-  </cuboid>
+  </sphere>
 
   <boundaryCondition>
     <left>2</left>

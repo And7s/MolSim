@@ -164,7 +164,7 @@ namespace outputWriter {
 					output_file << "\t";
 					output_file << particles[i]->getSigma() << " ";
 					output_file << "\t";
-					output_file << particles[i]->getType() << std::endl;
+					output_file << particles[i]->getType() << " ";
 					output_file << "\t";
 					output_file << particles[i]->getNature() << std::endl;
 					}
