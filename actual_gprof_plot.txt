@@ -1,0 +1,93 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 44.05     59.35    59.35                             Sheet3Calc::calculateForce()
+ 11.14     74.37    15.02                             ParticleContainer::nextParticle(int*)
+  4.00     79.76     5.39                             ParticleContainer::nextParticle()
+  3.96     85.10     5.34                             Particle::addOnF(utils::Vector<double, 3>&)
+  3.41     89.69     4.60                             Particle::getDistanceToSq(Particle*)
+  3.29     94.12     4.43                             LCDomain::getCellAt(std::vector<int, std::allocator<int> >&)
+  2.91     98.04     3.92                             LCDomain::getNeighbourCells(ParticleContainer*, std::vector<ParticleContainer*, std::allocator<ParticleContainer*> >*)
+  2.87    101.91     3.87                             Calculation::calculateVelocity()
+  2.82    105.71     3.80                             LCDomain::insertParticle(Particle*)
+  2.52    109.10     3.40                             Particle::setOldF(utils::Vector<double, 3>&)
+  2.46    112.42     3.32                             Particle::Particle(utils::Vector<double, 3>, utils::Vector<double, 3>, double, int)
+  2.01    115.12     2.71                             Particle::setM(double)
+  1.93    117.72     2.60                             Particle::getType()
+  1.83    120.19     2.47                             LCDomain::decodeDimensinalOrigin(int)
+  1.74    122.54     2.35                             Calculation::calculatePosition()
+  0.87    123.71     1.17                             std::basic_string<char, std::char_traits<char>, std::allocator<char> > xsd::cxx::tree::bits::insert<char>(xsd::cxx::tree::as_decimal<double> const&)
+  0.73    124.69     0.98                             LCDomain::insertParticles(std::vector<Particle*, std::allocator<Particle*> >&)
+  0.70    125.64     0.95                             Particle::setF(utils::Vector<double, 3>&)
+  0.63    126.48     0.85                             ParticleContainer::getPosition()
+  0.54    127.21     0.73                             Particle::getX()
+  0.49    127.87     0.66                             xsd::cxx::xml::char_utf8_transcoder<char>::from(char const*, unsigned long)
+  0.48    128.51     0.64                             ParticleContainer::setParticle(Particle*)
+  0.45    129.12     0.61                             operator<<(std::ostream&, Particle&)
+  0.41    129.67     0.56                             Particle::getM()
+  0.39    130.20     0.53                             EnvInfl::calculateGravity(Particle*)
+  0.39    130.72     0.52                             LCDomain::checkBounds(std::vector<int, std::allocator<int> >&)
+  0.27    131.08     0.36                             ParticleContainer::setNpp2(int)
+  0.26    131.43     0.36                             Particle::setX(utils::Vector<double, 3>&)
+  0.26    131.78     0.35                             std::vector<int, std::allocator<int> >::operator=(std::vector<int, std::allocator<int> > const&)
+  0.22    132.08     0.30                             Particle::setEpsilon(double)
+  0.22    132.38     0.30                             BoundaryCondition::apply()
+  0.20    132.65     0.27                             Calculation::resetForce()
+  0.18    132.90     0.25                             Particle::setV(utils::Vector<double, 3>&)
+  0.16    133.11     0.21                             LCDomain::reset()
+  0.13    133.29     0.18                             Particle::getSigma()
+  0.12    133.45     0.17                             ParticleContainer::clearParticles()
+  0.11    133.60     0.15                             Sheet3Calc::calculateSingleForce(Particle*, Particle*)
+  0.11    133.75     0.15                             Particle::Particle(Particle const&)
+  0.09    133.88     0.13                             EnvInfl::getInstance()
+  0.09    134.00     0.12                             outputWriter::VTKWriter::plotParticle(Particle&)
+  0.09    134.12     0.12                             void xsd::cxx::tree::operator<< <char, double, true>(xsd::cxx::tree::list_stream<char>&, xsd::cxx::tree::list<double, char, (xsd::cxx::tree::schema_type::value)2, true> const&)
+  0.08    134.22     0.11                             EnvInfl::EnvInfl()
+  0.07    134.32     0.10                             Particle::getF()
+  0.04    134.37     0.05                             Particle::getV()
+  0.04    134.42     0.05                             BoundaryCondition::applySwitch(int, std::vector<int, std::allocator<int> >&, int, bool)
+  0.03    134.46     0.05                             ParticleContainer::deleteParticle(Particle*, bool)
+  0.03    134.51     0.05                             EnvInfl::getG()
+  0.03    134.54     0.04                             Particle::getOldF()
+  0.02    134.57     0.03                             BoundaryCondition::applyPeriodic(ParticleContainer*, ParticleContainer*, int, bool)
+  0.02    134.60     0.03                             LCDomain::getDimension()
+  0.02    134.62     0.03                             LCDomain::getCutOffRadius()
+  0.02    134.65     0.03                             LCDomain::addHaloParticle(Particle*)
+  0.01    134.67     0.02                             Sheet3Calc::calculateAll()
+  0.01    134.68     0.01                             outputWriter::VTKWriter::writeFile(std::string const&, int)
+  0.01    134.69     0.01                             ParticleContainer::setParticles(std::vector<Particle*, std::allocator<Particle*> >)
+  0.01    134.70     0.01                             VTK::plotParticles(int, int, std::string const&, std::vector<double, std::allocator<double> >&)
+  0.01    134.71     0.01                             Points::DataArray()
+  0.01    134.72     0.01                             LCDomain::display()
+  0.01    134.73     0.01                             VTKFile_t::UnstructuredGrid()
+  0.01    134.74     0.01                             Points::DataArray() const
+  0.00    134.74     0.01                             Particle::getEpsilon()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
