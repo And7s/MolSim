@@ -49,25 +49,34 @@ std::vector<Particle*> partlist;
 			x[0] = d1;
 			for(float d2 = si->position().y()-si->radius()*si->distance(); d2 < si->position().y()+si->radius()*si->distance(); d2 +=si->distance()) {
 				x[1] = d2;
-				float d3 = si->position().z();
-				x[2] = d3;
-				dist = 
-					std::pow(si->position().x()-d1,2)+
-					std::pow(si->position().y()-d2,2)+
-					std::pow(si->position().z()-d3,2);
-				if(dist <= max_dist) {
-					Particle* p = new Particle(x,v,si->mass());
+				
+				for(float d3 = si->position().z()-si->radius()*si->distance(); d3 < si->position().z()+si->radius()*si->distance(); d3 +=si->distance()) {
+					if(inp->dimensions() == 2) {
+						d3 = si->position().z();
+					}
+					
+					x[2] = d3;
+					dist = 
+						std::pow(si->position().x()-d1,2)+
+						std::pow(si->position().y()-d2,2)+
+						std::pow(si->position().z()-d3,2);
+					if(dist <= max_dist) {
+						Particle* p = new Particle(x,v,si->mass());
 
-					p->setType(type);
-					p->setNature(nature);
-					p->setEpsilon(epsilon);
-					p->setSigma(sigma);
-					p->setUid(count_uid);
-					count_uid++;
-					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
+						p->setType(type);
+						p->setNature(nature);
+						p->setEpsilon(epsilon);
+						p->setSigma(sigma);
+						p->setUid(count_uid);
+						count_uid++;
+						utils::Vector<double, 3> velo = v;
+						MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
 
-					partlist.push_back(p);
+						partlist.push_back(p);
+					}
+					if(inp->dimensions() == 2) {
+						break;
+					}
 				}
 			}
 		}
