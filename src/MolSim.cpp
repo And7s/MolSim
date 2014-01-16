@@ -270,7 +270,7 @@ Particle* p;
 
 		iteration++;
 
-		if(iteration%(10/delta_t) == 0){
+		if(iteration%(int)(10/delta_t) == 0){
 			DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads);
 		}
 
