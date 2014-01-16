@@ -269,6 +269,11 @@ Particle* p;
 		calculation.calculateAll(current_time);
 
 		iteration++;
+
+		if(iteration%(10/delta_t) == 0){
+			DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads);
+		}
+
 		if (iteration % inp->frequency() == 0) {
 			if(plot_vtk){
 				plotter->plotParticles(iteration, *length, outFile, *parameters);
