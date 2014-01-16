@@ -197,6 +197,11 @@ int main(int argc, char* argsv[]) {
 
 	plotter->plotParticles(0, *length, outFile, *parameters);
 
+	//edit:
+	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, 4);
+	exit(-1);
+	//end
+
 	//initially calculation of Forces
 	calculation.resetForce();
 
