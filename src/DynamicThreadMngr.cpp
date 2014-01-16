@@ -18,7 +18,9 @@ DynamicThreadMngr::~DynamicThreadMngr() {
 	// TODO Auto-generated destructor stub
 }
 
-int* DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
+std::vector<ParticleContainer*>* DynamicThreadMngr::threadContainer;
+
+void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	bool foundOpt = false;
 	int totalThreads = threads;
 	int* result = new int[totalThreads-1];
@@ -40,9 +42,9 @@ int* DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 
 	int loops;
 	int* count = new int[totalThreads];
+	int x,y,z;
 	for(loops = 0; loops < OPT_LOOPS; loops++){
 		std::cout << std::endl << "LOOP: " << loops << std::endl;
-		int x,y,z;
 		//clear count - for some reason necessary even if declared in this loop ..
 		for(i = 0; i < totalThreads; i++){
 			count[i] = 0;
@@ -115,7 +117,40 @@ int* DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 				std::cout << "Border " << i << " is at " << result[i] << std::endl;
 			}
 
-	return result;
+	threadContainer = new std::vector<ParticleContainer*>[totalThreads];
+
+
+	for(i = 0; i < totalThreads; i++){
+		std::vector<ParticleContainer*> tempVec;
+		if(i > 0){
+			leftborder = result[i-1];
+		}else{
+			leftborder = 0;
+		}
+		if(i < totalThreads -1){
+			rightborder = result[i];
+		}else{
+			rightborder = totalColumns;	//actually not in domain space - this is fine
+		}
+		for(x = leftborder; x < rightborder; x++){
+			for(y = 0; y < domain.getBounds()[1]; y++){
+				for(z = 0; z < domain.getBounds()[2]; z++){
+					std::vector<int> position (3);
+					position[0] = x;
+					position[1] = y;
+					position[2] = z;
+					tempVec.push_back(domain.getCellAt(position));
+				}
+			}
+		}
+		threadContainer[i] = tempVec;
+		std::cout << threadContainer[i].size() << std::endl;
+	}
+}
+
+std::vector<ParticleContainer*>* DynamicThreadMngr::getComputingSpace(
+		int threadNum) {
+	return &(threadContainer[threadNum]);
 }
 
 int DynamicThreadMngr::computeLargestGradient(int** input, int size) {

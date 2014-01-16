@@ -5,6 +5,7 @@
 #include "LCDomain.h"
 #include "EnvInfl.h"
 #include "Particle.h"
+#include "DynamicThreadMngr.h"
 
 #include <log4cxx/logger.h>
 #include <log4cxx/xml/domconfigurator.h>

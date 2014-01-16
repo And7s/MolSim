@@ -13,12 +13,13 @@
 LoggerPtr loggerPC(Logger::getLogger( "main.pc"));
 
 ParticleContainer::ParticleContainer() {
-	std::cout << "new ParticleContainer";
+	//std::cout << "new ParticleContainer";
 }
 
 ParticleContainer::ParticleContainer(int pos) {
 	LOG4CXX_TRACE(loggerPC, "Init ParticleContainer at Position: " << pos);
 	this->position = pos;
+	operatingThread = -1;
 }
 
 ParticleContainer::~ParticleContainer() {}
@@ -76,3 +77,10 @@ int ParticleContainer::getPosition(){
 	return this->position;
 }
 
+void ParticleContainer::setOperatingThread(int threadNum) {
+	if(operatingThread == -1 || threadNum == this->operatingThread){
+		this->operatingThread = threadNum;
+	}else{
+		LOG4CXX_WARN(loggerPC, "Particle Container at position: " <<this->position << " has changed operating thread from " << this->operatingThread << " to " <<threadNum);
+	}
+}

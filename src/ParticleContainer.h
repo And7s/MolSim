@@ -31,6 +31,12 @@ class ParticleContainer {
 		std::vector<Particle*> particles;
 
 		int position;
+
+		/**
+		 * the number of the operating Thread on this PC
+		 * more likely for development purpose.
+		 */
+		int operatingThread;
 	public:
 		ParticleContainer();
 		ParticleContainer(int l);
@@ -72,6 +78,8 @@ class ParticleContainer {
 		int getPosition();
 
 		inline bool isempty();
+
+		void setOperatingThread(int threadNum);
 };
 
 Particle* ParticleContainer::nextParticle(int* iterator) {

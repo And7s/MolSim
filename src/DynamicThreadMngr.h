@@ -18,14 +18,34 @@ public:
 
 
 	/**
+	 * This method balances the particles, each thread has to handle.
+	 * The thread-space-borders are adjusted along the x-axis (which is assumed to be the longest).
+	 * In the end, the time all threads have to wait at their barriers should be reduced significantly,
+	 * because all of them reach it in a smaller time interval.
 	 *
+	 * Call this method only once in a while (every 10000 calculation loops).
+	 *
+	 * @param a reference to the LCDomain
+	 * @param the number of threads - which are active duringt the actual calulation
+	 *
+	 * @return an int Array - which is indicates the optimal border placements.
 	 */
-	static int* optimizeThreadSpace(LCDomain& domain, int threads);
+	static void optimizeThreadSpace(LCDomain& domain, int threads);
 
 	static const int OPT_LOOPS = 10;
 
+	static std::vector<ParticleContainer*>* getComputingSpace(int threadNum);
+
+
 private:
+	/**
+	 * some helper function
+	 * returns the border which has the largest gradient.
+	 * The Maximum of second derive (in a discrete way)
+	 */
 	static int computeLargestGradient(int** input, int size);
+
+	static std::vector<ParticleContainer*>* threadContainer;
 
 };
 
