@@ -110,10 +110,9 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	}
 
 	if(foundOpt){
-		std::cout << "Optimum found!" << std::endl;
 		LOG4CXX_INFO(loggerDTM, "Optimum found! Thread workload balanced");
 	}else{
-		std::cout << "Aborting.. maximum loops exhausted" << std::endl;
+		LOG4CXX_INFO(loggerDTM, "Aborting.. maximum loops exhausted! Thread workload balanced");
 	}
 
 	threadContainer = new std::vector<ParticleContainer*>[totalThreads];
