@@ -18,6 +18,11 @@ DynamicThreadMngr::~DynamicThreadMngr() {
 	// TODO Auto-generated destructor stub
 }
 
+/**
+ * Logger
+ */
+LoggerPtr loggerDTM(Logger::getLogger( "main.dynamicThreadMngr"));
+
 std::vector<ParticleContainer*>* DynamicThreadMngr::threadContainer;
 
 void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
@@ -43,8 +48,10 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	int loops;
 	int* count = new int[totalThreads];
 	int x,y,z;
+
+	LOG4CXX_INFO(loggerDTM,"Adjusting thread workload...");
+
 	for(loops = 0; loops < OPT_LOOPS; loops++){
-		std::cout << std::endl << "LOOP: " << loops << std::endl;
 		//clear count - for some reason necessary even if declared in this loop ..
 		for(i = 0; i < totalThreads; i++){
 			count[i] = 0;
@@ -58,7 +65,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			}else{
 				rightborder = totalColumns;	//actually not in domain space - this is fine
 			}
-			std::cout << "LB: " << leftborder << " RB: " << rightborder << std::endl;
+			//std::cout << "LB: " << leftborder << " RB: " << rightborder << std::endl;
 			for(x = leftborder; x < rightborder; x++){
 				for(y = 0; y < domain.getBounds()[1]; y++){
 					for(z = 0; z < domain.getBounds()[2]; z++){
@@ -71,7 +78,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 					}
 				}
 			}
-			std::cout << "Stats: space [" << i << "] has " << count[i] << std::endl;
+			//std::cout << "Stats: space [" << i << "] has " << count[i] << std::endl;
 		}
 		int gradIndex = DynamicThreadMngr::computeLargestGradient(&count,totalThreads);
 		int currentGradient;
@@ -100,22 +107,14 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 		}
 		lastMoveBorder = gradIndex;
 		lastMoveGradient = currentGradient;
-		std::cout << "Adjusted borders" << std::endl ;
-		for(i = 0; i < totalThreads-1; i++){
-			std::cout << "Border " << i << " is at " << result[i] << std::endl;
-		}
 	}
 
 	if(foundOpt){
 		std::cout << "Optimum found!" << std::endl;
+		LOG4CXX_INFO(loggerDTM, "Optimum found! Thread workload balanced");
 	}else{
 		std::cout << "Aborting.. maximum loops exhausted" << std::endl;
 	}
-
-	std::cout << "Final borders" << std::endl ;
-			for(i = 0; i < totalThreads-1; i++){
-				std::cout << "Border " << i << " is at " << result[i] << std::endl;
-			}
 
 	threadContainer = new std::vector<ParticleContainer*>[totalThreads];
 
