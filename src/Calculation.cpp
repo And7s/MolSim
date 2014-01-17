@@ -418,7 +418,7 @@ void Calculation::calculateSingleForce(Particle* p1, Particle* p2){
 	double dist = ((p1->getX() -(p2->getX())).L2Norm());
 	double factor1 = (24 * p1->getEpsilon())/pow(dist,2);
 	double factor2 = pow((p1->getSigma()/dist),6)- (2*pow((p1->getSigma()/dist),12));
-	utils::Vector<double,3> factor3 = p2->getX()-p1->getX();
+	utils::Vector<double,3> factor3 = (p2->getX()-p1->getX())/dist;
 	utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 	p1->addOnF(forceIJ);
 }
@@ -490,7 +490,7 @@ void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double len
 		double powSigma = pow(sigma_tmp,6);
 		double powDist = pow(distSq,3);
 		double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-		utils::Vector<double,3>  factor3 = curP->getX() - p->getX();
+		utils::Vector<double,3>  factor3 = (curP->getX() - p->getX())/length;
 
 		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 
