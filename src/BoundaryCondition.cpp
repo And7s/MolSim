@@ -119,28 +119,21 @@ void BoundaryCondition::applyPeriodic(ParticleContainer* pc, ParticleContainer* 
 	pc->clearParticles();
 
 	while((p = pc2->nextParticle(&j)) != NULL){
-		if(p->getType() != -1) {
-			Particle* pcopy = new Particle(*p);
 
-			utils::Vector<double, 3> pos = pcopy->getX();
-			
-			if(zero) {
-				pos[axis] -= domainSize[axis]*linkedCell->getCutOffRadius();
-			}else {
-				pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
-			}
+		Particle* pcopy = new Particle(*p);
 
-			pcopy->setX(pos);
-			pcopy->setType(-1);
-			pc->setParticle(pcopy);
-			linkedCell->addHaloParticle(pcopy);
-		}
+		utils::Vector<double, 3> pos = pcopy->getX();
 		
-//		pcopy->setX(pos);
-//		pcopy->setType(-1);
-//		pc->setParticle(pcopy);
-//		linkedCell->addHaloParticle(pcopy);
+		if(zero) {
+			pos[axis] -= domainSize[axis]*linkedCell->getCutOffRadius();
+		}else {
+			pos[axis] += domainSize[axis]*linkedCell->getCutOffRadius();
+		}
 
+		pcopy->setX(pos);
+		pcopy->setType(-1);
+		pc->setParticle(pcopy);
+		linkedCell->addHaloParticle(pcopy);
 	}
 }
 
