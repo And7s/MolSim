@@ -205,13 +205,13 @@ int main(int argc, char* argsv[]) {
 	//end
 
 	//initially calculation of Forces
-	calculation.resetForce();
+	/*calculation.resetForce();
 
 	calculation.calculateForce(0.0);
 
 	calculation.calculateVelocity();
 	calculation.calculatePosition();
-
+*/
 	//init the thermostat
 	if(use_thermostat){
 		thermo = new Thermostat(lcDomain, inp);
@@ -292,6 +292,7 @@ Particle* p;
 			}
 		}
 		current_time += delta_t;
+		
 	}
 	if(plot_xvf){
 		if(argc == 2){
