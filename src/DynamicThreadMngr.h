@@ -48,7 +48,7 @@ private:
 	 * returns the border which has the largest gradient.
 	 * The Maximum of second derive (in a discrete way)
 	 */
-	static int computeLargestGradient(int** input, int size);
+	static int computeLargestGradient(int** input, int size, int* loops);
 
 	static std::vector<ParticleContainer*>* threadContainer;
 

@@ -91,7 +91,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			}
 			LOG4CXX_INFO(loggerDTM, "Stats: space [" << i << "] has " << count[i]);
 		}
-		int gradIndex = DynamicThreadMngr::computeLargestGradient(&count,totalThreads);
+		int gradIndex = DynamicThreadMngr::computeLargestGradient(&count,totalThreads, &loops);
 		int currentGradient;
 		LOG4CXX_INFO(loggerDTM, "gradIndex: " << gradIndex  << " LastMove: "<< lastMoveDirection << "\n____________");
 		if((currentGradient = count[gradIndex] - count[gradIndex+1]) < 0){	//means that the left sector has less
@@ -187,7 +187,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 		threadContainer[i] = tempVec;
 		LOG4CXX_INFO(loggerDTM, "Thread "<<i<<" has "<< threadContainer[i].size()<<" Cells");
 	}
-	exit(0);
+	//exit(0);
 }
 
 std::vector<ParticleContainer*>* DynamicThreadMngr::getComputingSpace(
@@ -195,15 +195,18 @@ std::vector<ParticleContainer*>* DynamicThreadMngr::getComputingSpace(
 	return &(threadContainer[threadNum]);
 }
 
-int DynamicThreadMngr::computeLargestGradient(int** input, int size) {
+int DynamicThreadMngr::computeLargestGradient(int** input, int size, int* loops) {
 	//int* gradients = new int[size-1];
 	int i;
 	int maxValue = -1;
 	int maxIndex = -1;
 	for(i = 0; i < size-1; i++){
 		if((*input)[i]==0){
+			(*loops)--;
+			if((*input)[i+1]!=0){
 			maxIndex = i;
 			break;
+			}
 		}else if(abs((*input)[i+1] - (*input)[i]) >= maxValue){
 			maxValue = abs((*input)[i+1] - (*input)[i]);
 			maxIndex = i;
