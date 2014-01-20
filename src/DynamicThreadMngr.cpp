@@ -25,7 +25,7 @@ LoggerPtr loggerDTM(Logger::getLogger( "main.dynamicThreadMngr"));
 
 std::vector<ParticleContainer*>* DynamicThreadMngr::threadContainer;
 
-void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads, int particleSize) {
+void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	bool foundOpt = false;
 	int totalThreads = threads;
 	int* result = new int[totalThreads-1];
