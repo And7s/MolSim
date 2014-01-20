@@ -62,7 +62,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	int* count = new int[totalThreads];
 	int x,y,z;
 	LOG4CXX_INFO(loggerDTM,"Adjusting thread workload...");
-	for(loops = 0; loops < totalThreads; loops++){
+	for(loops = 0; loops < (totalThreads<OPT_LOOPS ? OPT_LOOPS : totalThreads); loops++){
 		//clear count - for some reason necessary even if declared in this loop ..
 		for(i = 0; i < totalThreads; i++){
 			count[i] = 0;
@@ -76,7 +76,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			}else{
 				rightborder = totalColumns;	//actually not in domain space - this is fine
 			}
-			std::cout << "LB: " << leftborder << " RB: " << rightborder << std::endl;
+			LOG4CXX_INFO(loggerDTM, "LB: " << leftborder << " RB: " << rightborder);
 			for(x = leftborder; x < rightborder; x++){
 				for(y = 0; y < domain.getBounds()[1]; y++){
 					for(z = 0; z < domain.getBounds()[2]; z++){
@@ -89,18 +89,20 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 					}
 				}
 			}
-			std::cout << "Stats: space [" << i << "] has " << count[i] << std::endl;
+			LOG4CXX_INFO(loggerDTM, "Stats: space [" << i << "] has " << count[i]);
 		}
 		int gradIndex = DynamicThreadMngr::computeLargestGradient(&count,totalThreads);
 		int currentGradient;
-		std::cout << "gradIndex: " << gradIndex << std::endl;
+		LOG4CXX_INFO(loggerDTM, "gradIndex: " << gradIndex  << " LastMove: "<< lastMoveDirection << "\n____________");
 		if((currentGradient = count[gradIndex] - count[gradIndex+1]) < 0){	//means that the left sector has less
 																			//position border to the right!
 			currentGradient = abs(currentGradient);
 			if(gradIndex == lastMoveBorder && lastMoveDirection == 'l'){	//optimum has been found in this or previous loop
 				foundOpt = true;
 				if(currentGradient > lastMoveGradient){		//determine if optimum was found last loop or now.
+					//std::cout << "result: " << result[gradIndex] << std::endl;
 					result[gradIndex] ++;					//if so, hop back
+					//std::cout << "result: " << result[gradIndex] << std::endl;
 				}
 				break;
 			}
@@ -126,6 +128,36 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	}else{
 		LOG4CXX_INFO(loggerDTM, "Aborting.. maximum loops exhausted! Thread workload balanced");
 	}
+	/////TESTPRINT
+	LOG4CXX_INFO(loggerDTM, "Final Balance:");
+	for(i = 0; i < totalThreads; i++){
+		count[i] = 0;
+		if(i > 0){
+			leftborder = result[i-1];
+		}else{
+			leftborder = 0;
+		}
+		if(i < totalThreads -1){
+			rightborder = result[i];
+		}else{
+			rightborder = totalColumns;	//actually not in domain space - this is fine
+		}
+		LOG4CXX_INFO(loggerDTM, "LB: " << leftborder << " RB: " << rightborder);
+		for(x = leftborder; x < rightborder; x++){
+			for(y = 0; y < domain.getBounds()[1]; y++){
+				for(z = 0; z < domain.getBounds()[2]; z++){
+					std::vector<int> position (3);
+					position[0] = x;
+					position[1] = y;
+					position[2] = z;
+					pc = domain.getCellAt(position);
+					count[i] += pc->getLength();
+				}
+			}
+		}
+		LOG4CXX_INFO(loggerDTM, "Stats: space [" << i << "] has " << count[i]);
+	}
+	///////END TEST
 	threadContainer = new std::vector<ParticleContainer*>[totalThreads];
 
 
@@ -153,7 +185,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			}
 		}
 		threadContainer[i] = tempVec;
-		std::cout << threadContainer[i].size() << std::endl;
+		LOG4CXX_INFO(loggerDTM, "Thread "<<i<<" has "<< threadContainer[i].size()<<" Cells");
 	}
 	exit(0);
 }
@@ -169,7 +201,7 @@ int DynamicThreadMngr::computeLargestGradient(int** input, int size) {
 	int maxValue = -1;
 	int maxIndex = -1;
 	for(i = 0; i < size-1; i++){
-		if((*input)[i]==0||(*input)[i+1]==0){
+		if((*input)[i]==0){
 			maxIndex = i;
 			break;
 		}else if(abs((*input)[i+1] - (*input)[i]) >= maxValue){

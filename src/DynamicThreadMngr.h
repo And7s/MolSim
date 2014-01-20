@@ -37,7 +37,7 @@ public:
 	 */
 	static void optimizeThreadSpace(LCDomain& domain, int threads);
 
-	static const int OPT_LOOPS = 10;
+	static const int OPT_LOOPS = 20;
 
 	static std::vector<ParticleContainer*>* getComputingSpace(int threadNum);
 
