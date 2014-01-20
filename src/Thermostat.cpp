@@ -60,7 +60,7 @@ double Thermostat::getEkin() {
 		if(subavg) {
 			Ekin += (tmp-avg).NormSq();
 		}else {
-			Ekin += tmp.NormSq();
+			Ekin += tmp.NormSq()*p->getM();
 		}
 		
 		
@@ -77,7 +77,7 @@ void Thermostat::apply() {
 
 	double Ekind = num_Particles*dimensions/2*cur_temp;
 	double beta = sqrt(Ekind / Ekin);
-	LOG4CXX_TRACE(loggerThermostat, "apply Temperature"<<cur_temp<<" by faktor"<<beta);
+	LOG4CXX_INFO(loggerThermostat, "Apply Temperature"<<cur_temp<<" by faktor: "<<beta);
 	multiply(beta);
 }
 
