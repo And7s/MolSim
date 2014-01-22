@@ -37,7 +37,7 @@ void Calculation::calculatePosition(){
 	#pragma omp parallel for private(p)
 	for(int i = 0; i < parts->size() ;i++){
 		p = (*parts)[i];
-		if(p->getType() != -1) {
+		if(p->getType() != -1 && p->getNature()!=2) {
 			utils::Vector<double, 3> old_pos = p->getX();
 			utils::Vector<double, 3> new_v = p->getV()*(delta_t);
 			double scalar = delta_t*delta_t/(2*p->getM());
@@ -66,13 +66,15 @@ void Calculation::calculateVelocity(){
 	#pragma omp parallel for private(p)
 	for(int i = 0; i < parts->size(); i++){
 		p = (*parts)[i];
-		utils::Vector<double, 3> old_v = p->getV();
-		double scalar = delta_t/(2*p->getM());
-		utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
-		utils::Vector<double, 3> new_v = old_v +((p->getOldF()+(p->getF()))*(scalar));
-		utils::Vector<double, 3> dv = ((p->getOldF()+(p->getF()))*(scalar));
-		p->setDeltaV(dv);
-		p->setV(new_v);
+		if(p->getNature()!=2){
+			utils::Vector<double, 3> old_v = p->getV();
+			double scalar = delta_t/(2*p->getM());
+			utils::Vector<double, 3> new_acc = (p->getOldF()+(p->getF()))*(scalar);
+			utils::Vector<double, 3> new_v = old_v +((p->getOldF()+(p->getF()))*(scalar));
+			utils::Vector<double, 3> dv = ((p->getOldF()+(p->getF()))*(scalar));
+			p->setDeltaV(dv);
+			p->setV(new_v);
+		}
 	}
 }
 
@@ -239,169 +241,6 @@ void Calculation::calculateForce(double currentTime) {
 		EnvInfl::getInstance()->calculateSpecParts(currentTime);
 		neighboursOfPc.clear();
 	}
-	/*
-	double tmpNumberOfColumns = ((double)maxSize)/numberOfThreads;
-	if(floor(tmpNumberOfColumns)-tmpNumberOfColumns != 0){
-		//stepSize is not an integer
-		//stepSize = ceil(maxSize/(double)numberOfThreads);
-		//numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
-		//numberOfCellsPerThreadLast = (stepSizeLast - 1) * domainSize[1] * domainSize[2];
-		stepSizeTmp = ceil(maxSize/(double)numberOfThreads);
-		stepSize = ((threadNumber != (numberOfThreads - 1)) ? stepSizeTmp : ((maxSize) - (numberOfThreads-1) * stepSizeTmp ));
-		stepSizeLast = (maxSize) - (numberOfThreads-1) * stepSizeTmp;
-		integerSize = false;
-	}else{
-		stepSize = maxSize/numberOfThreads;
-		stepSizeLast = stepSize;
-		integerSize = true;
-	}
-	numberOfCellsPerThread = (stepSize - 1) * domainSize[1] * domainSize[2];
-	numberOfCellsPerThread2 = domainSize[1] * domainSize[2];
-
-
-	start = threadNumber * stepSizeTmp;
-	offSet1 = (integerSize) ? (1+ (numberOfThreads-1)*stepSize) : (1 + (numberOfThreads-2)*stepSizeTmp+((threadNumber!=numberOfThreads-1)? stepSizeLast : stepSizeTmp));
-	offSet2 = (integerSize) ? ((numberOfThreads-1)*stepSize + stepSize-1) : ((numberOfThreads-1)*stepSizeTmp + stepSizeLast-1);
-
-
-	#pragma omp critical
-	{
-	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
-	}
-    #pragma barrier
-	#pragma omp critical
-	{
-	std::cout << "ThreadNumber and numberOfCellsPerThread and Startindex "<< threadNumber << " " << numberOfCellsPerThread << " "<< start << std::endl;
-	}
-	#pragma barrier
-
-
-	curNumberOfCells = 0;
-	offSetCounterY = 0;
-	offSetCounterYLast = 0;
-	//((threadNumber != (numberOfThreads - 1)) ? numberOfCellsPerThread : numberOfCellsPerThreadLast)
-	for(j = start; curNumberOfCells < numberOfCellsPerThread ; j++){
-		//if(threadNumber==3) std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
-		pc = pcArray[j];
-
-		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
-		neighboursOfPc.push_back(pc);
-		sizeNeighbours = neighboursOfPc.size();
-
-		cellParticleIt = 0;
-
-		while((p = pc->nextParticle(&cellParticleIt))!=NULL){   //iterate over particles within this cell
-
-			if(p->getType() != -1) {
-				for(int j = 0; j < sizeNeighbours;j++){     //iterate over their neighbours
-					interactingParticlesIt = 0;
-					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-
-						if(curP->getUid() != p->getUid()) {
-							naturea = p->getNature();
-							natureb = curP->getNature();
-
-							factor3 = curP->getX() - p->getX();
-							double length = factor3.L2Norm();
-							if(currentTime==0.0){
-								p->setType(threadNumber);
-							}
-							//Case 1: Both particles are of nature membrane
-							if(naturea == 1 && natureb == 1){
-
-								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
-							//Case 2: Particle p is a wall, do nothing or reset force to zero
-							}else if(naturea==2){
-
-								utils::Vector<double, 3> zeroVector = 0.0;
-								p->setF(zeroVector);
-								p->setV(zeroVector);
-								p->setOldF(zeroVector);
-							//Case 3: Default Case, interaction via Lennard-Jones-Potential
-							}else{
-
-								calculateLJInteraction(p, curP, length, cutoff);
-							}
-						}
-					}
-				}
-				EnvInfl::getInstance()->calculateGravity(p);
-			}
-		}
-		EnvInfl::getInstance()->calculateSpecParts(currentTime);
-		neighboursOfPc.clear();
-		curNumberOfCells++;
-		offSetCounterY++;
-		if(offSetCounterY ==  (stepSize - 1)){
-			j = j + offSet1;
-			offSetCounterY = 0;
-		}
-	}
-
-	#pragma omp barrier
-
-    #pragma omp critical
-	{
-	std::cout << "ThreadNumber and maxSize and stepSize "<< threadNumber << " " << maxSize << " " << stepSize << std::endl;
-	std::cout << "ThreadNumber and numberOfCellsPerThread2 and Startindex"<< threadNumber << " " << numberOfCellsPerThread2 << " "<< start << std::endl;
-	}
-	#pragma barrier
-
-	curNumberOfCells = 0;
-	start = start + (stepSize-1);
-	for(j = start; curNumberOfCells < numberOfCellsPerThread2; j++){
-		//if(threadNumber==2) std::cout << "ThreadNumber and j " << threadNumber << " " << j << std::endl;
-		pc = pcArray[j];
-		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
-		neighboursOfPc.push_back(pc);
-		sizeNeighbours = neighboursOfPc.size();
-
-		cellParticleIt = 0;
-
-		while((p = pc->nextParticle(&cellParticleIt))!=NULL){   //iterate over particles within this cell
-
-			if(p->getType() != -1) {
-				for(int j = 0; j < sizeNeighbours;j++){     //iterate over their neighbours
-					interactingParticlesIt = 0;
-					while((curP = neighboursOfPc[j]->nextParticle(&interactingParticlesIt))!=NULL){
-
-						if(curP->getUid() != p->getUid()) {
-							naturea = p->getNature();
-							natureb = curP->getNature();
-
-							factor3 = curP->getX() - p->getX();
-							double length = factor3.L2Norm();
-							if(currentTime==0.0){
-								p->setType(threadNumber);
-							}
-							//Case 1: Both particles are of nature membrane
-							if(naturea == 1 && natureb == 1){
-
-								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
-							//Case 2: Particle p is a wall, do nothing or reset force to zero
-							}else if(naturea==2){
-
-								utils::Vector<double, 3> zeroVector = 0.0;
-								p->setF(zeroVector);
-								p->setV(zeroVector);
-								p->setOldF(zeroVector);
-							//Case 3: Default Case, interaction via Lennard-Jones-Potential
-							}else{
-
-								calculateLJInteraction(p, curP, length, cutoff);
-							}
-						}
-					}
-				}
-				EnvInfl::getInstance()->calculateGravity(p);
-			}
-		}
-		EnvInfl::getInstance()->calculateSpecParts(currentTime);
-		neighboursOfPc.clear();
-
-		curNumberOfCells++;
-		j = j + offSet2;
-	}*/
 	}
 }
 
@@ -418,7 +257,7 @@ void Calculation::calculateSingleForce(Particle* p1, Particle* p2){
 	double dist = ((p1->getX() -(p2->getX())).L2Norm());
 	double factor1 = (24 * p1->getEpsilon())/pow(dist,2);
 	double factor2 = pow((p1->getSigma()/dist),6)- (2*pow((p1->getSigma()/dist),12));
-	utils::Vector<double,3> factor3 = (p2->getX()-p1->getX())/dist;
+	utils::Vector<double,3> factor3 = (p2->getX()-p1->getX());///dist;
 	utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 	p1->addOnF(forceIJ);
 }
@@ -490,7 +329,7 @@ void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double len
 		double powSigma = pow(sigma_tmp,6);
 		double powDist = pow(distSq,3);
 		double factor2 = powSigma/powDist- (2*pow(powSigma, 2)/pow(powDist,2));
-		utils::Vector<double,3>  factor3 = (curP->getX() - p->getX())/length;
+		utils::Vector<double,3>  factor3 = (curP->getX() - p->getX());///length;
 
 		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 
