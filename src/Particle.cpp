@@ -141,6 +141,10 @@ void Particle::setNature(int nature) {
 	this->nature = nature;
 }
 
+void Particle::setThreadId(int threadId) {
+	threadID = threadId;
+}
+
 std::string Particle::toString() {
 	std::stringstream stream;
 	stream << uid << ": x: " << x <<  " v: " << v << " f: " << f << " old_f: " << old_f << " typ: "<<type << " last_move" <<last_move << "deltav "<<deltav;

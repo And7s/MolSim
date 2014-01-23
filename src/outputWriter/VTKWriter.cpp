@@ -36,11 +36,13 @@ void VTKWriter::initializeOutput(int numParticles) {
 	DataArray_t forces(type::Float32, "force", 3);
 	DataArray_t type(type::Int32, "type", 1);
 	DataArray_t nature(type::Int32, "nature", 1);
+	DataArray_t threadID(type::Int32, "threadID", 1);
 	pointData.DataArray().push_back(mass);
 	pointData.DataArray().push_back(velocity);
     pointData.DataArray().push_back(forces);
     pointData.DataArray().push_back(type);
     pointData.DataArray().push_back(nature);
+    pointData.DataArray().push_back(threadID);
 
 	CellData cellData; // we don't have cell data => leave it empty
 
@@ -98,6 +100,9 @@ void VTKWriter::plotParticle(Particle& p) {
 
 	dataIterator++;
 	dataIterator->push_back(p.getNature());
+
+	dataIterator++;
+	dataIterator->push_back(p.getThreadId());
 
 	Points::DataArray_sequence& pointsSequence = vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
 	Points::DataArray_iterator pointsIterator = pointsSequence.begin();
