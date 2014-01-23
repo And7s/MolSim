@@ -15,11 +15,15 @@ using namespace std;
  */
 static double GaussDeviate();
 
-void MaxwellBoltzmannDistribution(Particle& p, double meanVelocity, int dimensions) {
+void MaxwellBoltzmannDistribution(Particle& p, double meanVelocity, int dimensions, bool flow) {
 	utils::Vector<double, 3>& v = p.getV();
-	double brownianMotionFactor = 1.2;
+	double brownianMotionFactor = 1;
 	for (int i = 0; i < dimensions; i++) {
-		v[i] = v[i] + meanVelocity * GaussDeviate() * brownianMotionFactor;
+		if(flow){
+			if(i!=1) v[i] = v[i] + meanVelocity * GaussDeviate() * brownianMotionFactor;
+		}else{
+			v[i] = v[i] + meanVelocity * GaussDeviate() * brownianMotionFactor;
+		}
 	}
 }
 

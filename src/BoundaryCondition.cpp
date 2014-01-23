@@ -44,11 +44,11 @@ void BoundaryCondition::applyOutflow(ParticleContainer* pc) {
 	int j = 0;
 	while((p = pc->nextParticle(&j)) != NULL){
 		if(p->getType() != -1) {
-			std::cerr << "apply outflow, shouldn happen";
+			std::cerr << "apply outflow";
 			linkedCell->deleteParticle(p);
-			pc->deleteParticle(p,true);
+			//pc->deleteParticle(p,true);
 			(*length)=(*length) - 1;
-			//p->setType(-1);
+			p->setType(-1);
 		}
 	}
 }

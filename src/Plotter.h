@@ -10,6 +10,7 @@
 #include "outputWriter/XYZWriter.h"
 #include "outputWriter/VTKWriter.h"
 #include "outputWriter/XVFWriter.h"
+#include "outputWriter/CSVWriter.h"
 #include "ParticleContainer.h"
 #include "LCDomain.h"
 
@@ -73,6 +74,19 @@ class XVF : public Plotter{
 		 * @param amountOfParticles
 		 */
 		std::vector<Particle*> readParticles(std::vector<double>* parameters, const std::string& filename);
+};
+
+/**
+ * Actual implementation of a XVF, derived from Plotter
+ */
+class CSV : public Plotter{
+	public:
+		/**
+		 * Will iterate through particles and plot them in a .txt File
+		 * @param iteration
+		 * @param amountOfParticles
+		 */
+		void plotParticles(int iteration, int amountOfParticles, const std::string& filename, std::vector<double>& parameters);
 };
 
 #endif /* PLOTTER_H */

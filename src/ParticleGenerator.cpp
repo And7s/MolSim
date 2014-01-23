@@ -70,7 +70,7 @@ std::vector<Particle*> partlist;
 						p->setUid(count_uid);
 						count_uid++;
 						utils::Vector<double, 3> velo = v;
-						MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
+						MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions(), false);
 
 						partlist.push_back(p);
 					}
@@ -116,7 +116,7 @@ std::vector<Particle*> partlist;
 					p->setUid(count_uid);
 					count_uid++;
 					utils::Vector<double, 3> velo = v;
-					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions());
+					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions(), false);
 					//MaxwellBoltzmannDistribution(*p,1,inp->dimensions());
 					//cout << *p<<"\n";
 					partlist.push_back(p);

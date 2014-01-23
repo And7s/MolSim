@@ -43,3 +43,9 @@ std::vector<Particle*> XVF::readParticles(std::vector<double>* parameters, const
 
 	return particles;
 }
+
+void CSV::plotParticles(int dimension, int bins, const std::string& filename, std::vector<double>& parameters) {
+	outputWriter::CSVWriter writer;
+	std::vector<Particle*>* particles = lcDomain->getAllParticles();
+	writer.writeFile(*particles);
+}
