@@ -16,6 +16,9 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <plot_vtk_file>true</plot_vtk_file>
   <xvf_data_file>xvfData</xvf_data_file>
   <plot_xvf_file>true</plot_xvf_file>
+  <plot_csv_file>true</plot_csv_file>
+  <csv_bins>50</csv_bins>
+  <csv_iteration>10000</csv_iteration>
   <use_thermostat>true</use_thermostat>
   <frequency>25</frequency>
   <dimensions>3</dimensions>

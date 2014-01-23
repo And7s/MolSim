@@ -142,8 +142,8 @@ int main(int argc, char* argsv[]) {
 			gravity = (*parameters)[2];
 			outFile = inp->base_output_file();
 			dataFile = inp->xvf_data_file();
-			bins = 50;
-			csvIteration = 1000;
+			bins = inp->csv_bins();
+			csvIteration = inp->csv_iteration();
 		}else{
 			delta_t = inp->delta_t();
 			end_time = inp->tend();
@@ -151,8 +151,8 @@ int main(int argc, char* argsv[]) {
 			cutOff = inp->LinkedCellDomain().cutoff();
 			outFile = inp->base_output_file();
 			dataFile = inp->xvf_data_file();
-			bins = 50;
-			csvIteration = 10000;
+			bins = inp->csv_bins();
+			csvIteration = inp->csv_iteration();
 		}
 	}
 	use_thermostat = inp->use_thermostat();

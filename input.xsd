@@ -27,6 +27,9 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="plot_vtk_file" type="xsd:boolean" ></xsd:element>
       <xsd:element name="xvf_data_file" type="xsd:string" ></xsd:element>
       <xsd:element name="plot_xvf_file" type="xsd:boolean" ></xsd:element>
+      <xsd:element name="plot_csv_file" type="xsd:boolean" ></xsd:element>
+      <xsd:element name="csv_bins" type="xsd:integer" ></xsd:element>
+      <xsd:element name="csv_iteration" type="xsd:integer" ></xsd:element>
       <xsd:element name="use_thermostat" type="xsd:boolean" ></xsd:element>
       <xsd:element name="frequency" type="xsd:integer"></xsd:element>
       <xsd:element name="dimensions" type="xsd:positiveInteger"></xsd:element>
