@@ -56,6 +56,11 @@ private:
 	 */
 	int uid;
 
+	/**
+	 * threadID
+	 */
+	int threadID;
+
 public:
 utils::Vector<double, 3> last_move;
 
@@ -207,6 +212,8 @@ utils::Vector<double, 3> deltav;
 	inline bool approxDist(Particle* part, double cutHalf);
 	void setUid(int uid_);
 	inline int getUid();
+	int getThreadId();
+	void setThreadId(int threadId);
 };
 
 utils::Vector<double, 3>& Particle::getX() {
@@ -221,6 +228,9 @@ int Particle::getNature() {
 	return this->nature;
 }
 
+inline int Particle::getThreadId(){
+	return threadID;
+}
 
 int Particle::getUid() {
 	return this->uid;
