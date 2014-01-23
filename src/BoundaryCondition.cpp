@@ -20,7 +20,7 @@ BoundaryCondition::~BoundaryCondition() {
 
 }
 
-BoundaryCondition::BoundaryCondition(LCDomain* linkedCell_, std::vector<int> domainSize_, int dimension_, auto_ptr<input_t>& inp) {
+BoundaryCondition::BoundaryCondition(LCDomain* linkedCell_, std::vector<int> domainSize_, int dimension_, auto_ptr<input_t>& inp, int* length_) {
 
 	linkedCell = linkedCell_;
 	
@@ -35,6 +35,8 @@ BoundaryCondition::BoundaryCondition(LCDomain* linkedCell_, std::vector<int> dom
 	boundarytype[4] = inp->boundaryCondition().front();
 	boundarytype[5] = inp->boundaryCondition().back();
 	
+	length = length_;
+
 }	
 
 void BoundaryCondition::applyOutflow(ParticleContainer* pc) {
@@ -45,6 +47,8 @@ void BoundaryCondition::applyOutflow(ParticleContainer* pc) {
 			std::cerr << "apply outflow, shouldn happen";
 			linkedCell->deleteParticle(p);
 			pc->deleteParticle(p,true);
+			(*length)=(*length) - 1;
+			//p->setType(-1);
 		}
 	}
 }

@@ -190,7 +190,7 @@ int main(int argc, char* argsv[]) {
 	EnvInfl::getInstance()->setG(gravity);
 
 	//initiallze boundary conditions
-	boundaryCondition = new BoundaryCondition(lcDomain, domainSize, inp->dimensions(), inp);
+	boundaryCondition = new BoundaryCondition(lcDomain, domainSize, inp->dimensions(), inp, length);
 	
 	plotter->setParticleContainer(pc);
 	plotter->setLcDomain(lcDomain);

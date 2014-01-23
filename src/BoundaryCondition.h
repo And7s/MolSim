@@ -38,10 +38,11 @@ protected:
 	
 	int dimension;
 	int boundarytype[6];
+	int* length;
 
 public:
 	
-	BoundaryCondition(LCDomain* linkedCell_, std::vector<int> domainSize, int dimension_, auto_ptr<input_t>& inp);
+	BoundaryCondition(LCDomain* linkedCell_, std::vector<int> domainSize, int dimension_, auto_ptr<input_t>& inp, int* length_);
 
 	~BoundaryCondition();
 
