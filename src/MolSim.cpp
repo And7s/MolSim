@@ -60,6 +60,7 @@ std::vector<Particle*> pb;
 bool use_thermostat;
 bool plot_vtk;
 bool plot_xvf;
+bool plot_csv;
 
 BoundaryCondition* boundaryCondition;
 //Thermostat* thermo;
@@ -142,8 +143,6 @@ int main(int argc, char* argsv[]) {
 			gravity = (*parameters)[2];
 			outFile = inp->base_output_file();
 			dataFile = inp->xvf_data_file();
-			bins = inp->csv_bins();
-			csvIteration = inp->csv_iteration();
 		}else{
 			delta_t = inp->delta_t();
 			end_time = inp->tend();
@@ -151,13 +150,14 @@ int main(int argc, char* argsv[]) {
 			cutOff = inp->LinkedCellDomain().cutoff();
 			outFile = inp->base_output_file();
 			dataFile = inp->xvf_data_file();
-			bins = inp->csv_bins();
-			csvIteration = inp->csv_iteration();
 		}
 	}
 	use_thermostat = inp->use_thermostat();
 	plot_vtk = inp->plot_vtk_file();
 	plot_xvf = inp->plot_xvf_file();
+	plot_csv = inp->plot_csv_file();
+	bins = inp->csv_bins();
+	csvIteration = inp->csv_iteration();
 
 	numberOfIterations = end_time/delta_t;
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
@@ -194,7 +194,7 @@ int main(int argc, char* argsv[]) {
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
-	outputWriter::CSVWriter csvWriter(domainSize[0], bins);
+	outputWriter::CSVWriter csvWriter((inp->LinkedCellDomain().dimension().x()), bins);
 
 	calculation.setDeltaT(delta_t);
 	calculation.setParticleContainer(pc);
@@ -210,12 +210,13 @@ int main(int argc, char* argsv[]) {
 
 	dataPlotter->setLcDomain(lcDomain);
 
-	plotter->plotParticles(0, *length, outFile, *parameters);
-
 	//edit:
 	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads);
 	//exit(-1);
 	//end
+
+	if(plot_vtk) plotter->plotParticles(0, *length, outFile, *parameters);
+	if(plot_csv) csvWriter.writeFile(*(lcDomain->getAllParticles()));
 
 	//initially calculation of Forces
 	calculation.resetForce();
@@ -241,14 +242,6 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
 	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
-/*
-Particle* p;
-			std::vector<Particle*>* particles = lcDomain->getAllParticles();
-			//#pragma omp parallel for private(p)
-			for(int i = 0;i < particles->size();i++){
-				p = (*particles)[i];
-				cout << *p<<"\n";
-			}*/
 		calculation.resetForce();
 	
 		boundaryCondition->apply();
@@ -311,11 +304,8 @@ Particle* p;
 				thermoStat->apply();
 			}
 		}
-		if(iteration%csvIteration==0){
-			std::cout << "WRITTING STUFF" << std::endl;
+		if(iteration%csvIteration==0 && plot_csv){
 			csvWriter.writeFile(*(lcDomain->getAllParticles()));
-			std::cout << "GOOOOOD" << std::endl;
-			//if(iteration==3000) exit(1);
 		}
 
 		current_time += delta_t;

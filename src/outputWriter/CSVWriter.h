@@ -9,6 +9,7 @@
 #define CSVWRITER_H_
 
 #include "Particle.h"
+#include "LCDomain.h"
 #include <fstream>
 #include <list>
 #include "utils/Vector.h"

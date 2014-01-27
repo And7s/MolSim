@@ -58,9 +58,9 @@ void ThermoStat::applyFirstEkin(){
 		}
 	}
 	Ekin = (num_NotWall_Particles*dimensions/2)*cur_temp;
-	std::cout << "In ApplyFirst Ekin: " << num_NotWall_Particles << " " << Ekin << std::endl;
+	LOG4CXX_INFO(loggerThermostat, "Num_Particles: "<<num_Particles <<" Not_Wall: "<<num_NotWall_Particles);
 	v = sqrt(2*Ekin/(dimensions*num_NotWall_Particles*1));
-	std::cout << "In ApplyFirst v: " << v << std::endl;
+	LOG4CXX_INFO(loggerThermostat, "In ApplyFirst v: "<< v);
 	for(int i = 0;i < num_Particles;i++){
 		p = (*particles)[i];
 		if(p->getNature()!=2){
@@ -81,7 +81,7 @@ void ThermoStat::apply(){
 			num_NotWall_Particles++;
 		}
 	}
-	LOG4CXX_INFO(loggerThermostat, "Num_Particles: "<<num_Particles <<" Not_Wall: "<<num_NotWall_Particles);
+	//LOG4CXX_INFO(loggerThermostat, "Num_Particles: "<<num_Particles <<" Not_Wall: "<<num_NotWall_Particles);
 	utils::Vector<double, 3> tmp;
 	if(flow){
 		getTemperatureFlow();
@@ -101,7 +101,7 @@ void ThermoStat::apply(){
 		beta = sqrt(target_temp/cur_temp);
 	}
 
-	LOG4CXX_INFO(loggerThermostat, "Apply Temperature"<<target_temp<<" by faktor: "<<beta);
+	//LOG4CXX_INFO(loggerThermostat, "Apply Temperature"<<target_temp<<" by faktor: "<<beta);
 	for(int i = 0;i < num_Particles;i++){
 		p = (*particles)[i];
 		if(p->getNature()!=2){
@@ -132,7 +132,7 @@ void ThermoStat::getTemperature(){
 		}
 	}
 	cur_temp = (2*Ekin)/(dimensions*num_NotWall_Particles);
-	LOG4CXX_INFO(loggerThermostat, "Cur_temp"<<cur_temp);
+	//LOG4CXX_INFO(loggerThermostat, "Cur_temp"<<cur_temp);
 }
 
 void ThermoStat::getTemperatureFlow(){
@@ -159,5 +159,5 @@ void ThermoStat::getTemperatureFlow(){
 		}
 	}
 	cur_temp = (2*Ekin)/(dimensions*num_NotWall_Particles);
-	LOG4CXX_INFO(loggerThermostat, "Cur_temp"<<cur_temp);
+	//LOG4CXX_INFO(loggerThermostat, "Cur_temp"<<cur_temp);
 }

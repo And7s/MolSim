@@ -57,7 +57,7 @@ namespace outputWriter {
 				double* density = new double[bins];
 				double* velocity = new double[bins];
 				double xPosition;
-				std::cout << "SizePerBin: " << sizePerBin << std::endl;
+				//std::cout << "SizePerBin: " << sizePerBin << std::endl;
 				Particle* p;
 				FILE* outFile1;
 				FILE* outFile2;
@@ -66,20 +66,37 @@ namespace outputWriter {
 					density[i] = 0;
 					velocity[i] = 0;
 				}
+				/*
+				std::cout << "Initialize Density: " << std::endl;
+				for(int j = 0; j < bins; j++){
+					std::cout << density[j] << " | ";
+				}
+				std::cout << "BinBorder in dimensionsize: " << dimension << std::endl;
+				for(int j = 0; j <= bins; j++){
+					std::cout << sizePerBin*j << " | ";
+
+				}
+				std::cout << "\n";
+				*/
 				for(int i = 0; i < size; i++){
 					p = particles[i];
 					if(p->getNature()!=2&&p->getType()!=-1){
 						xPosition = p->getX()[0];
 						for(int j = 0; j < bins; j++){
-							if(xPosition > j*sizePerBin && xPosition < ((j+1)*sizePerBin)){
+							if(xPosition > j*sizePerBin && xPosition <= ((j+1)*sizePerBin)){
 								//if(j==49)std::cout << "Add Particle: " << p->toString() << " to Bin: " << j  << std::endl;;
 								density[j] = density[j]+1;
-								velocity[j] = velocity[j] + p->getV()[1];
+								velocity[j] = velocity[j] + abs(p->getV()[1]);
 							}
 						}
 					}
 				}
 
+				//std::cout << "Density: " << std::endl;
+				//for(int j = 0; j < bins; j++){
+				//	std::cout << density[j] << " | ";
+				//}
+				//std::cout << "\n";
 				if((outFile1 = fopen("DensityFlow.csv", "a"))==NULL){
 					LOG4CXX_ERROR(loggerCSV, "Outfile1 could not be opened");
 					exit(1);
