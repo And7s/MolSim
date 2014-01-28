@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<!--
+
+input.xml
+Defines input parameter for the MolSim Project in an xml
+24-11-2013
+Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+
+-->
+
+<input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="input.xsd">
+   <gravity>-0.8</gravity>
+  <base_output_file>out</base_output_file>
+  <plot_vtk_file>true</plot_vtk_file>
+  <xvf_data_file>xvfData</xvf_data_file>
+  <plot_xvf_file>true</plot_xvf_file>
+  <plot_csv_file>true</plot_csv_file>
+  <csv_bins>50</csv_bins>
+  <csv_iteration>10000</csv_iteration>
+  <use_thermostat>false</use_thermostat>
+  <frequency>250</frequency>
+  <dimensions>3</dimensions>
+  <start_time>0</start_time>
+  <tend>500</tend>
+  <delta_t>0.00025</delta_t>
+  <input_file>unused</input_file>
+  <cuboid>
+    <position>
+      <x>1.0</x>
+      <y>0.6</y>
+      <z>0.6</z>
+    </position>
+    <number>
+      <x>2</x>
+      <y>40</y>
+      <z>9</z>
+    </number>
+    <distance>1.12</distance>
+    <mass>1.0</mass>
+    <epsilon>2.0</epsilon>
+    <sigma>1.1</sigma>
+    <type>1</type>
+    <nature>2</nature>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+
+  <cuboid>
+    <position>
+      <x>27.4</x>
+      <y>0.6</y>
+      <z>0.6</z>
+    </position>
+    <number>
+      <x>2</x>
+      <y>40</y>
+      <z>9</z>
+    </number>
+    <distance>1.12</distance>
+    <mass>1.0</mass>
+    <epsilon>2.0</epsilon>
+    <sigma>1.1</sigma>
+    <type>2</type>
+    <nature>2</nature>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+
+  <cuboid>
+    <position>
+      <x>3.2</x>
+      <y>16.6</y>
+      <z>0.6</z>
+    </position>
+    <number>
+      <x>20</x>
+      <y>21</y>
+      <z>8</z>
+    </number>
+    <distance>1.2</distance>
+    <mass>1.0</mass>
+    <epsilon>1.0</epsilon>
+    <sigma>1.0</sigma>
+    <type>3</type>
+    <nature>0</nature>
+    <velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+
+  <boundaryCondition>
+    <left>2</left>
+    <right>2</right>
+    <bottom>0</bottom>
+    <top>0</top>
+    <front>2</front>
+    <back>2</back>
+  </boundaryCondition>
+
+  <LinkedCellDomain>
+    <dimension>
+      <x>35</x>
+      <y>43</y>
+      <z>10</z>
+    </dimension>
+    <cutoff>2.5</cutoff>
+  </LinkedCellDomain>
+  <Thermostats>
+    <initial_temp>40</initial_temp>
+    <applied_after>10</applied_after>
+    <delta_temp>1</delta_temp>
+    <changed_after>10</changed_after>
+    <target_temp>40</target_temp>
+  </Thermostats>
+</input>
