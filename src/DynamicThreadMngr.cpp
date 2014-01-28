@@ -69,7 +69,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads, int p
 	int x,y,z;
 	char dimension[3] = {'x','y','z'};
 	LOG4CXX_INFO(loggerDTM,"Adjusting thread workload along the longest Domain: " << dimension[h] << " with Size: " << maxSize);
-	exit(1);
+
 	for(loops = 0; loops < (totalThreads<OPT_LOOPS ? OPT_LOOPS : totalThreads); loops++){
 		//clear count - for some reason necessary even if declared in this loop ..
 		for(i = 0; i < totalThreads; i++){
