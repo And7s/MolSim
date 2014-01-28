@@ -60,7 +60,7 @@ bool plot_xvf;
 bool plot_csv;
 int csv_bins = 1;
 int csv_iteration = 10000;
-int iteration = 0;
+int iteration = 1;
 
 int seperationSide = 3;
 
@@ -267,7 +267,7 @@ int main(int argc, char* argsv[]) {
 		calculation.calculateAll(current_time);
 
 
-		if(iteration%(int)(numberOfIterations*0.05) == 1 && !iteration){
+		if(iteration%(int)(numberOfIterations*0.05) == 0){
 			DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads, seperationSide);
 		}
 
