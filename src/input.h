@@ -325,6 +325,48 @@ class input_t: public ::xml_schema::type
   void
   plot_xvf_file (const plot_xvf_file_type& x);
 
+  // plot_csv_file
+  // 
+  typedef ::xml_schema::boolean plot_csv_file_type;
+  typedef ::xsd::cxx::tree::traits< plot_csv_file_type, char > plot_csv_file_traits;
+
+  const plot_csv_file_type&
+  plot_csv_file () const;
+
+  plot_csv_file_type&
+  plot_csv_file ();
+
+  void
+  plot_csv_file (const plot_csv_file_type& x);
+
+  // csv_bins
+  // 
+  typedef ::xml_schema::integer csv_bins_type;
+  typedef ::xsd::cxx::tree::traits< csv_bins_type, char > csv_bins_traits;
+
+  const csv_bins_type&
+  csv_bins () const;
+
+  csv_bins_type&
+  csv_bins ();
+
+  void
+  csv_bins (const csv_bins_type& x);
+
+  // csv_iteration
+  // 
+  typedef ::xml_schema::integer csv_iteration_type;
+  typedef ::xsd::cxx::tree::traits< csv_iteration_type, char > csv_iteration_traits;
+
+  const csv_iteration_type&
+  csv_iteration () const;
+
+  csv_iteration_type&
+  csv_iteration ();
+
+  void
+  csv_iteration (const csv_iteration_type& x);
+
   // use_thermostat
   // 
   typedef ::xml_schema::boolean use_thermostat_type;
@@ -408,6 +450,20 @@ class input_t: public ::xml_schema::type
 
   void
   delta_t (const delta_t_type& x);
+
+  // sideForSeperation
+  // 
+  typedef ::xml_schema::integer sideForSeperation_type;
+  typedef ::xsd::cxx::tree::traits< sideForSeperation_type, char > sideForSeperation_traits;
+
+  const sideForSeperation_type&
+  sideForSeperation () const;
+
+  sideForSeperation_type&
+  sideForSeperation ();
+
+  void
+  sideForSeperation (const sideForSeperation_type& x);
 
   // input_file
   // 
@@ -511,20 +567,6 @@ class input_t: public ::xml_schema::type
   void
   Thermostats (::std::auto_ptr< Thermostats_type > p);
 
-  // sideForSeperation
-  // 
-  typedef ::xml_schema::positive_integer sideForSeperation_type;
-  typedef ::xsd::cxx::tree::traits< sideForSeperation_type, char > sideForSeperation_traits;
-
-  const sideForSeperation_type&
-  sideForSeperation () const;
-
-  sideForSeperation_type&
-  sideForSeperation ();
-
-  void
-  sideForSeperation (const sideForSeperation_type& x);
-
   // Constructors.
   //
   input_t (const gravity_type&,
@@ -532,34 +574,40 @@ class input_t: public ::xml_schema::type
            const plot_vtk_file_type&,
            const xvf_data_file_type&,
            const plot_xvf_file_type&,
+           const plot_csv_file_type&,
+           const csv_bins_type&,
+           const csv_iteration_type&,
            const use_thermostat_type&,
            const frequency_type&,
            const dimensions_type&,
            const start_time_type&,
            const tend_type&,
            const delta_t_type&,
+           const sideForSeperation_type&,
            const input_file_type&,
            const boundaryCondition_type&,
            const LinkedCellDomain_type&,
-           const Thermostats_type&,
-           const sideForSeperation_type&);
+           const Thermostats_type&);
 
   input_t (const gravity_type&,
            const base_output_file_type&,
            const plot_vtk_file_type&,
            const xvf_data_file_type&,
            const plot_xvf_file_type&,
+           const plot_csv_file_type&,
+           const csv_bins_type&,
+           const csv_iteration_type&,
            const use_thermostat_type&,
            const frequency_type&,
            const dimensions_type&,
            const start_time_type&,
            const tend_type&,
            const delta_t_type&,
+           const sideForSeperation_type&,
            const input_file_type&,
            ::std::auto_ptr< boundaryCondition_type >&,
            ::std::auto_ptr< LinkedCellDomain_type >&,
-           ::std::auto_ptr< Thermostats_type >&,
-           const sideForSeperation_type&);
+           ::std::auto_ptr< Thermostats_type >&);
 
   input_t (const ::xercesc::DOMElement& e,
            ::xml_schema::flags f = 0,
@@ -592,19 +640,22 @@ class input_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< plot_vtk_file_type > plot_vtk_file_;
   ::xsd::cxx::tree::one< xvf_data_file_type > xvf_data_file_;
   ::xsd::cxx::tree::one< plot_xvf_file_type > plot_xvf_file_;
+  ::xsd::cxx::tree::one< plot_csv_file_type > plot_csv_file_;
+  ::xsd::cxx::tree::one< csv_bins_type > csv_bins_;
+  ::xsd::cxx::tree::one< csv_iteration_type > csv_iteration_;
   ::xsd::cxx::tree::one< use_thermostat_type > use_thermostat_;
   ::xsd::cxx::tree::one< frequency_type > frequency_;
   ::xsd::cxx::tree::one< dimensions_type > dimensions_;
   ::xsd::cxx::tree::one< start_time_type > start_time_;
   ::xsd::cxx::tree::one< tend_type > tend_;
   ::xsd::cxx::tree::one< delta_t_type > delta_t_;
+  ::xsd::cxx::tree::one< sideForSeperation_type > sideForSeperation_;
   ::xsd::cxx::tree::one< input_file_type > input_file_;
   cuboid_sequence cuboid_;
   sphere_sequence sphere_;
   ::xsd::cxx::tree::one< boundaryCondition_type > boundaryCondition_;
   ::xsd::cxx::tree::one< LinkedCellDomain_type > LinkedCellDomain_;
   ::xsd::cxx::tree::one< Thermostats_type > Thermostats_;
-  ::xsd::cxx::tree::one< sideForSeperation_type > sideForSeperation_;
 };
 
 class cuboid: public ::xml_schema::type

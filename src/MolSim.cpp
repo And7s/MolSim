@@ -17,7 +17,7 @@
 #include "cppunit/Tester.h"
 #include "input.h"
 #include "help_macros.h"
-#include "Thermostat.h"
+#include "ThermoStat.h"
 #include "EnvInfl.h"
 
 #include <cppunit/ui/text/TestRunner.h>
@@ -57,11 +57,15 @@ std::vector<Particle*> pb;
 bool use_thermostat;
 bool plot_vtk;
 bool plot_xvf;
+bool plot_csv;
+int csv_bins = 1;
+int csv_iteration = 10000;
+int iteration = 0;
 
-int seperationSide = -1;
+int seperationSide = 3;
 
 BoundaryCondition* boundaryCondition;
-Thermostat* thermo;
+ThermoStat* thermo;
 
 
 /**
@@ -149,6 +153,10 @@ int main(int argc, char* argsv[]) {
 	use_thermostat = inp->use_thermostat();
 	plot_vtk = inp->plot_vtk_file();
 	plot_xvf = inp->plot_xvf_file();
+	plot_csv = inp->plot_csv_file();
+	csv_bins = inp->csv_bins();
+	csv_iteration = inp->csv_iteration();
+
 	seperationSide = inp->sideForSeperation();
 
 	numberOfIterations = end_time/delta_t;
@@ -186,6 +194,8 @@ int main(int argc, char* argsv[]) {
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
+	outputWriter::CSVWriter csvWriter((inp->LinkedCellDomain().dimension().x()), csv_bins);
+
 	calculation.setDeltaT(delta_t);
 	calculation.setParticleContainer(pc);
 	calculation.setLcDomain(lcDomain);
@@ -202,26 +212,20 @@ int main(int argc, char* argsv[]) {
 
 	plotter->plotParticles(0, *length, outFile, *parameters);
 
-	//edit:
+	LOG4CXX_INFO(loggerMain, "SepSide: " << seperationSide);
 	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads, seperationSide);
-	//exit(-1);
-	//end
 
-	//initially calculation of Forces
-/*
-	calculation.resetForce();
-
-	calculation.calculateForce(0.0);
-
-	calculation.calculateVelocity();
-	calculation.calculatePosition();
-*/
+	if(plot_csv){
+		csvWriter.writeFile(*(lcDomain->getAllParticles()));
+	}
+	if(plot_vtk){
+		plotter->plotParticles(iteration, *length, outFile, *parameters);
+	}
 	//init the thermostat
 	if(use_thermostat){
-		thermo = new Thermostat(lcDomain, inp);
+		thermo = new ThermoStat(lcDomain, inp);
 	}
 	double current_time = start_time;
-	int iteration = 0;
 	LOG4CXX_TRACE(loggerMain, "Starting calculation loop..");
 	
 
@@ -231,14 +235,6 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
 	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
-/*
-Particle* p;
-			std::vector<Particle*>* particles = lcDomain->getAllParticles();
-			//#pragma omp parallel for private(p)
-			for(int i = 0;i < particles->size();i++){
-				p = (*particles)[i];
-				cout << *p<<"\n";
-			}*/
 		calculation.resetForce();
 
 		boundaryCondition->apply();
@@ -268,8 +264,6 @@ Particle* p;
 			}
 		}*/
 
-			
-
 		calculation.calculateAll(current_time);
 
 
@@ -287,11 +281,14 @@ Particle* p;
 			startTime = getMilliCount();
 		}
 
+		if(plot_csv&& iteration%csv_iteration==0){
+			csvWriter.writeFile(*(lcDomain->getAllParticles()));
+		}
 		iteration++;
 		if(use_thermostat){
-			if(iteration % inp->Thermostats().changed_after() == 0) {
-				thermo->change();
-			}
+			//if(iteration % inp->Thermostats().changed_after() == 0) {
+			//	thermo->change();
+			//}
 			if(iteration % inp->Thermostats().applied_after() == 0) {
 				thermo->apply();
 			}

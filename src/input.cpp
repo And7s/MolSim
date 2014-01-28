@@ -145,6 +145,60 @@ plot_xvf_file (const plot_xvf_file_type& x)
   this->plot_xvf_file_.set (x);
 }
 
+const input_t::plot_csv_file_type& input_t::
+plot_csv_file () const
+{
+  return this->plot_csv_file_.get ();
+}
+
+input_t::plot_csv_file_type& input_t::
+plot_csv_file ()
+{
+  return this->plot_csv_file_.get ();
+}
+
+void input_t::
+plot_csv_file (const plot_csv_file_type& x)
+{
+  this->plot_csv_file_.set (x);
+}
+
+const input_t::csv_bins_type& input_t::
+csv_bins () const
+{
+  return this->csv_bins_.get ();
+}
+
+input_t::csv_bins_type& input_t::
+csv_bins ()
+{
+  return this->csv_bins_.get ();
+}
+
+void input_t::
+csv_bins (const csv_bins_type& x)
+{
+  this->csv_bins_.set (x);
+}
+
+const input_t::csv_iteration_type& input_t::
+csv_iteration () const
+{
+  return this->csv_iteration_.get ();
+}
+
+input_t::csv_iteration_type& input_t::
+csv_iteration ()
+{
+  return this->csv_iteration_.get ();
+}
+
+void input_t::
+csv_iteration (const csv_iteration_type& x)
+{
+  this->csv_iteration_.set (x);
+}
+
 const input_t::use_thermostat_type& input_t::
 use_thermostat () const
 {
@@ -251,6 +305,24 @@ void input_t::
 delta_t (const delta_t_type& x)
 {
   this->delta_t_.set (x);
+}
+
+const input_t::sideForSeperation_type& input_t::
+sideForSeperation () const
+{
+  return this->sideForSeperation_.get ();
+}
+
+input_t::sideForSeperation_type& input_t::
+sideForSeperation ()
+{
+  return this->sideForSeperation_.get ();
+}
+
+void input_t::
+sideForSeperation (const sideForSeperation_type& x)
+{
+  this->sideForSeperation_.set (x);
 }
 
 const input_t::input_file_type& input_t::
@@ -383,24 +455,6 @@ void input_t::
 Thermostats (::std::auto_ptr< Thermostats_type > x)
 {
   this->Thermostats_.set (x);
-}
-
-const input_t::sideForSeperation_type& input_t::
-sideForSeperation () const
-{
-  return this->sideForSeperation_.get ();
-}
-
-input_t::sideForSeperation_type& input_t::
-sideForSeperation ()
-{
-  return this->sideForSeperation_.get ();
-}
-
-void input_t::
-sideForSeperation (const sideForSeperation_type& x)
-{
-  this->sideForSeperation_.set (x);
 }
 
 
@@ -1229,36 +1283,42 @@ input_t (const gravity_type& gravity,
          const plot_vtk_file_type& plot_vtk_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_xvf_file_type& plot_xvf_file,
+         const plot_csv_file_type& plot_csv_file,
+         const csv_bins_type& csv_bins,
+         const csv_iteration_type& csv_iteration,
          const use_thermostat_type& use_thermostat,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
          const start_time_type& start_time,
          const tend_type& tend,
          const delta_t_type& delta_t,
+         const sideForSeperation_type& sideForSeperation,
          const input_file_type& input_file,
          const boundaryCondition_type& boundaryCondition,
          const LinkedCellDomain_type& LinkedCellDomain,
-         const Thermostats_type& Thermostats,
-         const sideForSeperation_type& sideForSeperation)
+         const Thermostats_type& Thermostats)
 : ::xml_schema::type (),
   gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
   plot_vtk_file_ (plot_vtk_file, this),
   xvf_data_file_ (xvf_data_file, this),
   plot_xvf_file_ (plot_xvf_file, this),
+  plot_csv_file_ (plot_csv_file, this),
+  csv_bins_ (csv_bins, this),
+  csv_iteration_ (csv_iteration, this),
   use_thermostat_ (use_thermostat, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
   start_time_ (start_time, this),
   tend_ (tend, this),
   delta_t_ (delta_t, this),
+  sideForSeperation_ (sideForSeperation, this),
   input_file_ (input_file, this),
   cuboid_ (this),
   sphere_ (this),
   boundaryCondition_ (boundaryCondition, this),
   LinkedCellDomain_ (LinkedCellDomain, this),
-  Thermostats_ (Thermostats, this),
-  sideForSeperation_ (sideForSeperation, this)
+  Thermostats_ (Thermostats, this)
 {
 }
 
@@ -1268,36 +1328,42 @@ input_t (const gravity_type& gravity,
          const plot_vtk_file_type& plot_vtk_file,
          const xvf_data_file_type& xvf_data_file,
          const plot_xvf_file_type& plot_xvf_file,
+         const plot_csv_file_type& plot_csv_file,
+         const csv_bins_type& csv_bins,
+         const csv_iteration_type& csv_iteration,
          const use_thermostat_type& use_thermostat,
          const frequency_type& frequency,
          const dimensions_type& dimensions,
          const start_time_type& start_time,
          const tend_type& tend,
          const delta_t_type& delta_t,
+         const sideForSeperation_type& sideForSeperation,
          const input_file_type& input_file,
          ::std::auto_ptr< boundaryCondition_type >& boundaryCondition,
          ::std::auto_ptr< LinkedCellDomain_type >& LinkedCellDomain,
-         ::std::auto_ptr< Thermostats_type >& Thermostats,
-         const sideForSeperation_type& sideForSeperation)
+         ::std::auto_ptr< Thermostats_type >& Thermostats)
 : ::xml_schema::type (),
   gravity_ (gravity, this),
   base_output_file_ (base_output_file, this),
   plot_vtk_file_ (plot_vtk_file, this),
   xvf_data_file_ (xvf_data_file, this),
   plot_xvf_file_ (plot_xvf_file, this),
+  plot_csv_file_ (plot_csv_file, this),
+  csv_bins_ (csv_bins, this),
+  csv_iteration_ (csv_iteration, this),
   use_thermostat_ (use_thermostat, this),
   frequency_ (frequency, this),
   dimensions_ (dimensions, this),
   start_time_ (start_time, this),
   tend_ (tend, this),
   delta_t_ (delta_t, this),
+  sideForSeperation_ (sideForSeperation, this),
   input_file_ (input_file, this),
   cuboid_ (this),
   sphere_ (this),
   boundaryCondition_ (boundaryCondition, this),
   LinkedCellDomain_ (LinkedCellDomain, this),
-  Thermostats_ (Thermostats, this),
-  sideForSeperation_ (sideForSeperation, this)
+  Thermostats_ (Thermostats, this)
 {
 }
 
@@ -1311,19 +1377,22 @@ input_t (const input_t& x,
   plot_vtk_file_ (x.plot_vtk_file_, f, this),
   xvf_data_file_ (x.xvf_data_file_, f, this),
   plot_xvf_file_ (x.plot_xvf_file_, f, this),
+  plot_csv_file_ (x.plot_csv_file_, f, this),
+  csv_bins_ (x.csv_bins_, f, this),
+  csv_iteration_ (x.csv_iteration_, f, this),
   use_thermostat_ (x.use_thermostat_, f, this),
   frequency_ (x.frequency_, f, this),
   dimensions_ (x.dimensions_, f, this),
   start_time_ (x.start_time_, f, this),
   tend_ (x.tend_, f, this),
   delta_t_ (x.delta_t_, f, this),
+  sideForSeperation_ (x.sideForSeperation_, f, this),
   input_file_ (x.input_file_, f, this),
   cuboid_ (x.cuboid_, f, this),
   sphere_ (x.sphere_, f, this),
   boundaryCondition_ (x.boundaryCondition_, f, this),
   LinkedCellDomain_ (x.LinkedCellDomain_, f, this),
-  Thermostats_ (x.Thermostats_, f, this),
-  sideForSeperation_ (x.sideForSeperation_, f, this)
+  Thermostats_ (x.Thermostats_, f, this)
 {
 }
 
@@ -1337,19 +1406,22 @@ input_t (const ::xercesc::DOMElement& e,
   plot_vtk_file_ (this),
   xvf_data_file_ (this),
   plot_xvf_file_ (this),
+  plot_csv_file_ (this),
+  csv_bins_ (this),
+  csv_iteration_ (this),
   use_thermostat_ (this),
   frequency_ (this),
   dimensions_ (this),
   start_time_ (this),
   tend_ (this),
   delta_t_ (this),
+  sideForSeperation_ (this),
   input_file_ (this),
   cuboid_ (this),
   sphere_ (this),
   boundaryCondition_ (this),
   LinkedCellDomain_ (this),
-  Thermostats_ (this),
-  sideForSeperation_ (this)
+  Thermostats_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -1429,6 +1501,39 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
+    // plot_csv_file
+    //
+    if (n.name () == "plot_csv_file" && n.namespace_ ().empty ())
+    {
+      if (!plot_csv_file_.present ())
+      {
+        this->plot_csv_file_.set (plot_csv_file_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // csv_bins
+    //
+    if (n.name () == "csv_bins" && n.namespace_ ().empty ())
+    {
+      if (!csv_bins_.present ())
+      {
+        this->csv_bins_.set (csv_bins_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // csv_iteration
+    //
+    if (n.name () == "csv_iteration" && n.namespace_ ().empty ())
+    {
+      if (!csv_iteration_.present ())
+      {
+        this->csv_iteration_.set (csv_iteration_traits::create (i, f, this));
+        continue;
+      }
+    }
+
     // use_thermostat
     //
     if (n.name () == "use_thermostat" && n.namespace_ ().empty ())
@@ -1491,6 +1596,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       if (!delta_t_.present ())
       {
         this->delta_t_.set (delta_t_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    // sideForSeperation
+    //
+    if (n.name () == "sideForSeperation" && n.namespace_ ().empty ())
+    {
+      if (!sideForSeperation_.present ())
+      {
+        this->sideForSeperation_.set (sideForSeperation_traits::create (i, f, this));
         continue;
       }
     }
@@ -1573,17 +1689,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       }
     }
 
-    // sideForSeperation
-    //
-    if (n.name () == "sideForSeperation" && n.namespace_ ().empty ())
-    {
-      if (!sideForSeperation_.present ())
-      {
-        this->sideForSeperation_.set (sideForSeperation_traits::create (i, f, this));
-        continue;
-      }
-    }
-
     break;
   }
 
@@ -1619,6 +1724,27 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
   {
     throw ::xsd::cxx::tree::expected_element< char > (
       "plot_xvf_file",
+      "");
+  }
+
+  if (!plot_csv_file_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "plot_csv_file",
+      "");
+  }
+
+  if (!csv_bins_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "csv_bins",
+      "");
+  }
+
+  if (!csv_iteration_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "csv_iteration",
       "");
   }
 
@@ -1664,6 +1790,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!sideForSeperation_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "sideForSeperation",
+      "");
+  }
+
   if (!input_file_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
@@ -1691,13 +1824,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "Thermostats",
       "");
   }
-
-  if (!sideForSeperation_.present ())
-  {
-    throw ::xsd::cxx::tree::expected_element< char > (
-      "sideForSeperation",
-      "");
-  }
 }
 
 input_t* input_t::
@@ -1718,19 +1844,22 @@ operator= (const input_t& x)
     this->plot_vtk_file_ = x.plot_vtk_file_;
     this->xvf_data_file_ = x.xvf_data_file_;
     this->plot_xvf_file_ = x.plot_xvf_file_;
+    this->plot_csv_file_ = x.plot_csv_file_;
+    this->csv_bins_ = x.csv_bins_;
+    this->csv_iteration_ = x.csv_iteration_;
     this->use_thermostat_ = x.use_thermostat_;
     this->frequency_ = x.frequency_;
     this->dimensions_ = x.dimensions_;
     this->start_time_ = x.start_time_;
     this->tend_ = x.tend_;
     this->delta_t_ = x.delta_t_;
+    this->sideForSeperation_ = x.sideForSeperation_;
     this->input_file_ = x.input_file_;
     this->cuboid_ = x.cuboid_;
     this->sphere_ = x.sphere_;
     this->boundaryCondition_ = x.boundaryCondition_;
     this->LinkedCellDomain_ = x.LinkedCellDomain_;
     this->Thermostats_ = x.Thermostats_;
-    this->sideForSeperation_ = x.sideForSeperation_;
   }
 
   return *this;

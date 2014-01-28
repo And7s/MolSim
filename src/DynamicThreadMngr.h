@@ -35,7 +35,7 @@ public:
 	 *
 	 * @return an int Array - which is indicates the optimal border placements.
 	 */
-	static void optimizeThreadSpace(LCDomain& domain, int threads);
+	static void optimizeThreadSpace(LCDomain& domain, int threads, int parallelDomain);
 
 	static const int OPT_LOOPS = 20;
 

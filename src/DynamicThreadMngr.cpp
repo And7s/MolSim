@@ -25,14 +25,15 @@ LoggerPtr loggerDTM(Logger::getLogger( "main.dynamicThreadMngr"));
 
 std::vector<ParticleContainer*>* DynamicThreadMngr::threadContainer;
 
-void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
+void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads, int parallelDomain) {
 	bool foundOpt = false;
 	int totalThreads = threads;
 	int* result = new int[totalThreads-1];
 	//setup
 	int i, h;
 	i = 0;
-	////
+	LOG4CXX_INFO(loggerDTM, "parallelDomain: " << parallelDomain);
+
 	int maxSize = domain.getBounds()[0];
 	for(h = 1; h < 3; ++h){
 		if(domain.getBounds()[h]>maxSize){
@@ -40,13 +41,8 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			i++;
 		}
 	}
-	h = i;
-	////
+	h = (parallelDomain!=-1) ? parallelDomain : i;
 	int totalColumns = domain.getBounds()[h];
-
-	//for(i = 1; i < totalThreads; i++){
-	//	result[i-1] = (totalColumns / totalThreads) * i;
-	//}
 	
 	///NEW: Balance the array so that every column has about equal size
 	int step = ceil(((double)totalColumns)/totalThreads);
@@ -73,7 +69,7 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	int x,y,z;
 	char dimension[3] = {'x','y','z'};
 	LOG4CXX_INFO(loggerDTM,"Adjusting thread workload along the longest Domain: " << dimension[h] << " with Size: " << maxSize);
-
+	exit(1);
 	for(loops = 0; loops < (totalThreads<OPT_LOOPS ? OPT_LOOPS : totalThreads); loops++){
 		//clear count - for some reason necessary even if declared in this loop ..
 		for(i = 0; i < totalThreads; i++){
