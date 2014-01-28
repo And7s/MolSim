@@ -16,19 +16,23 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
   <plot_vtk_file>true</plot_vtk_file>
   <xvf_data_file>water</xvf_data_file>
   <plot_xvf_file>false</plot_xvf_file>
+  <plot_csv_file>false</plot_csv_file>
+  <csv_bins>50</csv_bins>
+  <csv_iteration>10000</csv_iteration>
   <use_thermostat>false</use_thermostat>
   <frequency>25</frequency>
   <dimensions>3</dimensions>
   <start_time>0</start_time>
   <tend>10</tend>
   <delta_t>0.00005</delta_t>
+  <sideForSeperation>0</sideForSeperation>
   <input_file>unused</input_file>
 
 
   <sphere>
     <position>
       <x>30</x>
-      <y>18</y>
+      <y>17</y>
       <z>25</z>
     </position>
     <radius>5</radius>
