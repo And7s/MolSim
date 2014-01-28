@@ -267,7 +267,7 @@ int main(int argc, char* argsv[]) {
 		calculation.calculateAll(current_time);
 
 
-		if(iteration%(int)(numberOfIterations*0.05) == 1 && !iteration){
+		if(iteration%(int)(numberOfIterations*0.05) == 0){
 			DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads, seperationSide);
 		}
 
