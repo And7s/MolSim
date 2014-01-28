@@ -60,7 +60,7 @@ bool plot_xvf;
 bool plot_csv;
 int csv_bins = 1;
 int csv_iteration = 10000;
-int iteration = 0;
+int iteration = 1;
 
 int seperationSide = 3;
 

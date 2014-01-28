@@ -34,10 +34,7 @@ ThermoStat::ThermoStat(LCDomain* linkedCell_, auto_ptr<input_t>& inp) {
 
  	ASSERT_WITH_MESSAGE(loggerThermostat, delta_temp > 0, "Delta Temp must be greater 0");
 
- 	if(inp->Thermostats().applied_after() == 0){
- 		apply();
- 	}
- 	applyFirstEkin();
+ 	//applyFirstEkin();
 }
 
 ThermoStat::~ThermoStat() {
