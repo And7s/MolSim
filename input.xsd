@@ -27,22 +27,24 @@ Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
       <xsd:element name="plot_vtk_file" type="xsd:boolean" ></xsd:element>
       <xsd:element name="xvf_data_file" type="xsd:string" ></xsd:element>
       <xsd:element name="plot_xvf_file" type="xsd:boolean" ></xsd:element>
+      <xsd:element name="plot_csv_file" type="xsd:boolean" ></xsd:element>
+      <xsd:element name="csv_bins" type="xsd:integer" ></xsd:element>
+      <xsd:element name="csv_iteration" type="xsd:integer" ></xsd:element>
       <xsd:element name="use_thermostat" type="xsd:boolean" ></xsd:element>
       <xsd:element name="frequency" type="xsd:integer"></xsd:element>
       <xsd:element name="dimensions" type="xsd:positiveInteger"></xsd:element>
       <xsd:element name="start_time" type="xsd:decimal"></xsd:element>
       <xsd:element name="tend" type="xsd:decimal"></xsd:element>
       <xsd:element name="delta_t" type="xsd:float"></xsd:element>
+      <!-- defines the axis which is parallelized: -1 = longest, 0 = x, 1 = y, 2 = z-->
+      <xsd:element name="sideForSeperation" type="xsd:integer" ></xsd:element>
       <xsd:element name="input_file" type="xsd:string"></xsd:element>
       <xsd:element type="cuboid" name="cuboid" maxOccurs="unbounded" minOccurs="0"></xsd:element>
       <xsd:element type="sphere" name="sphere" maxOccurs="unbounded" minOccurs="0"></xsd:element>
       <xsd:element type="boundaryCondition" name="boundaryCondition"></xsd:element>
       <xsd:element type="LinkedCellDomain" name="LinkedCellDomain"></xsd:element>
       <xsd:element type="Thermostats" name="Thermostats"></xsd:element>
-      <xsd:element name="sideForSeperation" type="xsd:positiveInteger" ></xsd:element>
-      <!-- -1 = Seperation by largest edge. Otherwise: 0 = x, 1 = y, 2 = x -->
-
-    </xsd:sequence>
+         </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="cuboid">
