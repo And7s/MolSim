@@ -18,7 +18,6 @@
 #include "input.h"
 #include "help_macros.h"
 #include "Thermostat.h"
-#include "ThermoStat.h"
 #include "EnvInfl.h"
 
 #include <cppunit/ui/text/TestRunner.h>
@@ -47,8 +46,6 @@ int numberOfIterations;
 double delta_t;
 double sigma;
 int type;
-int bins;
-int csvIteration;
 double epsilon;
 float cutOff;
 double gravity = 0.0;
@@ -60,11 +57,11 @@ std::vector<Particle*> pb;
 bool use_thermostat;
 bool plot_vtk;
 bool plot_xvf;
-bool plot_csv;
+
+int seperationSide = -1;
 
 BoundaryCondition* boundaryCondition;
-//Thermostat* thermo;
-ThermoStat* thermoStat;
+Thermostat* thermo;
 
 
 /**
@@ -80,11 +77,8 @@ LoggerPtr loggerMain(Logger::getLogger( "main"));
 Calculation calculation;
 VTK vtk_plotter;
 XVF xvf_plotter;
-//CSV csv_plotter;
 Plotter *plotter = &vtk_plotter;
 Plotter *dataPlotter = &xvf_plotter;
-//Plotter *csvPlotter = &csv_plotter;
-
 //FileReader fileReader;
 
 /**
@@ -155,9 +149,7 @@ int main(int argc, char* argsv[]) {
 	use_thermostat = inp->use_thermostat();
 	plot_vtk = inp->plot_vtk_file();
 	plot_xvf = inp->plot_xvf_file();
-	plot_csv = inp->plot_csv_file();
-	bins = inp->csv_bins();
-	csvIteration = inp->csv_iteration();
+	seperationSide = inp->sideForSeperation();
 
 	numberOfIterations = end_time/delta_t;
     ASSERT_WITH_MESSAGE(loggerMain, (delta_t>0), "Invalid delta_t. Please specify first " << delta_t);
@@ -194,8 +186,6 @@ int main(int argc, char* argsv[]) {
 	ParticleContainer pc(*length);
 	pc.setParticles(pa);
 
-	outputWriter::CSVWriter csvWriter((inp->LinkedCellDomain().dimension().x()), bins);
-
 	calculation.setDeltaT(delta_t);
 	calculation.setParticleContainer(pc);
 	calculation.setLcDomain(lcDomain);
@@ -210,26 +200,25 @@ int main(int argc, char* argsv[]) {
 
 	dataPlotter->setLcDomain(lcDomain);
 
+	plotter->plotParticles(0, *length, outFile, *parameters);
+
 	//edit:
-	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads);
+	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads, seperationSide);
 	//exit(-1);
 	//end
 
-	if(plot_vtk) plotter->plotParticles(0, *length, outFile, *parameters);
-	if(plot_csv) csvWriter.writeFile(*(lcDomain->getAllParticles()));
-
 	//initially calculation of Forces
+/*
 	calculation.resetForce();
 
 	calculation.calculateForce(0.0);
 
 	calculation.calculateVelocity();
 	calculation.calculatePosition();
-
+*/
 	//init the thermostat
 	if(use_thermostat){
-		//thermo = new Thermostat(lcDomain, inp);
-		thermoStat = new ThermoStat(lcDomain, inp);
+		thermo = new Thermostat(lcDomain, inp);
 	}
 	double current_time = start_time;
 	int iteration = 0;
@@ -242,8 +231,16 @@ int main(int argc, char* argsv[]) {
 	LOG4CXX_INFO(loggerMain,"Iteration " << "xx" << " finished. It took: " << "abs" << " (" << "avg" << ") msec perc" );
 	int iterationsteps = (end_time-current_time)/delta_t;
 	while (current_time < end_time){
+/*
+Particle* p;
+			std::vector<Particle*>* particles = lcDomain->getAllParticles();
+			//#pragma omp parallel for private(p)
+			for(int i = 0;i < particles->size();i++){
+				p = (*particles)[i];
+				cout << *p<<"\n";
+			}*/
 		calculation.resetForce();
-	
+
 		boundaryCondition->apply();
 		lcDomain->resetafter();
 
@@ -275,10 +272,9 @@ int main(int argc, char* argsv[]) {
 
 		calculation.calculateAll(current_time);
 
-		iteration++;
 
-		if(iteration%(int)(numberOfIterations*0.05) == 0){
-			DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads);
+		if(iteration%(int)(numberOfIterations*0.05) == 1 && !iteration){
+			DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads, seperationSide);
 		}
 
 		if (iteration % inp->frequency() == 0) {
@@ -290,24 +286,16 @@ int main(int argc, char* argsv[]) {
 			LOG4CXX_INFO(loggerMain, "Iteration " << iteration << " of " << numberOfIterations << " finished. It took: " << time << " (" << (int)(accTime/(iteration/inp->frequency())) << ")  msec  " << (int)((double)iteration/iterationsteps*100)<<"%" );
 			startTime = getMilliCount();
 		}
+
+		iteration++;
 		if(use_thermostat){
-			/*
 			if(iteration % inp->Thermostats().changed_after() == 0) {
 				thermo->change();
 			}
-
 			if(iteration % inp->Thermostats().applied_after() == 0) {
-				thermoStat->apply();
-			}
-			*/
-			if(iteration % inp->Thermostats().applied_after() == 0) {
-				thermoStat->apply();
+				thermo->apply();
 			}
 		}
-		if(iteration%csvIteration==0 && plot_csv){
-			csvWriter.writeFile(*(lcDomain->getAllParticles()));
-		}
-
 		current_time += delta_t;
 		
 	}
@@ -321,7 +309,7 @@ int main(int argc, char* argsv[]) {
 			(*parameters)[1]= cutOff;
 			(*parameters)[2]= gravity;
 		}
-		dataPlotter->plotParticles(domainSize[0], bins, dataFile, *parameters);
+		dataPlotter->plotParticles(0, *length, dataFile, *parameters);
 
 	}
 
