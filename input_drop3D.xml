@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<!--
+input.xml
+Defines input parameter for the MolSim Project in an xml
+24-11-2013
+Author: Paul Karlshöfer, Andreas Schmelz, Friedrich Menhorn
+-->
+
+<input xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="input.xsd">
+   <gravity>-12.44</gravity>
+  <base_output_file>out</base_output_file>
+  <plot_vtk_file>true</plot_vtk_file>
+  <xvf_data_file>unused</xvf_data_file>
+  <plot_xvf_file>false</plot_xvf_file>
+  <plot_csv_file>false</plot_csv_file>
+  <csv_bins>50</csv_bins>
+  <csv_iteration>10000</csv_iteration>
+  <use_thermostat>true</use_thermostat>
+  <frequency>25</frequency>
+  <dimensions>3</dimensions>
+  <start_time>0</start_time>
+  <tend>3</tend>
+  <delta_t>0.00005</delta_t>
+  <sideForSeperation>0</sideForSeperation>
+  <input_file>unused</input_file>
+  
+<cuboid>
+    <position>
+      <x>0.5</x>
+      <y>0.5</y>
+      <z>0.5</z>
+    </position>
+    <number>
+      <x>24</x>
+      <y>6</y>
+      <z>24</z>
+    </number>
+    <distance>1.2</distance>
+    <mass>50</mass>
+    <epsilon>1</epsilon>
+    <sigma>1.2</sigma>
+    <type>5</type>
+    <nature>0</nature>
+	<velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </cuboid>
+<!--
+<sphere>
+    <position>
+      <x>15</x>
+      <y>45</y>
+      <z>15</z>
+    </position>
+    <radius>3</radius>
+    <distance>1.2</distance>
+    <mass>50</mass>
+    <epsilon>1</epsilon>
+    <sigma>1.2</sigma>
+    <type>5</type>
+    <nature>0</nature>
+	<velocity>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </velocity>
+  </sphere>-->
+
+  <boundaryCondition>
+    <left>2</left>
+    <right>2</right>
+    <bottom>1</bottom>
+    <top>1</top>
+    <front>2</front>
+    <back>2</back>
+  </boundaryCondition>
+
+  <LinkedCellDomain>
+    <dimension>
+      <x>30</x>
+      <y>50</y>
+      <z>30</z>
+    </dimension>
+    <cutoff>3</cutoff>
+  </LinkedCellDomain>
+  <Thermostats>
+    <initial_temp>0.5</initial_temp>
+    <applied_after>1000</applied_after>
+    <delta_temp>1</delta_temp>
+    <changed_after>1000</changed_after>
+    <target_temp>0.5</target_temp>
+  </Thermostats>
+</input>
