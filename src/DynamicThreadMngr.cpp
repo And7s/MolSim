@@ -29,10 +29,20 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	bool foundOpt = false;
 	int totalThreads = threads;
 	int* result = new int[totalThreads-1];
-	int totalColumns = domain.getBounds()[0];
-
 	//setup
-	int i;
+	int i, h;
+	i = 0;
+	////
+	int maxSize = domain.getBounds()[0];
+	for(h = 1; h < 3; ++h){
+		if(domain.getBounds()[h]>maxSize){
+			maxSize = domain.getBounds()[h];
+			i++;
+		}
+	}
+	h = i;
+	////
+	int totalColumns = domain.getBounds()[h];
 
 	//for(i = 1; i < totalThreads; i++){
 	//	result[i-1] = (totalColumns / totalThreads) * i;
@@ -61,7 +71,9 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 	int loops;
 	int* count = new int[totalThreads];
 	int x,y,z;
-	LOG4CXX_INFO(loggerDTM,"Adjusting thread workload...");
+	char dimension[3] = {'x','y','z'};
+	LOG4CXX_INFO(loggerDTM,"Adjusting thread workload along the longest Domain: " << dimension[h] << " with Size: " << maxSize);
+
 	for(loops = 0; loops < (totalThreads<OPT_LOOPS ? OPT_LOOPS : totalThreads); loops++){
 		//clear count - for some reason necessary even if declared in this loop ..
 		for(i = 0; i < totalThreads; i++){
@@ -78,12 +90,12 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			}
 			LOG4CXX_INFO(loggerDTM, "LB: " << leftborder << " RB: " << rightborder);
 			for(x = leftborder; x < rightborder; x++){
-				for(y = 0; y < domain.getBounds()[1]; y++){
-					for(z = 0; z < domain.getBounds()[2]; z++){
+				for(y = 0; y < domain.getBounds()[(h+1)%3]; y++){
+					for(z = 0; z < domain.getBounds()[(h+2)%3]; z++){
 						std::vector<int> position (3);
-						position[0] = x;
-						position[1] = y;
-						position[2] = z;
+						position[h] = x;
+						position[(h+1)%3] = y;
+						position[(h+2)%3] = z;
 						pc = domain.getCellAt(position);
 						count[i] += pc->getLength();
 					}
@@ -144,12 +156,12 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 		}
 		LOG4CXX_INFO(loggerDTM, "LB: " << leftborder << " RB: " << rightborder);
 		for(x = leftborder; x < rightborder; x++){
-			for(y = 0; y < domain.getBounds()[1]; y++){
-				for(z = 0; z < domain.getBounds()[2]; z++){
+			for(y = 0; y < domain.getBounds()[(h+1)%3]; y++){
+				for(z = 0; z < domain.getBounds()[(h+2)%3]; z++){
 					std::vector<int> position (3);
-					position[0] = x;
-					position[1] = y;
-					position[2] = z;
+					position[h] = x;
+					position[(h+1)%3] = y;
+					position[(h+2)%3] = z;
 					pc = domain.getCellAt(position);
 					count[i] += pc->getLength();
 				}
@@ -174,12 +186,12 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 			rightborder = totalColumns;	//actually not in domain space - this is fine
 		}
 		for(x = leftborder; x < rightborder; x++){
-			for(y = 0; y < domain.getBounds()[1]; y++){
-				for(z = 0; z < domain.getBounds()[2]; z++){
+			for(y = 0; y < domain.getBounds()[(h+1)%3]; y++){
+				for(z = 0; z < domain.getBounds()[(h+2)%3]; z++){
 					std::vector<int> position (3);
-					position[0] = x;
-					position[1] = y;
-					position[2] = z;
+					position[h] = x;
+					position[(h+1)%3] = y;
+					position[(h+2)%3] = z;
 					tempVec.push_back(domain.getCellAt(position));
 				}
 			}
@@ -187,7 +199,6 @@ void DynamicThreadMngr::optimizeThreadSpace(LCDomain& domain, int threads) {
 		threadContainer[i] = tempVec;
 		LOG4CXX_INFO(loggerDTM, "Thread "<<i<<" has "<< threadContainer[i].size()<<" Cells");
 	}
-	//exit(0);
 }
 
 std::vector<ParticleContainer*>* DynamicThreadMngr::getComputingSpace(
