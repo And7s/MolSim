@@ -176,16 +176,7 @@ void Calculation::calculateForce(double currentTime) {
 	maxSize = domainSize[0]; //With the condition that x direction is the biggest
 	int i, j;
 	i = 0;
-	for(j = 1; j < dimension; j++){
-		if(domainSize[j]>maxSize){
-			maxSize = domainSize[j];
-			i++;
-		}
-	}
-	if(i!=0){
-		LOG4CXX_ERROR(loggerCalc, "X direction not the biggest, biggest dimension: " << i << " Size: " << maxSize);
-		exit(-1);
-	}
+
 	if(threadNumber == 0){
 		LOG4CXX_TRACE(loggerCalc, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
 	}
