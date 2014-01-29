@@ -219,7 +219,7 @@ void Calculation::calculateForce(double currentTime) {
 								p->setOldF(zeroVector);
 							//Case 3: Default Case, interaction via Lennard-Jones-Potential
 							}else{
-								if(p->getDistanceToSq(curP) <= cutoff*cutoff){
+								if(p->getDistanceToSq(curP) <= cutoff){
 									length = factor3.L2Norm();
 									calculateLJInteraction(p, curP, length, cutoff);
 								}
