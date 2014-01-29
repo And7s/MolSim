@@ -204,9 +204,8 @@ void Calculation::calculateForce(double currentTime) {
 
 							factor3 = curP->getX() - p->getX();
 							double length;
-							if(currentTime==0.0){
-								p->setThreadId(threadNumber);
-							}
+
+							p->setThreadId(threadNumber);
 							//Case 1: Both particles are of nature membrane
 							if(naturea == 1 && natureb == 1){
 								length = factor3.L2Norm();

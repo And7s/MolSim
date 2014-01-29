@@ -19,7 +19,7 @@ namespace outputWriter {
 		}
 
 
-		std::vector<Particle*> XVFWriter::readFile(std::vector<double>* parameters, const std::string& filename) {
+		std::vector<Particle*> XVFWriter::readFile(std::vector<double>* parameters, const std::string& filename, int* uid) {
 			double x[] = {0,0,0};
 			double v[] = {1,1,1};
 			double old_F[] = {0,0,0};
@@ -93,6 +93,8 @@ namespace outputWriter {
 					p->setSigma(sigma);
 					p->setType(type);
 					p->setNature(nature);
+					p->setUid(*uid);
+					*uid = *uid + 1;
 					particles.push_back(p);
 
 					getline(input_file, tmp_string);

@@ -61,6 +61,7 @@ bool plot_csv;
 int csv_bins = 1;
 int csv_iteration = 10000;
 int iteration = 1;
+int uid = 0;
 
 int seperationSide = 3;
 
@@ -133,7 +134,7 @@ int main(int argc, char* argsv[]) {
 			exit(-1);
 		}
 		if(argc==3){
-			pb = xvf_plotter.readParticles(parameters, argsv[2]);
+			pb = xvf_plotter.readParticles(parameters, argsv[2], &uid);
 			//assign values from xml file
 			delta_t = (*parameters)[0];
 			end_time = inp->tend();
@@ -173,7 +174,7 @@ int main(int argc, char* argsv[]) {
 		numberOfThreads = omp_get_num_threads();
 		LOG4CXX_INFO(loggerMain, "Starting calculation with " << numberOfThreads <<" THREADS");
 	}
-	pa = pg.readFile(length, inp);
+	pa = pg.readFile(length, inp, &uid);
 
 	if(argc==3){
 		pa.insert(pa.end(), pb.begin(), pb.end());
@@ -294,7 +295,10 @@ int main(int argc, char* argsv[]) {
 			}
 		}
 		current_time += delta_t;
-		
+		//if(iteration==5000){
+		//	LOG4CXX_ERROR(loggerMain, "Output successfully written. Elapsed Time: " << (accTime) << "sec # of iterations: " << iteration << "- Terminating...");
+		//	exit(0);
+		//}
 	}
 	if(plot_xvf){
 		if(argc == 2){

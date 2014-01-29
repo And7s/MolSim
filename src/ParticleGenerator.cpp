@@ -19,7 +19,7 @@ ParticleGenerator::ParticleGenerator() {
 ParticleGenerator::~ParticleGenerator() {}
 
 
-std::vector<Particle*> ParticleGenerator::readFile(int* length, auto_ptr<input_t>& inp) {
+std::vector<Particle*> ParticleGenerator::readFile(int* length, auto_ptr<input_t>& inp, int* uid) {
 	LOG4CXX_TRACE(loggerPG, "ParticleGenerator called to generate particles");
 	
 std::vector<Particle*> partlist;
@@ -31,7 +31,7 @@ std::vector<Particle*> partlist;
 	int nature = -1;
 	double epsilon = -1.0;
 	double sigma = -1.0;
-	int count_uid = 0;
+	int count_uid = *uid;
 	for(input_t::sphere_const_iterator si (inp->sphere().begin()); si != inp->sphere().end(); ++si) {
 		float max_dist = std::pow(si->radius(), 2); 
 		v[0] = si->velocity().x();

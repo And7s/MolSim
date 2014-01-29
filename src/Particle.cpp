@@ -18,6 +18,7 @@ Particle::Particle(int type_arg) {
 	f = 0.0;
 	old_f = 0.0;
 	last_move = 0.0;
+	threadID = -1;
 }
 
 Particle::Particle(const Particle& other) {
@@ -50,7 +51,7 @@ Particle::Particle(	utils::Vector<double, 3> x_arg,
     old_f = 0.0;
     last_move = 0.1;
     nature = 0;
-    threadID = 0;
+    threadID = -1;
     //std::cout << "Particle generated!" << std::endl;
 }
 

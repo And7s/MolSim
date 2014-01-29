@@ -35,11 +35,11 @@ void XVF::plotParticles(int iteration, int amountOfParticles, const std::string&
 	writer.writeFile(*particles, filename, parameters);
 }
 
-std::vector<Particle*> XVF::readParticles(std::vector<double>* parameters, const std::string& filename) {
+std::vector<Particle*> XVF::readParticles(std::vector<double>* parameters, const std::string& filename, int* uid) {
 	outputWriter::XVFWriter reader;
 
 	std::vector<Particle*> particles;
-	particles = reader.readFile(parameters, filename);
+	particles = reader.readFile(parameters, filename, uid);
 
 	return particles;
 }

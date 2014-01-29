@@ -73,7 +73,7 @@ class XVF : public Plotter{
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
-		std::vector<Particle*> readParticles(std::vector<double>* parameters, const std::string& filename);
+		std::vector<Particle*> readParticles(std::vector<double>* parameters, const std::string& filename, int* uid);
 };
 
 /**
