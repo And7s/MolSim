@@ -182,7 +182,7 @@ void Calculation::calculateForce(double currentTime) {
 	}
 
 	cellContainer=DynamicThreadMngr::getComputingSpace(threadNumber);
-	for(j = start; j < cellContainer->size() ; j++){
+	for(j = 0; j < cellContainer->size() ; j++){
 		pc = (*cellContainer)[j];
 
 		lcDomain->getNeighbourCells(pc, &neighboursOfPc);
