@@ -203,13 +203,13 @@ void Calculation::calculateForce(double currentTime) {
 							natureb = curP->getNature();
 
 							factor3 = curP->getX() - p->getX();
-							double length = factor3.L2Norm();
+							double length;
 							if(currentTime==0.0){
 								p->setThreadId(threadNumber);
 							}
 							//Case 1: Both particles are of nature membrane
 							if(naturea == 1 && natureb == 1){
-
+								length = factor3.L2Norm();
 								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
 							//Case 2: Particle p is a wall, do nothing or reset force to zero
 							}else if(naturea==2){
@@ -220,8 +220,10 @@ void Calculation::calculateForce(double currentTime) {
 								p->setOldF(zeroVector);
 							//Case 3: Default Case, interaction via Lennard-Jones-Potential
 							}else{
-
-								calculateLJInteraction(p, curP, length, cutoff);
+								if(p->getDistanceToSq(curP) <= cutoff*cutoff){
+									length = factor3.L2Norm();
+									calculateLJInteraction(p, curP, length, cutoff);
+								}
 							}
 						}
 					}
