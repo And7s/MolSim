@@ -84,11 +84,7 @@ protected:
 	 */
 	int haloSize;
 
-	int cellDimRatio;
-
 public:
-	
-
 	/**
 	 *
 	 * @param bounds  domain space (amount of cells) in each direction
@@ -151,6 +147,9 @@ public:
 
 	void setCells(ParticleContainer**& cells);
 
+	/**
+	 * Reassigns the particles to their cells.
+	 */
 	void reset();
 
 	void resetafter();
@@ -163,23 +162,30 @@ public:
 
 	int getNumberOfCells();
 
+	/**
+	 * Number of cells in the boundary zone
+	 */
 	int getNumberOfBZCells();
 
 	int getHaloSize();
 
 	std::vector<Particle*>* getAllParticles();
 
+	/**
+	 *  @return true, in case that the Cell is located in the boundary region.
+	 */
 	bool isBoundaryCell(ParticleContainer& cell);
 
-	void deleteParticle(Particle* particle);
 	/**
-	 * call this method to gain a visual representation of the current cell grid..
-	 * This method will use the std::cout output stream
+	 * delete a certain particle from the LCDomain, but not from RAM.
 	 */
-	void display();
+	void deleteParticle(Particle* particle);
 
 	std::vector<int> getBounds();
 
+	/**
+	 * an array, storing the offset values. In an 3 dimensional domain, this array has a size of 2.
+	 */
 	int* getOffset();
 };
 

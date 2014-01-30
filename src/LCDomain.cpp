@@ -95,8 +95,6 @@ LCDomain::LCDomain(std::vector<int>* initalBounds, double cutOffRad, double cell
 
 	ASSERT_WITH_MESSAGE(loggerDomain, haloSize > 0, "erroneous halo size");
 	ASSERT_WITH_MESSAGE(loggerDomain, numberOfCells > 0, "erroneous domain size");
-
-	//std::cout << "init LCD: haloSize: "<<haloSize<<" cellDimension: "<<cellDimension<<"cutOffRadius: "<< cutOffRadius<<"\n";
 }
 
 ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
@@ -115,6 +113,7 @@ ParticleContainer* LCDomain::getCellAt(std::vector<int>& pos) {
 		default:
 			//can't happen
 			index = -1;	// will raise error on bounds check
+			break;
 	}
 
 	//does not get triggered if eg x is negative and other components are positive, so as a sum it's greater 0
@@ -153,30 +152,14 @@ void LCDomain::insertParticle(Particle* part){
 
 	LOG4CXX_TRACE(loggerDomain, "position: " << partPos[0] << " | " << partPos[1] << " | " << partPos[2]);
 
-	/*if(part->getUid() == 27 ){
-		if(partPos[0] == 1 && partPos[1] == 1 && partPos[2] == 1) {
-			std::cerr << "\n\ninsert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
-			std::cerr << "try insert: "<<*part<<"\n";
-			float tmp = part->getX()[2];
-			std::cerr << "is: "<<tmp;
-			std::cerr << "And 12: "<< (tmp+12);
-		}
-	}*/
 	for(int i = 0; i< 3; i++) {
-		if(partPos[i]< 0 || partPos[i] >= bounds[i]) {	//shouldn be aaarg!!!
+		if(partPos[i]< 0 || partPos[i] >= bounds[i]) {
 			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
 			std::cerr << "try insert: "<<*part<<"\n";
 
 			std::cerr << ((double) part->getX()[0] / cutOffRadius)<<" | "<< floor((double) part->getX()[0] / cutOffRadius)<<"\n";
 
 			exit(-1);
-		}
-		if(part->getX()[2]> 9) {
-	/*		std::cerr << "Out ";
-			std::cerr << "insert to "<<partPos[0]<< " "<<partPos[1]<< " "<<partPos[2]<<"\n";
-			std::cerr << "try insert: "<<*part<<"\n";
-			std::cerr << "dimension "<<bounds[2]<<" offset "<<offset[1]<<"\n";
-			//exit(-1);*/
 		}
 	}
 	index = this->getCellAt(partPos)->getPosition();
@@ -186,7 +169,6 @@ void LCDomain::insertParticle(Particle* part){
 
 void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 	particles = parts;
-//std::cout << "insert "<<parts.size()<<"\n";
 	//unsave to parrelelize due the fact working on the same vektor
 	//#pragma omp parallel for
 	for(int i = 0; i < parts.size(); i++){
@@ -195,13 +177,11 @@ void LCDomain::insertParticles(std::vector<Particle*>& parts) {
 }
 
 void LCDomain::deleteParticle(Particle* particle) {
-	//parallel can cause error if found and removed, which changes the vektor length (for other threads as awell)
+	//parallel can cause error if found and removed, which changes the vector length (for other threads as aswell)
 	//#pragma omp parallel for
 	for(int i = 0; i < particles.size(); i++) {
 
-		if((particles[i]->getX()[0] == particle->getX()[0]) &&
-			(particles[i]->getX()[1] == particle->getX()[1]) &&
-			(particles[i]->getX()[0] == particle->getX()[0])){
+		if(particle->getUid() == particles[i]->getUid()){
 			
 			particles.erase(particles.begin()+i);
 			LOG4CXX_TRACE(loggerDomain,"deleted particle in lcDomain at pos "<<i);
@@ -220,10 +200,9 @@ void LCDomain::reset(){
 
   	int size = this->haloParts.size();
     for(i = 0; i < size; i++){
-            delete this->haloParts[i];
-            this->haloParts.clear();
+		delete this->haloParts[i];
     }
-
+    this->haloParts.clear();
 
 	insertParticles(particles);
 }
@@ -238,7 +217,6 @@ void LCDomain::resetafter(){
 	}
 
   	insertParticles(particles);
-  //	std::cout << "And "<<haloParts.size()<<"\n";	
   	for(int i = 0; i < haloParts.size(); i++){
 		this->insertParticle(haloParts[i]);
 	}
@@ -295,12 +273,7 @@ void LCDomain::getNeighbourCells(ParticleContainer * cell,std::vector<ParticleCo
 							reference[0] = x;
 							reference[1] = y;
 							reference[2] = z;
-							if(axis[0] == 0&& axis[1] == 0 && axis[2] == 0) {
-							//std::cout << x<<" "<<y<<" "<<z<<"\n";
-								
-							}
 							neighbours->push_back(getCellAt(reference));
-							//LOG4CXX_INFO(loggerDomain,"added: " << getCellAt(reference)->getPosition());	//do not log here, it'll get called too often
 						}
 					}
 				}
@@ -417,8 +390,4 @@ std::vector<int> LCDomain::getBounds() {
 
 int* LCDomain::getOffset(){
 	return offset;
-}
-
-void LCDomain::display() {
-	//for testing purpose only
 }
