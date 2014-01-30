@@ -62,6 +62,9 @@ private:
 	int threadID;
 
 public:
+
+	/** this is for dev purpose only!*/
+	bool delayCalc;
 utils::Vector<double, 3> last_move;
 
 utils::Vector<double, 3> deltav;
