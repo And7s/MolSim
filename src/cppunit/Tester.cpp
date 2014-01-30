@@ -26,6 +26,8 @@ CppUnit::TestSuite *Tester::suite() {
 	suite_Tester->addTest(Calculation_suite::suite());
 	suite_Tester->addTest(ParticleContainer_suite::suite());
 	suite_Tester->addTest(Particle_suite::suite());
+	suite_Tester->addTest(LCDomain_suite::suite());
+	suite_Tester->addTest(EnvInfl_suite::suite());
 	LOG4CXX_TRACE(loggerTester, "In Tester_Suite: All Tests successful");
 	return suite_Tester;
 }

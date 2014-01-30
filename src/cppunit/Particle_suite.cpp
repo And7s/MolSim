@@ -41,9 +41,9 @@ CppUnit::TestSuite* Particle_suite::singleSuite(std::string test) {
 	}
 	LOG4CXX_TRACE(loggerParticleTest, "In Particle_SingleSuite: Starting Single Particletest " + test);
 	switch(i){
-	case 1:
+	case 0:
 		suite_Particle->addTest( new CppUnit::TestCaller<Particle_test>(
-								   "testGetDeltaT",
+								   "testAddOnF",
 								   &Particle_test::testAddOnF ) );
 		break;
 	default:

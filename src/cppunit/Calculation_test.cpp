@@ -24,16 +24,17 @@ void Calculation_test::setUp() {
 
 	//Initialize LCDomain
 	std::vector<int> domainSize(3,0);
-	double cutOff = 4.0;
+	double cutOff = 5.0;
 	domainSize[0] = 8;
 	domainSize[1] = 8;
-	domainSize[2] = 0;
+	domainSize[2] = 2;
 	LCDomain* lcDomain = new LCDomain(&domainSize,cutOff, cutOff);
 	double x1[] = {4,0,0};
-	double x2[] = {0,3,0};
+	double x2[] = {3,2,0};
 	double v1[] = {1,1,1};
 	double v2[] = {2,2,2};
 
+	test_calculator->setLcDomain(lcDomain);
 	utils::Vector<double,3> f1;
 	f1[0]=1.0;
 	f1[1]=1.0;
@@ -51,10 +52,27 @@ void Calculation_test::setUp() {
 	pa.push_back(new Particle(x2,v2,m2));
 	pa[0]->setF(f1);
 	pa[1]->setF(f2);
-	for(int i = 0; i < pa.size(); i++){
-			lcDomain->insertParticle(pa[i]);
-	}
+	pa[1]->setNature(0);
+	pa[0]->setNature(0);
+	pa[0]->setType(0);
+	pa[1]->setType(1);
+	pa[0]->setUid(1);
+	pa[1]->setUid(2);
+	pa[0]->setEpsilon(1);
+	pa[1]->setEpsilon(1);
+	pa[0]->setSigma(1);
+	pa[1]->setSigma(1);
+	lcDomain->insertParticles(pa);
+
+	int size = lcDomain->getAllParticles()->size();
 	test_calculator->setDeltaT(1);
+
+	int numberOfThreads;
+	#pragma omp parallel
+	{
+		numberOfThreads = omp_get_num_threads();
+	}
+	DynamicThreadMngr::optimizeThreadSpace(*lcDomain, numberOfThreads, 1);
 }
 
 void Calculation_test::tearDown() {
@@ -72,8 +90,8 @@ void Calculation_test::testCalculateForce() {
 	test_calculator->calculateForce(0.0);
 	utils::Vector<double,3> result1;
 	utils::Vector<double,3> result2;
-	result1[0]=-0.00122864;
-	result1[1]=0.000921482;
+	result1[0]=-0.0377856;
+	result1[1]=0.0755712;
 	result1[2]=0.0;
 
 	result2 = result1 *(-1);
@@ -114,8 +132,8 @@ void Calculation_test::testCalculatePosition() {
 	result1[1]=1.02;
 	result1[2]=1.02;
 
-	result2[0]=2.1;
-	result2[1]=5.1;
+	result2[0]=5.1;
+	result2[1]=4.1;
 	result2[2]=2.1;
 	
 	ParticleContainer** pcArray = test_calculator->getLcDomain()->getCells();

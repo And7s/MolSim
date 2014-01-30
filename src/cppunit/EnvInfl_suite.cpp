@@ -19,8 +19,12 @@ EnvInfl_suite::~EnvInfl_suite() {
 }
 
 CppUnit::TestSuite* EnvInfl_suite::suite() {
-	LOG4CXX_WARN(loggerEnvInflTest, "In EnvInfl Test Suite: Starting LCDomaintests");
-	return NULL;
+	LOG4CXX_TRACE(loggerEnvInflTest, "In EnvInfl_Suite: Starting EnvInfltests");
+	CppUnit::TestSuite *suite_EnvInfl = new CppUnit::TestSuite( "EnvInfl_test" );
+	suite_EnvInfl->addTest	( new CppUnit::TestCaller<EnvInfl_test>(
+												   "testBasicBehaviour",
+												   &EnvInfl_test::testBasicBehaviour ) );
+	return suite_EnvInfl;
 }
 
 CppUnit::TestSuite* EnvInfl_suite::singleSuite(std::string test) {

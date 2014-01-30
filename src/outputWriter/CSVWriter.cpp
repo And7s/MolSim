@@ -72,7 +72,7 @@ namespace outputWriter {
 						for(int j = 0; j < bins; j++){
 							if(xPosition > j*sizePerBin && xPosition <= ((j+1)*sizePerBin)){
 								density[j] = density[j]+1;
-								velocity[j] = velocity[j] + (p->getV()[1]);
+								velocity[j] = velocity[j] + abs((p->getV()[1]));
 							}
 						}
 					}
@@ -88,7 +88,7 @@ namespace outputWriter {
 				}
 				for(int i = 0; i < bins; i++){
 					fprintf(outFile1, "%f", density[i]);
-					fprintf(outFile2, "%f", abs(velocity[i]));
+					fprintf(outFile2, "%f", velocity[i]);
 					if(i<(bins-1)){
 						fprintf(outFile1, ",");
 						fprintf(outFile2, ",");

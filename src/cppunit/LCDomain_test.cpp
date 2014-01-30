@@ -25,18 +25,18 @@ void LCDomain_test::setUp(){
 }
 
 void LCDomain_test::tearDown(){
-	//delete lcd;
+	delete lcd;
 }
 
 /**
  * CAUTION!! currently it is not possible to execute both tests with a single program call..
- * There is now proper cleanup and therefore the second test will most likly fail.
+ * There is no proper cleanup and therefore the second test will most likely fail.
  */
 
 void LCDomain_test::testEnvironment(){
 
 	CPPUNIT_ASSERT_EQUAL(3,lcd->getDimension());
-	CPPUNIT_ASSERT_EQUAL(350,lcd->getNumberOfCells());
+	CPPUNIT_ASSERT_EQUAL(756,lcd->getNumberOfCells());
 
 }
 
@@ -99,6 +99,8 @@ void LCDomain_test::testBehaviour(){
 	cell = this->lcd->getCellAt(pos);
 	std::cout << "showing cell 4:" <<std::endl;
 	cell->show();
+
+	delete cell;
 }
 
 void LCDomain_test::testCellResponds(){

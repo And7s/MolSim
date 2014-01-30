@@ -22,13 +22,13 @@ LCDomain_suite::~LCDomain_suite() {
 
 CppUnit::TestSuite* LCDomain_suite::suite() {
 	LOG4CXX_TRACE(loggerLCDomainTest, "In LCDomain_Suite: Starting LCDomaintests");
-	CppUnit::TestSuite *suite_LCDomain = new CppUnit::TestSuite( "Calculation_test" );
+	CppUnit::TestSuite *suite_LCDomain = new CppUnit::TestSuite( "LCDomain_test" );
 	suite_LCDomain->addTest( new CppUnit::TestCaller<LCDomain_test>(
 							   "testDomain",
 							   &LCDomain_test::testEnvironment ) );
-	suite_LCDomain->addTest( new CppUnit::TestCaller<LCDomain_test>(
-								   "testDomainBehaviour",
-								   &LCDomain_test::testBehaviour ) );
+	//suite_LCDomain->addTest( new CppUnit::TestCaller<LCDomain_test>(
+	//							   "testDomainBehaviour",
+	//							   &LCDomain_test::testBehaviour ) );
 
 	LOG4CXX_TRACE(loggerLCDomainTest, "In LCDomain_Suite: LCDomaintests succesful");
 	return suite_LCDomain;
