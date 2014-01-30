@@ -60,7 +60,6 @@ void Calculation::calculatePosition(){
 }
 
 void Calculation::calculateVelocity(){
-
 	std::vector<Particle*>* parts = lcDomain->getAllParticles();
 	Particle* p;
 	#pragma omp parallel for private(p)
@@ -106,12 +105,9 @@ void Calculation::calculateForce(double currentTime) {
 	#pragma omp parallel shared(pcArray, size, cutoff, cutoffSq)
 	{
 	int 
-		//size = lcDomain->getNumberOfCells(),
 		interactingParticlesIt,
 		cellParticleIt,
 		sizeNeighbours,
-		typa,
-		typb,
 		naturea,
 		natureb;
 	ParticleContainer* pc;
@@ -121,8 +117,6 @@ void Calculation::calculateForce(double currentTime) {
 	double 
 		sigma_tmp,
 		epsilon_tmp,
-		//cutoff = lcDomain->getCutOffRadius(),
-		//cutoffSq = lcDomain->getCutOffRadius()*lcDomain->getCutOffRadius(),
 		factor1,
 		factor2,
 		powSigma,
@@ -135,25 +129,10 @@ void Calculation::calculateForce(double currentTime) {
 	int
 		numberOfThreads,
 		threadNumber,
-		stepSize,
-		stepSizeTmp,
-		stepSizeLast,
-		numberOfCellsPerThread,
-		numberOfCellsPerThreadLast,
-		numberOfCellsPerThread2,
-		numberOfCellsPerThread2Last,
-		curNumberOfCells,
-		offSet1,
-		offSet2,
-		offSetCounterY,
-		offSetCounterYLast,
 		dimension,
-		start,
-		maxSize,
-		end;
+		maxSize;
 	int* offSet;
 	std::vector<int> domainSize;
-	bool integerSize;
 	std::vector<ParticleContainer*>* cellContainer;
 	
 	//Variables for Membrane simulation
@@ -181,7 +160,8 @@ void Calculation::calculateForce(double currentTime) {
 		LOG4CXX_TRACE(loggerCalc, "Starting calculation with " << omp_get_num_threads() <<" THREADS");
 	}
 
-	cellContainer=DynamicThreadMngr::getComputingSpace(threadNumber);
+	cellContainer=DynamicThreadMngr::getComputingSpace(threadNumber); //Receive the Cells corresponding to your threadNumber
+
 	for(j = 0; j < cellContainer->size() ; j++){
 		pc = (*cellContainer)[j];
 
@@ -212,14 +192,13 @@ void Calculation::calculateForce(double currentTime) {
 								calculateMembraneInteraction(p, curP, length, cutoff, sidelength, k, r0, r0sqrt, mindist);
 							//Case 2: Particle p is a wall, do nothing or reset force to zero
 							}else if(naturea==2){
-
 								utils::Vector<double, 3> zeroVector = 0.0;
 								p->setF(zeroVector);
 								p->setV(zeroVector);
 								p->setOldF(zeroVector);
 							//Case 3: Default Case, interaction via Lennard-Jones-Potential
 							}else{
-								if(p->getDistanceToSq(curP) <= cutoff){
+								if((j!=sizeNeighbours-1) ? (p->getDistanceToSq(curP) <= cutoff) : true){
 									length = factor3.L2Norm();
 									calculateLJInteraction(p, curP, length, cutoff);
 								}
@@ -325,13 +304,8 @@ void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double len
 
 		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 
-		if(isnan(forceIJ[0])) {
-			std::cout << *curP<<"\n";
-			std::cout << *p<<"\n\n";
+		ASSERT_WITH_MESSAGE(loggerCalc, (isnan(forceIJ[0])), "forceIJ[0] is not a number ");
 
-			std::cout << "f1 "<<factor1<<" powsig "<<powSigma<<" powdist "<<powDist<<" epstmp "<<epsilon_tmp<<" sigtmp "<<sigma_tmp;
-			exit(0);
-		}
 		p->addOnF(forceIJ);
 	}
 }
