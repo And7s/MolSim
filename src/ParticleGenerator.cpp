@@ -117,8 +117,7 @@ std::vector<Particle*> partlist;
 					count_uid++;
 					utils::Vector<double, 3> velo = v;
 					MaxwellBoltzmannDistribution(*p,velo.L2Norm(),inp->dimensions(), false);
-					//MaxwellBoltzmannDistribution(*p,1,inp->dimensions());
-					//cout << *p<<"\n";
+
 					partlist.push_back(p);
 				}
 			}
