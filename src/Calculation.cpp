@@ -304,7 +304,7 @@ void Calculation::calculateLJInteraction(Particle* p, Particle* curP, double len
 
 		utils::Vector<double,3> forceIJ = factor1 * factor2 * factor3;
 
-		ASSERT_WITH_MESSAGE(loggerCalc, (isnan(forceIJ[0])), "forceIJ[0] is not a number ");
+		ASSERT_WITH_MESSAGE(loggerCalc, !(isnan(forceIJ[0])), "forceIJ[0] is not a number ");
 
 		p->addOnF(forceIJ);
 	}

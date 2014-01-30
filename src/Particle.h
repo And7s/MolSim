@@ -65,9 +65,11 @@ public:
 
 	/** this is for dev purpose only!*/
 	bool delayCalc;
-utils::Vector<double, 3> last_move;
 
-utils::Vector<double, 3> deltav;
+	utils::Vector<double, 3> last_move;
+
+	utils::Vector<double, 3> deltav;
+
 	/**
 	 * Constructor
 	 * @param type
@@ -112,6 +114,7 @@ utils::Vector<double, 3> deltav;
 	void setX(utils::Vector<double, 3>& x);
 
 	void setLastMove(utils::Vector<double, 3>& lm);
+
 	void setDeltaV(utils::Vector<double, 3>& dv);
 	/**
 	 * Getter for force vector f
