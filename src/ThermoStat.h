@@ -23,13 +23,36 @@
  */
 class ThermoStat {
 public:
+	/**
+	 * Constructor which applies also firstEkin
+	 * @param linkedCell
+	 * @param inp
+	 */
 	ThermoStat(LCDomain* linkedCell, std::auto_ptr<input_t>& inp);
+
 	virtual ~ThermoStat();
+
+	/**
+	 * Function to apply the Thermostat, by first calculating the current temperature
+	 * and calculating beta with it
+	 */
 	void apply();
+
+	/**
+	 * Function to calculate the current temperature with the kinetic energy of the system
+	 */
 	void getTemperature();
+
+	/**
+	 * Function to calculate the current temperature with the kinetic energy of the system
+	 * without the y-Direction as described in Sheet5 Task4
+	 */
 	void getTemperatureFlow();
-	void multiply(double beta);
-	void change();
+
+	/**
+	 * Function to calculate the starting Velocity with the given initial Temperature via the
+	 * kinetic Energy
+	 */
 	void applyFirstEkin();
 
 protected:

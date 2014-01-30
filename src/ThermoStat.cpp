@@ -34,7 +34,7 @@ ThermoStat::ThermoStat(LCDomain* linkedCell_, auto_ptr<input_t>& inp) {
 
  	ASSERT_WITH_MESSAGE(loggerThermostat, delta_temp > 0, "Delta Temp must be greater 0");
 
- 	//applyFirstEkin();
+ 	applyFirstEkin();
 }
 
 ThermoStat::~ThermoStat() {
@@ -43,7 +43,6 @@ ThermoStat::~ThermoStat() {
 
 void ThermoStat::applyFirstEkin(){
 	double Ekin = 0;
-	//double boltzmann_konst = 1.380648813*pow(10,-23);
 	double v = 0;
 	Particle* p;
 	std::vector<Particle*>* particles = linkedCell->getAllParticles();
@@ -78,7 +77,6 @@ void ThermoStat::apply(){
 			num_NotWall_Particles++;
 		}
 	}
-	//LOG4CXX_INFO(loggerThermostat, "Num_Particles: "<<num_Particles <<" Not_Wall: "<<num_NotWall_Particles);
 	utils::Vector<double, 3> tmp;
 	if(flow){
 		getTemperatureFlow();
@@ -94,11 +92,10 @@ void ThermoStat::apply(){
 			beta = sqrt(target_temp/cur_temp);
 		}
 	}else{
-		//double beta = sqrt(1.0+delta_t*100*((target_temp/cur_temp)-1.0));
 		beta = sqrt(target_temp/cur_temp);
 	}
 
-	//LOG4CXX_INFO(loggerThermostat, "Apply Temperature"<<target_temp<<" by faktor: "<<beta);
+	LOG4CXX_TRACE(loggerThermostat, "Apply Temperature"<<target_temp<<" by faktor: "<<beta);
 	for(int i = 0;i < num_Particles;i++){
 		p = (*particles)[i];
 		if(p->getNature()!=2){
@@ -129,7 +126,7 @@ void ThermoStat::getTemperature(){
 		}
 	}
 	cur_temp = (2*Ekin)/(dimensions*num_NotWall_Particles);
-	//LOG4CXX_INFO(loggerThermostat, "Cur_temp"<<cur_temp);
+	LOG4CXX_TRACE(loggerThermostat, "Cur_temp"<<cur_temp);
 }
 
 void ThermoStat::getTemperatureFlow(){
@@ -156,5 +153,5 @@ void ThermoStat::getTemperatureFlow(){
 		}
 	}
 	cur_temp = (2*Ekin)/(dimensions*num_NotWall_Particles);
-	//LOG4CXX_INFO(loggerThermostat, "Cur_temp"<<cur_temp);
+	LOG4CXX_TRACE(loggerThermostat, "Cur_temp"<<cur_temp);
 }
