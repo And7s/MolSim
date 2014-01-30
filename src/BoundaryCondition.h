@@ -46,11 +46,38 @@ public:
 
 	~BoundaryCondition();
 
+	/**
+	 * Iterates through the Domain for each specific position pos = (x,y,z) and gives this pos, if it is outOfBounds with x and/or y and/or z,
+	 * to applySwitch with the corresponding boundary on that side
+	 */
 	void apply();
 	
+	/**
+	 * gets the position pos from apply and receives the corresponding cell from LCDomain. Afterwards gives this cell to the corresponding
+	 * BoundaryCondition
+	 * @param type
+	 * @param pos
+	 * @param axis
+	 * @param zero
+	 */
 	void applySwitch(int type,std::vector<int>& pos, int axis, bool zero);
+
+	/**
+	 * Gets the particleContainer cell and applies the outflow condition on all particles in this cell
+	 * @param pc
+	 */
 	void applyOutflow(ParticleContainer* pc);
+
+	/**
+	 * Gets the particleContainer cell and applies the reflecting condition on all particles in this cell
+	 * @param pc
+	 */
 	void applyReflecting(ParticleContainer* pc, int axis, bool zero);
+
+	/**
+	 * Gets the particleContainer cell and applies the periodic condition on all particles in this cell
+	 * @param pc
+	 */
 	void applyPeriodic(ParticleContainer* pc, ParticleContainer* pc2, int axis, bool zero, std::vector<int>& posCell);
 };
 
