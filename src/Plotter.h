@@ -77,12 +77,13 @@ class XVF : public Plotter{
 };
 
 /**
- * Actual implementation of a XVF, derived from Plotter
+ * Actual implementation of a CSV, derived from Plotter
  */
 class CSV : public Plotter{
 	public:
 		/**
-		 * Will iterate through particles and plot them in a .txt File
+		 * Will iterate through particles and plot them in two .csv Files
+		 * One Calculating the Velocity in bins and one Calculating the Density
 		 * @param iteration
 		 * @param amountOfParticles
 		 */
