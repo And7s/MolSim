@@ -14,8 +14,15 @@
 
 using namespace std;
 
+/**
+ * This class handles particles, whose force calculation differs from the normal behaviour.
+ * e.g. the fixed particles in a membran.
+ */
 class SpecializedParticle {
 private:
+	/**
+	 * a reference to the actual particle, whose force has to be manipulated.
+	 */
 	Particle* part;
 
 	double startTime;
@@ -26,6 +33,9 @@ private:
 	 */
 	utils::Vector<double,3> constForce;
 
+	/**
+	 * @see setConstForce()
+	 */
 	bool relative;
 
 public:
@@ -37,12 +47,18 @@ public:
 	inline double getEndTime();
 
 
+	/**
+	 * force will be manipulated after this timestamp. (in seconds)
+	 */
 	void setStartTime(double sT);
+	/**
+	 * upon this time, force will be manipulated (in seconds)
+	 */
 	void setEndTime(double eT);
 
 	/**
 	 * the force, which will be applied in each timestep.
-	 * If relative is set to true, the force will be added to the previously calculated force. Otherwise, this calculated force will be replaced.
+	 * @param relative If relative is set to true, the force will be added to the previously calculated force. Otherwise, this calculated force will be replaced.
 	 */
 	void setConstForce(std::vector<double> force, bool relative);
 
@@ -52,15 +68,15 @@ public:
 	void adjustForce(int timestep);
 };
 
-Particle* SpecializedParticle::getParticle(){
+Particle* SpecializedParticle::getParticle(){	//inline
 	return this->part;
 }
 
-double SpecializedParticle::getStartTime(){
+double SpecializedParticle::getStartTime(){		//inline
 	return this->startTime;
 }
 
-double SpecializedParticle::getEndTime(){
+double SpecializedParticle::getEndTime(){		//inline
 	return this->endTime;
 }
 
