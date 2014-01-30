@@ -35,6 +35,10 @@ public:
 	CSVWriter(int dimension_, int bins_);
 	virtual ~CSVWriter();
 
+	/**
+	 * Function which writes particle Data to two csv files computing the density and velocity for each bin
+	 * @param particles
+	 */
 	void writeFile(std::vector<Particle*> particles);
 
 private:
