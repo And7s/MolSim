@@ -287,18 +287,26 @@ int main(int argc, char* argsv[]) {
 		}
 		iteration++;
 		if(use_thermostat){
-			//if(iteration % inp->Thermostats().changed_after() == 0) {
-			//	thermo->change();
-			//}
 			if(iteration % inp->Thermostats().applied_after() == 0) {
 				thermo->apply();
 			}
 		}
 		current_time += delta_t;
-		//if(iteration==5000){
-		//	LOG4CXX_ERROR(loggerMain, "Output successfully written. Elapsed Time: " << (accTime) << "sec # of iterations: " << iteration << "- Terminating...");
-		//	exit(0);
-		//}
+
+		if(plot_xvf&&(iteration%5000==0)){
+			if(argc == 2){
+				parameters->push_back(delta_t);
+				parameters->push_back(cutOff);
+				parameters->push_back(gravity);
+			}else{
+				(*parameters)[0]= delta_t;
+				(*parameters)[1]= cutOff;
+				(*parameters)[2]= gravity;
+		}
+		dataPlotter->plotParticles(0, *length, dataFile, *parameters);
+
+	}
+
 	}
 	if(plot_xvf){
 		if(argc == 2){
